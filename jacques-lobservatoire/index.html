@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacques — Style-Tile — Le Précipité</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,WONK@0,9..144,100..900,0..1;1,9..144,100..900,0..1&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        @layer reset, tokens, base, components, utilities;
+
+        @property --grain-opacity {
+            syntax: '<number>';
+            inherits: false;
+            initial-value: 0.12;
+        }
+
+        @property --precipitate-hue {
+            syntax: '<angle>';
+            inherits: false;
+            initial-value: 55deg;
+        }
+
+        @property --crystal-scale {
+            syntax: '<number>';
+            inherits: false;
+            initial-value: 1;
+        }
+
+        @layer reset {
+            *, *::before, *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                font-size: 16px;
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: var(--font-body);
+                font-weight: 400;
+                font-size: var(--text-base);
+                color: var(--color-text-primary);
+                background: var(--color-bg-light);
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                overflow-x: hidden;
+                line-height: 1.7;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-family: var(--font-display);
+                font-weight: 700;
+                line-height: 1.05;
+                text-wrap: balance;
+            }
+
+            p { text-wrap: pretty; }
+
+            img, video {
+                display: block;
+                max-inline-size: 100%;
+                height: auto;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+
+        @layer tokens {
+            :root {
+                /* === PALETTE (oklch) === */
+                --color-primary: oklch(0.50 0.10 45);
+                --color-primary-light: oklch(0.62 0.08 45);
+                --color-accent: oklch(0.62 0.14 60);
+                --color-secondary: oklch(0.40 0.08 145);
+                --color-bg-dark: oklch(0.22 0.02 80);
+                --color-bg-light: oklch(0.93 0.01 80);
+                --color-surface-alt: oklch(0.88 0.02 75);
+                --color-text-primary: oklch(0.22 0.02 80);
+                --color-text-secondary: oklch(0.52 0.03 70);
+                --color-text-on-dark: oklch(0.93 0.01 80);
+                --color-text-on-primary: oklch(0.95 0.005 80);
+
+                /* === TYPOGRAPHIE === */
+                --font-display: 'Fraunces', Georgia, serif;
+                --font-body: 'Geist Mono', 'Courier New', monospace;
+
+                /* === TYPE SCALE (1.414 — Augmented Fourth) === */
+
+                --text-xs: 0.85rem;
+                --text-sm: 0.85rem;
+                --text-base: 1rem;
+                --text-lg: calc(var(--text-base) * 1.414);
+
+                /* === RADIUS (angulaire — cristal) === */
+                --radius-sharp: 0px;
+                --radius-cut: 2px;
+
+                /* === SHADOWS (multi-layer, warm) === */
+                --shadow-argile:
+                    0 2px 8px oklch(0.50 0.10 45 / 0.15),
+                    0 8px 28px oklch(0.50 0.10 45 / 0.08);
+
+                /* === SPACING (8px unit) === */
+                --space-2xs: 4px;
+                --space-xs: 8px;
+                --space-sm: 16px;
+                --space-md: 24px;
+                --space-lg: 40px;
+                --space-xl: 64px;
+                --space-2xl: 104px;
+                --space-3xl: 104px;
+
+                /* === TRANSITIONS (courbes physiques) === */
+                --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+                --transition-fast: 120ms var(--ease-out-expo);
+                --transition-base: 280ms var(--ease-out-expo);
+            }
+        }
+
+        @layer base {
+            body {
+                font-family: var(--font-body);
+                background: var(--color-bg-light);
+                color: var(--color-text-primary);
+            }
+        }
+
+        @layer components {
+
+            /* =========================================
+               SECTION A — VOICE BLOCK
+               Full-bleed — image hero dominante, texte par-dessus
+               ========================================= */
+            .voice-block {
+                position: relative;
+                block-size: 100vh;
+                max-block-size: 900px;
+                display: grid;
+                grid-template-columns: var(--space-xl) 1fr var(--space-xl);
+                grid-template-rows: var(--space-xl) auto auto auto auto;
+                background: var(--color-bg-dark);
+                overflow: hidden;
+                container-type: inline-size;
+                container-name: voice;
+            }
+
+            /* Grain texture — surface lisse ponctuee de granuleux */
+            .voice-block::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                z-index: 1;
+                pointer-events: none;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+                background-size: 200px 200px;
+                opacity: var(--grain-opacity);
+                mix-blend-mode: multiply;
+            }
+
+            .voice-block__overline {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                position: relative;
+                z-index: 5;
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.20em;
+                color: var(--color-accent);
+                margin-block-end: var(--space-sm);
+                align-self: end;
+            }
+
+            .voice-block__title {
+                grid-column: 2 / 3;
+                grid-row: 3 / 4;
+                position: relative;
+                z-index: 5;
+                font-family: var(--font-display);
+                font-size: clamp(3rem, 6vw, 8rem);
+                font-weight: 900;
+                font-variation-settings: 'WONK' 1, 'opsz' 144;
+                line-height: 0.88;
+                color: var(--color-bg-dark);
+                margin-block-end: var(--space-md);
+                max-inline-size: 16ch;
+                letter-spacing: -0.03em;
+            }
+
+            /* Convention cassee A=3 : le mot-cle deborde de sa zone grid, chevauchement z-index expressif */
+            .voice-block__title em {
+                font-style: normal;
+                display: block;
+                color: var(--color-primary);
+                position: relative;
+                left: -3vw;
+                font-variation-settings: 'WONK' 1, 'opsz' 144;
+            }
+
+            .voice-block__lead {
+                grid-column: 2 / 3;
+                grid-row: 4 / 5;
+                position: relative;
+                z-index: 5;
+                font-family: var(--font-body);
+                font-size: var(--text-base);
+                font-weight: 400;
+                color: var(--color-bg-dark);
+                max-inline-size: 38ch;
+                line-height: 1.75;
+                align-self: start;
+            }
+
+            .voice-block__cta-area {
+                grid-column: 2 / 3;
+                grid-row: 5 / 6;
+                position: relative;
+                z-index: 5;
+                display: flex;
+                align-items: start;
+                justify-content: flex-start;
+                padding-block-start: var(--space-md);
+                padding-block-end: var(--space-lg);
+            }
+
+            .voice-block__cta {
+                font-family: var(--font-body);
+                font-size: var(--text-sm);
+                font-weight: 600;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                padding: var(--space-sm) var(--space-xl);
+                background: var(--color-primary);
+                color: var(--color-text-on-primary);
+                border: none;
+                border-radius: var(--radius-cut);
+                cursor: pointer;
+                position: relative;
+                z-index: 5;
+                overflow: hidden;
+                transition:
+                    background-color var(--transition-base),
+                    box-shadow var(--transition-base),
+                    color var(--transition-base);
+            }
+
+            .voice-block__cta:hover {
+                background: var(--color-bg-dark);
+                box-shadow: var(--shadow-argile);
+                color: var(--color-text-on-dark);
+            }
+
+            /* Image hero — full-bleed, couvre tout le viewport, A=3 convention cassee : z-index expressif, image deborde du cadre attendu */
+            .voice-block__hero-image {
+                grid-column: 1 / -1;
+                grid-row: 1 / -1;
+                position: relative;
+                z-index: 1;
+                inline-size: 100%;
+                block-size: 100%;
+                overflow: hidden;
+            }
+
+            .voice-block__hero-image img,
+            .voice-block__hero-image video {
+                display: block;
+                inline-size: 100%;
+                block-size: 100%;
+                object-fit: cover;
+                filter: saturate(0.9) contrast(1.05);
+                transform: scale(1.0);
+                transition: filter 0.6s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            }
+
+            .voice-block__hero-image img:hover,
+            .voice-block__hero-image video:hover {
+                filter: saturate(1.1) contrast(1.1);
+                transform: scale(1.01);
+            }
+
+            /* Gradient de liaison supprimé — pas d'assombrissement global sur le visuel */
+
+
+            /* =========================================
+               SECTION B — ARTEFACT TEMOIN
+               Protocole de diagnostic strategique
+               ========================================= */
+            .artifact-witness {
+                position: relative;
+                padding-block: var(--space-lg) var(--space-2xl);
+                padding-inline: var(--space-xl);
+                background: var(--color-surface-alt);
+                animation: diagnostic-reveal linear;
+                animation-timeline: view();
+                animation-range: entry 0% cover 30%;
+            }
+
+            @keyframes diagnostic-reveal {
+                from { opacity: 0.2; }
+                to { opacity: 1; }
+            }
+
+            /* Grain — zone ou la matiere change d'etat */
+            .artifact-witness::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+                background-size: 180px 180px;
+                opacity: 0.06;
+                mix-blend-mode: multiply;
+            }
+
+            /* Radial gradient visible */
+            .artifact-witness::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background:
+                    radial-gradient(
+                        ellipse 60% 50% at 50% 80%,
+                        oklch(0.50 0.10 45 / 0.06) 0%,
+                        transparent 70%
+                    );
+            }
+
+            .artifact-witness__inner {
+                max-inline-size: 1200px;
+                margin-inline: auto;
+                position: relative;
+                z-index: 1;
+            }
+
+            .artifact-witness__overline {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 600;
+                letter-spacing: 0.20em;
+                text-transform: uppercase;
+                color: var(--color-accent);
+                margin-block-end: var(--space-md);
+            }
+
+            /* Diagnostic protocol layout — 3 zones */
+            .diagnostic {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-rows: auto;
+                gap: 0;
+                container-type: inline-size;
+                container-name: diagnostic;
+            }
+
+            /* Zone 1 : Inputs — solution sursaturee */
+            .diagnostic__inputs {
+                padding: var(--space-lg);
+                background: var(--color-bg-dark);
+                color: var(--color-text-on-dark);
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-xs);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .diagnostic__inputs::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+                background-size: 150px 150px;
+                opacity: 0.15;
+                mix-blend-mode: overlay;
+                pointer-events: none;
+            }
+
+            .diagnostic__inputs-label {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 600;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--color-text-secondary);
+                opacity: 0.6;
+                margin-block-end: var(--space-xs);
+                position: relative;
+            }
+
+            .input-fragment {
+                font-family: var(--font-body);
+                font-size: 0.72rem;
+                line-height: 1.5;
+                color: oklch(0.70 0.02 80);
+                padding: var(--space-2xs) var(--space-xs);
+                background: oklch(0.40 0.08 145 / 0.25);
+                border-radius: var(--radius-cut);
+                position: relative;
+                transition:
+                    background var(--transition-base),
+                    color var(--transition-base);
+            }
+
+            .input-fragment:hover {
+                background: oklch(0.32 0.03 80 / 0.8);
+                color: oklch(0.85 0.02 80);
+            }
+
+            .input-fragment--signal {
+                color: var(--color-accent);
+                background: oklch(0.62 0.14 60 / 0.08);
+            }
+
+            /* Zone 2 : Point de précipitation — le condensat */
+            .diagnostic__core {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: var(--space-xl) var(--space-md);
+                background: var(--color-bg-light);
+                position: relative;
+            }
+
+            /* Changement d'etat visuel — lisse vs granuleux */
+            .diagnostic__core::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(
+                        circle at 50% 50%,
+                        oklch(0.50 0.10 45 / 0.12) 0%,
+                        transparent 70%
+                    );
+                pointer-events: none;
+            }
+
+            .diagnostic__core-value {
+                font-family: var(--font-display);
+                font-size: clamp(4rem, 8vw, 8rem);
+                font-weight: 900;
+                font-variation-settings: 'WONK' 1, 'opsz' 144;
+                color: var(--color-primary);
+                line-height: 0.9;
+                margin-block-end: var(--space-sm);
+                position: relative;
+                text-shadow:
+                    0 0 40px oklch(0.50 0.10 45 / 0.20),
+                    0 0 80px oklch(0.50 0.10 45 / 0.08);
+            }
+
+            .diagnostic__core-phrase {
+                font-family: var(--font-display);
+                font-size: var(--text-lg);
+                font-weight: 600;
+                font-variation-settings: 'WONK' 0.5;
+                color: var(--color-text-primary);
+                line-height: 1.2;
+                max-inline-size: 18ch;
+                position: relative;
+            }
+
+            .diagnostic__core-label {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 500;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--color-text-secondary);
+                margin-block-start: var(--space-md);
+                position: relative;
+            }
+
+            /* Zone 3 : Solide — assertions nettes */
+            .diagnostic__solide {
+                padding: var(--space-lg);
+                background: var(--color-bg-light);
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-lg);
+                justify-content: center;
+            }
+
+            .assertion {
+                display: flex;
+                align-items: baseline;
+                gap: var(--space-sm);
+                padding-block-end: var(--space-md);
+                border-block-end: 1px solid oklch(0.22 0.02 80 / 0.08);
+                transition:
+                    padding-inline-start var(--transition-base),
+                    border-color var(--transition-base);
+            }
+
+            .assertion:last-child {
+                border-block-end: none;
+                padding-block-end: 0;
+            }
+
+            .assertion:hover {
+                padding-inline-start: var(--space-xs);
+                border-color: var(--color-accent);
+            }
+
+            .assertion__marker {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 700;
+                color: var(--color-accent);
+                flex-shrink: 0;
+                letter-spacing: 0.05em;
+            }
+
+            .assertion__text {
+                font-family: var(--font-body);
+                font-size: var(--text-sm);
+                font-weight: 500;
+                color: var(--color-text-primary);
+                line-height: 1.55;
+            }
+
+            /* Footer protocole */
+            .diagnostic__footer {
+                grid-column: 1 / -1;
+                padding: var(--space-md) var(--space-lg);
+                background: color-mix(in oklch, var(--color-bg-dark) 95%, var(--color-primary));
+                display: flex;
+                gap: var(--space-md);
+                align-items: baseline;
+                flex-wrap: wrap;
+            }
+
+            .diagnostic__footer-label {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--color-primary-light);
+                white-space: nowrap;
+            }
+
+            .diagnostic__footer-note {
+                font-family: var(--font-body);
+                font-size: var(--text-sm);
+                color: oklch(0.65 0.02 80);
+                line-height: 1.6;
+            }
+
+            /* Container query */
+            @container diagnostic (max-width: 600px) {
+                .diagnostic {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+
+            /* =========================================
+               SECTION C — ATMOSPHERE BLOCK
+               Texturee — matiere, densite, fond de becher
+               ========================================= */
+            .atmosphere-block {
+                position: relative;
+                padding-block: var(--space-3xl) var(--space-2xl);
+                padding-inline: var(--space-xl);
+                background: var(--color-bg-dark);
+                color: var(--color-text-on-dark);
+                overflow: hidden;
+            }
+
+            /* Dense texture — precipitat au fond */
+            .atmosphere-block::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+                background-size: 200px 200px;
+                opacity: 0.18;
+                mix-blend-mode: overlay;
+                z-index: 1;
+            }
+
+            /* Gradient de densite croissante — descente vers fond becher */
+            .atmosphere-block::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background:
+                    linear-gradient(
+                        to bottom,
+                        oklch(0.22 0.02 80 / 0) 0%,
+                        oklch(0.16 0.03 60 / 0.4) 100%
+                    ),
+                    radial-gradient(
+                        ellipse 80% 60% at 50% 100%,
+                        oklch(0.50 0.10 45 / 0.10) 0%,
+                        transparent 60%
+                    ),
+                    radial-gradient(
+                        ellipse 40% 30% at 25% 70%,
+                        oklch(0.42 0.06 145 / 0.06) 0%,
+                        transparent 50%
+                    );
+                z-index: 0;
+            }
+
+            .atmosphere-block__inner {
+                max-inline-size: 1200px;
+                margin-inline: auto;
+                position: relative;
+                z-index: 3;
+            }
+
+            /* Sediment strata — couches de matiere empilees, densite croissante vers le bas, fond de becher */
+            .sediment-strata {
+                position: relative;
+                block-size: 80px;
+                margin-block-end: var(--space-2xl);
+                overflow: hidden;
+                border-radius: var(--radius-cut);
+            }
+
+            .sediment-strata__layer {
+                position: absolute;
+                inset-inline: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+                background-size: 300px 80px;
+                mix-blend-mode: overlay;
+            }
+
+            /* Couche superieure — legere, grain fin, le liquide encore clair */
+            .sediment-strata__layer--top {
+                inset-block: 0 60%;
+                opacity: 0.10;
+                background-color: oklch(0.40 0.08 145 / 0.30);
+            }
+
+            /* Couche mediane — densite intermediaire, le precipite commence */
+            .sediment-strata__layer--mid {
+                inset-block: 30% 25%;
+                opacity: 0.22;
+                background-color: oklch(0.40 0.08 145 / 0.35);
+            }
+
+            /* Couche inferieure — dense, opaque, le fond du becher */
+            .sediment-strata__layer--bottom {
+                inset-block: 55% 0;
+                opacity: 0.35;
+                background-color: oklch(0.35 0.10 45 / 0.35);
+            }
+
+            .atmosphere-block__manifesto {
+                max-inline-size: 56ch;
+                margin-block-end: var(--space-2xl);
+            }
+
+            .atmosphere-block__overline {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 600;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: var(--color-accent);
+                margin-block-end: var(--space-md);
+            }
+
+            .atmosphere-block__quote {
+                font-family: var(--font-display);
+                font-size: clamp(1.8rem, 4vw, 3.5rem);
+                font-weight: 700;
+                font-variation-settings: 'WONK' 1;
+                color: var(--color-text-on-dark);
+                line-height: 1.1;
+                margin-block-end: var(--space-lg);
+            }
+
+            .atmosphere-block__quote strong {
+                color: var(--color-primary-light);
+            }
+
+            .atmosphere-block__body {
+                font-family: var(--font-body);
+                font-size: var(--text-base);
+                font-weight: 400;
+                line-height: 1.75;
+                color: oklch(0.65 0.02 80);
+                max-inline-size: 48ch;
+            }
+
+            /* Footer atmosphere */
+            .atmosphere-block__footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                flex-wrap: wrap;
+                gap: var(--space-lg);
+                padding-block-start: var(--space-xl);
+                border-block-start: 1px solid oklch(0.93 0.01 80 / 0.08);
+            }
+
+            .footer-nav {
+                display: flex;
+                gap: var(--space-lg);
+            }
+
+            .footer-nav__link {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                font-weight: 500;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: oklch(0.50 0.02 80);
+                padding-block-end: 4px;
+                border-block-end: 1px solid transparent;
+                transition:
+                    color var(--transition-fast),
+                    border-color var(--transition-base);
+            }
+
+            .footer-nav__link:hover {
+                color: var(--color-accent);
+                border-color: color-mix(in oklch, var(--color-accent) 40%, transparent);
+            }
+
+            .footer-tagline {
+                font-family: var(--font-display);
+                font-size: var(--text-sm);
+                font-weight: 600;
+                color: oklch(0.50 0.02 80);
+                letter-spacing: 0.04em;
+            }
+
+            .footer-legal {
+                font-family: var(--font-body);
+                font-size: var(--text-xs);
+                color: oklch(0.93 0.01 80 / 0.18);
+                margin-block-start: var(--space-md);
+                inline-size: 100%;
+                text-align: center;
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================
+         SECTION A — VOICE BLOCK
+         Full-bleed — image hero dominante, texte par-dessus
+         ======================================== -->
+    <section class="voice-block">
+
+        <span class="voice-block__overline">Narrative Sprint</span>
+
+        <h1 class="voice-block__title">
+            Ce qui reste
+            <em>quand tout</em>
+            le bruit
+            décante.
+        </h1>
+
+        <div class="voice-block__hero-image">
+            <video autoplay loop muted playsinline src="jacques-video-hero.mp4"></video>
+        </div>
+
+        <p class="voice-block__lead">
+            Jacques ne produit pas de rapports. Il provoque des précipitations stratégiques. Ce qui était flou, dissous, contradictoire devient un solide que vous pouvez prendre en main.
+        </p>
+
+        <div class="voice-block__cta-area">
+            <button class="voice-block__cta">
+                <span>Déclencher le diagnostic</span>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- ========================================
+         SECTION B — ARTEFACT TEMOIN
+         Protocole de diagnostic strategique
+         ======================================== -->
+    <section class="artifact-witness">
+        <div class="artifact-witness__inner">
+            <span class="artifact-witness__overline">Protocole de diagnostic</span>
+
+            <div class="diagnostic">
+
+                <!-- Zone 1 — Inputs (solution sursaturee) -->
+                <div class="diagnostic__inputs">
+                    <span class="diagnostic__inputs-label">Signaux entrants</span>
+                    <div class="input-fragment">NPS en chute depuis Q2 malgré 3 pivots produit</div>
+                    <div class="input-fragment input-fragment--signal">// alerte : désalignement ICP vs. messaging</div>
+                    <div class="input-fragment">Brief marketing contradictoire (premium + massmarket)</div>
+                    <div class="input-fragment">4 decks concurrent analyses, 0 différenciation claire</div>
+                    <div class="input-fragment input-fragment--signal">// signal : le mot "innovant" apparaît 47x</div>
+                    <div class="input-fragment">Taux de conversion landing : 0.8% (benchmark 2.3%)</div>
+                    <div class="input-fragment">Équipe produit : "on ne sait plus a qui on parle"</div>
+                    <div class="input-fragment input-fragment--signal">// pattern : 3 personas, 3 promesses, 0 conviction</div>
+                    <div class="input-fragment">Board : "il faut aller plus vite" — CTO : "il faut stabiliser"</div>
+                    <div class="input-fragment">Pipeline sales : 200 leads, 4 closes. Friction = messaging</div>
+                </div>
+
+                <!-- Zone 2 — Point de précipitation -->
+                <div class="diagnostic__core">
+                    <div class="diagnostic__core-value">1</div>
+                    <p class="diagnostic__core-phrase">
+                        Vous vendez un outil. Ils cherchent une conviction.
+                    </p>
+                    <span class="diagnostic__core-label">Point de précipitation</span>
+                </div>
+
+                <!-- Zone 3 — Solide (assertions nettes) -->
+                <div class="diagnostic__solide">
+                    <div class="assertion">
+                        <span class="assertion__marker">S1</span>
+                        <p class="assertion__text">Le positionnement premium est tenable — à condition d'arreter de parler de features.</p>
+                    </div>
+                    <div class="assertion">
+                        <span class="assertion__marker">S2</span>
+                        <p class="assertion__text">L'ICP n'est pas le CTO. C'est le VP Ops qui signe sans comprendre la tech.</p>
+                    </div>
+                    <div class="assertion">
+                        <span class="assertion__marker">S3</span>
+                        <p class="assertion__text">Le mot-cle manquant dans tout le messaging : fiabilité.</p>
+                    </div>
+                    <div class="assertion">
+                        <span class="assertion__marker">S4</span>
+                        <p class="assertion__text">Un deck, un persona, une phrase. Le reste est du bruit en solution.</p>
+                    </div>
+                </div>
+
+                <!-- Footer protocole -->
+                <div class="diagnostic__footer">
+                    <span class="diagnostic__footer-label">Verdict analyste</span>
+                    <p class="diagnostic__footer-note">Niveau de saturation critique atteint. Le réactif a été introduit. Le précipité est exploitable — la stratégie est dans le solide, pas dans le liquide.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SECTION C — ATMOSPHERE BLOCK
+         Texturee — fond de becher, densite
+         ======================================== -->
+    <section class="atmosphere-block">
+        <div class="atmosphere-block__inner">
+
+            <!-- Sediment strata — couches de matiere, densite croissante vers le bas -->
+            <div class="sediment-strata" aria-hidden="true">
+                <div class="sediment-strata__layer sediment-strata__layer--top"></div>
+                <div class="sediment-strata__layer sediment-strata__layer--mid"></div>
+                <div class="sediment-strata__layer sediment-strata__layer--bottom"></div>
+            </div>
+
+            <div class="atmosphere-block__manifesto">
+                <span class="atmosphere-block__overline">Manifesto</span>
+                <p class="atmosphere-block__quote">
+                    Le conseil qui ajoute de la matiere est un problème déguisé en solution. <strong>Le vrai diagnostic soustrait.</strong>
+                </p>
+                <p class="atmosphere-block__body">
+                    Chaque entreprise transporte un précipité stratégique en suspension. Il suffit d'un réactif — la bonne question, au bon moment, dans le bon ordre — pour que le solide apparaisse. Ce qui reste apres la decantation, c'est la seule chose qui merite un deck.
+                </p>
+            </div>
+
+            <footer class="atmosphere-block__footer">
+                <nav class="footer-nav">
+                    <a href="#" class="footer-nav__link">Approche</a>
+                    <a href="#" class="footer-nav__link">Diagnostics</a>
+                    <a href="#" class="footer-nav__link">Cas</a>
+                    <a href="#" class="footer-nav__link">Contact</a>
+                </nav>
+                <span class="footer-tagline">Jacques — Le Précipité</span>
+                <p class="footer-legal">&copy; 2026 Jacques. Tous droits réservés.</p>
+            </footer>
+
+        </div>
+    </section>
+
+</body>
+</html>
