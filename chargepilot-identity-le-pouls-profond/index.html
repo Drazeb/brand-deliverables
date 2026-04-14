@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargepilot — Brand Identity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Recursive:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Recursive', 'Segoe UI', sans-serif;
+            background: oklch(0.20 0.06 255);
+            color: var(--color-surface);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 40px 24px;
+        }
+        .container {
+            max-width: 800px; width: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 64px;
+        }
+        .header {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 20px; text-align: center;
+        }
+        .header__logo { width: 56px; height: auto; opacity: 0.9; }
+        .header__name {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+        }
+        .header__divider {
+            width: 48px; height: 1px;
+            background: oklch(0.68 0.14 290); opacity: 0.4; margin-top: 4px;
+        }
+        .nav {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 12px; width: 100%;
+        }
+        .nav__card {
+            display: flex; flex-direction: column;
+            justify-content: flex-end;
+            padding: 32px 28px; min-height: 200px;
+            border-radius: 10px; text-decoration: none;
+            color: var(--color-surface);
+            position: relative; overflow: hidden;
+            border: 1px solid oklch(0 0 0 / 0);
+            transition: border-color 350ms cubic-bezier(.22,1,.36,1), transform 350ms cubic-bezier(.22,1,.36,1);
+        }
+        .nav__card:hover {
+            border-color: oklch(0.68 0.14 290);
+            transform: scale(1.006);
+        }
+        .nav__number {
+            font-family: 'Recursive', 'Segoe UI', sans-serif;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: oklch(0.68 0.14 290); margin-bottom: 8px;
+        }
+        .nav__title {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 500; line-height: 1.2; margin-bottom: 6px;
+        }
+        .nav__desc {
+            font-family: 'Recursive', 'Segoe UI', sans-serif;
+            font-size: 0.875rem;
+            color: oklch(0.96 0.01 280 / 0.55);
+            max-width: 40ch; line-height: 1.5;
+        }
+        .footer {
+            font-family: 'Recursive', 'Segoe UI', sans-serif;
+            font-size: 0.75rem;
+            color: oklch(0.96 0.01 280 / 0.55);
+            letter-spacing: 0.04em; text-align: center;
+        }
+        @media (max-width: 600px) {
+            .nav { grid-template-columns: 1fr; }
+            .nav__card { grid-column: 1 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            
+            <h1 class="header__name">Chargepilot</h1>
+            <div class="header__divider"></div>
+        </header>
+        <nav class="nav">
+            <a href="chargepilot-style-tile.html" class="nav__card" style="background: linear-gradient(135deg, oklch(0.32 0.08 255) 0%, oklch(0.20 0.06 255) 100%);">
+                <span class="nav__number">01</span>
+                <h2 class="nav__title">Style-Tile</h2>
+                <p class="nav__desc">Système de design complet — composants, surfaces, interactions</p>
+            </a>
+            <a href="chargepilot-batch2.html" class="nav__card" style="background: linear-gradient(135deg, oklch(0.32 0.08 255) 0%, oklch(0.20 0.06 255) 100%);">
+                <span class="nav__number">02</span>
+                <h2 class="nav__title">Iconographie & DataViz</h2>
+                <p class="nav__desc">Système d'icônes et visualisation de données</p>
+            </a>
+            <a href="chargepilot-batch3.html" class="nav__card" style="background: linear-gradient(135deg, oklch(0.32 0.08 255) 0%, oklch(0.20 0.06 255) 100%); grid-column: 1 / -1;" style=>
+                <span class="nav__number">03</span>
+                <h2 class="nav__title">Photographie & Illustration</h2>
+                <p class="nav__desc">Direction artistique photo et style illustratif</p>
+            </a>
+        </nav>
+        <footer class="footer">Brand Identity — Chargepilot</footer>
+    </div>
+</body>
+</html>
