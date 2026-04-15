@@ -8,107 +8,419 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Recursive:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Recursive', 'Segoe UI', sans-serif;
-            background: oklch(0.20 0.06 255);
-            color: var(--color-surface);
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 40px 24px;
+        @layer reset, tokens, base, components;
+
+        @property --pulse-x {
+            syntax: '<percentage>';
+            inherits: false;
+            initial-value: 20%;
         }
-        .container {
-            max-width: 800px; width: 100%;
-            display: flex; flex-direction: column;
-            align-items: center; gap: 64px;
+
+        @layer reset {
+            *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+            html { font-size: 16px; scroll-behavior: smooth; }
         }
-        .header {
-            display: flex; flex-direction: column;
-            align-items: center; gap: 20px; text-align: center;
+
+        @layer tokens {
+            :root {
+                --color-primary: oklch(0.32 0.08 255);
+                --color-primary-light: oklch(0.42 0.10 255);
+                --color-primary-dark: oklch(0.20 0.06 255);
+                --color-depth: oklch(0.20 0.06 255);
+                --color-depth-deep: oklch(0.15 0.05 255);
+                --color-secondary: oklch(0.55 0.12 290);
+                --color-accent: oklch(0.68 0.14 290);
+                --color-surface: oklch(0.96 0.01 280);
+                --color-surface-alt: oklch(0.93 0.02 280);
+                --color-text-on-depth: oklch(0.96 0.01 280);
+                --color-text-dim: oklch(0.96 0.01 280 / 0.50);
+
+                --font-display: 'Cormorant Garamond', 'Georgia', serif;
+                --font-body: 'Recursive', 'Segoe UI', sans-serif;
+
+                --radius-md: 14px;
+                --radius-lg: 24px;
+                --radius-xl: 40px;
+
+                --shadow-lavande:
+                    0 2px 8px oklch(0.55 0.12 290 / 0.20),
+                    0 10px 32px oklch(0.55 0.12 290 / 0.10);
+                --shadow-depth:
+                    0 2px 6px oklch(0.15 0.05 255 / 0.25),
+                    0 12px 32px oklch(0.15 0.05 255 / 0.15),
+                    0 32px 64px oklch(0.15 0.05 255 / 0.08);
+
+                --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+                --ease-decel: cubic-bezier(0, 0, .2, 1);
+                --transition-base: 350ms var(--ease-out-expo);
+                --transition-slow: 600ms var(--ease-decel);
+                --transition-auscultation: 800ms var(--ease-decel);
+            }
         }
-        .header__logo { width: 56px; height: auto; opacity: 0.9; }
-        .header__name {
-            font-family: 'Cormorant Garamond', 'Georgia', serif;
-            font-size: clamp(2.4rem, 6vw, 4rem);
-            font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+
+        @layer base {
+            body {
+                font-family: var(--font-body);
+                background: var(--color-depth-deep);
+                color: var(--color-text-on-depth);
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 48px 24px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Grain tactile — texture de fond */
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+                opacity: 0.035;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+                background-size: 256px;
+            }
+
+            /* Halo atmosphérique lavande */
+            body::after {
+                content: '';
+                position: fixed;
+                width: 600px;
+                height: 600px;
+                top: -120px;
+                right: -200px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    oklch(0.55 0.12 290 / 0.08) 0%,
+                    oklch(0.55 0.12 290 / 0.03) 40%,
+                    transparent 70%
+                );
+                z-index: 0;
+                pointer-events: none;
+            }
         }
-        .header__divider {
-            width: 48px; height: 1px;
-            background: oklch(0.68 0.14 290); opacity: 0.4; margin-top: 4px;
-        }
-        .nav {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 12px; width: 100%;
-        }
-        .nav__card {
-            display: flex; flex-direction: column;
-            justify-content: flex-end;
-            padding: 32px 28px; min-height: 200px;
-            border-radius: 10px; text-decoration: none;
-            color: var(--color-surface);
-            position: relative; overflow: hidden;
-            border: 1px solid oklch(0 0 0 / 0);
-            transition: border-color 350ms cubic-bezier(.22,1,.36,1), transform 350ms cubic-bezier(.22,1,.36,1);
-        }
-        .nav__card:hover {
-            border-color: oklch(0.68 0.14 290);
-            transform: scale(1.006);
-        }
-        .nav__number {
-            font-family: 'Recursive', 'Segoe UI', sans-serif;
-            font-size: 11px; font-weight: 600;
-            letter-spacing: 0.1em; text-transform: uppercase;
-            color: oklch(0.68 0.14 290); margin-bottom: 8px;
-        }
-        .nav__title {
-            font-family: 'Cormorant Garamond', 'Georgia', serif;
-            font-size: clamp(1.4rem, 3vw, 1.8rem);
-            font-weight: 500; line-height: 1.2; margin-bottom: 6px;
-        }
-        .nav__desc {
-            font-family: 'Recursive', 'Segoe UI', sans-serif;
-            font-size: 0.875rem;
-            color: oklch(0.96 0.01 280 / 0.55);
-            max-width: 40ch; line-height: 1.5;
-        }
-        .footer {
-            font-family: 'Recursive', 'Segoe UI', sans-serif;
-            font-size: 0.75rem;
-            color: oklch(0.96 0.01 280 / 0.55);
-            letter-spacing: 0.04em; text-align: center;
-        }
-        @media (max-width: 600px) {
-            .nav { grid-template-columns: 1fr; }
-            .nav__card { grid-column: 1 !important; }
+
+        @layer components {
+            .page {
+                position: relative;
+                z-index: 1;
+                max-width: 880px;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 80px;
+            }
+
+            /* ---- HEADER ---- */
+            .header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 24px;
+                text-align: center;
+            }
+
+            .header__overline {
+                font-family: var(--font-body);
+                font-size: 0.7rem;
+                font-weight: 500;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: var(--color-accent);
+            }
+
+            .header__name {
+                font-family: var(--font-display);
+                font-size: clamp(3rem, 8vw, 5.5rem);
+                font-weight: 700;
+                letter-spacing: -0.01em;
+                line-height: 0.92;
+                color: var(--color-text-on-depth);
+            }
+
+            .header__concept {
+                font-family: var(--font-display);
+                font-size: clamp(1.2rem, 3vw, 1.6rem);
+                font-weight: 400;
+                font-style: italic;
+                color: var(--color-accent);
+                margin-top: -4px;
+            }
+
+            .header__rule {
+                width: 64px;
+                height: 1px;
+                border: none;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--color-accent),
+                    transparent
+                );
+                opacity: 0.5;
+            }
+
+            .header__desc {
+                font-family: var(--font-body);
+                font-size: 0.9rem;
+                color: var(--color-text-dim);
+                max-width: 42ch;
+                line-height: 1.65;
+                text-wrap: balance;
+            }
+
+            /* ---- PULSE SVG ---- */
+            .pulse-line {
+                width: 100%;
+                max-width: 600px;
+                height: 32px;
+                margin: -16px 0;
+            }
+
+            .pulse-line path {
+                stroke-dasharray: 800;
+                stroke-dashoffset: 800;
+                animation: pulse-draw 2.5s var(--ease-decel) forwards;
+            }
+
+            @keyframes pulse-draw {
+                to { stroke-dashoffset: 0; }
+            }
+
+            /* ---- CARDS GRID ---- */
+            .nav {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 16px;
+                width: 100%;
+            }
+
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                padding: 36px 28px;
+                min-height: 260px;
+                border-radius: var(--radius-lg);
+                text-decoration: none;
+                color: var(--color-text-on-depth);
+                overflow: hidden;
+                border: 1px solid oklch(0.55 0.12 290 / 0);
+                transition:
+                    border-color var(--transition-base),
+                    box-shadow var(--transition-auscultation),
+                    transform var(--transition-base);
+            }
+
+            /* Fond des cards — surfaces composites */
+            .card--01 {
+                background:
+                    linear-gradient(160deg, var(--color-primary) 0%, var(--color-depth) 60%, var(--color-depth-deep) 100%);
+            }
+            .card--02 {
+                background:
+                    linear-gradient(160deg, oklch(0.28 0.07 260) 0%, var(--color-depth) 60%, var(--color-depth-deep) 100%);
+            }
+            .card--03 {
+                background:
+                    linear-gradient(160deg, oklch(0.30 0.09 275) 0%, var(--color-depth) 60%, var(--color-depth-deep) 100%);
+            }
+
+            /* Grain par card */
+            .card::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                opacity: 0.04;
+                pointer-events: none;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+                background-size: 256px;
+            }
+
+            /* Lueur lavande au bord supérieur */
+            .card::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 20%;
+                right: 20%;
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    oklch(0.55 0.12 290 / 0.25),
+                    transparent
+                );
+                border-radius: 0 0 50% 50%;
+                transition: opacity var(--transition-slow);
+            }
+
+            .card:hover {
+                border-color: oklch(0.55 0.12 290 / 0.25);
+                box-shadow: var(--shadow-lavande);
+                transform: scale(1.008);
+            }
+
+            .card:hover::after {
+                opacity: 0;
+            }
+
+            .card__number {
+                font-family: var(--font-body);
+                font-size: 0.65rem;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--color-accent);
+                margin-bottom: 16px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .card__icon {
+                position: absolute;
+                top: 28px;
+                right: 24px;
+                width: 40px;
+                height: 40px;
+                opacity: 0.12;
+                z-index: 0;
+            }
+
+            .card__icon path, .card__icon circle, .card__icon line {
+                stroke: var(--color-accent);
+                fill: none;
+                stroke-width: 1.2;
+                stroke-linecap: round;
+            }
+
+            .card__title {
+                font-family: var(--font-display);
+                font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+                font-weight: 600;
+                line-height: 1.15;
+                margin-bottom: 8px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .card__desc {
+                font-family: var(--font-body);
+                font-size: 0.82rem;
+                color: var(--color-text-dim);
+                line-height: 1.55;
+                max-width: 32ch;
+                position: relative;
+                z-index: 1;
+            }
+
+            /* ---- FOOTER ---- */
+            .footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .footer__text {
+                font-family: var(--font-body);
+                font-size: 0.7rem;
+                color: var(--color-text-dim);
+                letter-spacing: 0.06em;
+            }
+
+            .footer__palette {
+                display: flex;
+                gap: 6px;
+            }
+
+            .footer__swatch {
+                width: 12px;
+                height: 12px;
+                border-radius: 3px;
+            }
+
+            /* ---- RESPONSIVE ---- */
+            @media (max-width: 720px) {
+                .nav {
+                    grid-template-columns: 1fr;
+                }
+                .card {
+                    min-height: 200px;
+                }
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="page">
+
         <header class="header">
+            <span class="header__overline">Brand Identity</span>
             <h1 class="header__name">ChargePilot</h1>
-            <div class="header__divider"></div>
+            <span class="header__concept">Le Pouls Profond</span>
+            <hr class="header__rule">
+            <p class="header__desc">Système de design complet — de la stratégie de marque aux composants visuels, en passant par la direction photographique et illustrative.</p>
         </header>
+
+        <!-- Courbe de pouls décorative -->
+        <svg class="pulse-line" viewBox="0 0 600 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 16 Q60 16 120 16 L160 16 L170 4 L180 28 L190 10 L200 22 L212 16 Q280 16 360 16 L380 16 L388 8 L396 24 L404 12 L412 20 L420 16 Q480 16 600 16" stroke="url(#pg)" stroke-width="1" stroke-linecap="round"/>
+            <defs>
+                <linearGradient id="pg" x1="0" y1="0" x2="600" y2="0">
+                    <stop offset="0%" stop-color="oklch(0.55 0.12 290)" stop-opacity="0"/>
+                    <stop offset="25%" stop-color="oklch(0.68 0.14 290)" stop-opacity="0.5"/>
+                    <stop offset="50%" stop-color="oklch(0.55 0.12 290)" stop-opacity="0.7"/>
+                    <stop offset="75%" stop-color="oklch(0.68 0.14 290)" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="oklch(0.55 0.12 290)" stop-opacity="0"/>
+                </linearGradient>
+            </defs>
+        </svg>
+
         <nav class="nav">
-           <a href="chargepilot-style-tile.html" class="nav__card" style="background: linear-gradient(135deg, oklch(0.32 0.08 255) 0%, oklch(0.20 0.06 255) 100%);">
-               <span class="nav__number">01</span>
-               <h2 class="nav__title">Style-Tile</h2>
-               <p class="nav__desc">Système de design complet — composants, surfaces, interactions</p>
-           </a>
-           <a href="chargepilot-batch2.html" class="nav__card" style="background: linear-gradient(135deg, oklch(0.32 0.08 255) 0%, oklch(0.20 0.06 255) 100%);">
-               <span class="nav__number">02</span>
-               <h2 class="nav__title">Iconographie & DataViz</h2>
-               <p class="nav__desc">Système d'icônes et visualisation de données</p>
-           </a>
-           <a href="chargepilot-batch3.html" class="nav__card" style="background: linear-gradient(135deg, oklch(0.32 0.08 255) 0%, oklch(0.20 0.06 255) 100%); grid-column: 1 / -1;">
-               <span class="nav__number">03</span>
-               <h2 class="nav__title">Photographie & Illustration</h2>
-               <p class="nav__desc">Direction artistique photo et style illustratif</p>
-           </a>
+            <a href="chargepilot-style-tile.html" class="card card--01">
+                <svg class="card__icon" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><line x1="20" y1="10" x2="20" y2="20"/><line x1="20" y1="20" x2="28" y2="24"/></svg>
+                <span class="card__number">01 — Fondations</span>
+                <h2 class="card__title">Style-Tile</h2>
+                <p class="card__desc">Voix de marque, composants, surfaces et interactions</p>
+            </a>
+
+            <a href="chargepilot-batch2.html" class="card card--02">
+                <svg class="card__icon" viewBox="0 0 40 40"><circle cx="14" cy="14" r="6"/><circle cx="28" cy="14" r="4"/><circle cx="14" cy="28" r="4"/><circle cx="28" cy="28" r="6"/></svg>
+                <span class="card__number">02 — Système de signes</span>
+                <h2 class="card__title">Icônes & Data Viz</h2>
+                <p class="card__desc">Iconographie, visualisation de données et composants UI</p>
+            </a>
+
+            <a href="chargepilot-batch3.html" class="card card--03">
+                <svg class="card__icon" viewBox="0 0 40 40"><path d="M6 30 Q10 10 20 20 Q30 30 34 10"/><line x1="6" y1="34" x2="34" y2="34"/></svg>
+                <span class="card__number">03 — Narration visuelle</span>
+                <h2 class="card__title">Photo & Illustration</h2>
+                <p class="card__desc">Direction photographique, composition et registre illustratif</p>
+            </a>
         </nav>
-        <footer class="footer">Brand Identity — ChargePilot</footer>
+
+        <footer class="footer">
+            <div class="footer__palette">
+                <span class="footer__swatch" style="background: oklch(0.32 0.08 255);" title="Bleu Auscultation"></span>
+                <span class="footer__swatch" style="background: oklch(0.20 0.06 255);" title="Bleu Nyctalope"></span>
+                <span class="footer__swatch" style="background: oklch(0.55 0.12 290);" title="Lavande Clinique"></span>
+                <span class="footer__swatch" style="background: oklch(0.68 0.14 290);" title="Lilas Stéthoscope"></span>
+                <span class="footer__swatch" style="background: oklch(0.96 0.01 280); border: 1px solid oklch(0.55 0.12 290 / 0.2);" title="Blanc Blouse"></span>
+            </div>
+            <span class="footer__text">Brand Identity — ChargePilot × Le Pouls Profond</span>
+        </footer>
+
     </div>
 </body>
 </html>
