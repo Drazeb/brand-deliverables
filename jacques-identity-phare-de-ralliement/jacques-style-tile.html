@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jacques — Studio de positionnement stratégique (palette B crème)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@layer reset, tokens, base, layer-graphic, components, sections, utilities;
+
+@layer reset {
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 16px; scroll-behavior: smooth; color-scheme: light; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: color-mix(in oklch, var(--color-cta) 20%, transparent); }
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--color-text-primary);
+    background: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); font-weight: 400; line-height: 0.98; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  img { display: block; max-inline-size: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: color-mix(in oklch, var(--color-ocre) 38%, var(--color-paper-warm)); color: var(--color-text-primary); }
+}
+
+@layer tokens {
+  :root {
+    /* === PALETTE — registre crème claire diurne (palette B "Granit Diurne / Bronze") === */
+    --color-paper:          #EDE6D6;   /* Parchemin de List of Lights — fond dominant clair */
+    --color-paper-warm:     #E4DAC5;   /* Crème un peu plus chaud — surfaces de cartes */
+    --color-paper-deep:     #D9C7A8;   /* Crème assombri — fonds de badge teintés / zébré */
+    --color-rule:           #C9B89A;   /* Hairlines / bordures — ton intermédiaire sable */
+    --color-dark:           #5C4A38;   /* Coursive Oxydée — section inversée sombre */
+    --color-dark-deepest:   #4A3B2C;   /* Brun foncé encore plus sombre — profondeurs de la section sombre */
+    --color-cream-on-dark:  #F5F0E0;   /* Crème clair pour texte sur la section sombre */
+    --color-primary:        #1F1A14;   /* Encre de Carnet de Veille — texte principal */
+    --color-secondary:      #3A3128;   /* Granit de Tour Diurne — texte secondaire */
+    --color-text-faint:     #6B5C46;   /* Brun moyen sableux — texte tertiaire / méta sur clair (≈5:1) */
+    --color-ocre:           #8C6B3C;   /* Bronze de Fresnel Patiné — accent décoratif / UI ≥24px / bordures */
+    --color-cta:            #7A1F2B;   /* Bordeaux Secteur Rouge — accent fort événementiel (CTA, foyer chaud) */
+    --color-cta-deep:       #65171F;   /* Bordeaux plus profond — ombres / dégradés du CTA */
+    --color-ok:             #4E6B3E;   /* Vert de veille terreux — état "verrouillé/validé" (≈4.6:1 sur paper) */
+    --font-display: 'Gloock', 'Georgia', serif;
+    --font-body: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+    /* alias texte par défaut sur fond clair */
+    --color-text-primary: var(--color-primary);
+    --color-text-muted:   var(--color-secondary);
+
+    /* === TYPE SCALE === */
+    --text-2xs: 0.66rem;
+    --text-xs: 0.74rem;
+    --text-sm: 0.84rem;
+    --text-base: 1rem;
+    --text-md: 1.1875rem;
+    --text-lg: clamp(1.35rem, 1.7vw, 1.7rem);
+    --text-xl: clamp(1.9rem, 3vw, 2.6rem);
+    --text-hero: clamp(3.2rem, 8vw, 5rem);
+
+    /* === SPACING (8px modulaire) === */
+    --space-unit: 8px;
+    --space-3xs: calc(var(--space-unit) * 0.5);
+    --space-2xs: calc(var(--space-unit) * 1);
+    --space-xs: calc(var(--space-unit) * 1.5);
+    --space-sm: calc(var(--space-unit) * 2);
+    --space-md: calc(var(--space-unit) * 3);
+    --space-lg: calc(var(--space-unit) * 5);
+    --space-xl: calc(var(--space-unit) * 8);
+    --space-2xl: calc(var(--space-unit) * 13);
+    --space-3xl: calc(var(--space-unit) * 21);
+    --space-4xl: calc(var(--space-unit) * 30);
+
+    /* === RADIUS === */
+    --radius-sm: 3px;
+    --radius-md: 5px;
+
+    /* === SHADOWS (multi-couches, subtiles sur fond clair — brun désaturé peu opaque) === */
+    --shadow-card: 0 1px 2px oklch(0.32 0.020 70 / 0.16), 0 8px 22px oklch(0.30 0.020 70 / 0.13), 0 18px 40px oklch(0.30 0.020 70 / 0.08);
+    --shadow-card-warm: 0 2px 6px oklch(0.32 0.020 70 / 0.16), 0 16px 40px oklch(0.40 0.150 25 / 0.16);
+    --shadow-text: 0 1px 10px oklch(0.97 0.010 90 / 0.45), 0 1px 1px oklch(0.97 0.010 90 / 0.6);
+
+    /* === TRANSITIONS === */
+    --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+    --ease-out-quart: cubic-bezier(.25, 1, .5, 1);
+    --ease-fresnel: cubic-bezier(.22, .68, .28, 1);
+    --ease-in-out-deep: cubic-bezier(.65, 0, .25, 1);
+    --transition-fast: 180ms var(--ease-out-quart);
+    --transition-base: 360ms var(--ease-fresnel);
+    --transition-slow: 720ms var(--ease-in-out-deep);
+  }
+}
+
+@layer base {
+  ::-webkit-scrollbar { width: 11px; }
+  ::-webkit-scrollbar-track { background: var(--color-paper-deep); }
+  ::-webkit-scrollbar-thumb { background: color-mix(in oklch, var(--color-ocre) 70%, var(--color-paper-deep)); border-radius: var(--radius-sm); }
+
+  :where(a, button, [role="button"], input):focus-visible {
+    outline: 2px solid var(--color-cta);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================
+   COUCHE GRAPHIQUE — grain tuilé + voilages atmosphériques (clair)
+   ============================================================ */
+@layer layer-graphic {
+  /* grain de base — sur fond clair : multiply, opacité basse pour rester subtil */
+  .grain {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+    mix-blend-mode: multiply;
+    opacity: 0.07;
+  }
+  /* grain clair sur la section inversée sombre : soft-light (relève la matière sans assombrir
+     le texte crème). Sur un brun moyen le soft-light s'exprime peu → opacité montée.
+     La couche granuleuse "multiply" qui creuse les noirs est gérée par .atmosphere-block__grain-deep
+     (placée SOUS le contenu, donc elle, n'affecte pas la lisibilité du texte). */
+  .atmosphere-block .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='nd'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23nd)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+    mix-blend-mode: soft-light;
+    opacity: 0.46;
+  }
+  /* grain léger sur l'artefact (zone claire) — multiply très discret */
+  .artifact-witness .grain {
+    opacity: 0.055;
+  }
+}
+
+/* ============================================================
+   COMPONENTS
+   ============================================================ */
+@layer components {
+
+  /* ---- header sticky du hero ---- */
+  .voice-block__header {
+    position: absolute; inset-block-start: 0; inset-inline: 0; z-index: 6;
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--space-md);
+    padding-block: max(var(--space-md), env(safe-area-inset-top)) var(--space-sm);
+    padding-inline:
+      max(clamp(var(--space-md), 4vw, var(--space-2xl)), env(safe-area-inset-left))
+      max(clamp(var(--space-md), 4vw, var(--space-2xl)), env(safe-area-inset-right));
+    border-block-end: 1px solid color-mix(in oklch, var(--color-primary) 14%, transparent);
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.2vw, 1.95rem);
+    letter-spacing: -0.01em;
+    color: var(--color-primary);
+    text-shadow: 0 1px 10px oklch(0.97 0.010 90 / 0.5);
+  }
+  .wordmark::after {
+    content: '·';
+    color: var(--color-cta);
+    margin-inline-start: 0.06em;
+  }
+  .voice-block__nav {
+    display: flex; gap: clamp(var(--space-sm), 2.5vw, var(--space-lg));
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--color-secondary);
+  }
+  .voice-block__nav a {
+    padding-block: var(--space-sm);
+    border-block-end: 1px solid transparent;
+    touch-action: manipulation;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+  .voice-block__nav a:hover { color: var(--color-cta); border-block-end-color: color-mix(in oklch, var(--color-cta) 55%, transparent); }
+  @media (max-width: 720px) { .voice-block__nav { display: none; } }
+
+  /* ---- première "page" du hero : occupe 100dvh, contenu centré verticalement ---- */
+  .voice-block__viewport {
+    position: relative;
+    min-block-size: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* le contenu est légèrement sous le centre exact (jamais au-dessus) :
+       ce padding décale le centre du bloc vers ~52dvh, laissant ~26-30dvh d'image
+       au-dessus et ~18-22dvh d'image en dessous du dernier CTA dans la 1re viewport */
+    padding-block-start: clamp(var(--space-xl), 7dvh, var(--space-3xl));
+  }
+
+  /* ---- contenu hero centré horizontalement ---- */
+  .voice-block__content {
+    z-index: 5;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: var(--space-xs);
+    inline-size: min(920px, 92vw);
+    margin-inline: auto;
+    padding-inline: var(--space-md);
+  }
+  .voice-block__overline {
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    color: var(--color-cta);
+    text-shadow: 0 1px 8px oklch(0.97 0.010 90 / 0.55);
+  }
+  .voice-block__title {
+    font-size: var(--text-hero);
+    color: var(--color-primary);
+    text-shadow: var(--shadow-text);
+    line-height: 0.92;
+    letter-spacing: -0.015em;
+    opacity: 1;
+    filter: none;
+  }
+  .voice-block__title em {
+    font-style: normal;
+    color: inherit;
+  }
+  .voice-block__lead {
+    font-size: var(--text-md);
+    color: var(--color-secondary);
+    max-inline-size: 46ch;
+    line-height: 1.5;
+    text-shadow: 0 1px 10px oklch(0.97 0.010 90 / 0.5);
+  }
+  .voice-block__coords {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: var(--space-xs) var(--space-lg);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-secondary);
+    margin-block-start: 0;
+  }
+  .voice-block__coords span { display: inline-flex; align-items: baseline; gap: var(--space-3xs); }
+  .voice-block__coords b { color: var(--color-primary); font-weight: 600; letter-spacing: 0.06em; }
+  .voice-block__coords i { color: var(--color-cta); font-style: normal; }
+  .voice-block__actions {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-md);
+    margin-block-start: var(--space-3xs);
+  }
+  .btn {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.85em 1.7em;
+    min-block-size: 44px;
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background var(--transition-base), color var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+  .btn--primary {
+    background: var(--color-cta);
+    color: var(--color-cream-on-dark);
+    border: 1.5px solid var(--color-cta);
+    box-shadow: var(--shadow-card-warm);
+  }
+  .btn--primary::after { content: '→'; transition: transform var(--transition-base); }
+  .btn--primary:hover {
+    background: color-mix(in oklch, var(--color-cta) 88%, var(--color-cta-deep));
+    border-color: color-mix(in oklch, var(--color-cta) 88%, var(--color-cta-deep));
+    box-shadow: 0 2px 6px oklch(0.32 0.020 70 / 0.18), 0 18px 44px oklch(0.40 0.150 25 / 0.22);
+  }
+  .btn--primary:hover::after { transform: translateX(4px); }
+  .btn--ghost {
+    background: color-mix(in oklch, var(--color-paper) 64%, transparent);
+    color: var(--color-primary);
+    border: 1.5px solid color-mix(in oklch, var(--color-secondary) 40%, transparent);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+  }
+  .btn--ghost:hover {
+    border-color: color-mix(in oklch, var(--color-cta) 65%, transparent);
+    color: color-mix(in oklch, var(--color-primary) 88%, var(--color-cta));
+    box-shadow: 0 1px 4px oklch(0.32 0.020 70 / 0.14), 0 10px 26px oklch(0.30 0.020 70 / 0.1);
+  }
+
+  /* ---- atmosphere components (section inversée sombre) ---- */
+  .atmosphere-block__eyebrow {
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.34em;
+    color: color-mix(in oklch, var(--color-ocre) 82%, var(--color-cream-on-dark)); display: block; margin-block-end: var(--space-lg);
+  }
+  .atmosphere-block__quote {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1.42;
+    color: var(--color-cream-on-dark);
+    text-wrap: balance;
+    margin-block-end: var(--space-xl);
+  }
+  .atmosphere-block__quote em { font-style: normal; color: color-mix(in oklch, var(--color-cream-on-dark) 78%, var(--color-ocre)); }
+  .atmosphere-block__cadence {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm) var(--space-xl);
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.18em;
+    color: color-mix(in oklch, var(--color-cream-on-dark) 78%, transparent);
+    padding-block: var(--space-lg);
+    border-block: 1px solid color-mix(in oklch, var(--color-cream-on-dark) 16%, transparent);
+    margin-block-end: var(--space-xl);
+  }
+  .atmosphere-block__cadence span { display: inline-flex; align-items: baseline; gap: var(--space-2xs); }
+  .atmosphere-block__cadence b { color: var(--color-cream-on-dark); font-weight: 600; letter-spacing: 0.05em; }
+  .atmosphere-block__links {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-md) var(--space-2xl);
+    margin-block-end: var(--space-2xl);
+    font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .atmosphere-block__links a {
+    color: color-mix(in oklch, var(--color-cream-on-dark) 76%, transparent);
+    padding-block: var(--space-sm);
+    border-block-end: 1px solid transparent;
+    touch-action: manipulation;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+  .atmosphere-block__links a:hover { color: color-mix(in oklch, var(--color-ocre) 70%, var(--color-cream-on-dark)); border-block-end-color: color-mix(in oklch, var(--color-ocre) 55%, transparent); }
+  .atmosphere-block__sign {
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-sm);
+  }
+  .atmosphere-block__tagline {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--color-cream-on-dark);
+  }
+  .atmosphere-block__tagline span:last-child { color: color-mix(in oklch, var(--color-ocre) 78%, var(--color-cream-on-dark)); }
+  .atmosphere-block__meta {
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.28em; color: color-mix(in oklch, var(--color-cream-on-dark) 60%, transparent);
+  }
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+@layer sections {
+
+  /* ---------- A · VOICE BLOCK (Long Hero / full-bleed) ---------- */
+  .voice-block {
+    position: relative;
+    min-block-size: 100dvh;
+    /* Long Hero : la 1re page = 100dvh (contenu centré, ~52dvh occupés) + une courte
+       queue d'image d'environ 12-25dvh révélée au scroll avant la transition vers la section B */
+    min-block-size: clamp(112dvh, 118dvh, 125dvh);
+    overflow: hidden;
+    background: var(--color-paper);
+    color: var(--color-primary);
+    /* transition fluide vers la section B — opère sur les derniers ~15% */
+    mask-image: linear-gradient(180deg, #000 0 85%, rgba(0,0,0,0.78) 100%);
+  }
+
+  /* ---- fond animé full-bleed : image diurne claire + faisceau SVG du phare ---- */
+  .phare-anim { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+  .phare-anim__bg {
+    inline-size: 100%; block-size: 100%;
+    object-fit: cover;
+    /* DOIT rester synchrone avec preserveAspectRatio="xMidYMin slice" du SVG */
+    object-position: 50% 0%;
+    filter: saturate(1.02) contrast(1.03);
+  }
+  .phare-anim__beam {
+    position: absolute; inset: 0; z-index: 1;
+    inline-size: 100%; block-size: 100%;
+    pointer-events: none;
+    /* sur fond clair, "screen" n'aurait quasi aucun effet ; le faisceau crème-clair se voit
+       en composition normale (pas de blend) — il reste légèrement plus lumineux que la brume */
+    mix-blend-mode: normal;
+  }
+  /* voilage clair elliptique de la zone du contenu (centrée ~52dvh) — on ÉCLAIRCIT,
+     on n'assombrit plus : un wash crème détache le texte sombre de l'image diurne */
+  .phare-anim::after {
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background:
+      radial-gradient(48% 32% at 50% 52dvh,
+        color-mix(in oklch, var(--color-paper) 68%, transparent) 0%,
+        color-mix(in oklch, var(--color-paper) 34%, transparent) 44%,
+        transparent 72%),
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--color-paper) 22%, transparent) 0%,
+        transparent 14%,
+        transparent 78%,
+        color-mix(in oklch, var(--color-paper) 30%, transparent) 90%,
+        color-mix(in oklch, var(--color-paper) 70%, transparent) 100%);
+  }
+  /* ---------- B · ARTIFACT-WITNESS (zone claire) ---------- */
+  .artifact-witness {
+    position: relative;
+    min-block-size: 78dvh;
+    /* paddings réduits ~30% (haut & bas) pour rapprocher l'artefact de l'hero et de l'atmosphère */
+    padding-block: calc(var(--space-3xl) * 0.7) calc(var(--space-4xl) * 0.7);
+    padding-inline: clamp(var(--space-md), 5vw, var(--space-3xl));
+    background:
+      linear-gradient(180deg,
+        color-mix(in oklch, var(--color-paper) 78%, #FFFCF5) 0%,
+        var(--color-paper) 24%,
+        color-mix(in oklch, var(--color-paper) 88%, var(--color-paper-deep)) 78%,
+        color-mix(in oklch, var(--color-paper) 70%, var(--color-paper-deep)) 100%);
+    overflow: hidden;
+  }
+  /* voilages atmosphériques clairs cadrés sur les marges visibles autour de l'artefact */
+  .artifact-witness::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(62% 38% at 16% 14%, color-mix(in oklch, #FFFCF5 60%, transparent), transparent 60%),
+      radial-gradient(54% 34% at 88% 90%, color-mix(in oklch, var(--color-paper-deep) 38%, transparent), transparent 56%),
+      radial-gradient(22% 18% at 84% 10%, color-mix(in oklch, var(--color-ocre) 14%, transparent), transparent 64%);
+  }
+  /* ---------- C · ATMOSPHERE BLOCK (registre INVERSÉ SOMBRE — brun foncé chaud) ---------- */
+  .atmosphere-block {
+    position: relative;
+    /* padding-block-start réduit ~30% pour rapprocher de la fin de l'artefact */
+    padding-block: calc(var(--space-4xl) * 0.7) max(var(--space-2xl), env(safe-area-inset-bottom));
+    padding-inline:
+      max(var(--space-lg), env(safe-area-inset-left))
+      max(var(--space-lg), env(safe-area-inset-right));
+    background:
+      /* éclaircissement central très léger : "pool" chaud où se pose le manifeste */
+      radial-gradient(58% 40% at 50% 44%,
+        color-mix(in oklch, var(--color-dark) 90%, var(--color-ocre)) 0%,
+        transparent 70%),
+      /* vignette : les bords poussent vers le brun le plus profond → masse + centre qui ressort */
+      radial-gradient(120% 88% at 50% 38%,
+        transparent 52%,
+        color-mix(in oklch, var(--color-dark-deepest) 78%, transparent) 82%,
+        color-mix(in oklch, var(--color-dark-deepest) 86%, #1A130C) 100%),
+      linear-gradient(178deg,
+        var(--color-dark) 0%,
+        color-mix(in oklch, var(--color-dark) 88%, var(--color-dark-deepest)) 60%,
+        var(--color-dark-deepest) 100%);
+    color: var(--color-cream-on-dark);
+    overflow: hidden;
+    text-align: center;
+  }
+  /* voilages lumineux chauds — blend "screen", donc seules les teintes ocre claires s'expriment :
+     l'assombrissement des coins est porté par la vignette du background, pas ici */
+  .atmosphere-block::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      /* voile ocre descendant du bord supérieur (structure la lumière haute) */
+      radial-gradient(72% 32% at 58% -8%, color-mix(in oklch, var(--color-ocre) 24%, transparent), transparent 72%),
+      /* ponctuations chaudes ocre (haut-D + cœur) — intensités montées vs version plate */
+      radial-gradient(52% 40% at 84% 20%, color-mix(in oklch, var(--color-ocre) 32%, transparent), transparent 58%),
+      radial-gradient(26% 24% at 66% 32%, color-mix(in oklch, var(--color-ocre) 26%, transparent), transparent 64%);
+    mix-blend-mode: screen;
+  }
+  /* élément signature : grand halo Fresnel patiné montant du bas, dédoublé
+     (large diffus ocre + cœur plus serré tirant vers le bordeaux chaud) ; intensité montée
+     car sur un brun moyen le screen "glow" beaucoup moins que sur du quasi-noir */
+  .atmosphere-block::after {
+    content: ''; position: absolute; z-index: 1; pointer-events: none;
+    inset-block-end: -8%; inset-inline-start: 50%;
+    inline-size: min(960px, 116vw); aspect-ratio: 1.18 / 1;
+    transform: translateX(-50%);
+    background:
+      radial-gradient(ellipse 36% 60% at 50% 100%,
+        color-mix(in oklch, color-mix(in oklch, var(--color-ocre) 84%, var(--color-cta)) 56%, transparent) 0%,
+        color-mix(in oklch, var(--color-ocre) 30%, transparent) 30%,
+        transparent 60%),
+      radial-gradient(ellipse at 50% 100%,
+        color-mix(in oklch, var(--color-ocre) 58%, transparent) 0%,
+        color-mix(in oklch, var(--color-ocre) 28%, transparent) 36%,
+        transparent 70%);
+    filter: blur(10px);
+    mix-blend-mode: screen;
+  }
+  /* couche de matière sombre : grain "multiply" qui creuse les noirs du brun moyen
+     → texture de pierre/métal oxydé perceptible ; SOUS le contenu pour ne pas toucher le texte */
+  .atmosphere-block__grain-deep {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='ndp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23ndp)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+    mix-blend-mode: multiply;
+    opacity: 0.16;
+  }
+  .atmosphere-block__content {
+    position: relative; z-index: 2;
+    max-inline-size: 760px; margin-inline: auto;
+  }
+  /* shared content layering */
+  .voice-block > *:not(.phare-anim), .artifact-witness > *, .atmosphere-block > * { position: relative; }
+
+  /* ---------- RESPONSIVE — le bloc de contenu reste entièrement visible dans 100dvh ---------- */
+  /* NB : object-position de .phare-anim__bg est volontairement constant (50% 0%) et
+     synchrone avec preserveAspectRatio="xMidYMin slice" du SVG — ne pas le changer ici. */
+  @media (max-height: 760px) {
+    :root { --text-hero: clamp(2.6rem, 7vw, 3.8rem); --text-md: 1.05rem; }
+    .voice-block { min-block-size: clamp(109dvh, 114dvh, 120dvh); }
+    .voice-block__viewport { padding-block-start: clamp(var(--space-sm), 4dvh, var(--space-lg)); }
+    .voice-block__content { gap: var(--space-2xs); }
+  }
+  @media (max-height: 600px) {
+    :root { --text-hero: clamp(2.2rem, 6.5vw, 3.1rem); --text-md: 1rem; }
+    .voice-block__viewport { padding-block-start: clamp(var(--space-xs), 3dvh, var(--space-md)); }
+    .voice-block__content { gap: var(--space-3xs); }
+    .voice-block__lead { line-height: 1.4; }
+  }
+  @media (max-width: 700px) {
+    .voice-block { min-block-size: clamp(109dvh, 116dvh, 123dvh); }
+    .voice-block__viewport { padding-block-start: clamp(var(--space-md), 5dvh, var(--space-xl)); }
+    .voice-block__content { inline-size: min(560px, 92vw); }
+    .voice-block__header { padding-block: var(--space-sm) var(--space-2xs); }
+  }
+}
+
+@layer utilities {
+  /* apparition d'entrée stable au chargement (ne dépend pas du scroll → zéro flicker) */
+  .voice-block__content { opacity: 1; transition: opacity 0.9s var(--ease-out-expo), translate 0.9s var(--ease-out-expo); }
+  @starting-style { .voice-block__content { opacity: 0; translate: 0 0.5rem; } }
+}
+</style>
+</head>
+<body>
+
+<section class="voice-block">
+  <div class="phare-anim" id="phareAnim" aria-hidden="true">
+    <img class="phare-anim__bg" src="visual-final/jacques-c3-paletteB-hero.jpg" alt="Paysage diurne brumeux en surplomb, crête couverte de brume claire, un phare miniature posté à droite sur la crête, lumière du jour crème et ocres" data-visual="hero-c3">
+
+    <svg class="phare-anim__beam" viewBox="0 0 1493 2000" preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="beamGradient" gradientUnits="userSpaceOnUse"
+                        x1="1429" y1="682" x2="600" y2="682">
+          <stop offset="0%" stop-color="#FFFCF5" stop-opacity="1" />
+          <stop offset="40%" stop-color="#F5F0E0" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#EDE6D6" stop-opacity="0" />
+        </linearGradient>
+
+        <radialGradient id="haloGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95" />
+          <stop offset="20%" stop-color="#FFFCF5" stop-opacity="0.55" />
+          <stop offset="50%" stop-color="#F5F0E0" stop-opacity="0.22" />
+          <stop offset="100%" stop-color="#EDE6D6" stop-opacity="0" />
+        </radialGradient>
+
+        <radialGradient id="cameraGlowGradient" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9" />
+          <stop offset="30%" stop-color="#FFFCF5" stop-opacity="0.55" />
+          <stop offset="70%" stop-color="#F5F0E0" stop-opacity="0.22" />
+          <stop offset="100%" stop-color="#EDE6D6" stop-opacity="0" />
+        </radialGradient>
+
+        <filter id="softBlur" x="-15%" y="-15%" width="130%" height="130%">
+          <feGaussianBlur stdDeviation="2" />
+        </filter>
+
+        <filter id="strongBlur" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="4" />
+        </filter>
+
+        <filter id="paintedTexture" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+          <feGaussianBlur stdDeviation="1.5" />
+        </filter>
+      </defs>
+
+      <circle id="cameraGlow" cx="600" cy="682" r="0" fill="url(#cameraGlowGradient)" filter="url(#strongBlur)" opacity="0" />
+      <polygon id="beam" points="1428,681 1430,683 604,687 600,677" fill="url(#beamGradient)" filter="url(#paintedTexture)" />
+      <circle id="halo" cx="1429" cy="682" r="23" fill="url(#haloGradient)" filter="url(#softBlur)" />
+    </svg>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="voice-block__header">
+    <span class="wordmark" translate="no">Jacques</span>
+    <nav class="voice-block__nav" aria-label="Navigation">
+      <a href="#methode">Méthode</a>
+      <a href="#cas">Études de cas</a>
+      <a href="#manifeste">Manifeste</a>
+      <a href="#contact">Réserver un appel</a>
+    </nav>
+  </header>
+
+  <div class="voice-block__viewport">
+    <div class="voice-block__content">
+      <span class="voice-block__overline">Studio de positionnement stratégique</span>
+      <h1 class="voice-block__title">Le positionnement<br>qui fait lever.</h1>
+      <p class="voice-block__lead">Positionnement stratégique et pitch decks pour fondateurs en levée, pivot ou M&amp;A.</p>
+      <p class="voice-block__coords">
+        <span><b translate="no">€340 M</b> <i>levés depuis 2021</i></span>
+        <span><b translate="no">38 missions</b> <i>en 4 ans</i></span>
+        <span><b translate="no">8-12 sem.</b> <i>par mission</i></span>
+        <span><b translate="no">100% comité</b> <i>12 derniers récits</i></span>
+      </p>
+      <div class="voice-block__actions">
+        <a href="#engager" class="btn btn--primary">Réserver un appel</a>
+        <a href="#cas" class="btn btn--ghost">Voir trois études de cas</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="artifact-witness">
+  <div class="grain" aria-hidden="true"></div>
+<style>
+  @layer artefact {
+
+    @property --quart-fill {
+      syntax: '<percentage>';
+      inherits: false;
+      initial-value: 0%;
+    }
+
+    .artifact-witness__inner {
+      position: relative;
+      z-index: 2;
+      max-inline-size: 1180px;
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.78fr) minmax(0, 1fr);
+      grid-template-areas:
+        "ledger  ledger"
+        "deck    list"
+        "deck    imagery"
+        "deck    cap";
+      gap: clamp(var(--space-xs), 1.4vw, var(--space-md));
+      font-family: var(--font-body);
+      color: var(--color-primary);
+      --hairline: var(--color-rule);
+    }
+
+    /* ───────── bandeau d'en-tête : wordmark + mission + statut de synchro ───────── */
+    .quart-ledger {
+      grid-area: ledger;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: clamp(var(--space-xs), 2.4vw, var(--space-xl)) var(--space-md);
+      padding-block: var(--space-2xs) var(--space-xs);
+    }
+    .quart-ledger__mark {
+      font-family: var(--font-display);
+      font-size: var(--text-md);
+      letter-spacing: 0.01em;
+      color: var(--color-primary);
+      position: relative;
+      padding-inline-end: 0.62em;
+    }
+    /* le micro-foyer Fresnel du wordmark : trait fin laiton, sans lueur — second marqueur discret */
+    .quart-ledger__mark::after {
+      content: '';
+      position: absolute;
+      inset-block: 0.18em 0.16em;
+      inset-inline-end: 0;
+      inline-size: 2px;
+      background: var(--color-ocre);
+    }
+    .quart-ledger__mission {
+      display: flex;
+      flex-direction: column;
+      gap: 0.18em;
+    }
+    .quart-ledger__kicker {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+    }
+    .quart-ledger__name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      line-height: 1.04;
+      color: var(--color-primary);
+      text-wrap: balance;
+    }
+    .quart-ledger__sync {
+      margin-inline-start: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2xs);
+      padding: var(--space-3xs) var(--space-sm);
+      border-radius: var(--radius-md);
+      background: color-mix(in oklch, var(--color-paper-deep) 70%, transparent);
+      font-size: var(--text-2xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+      border: 1px solid color-mix(in oklch, var(--color-rule) 60%, transparent);
+    }
+    .quart-ledger__sync::before {
+      content: '';
+      inline-size: 7px;
+      block-size: 7px;
+      border-radius: 50%;
+      background: var(--color-ok);
+      box-shadow:
+        0 0 0 4px color-mix(in oklch, var(--color-ok) 20%, transparent),
+        0 4px 12px color-mix(in oklch, var(--color-dark-deepest) 18%, transparent);
+    }
+
+    /* ───────── DOMINANT : le repère / récit-deck en cours ───────── */
+    .quart-deck {
+      grid-area: deck;
+      /* la carte deck s'étire (align-self: stretch — défaut grille) pour occuper toute la
+         hauteur de la colonne droite (list + imagery + cap + 2 gouttières) : son bord bas
+         s'aligne ainsi sur le bord bas de .quart-cap. Le contenu se distribue verticalement —
+         titre + brief + barre de cadence en haut, 3 jalons + barre d'action collés en bas via
+         margin-block-start:auto sur .quart-deck__slides. */
+      align-self: stretch;
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      padding: clamp(var(--space-md), 2.6vw, var(--space-2xl)) clamp(var(--space-md), 2.6vw, var(--space-xl));
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(120% 86% at 88% 6%, color-mix(in oklch, var(--color-ocre) 9%, transparent), transparent 56%),
+        linear-gradient(168deg,
+          color-mix(in oklch, var(--color-paper-warm) 88%, #FFFCF5) 0%,
+          var(--color-paper-warm) 56%,
+          color-mix(in oklch, var(--color-paper-warm) 84%, var(--color-paper-deep)) 100%);
+      box-shadow:
+        inset 0 1px 0 oklch(0.99 0.005 90 / 0.6),
+        var(--shadow-card);
+      overflow: hidden;
+    }
+    .quart-deck::before {
+      content: '';
+      position: absolute;
+      inset-block: -28% auto;
+      inset-inline-end: -16%;
+      inline-size: 56%;
+      aspect-ratio: 1 / 1.45;
+      background: radial-gradient(ellipse at 70% 30%,
+        color-mix(in oklch, var(--color-ocre) 11%, transparent) 0%,
+        transparent 64%);
+      filter: blur(34px);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .quart-deck__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-2xs) var(--space-md);
+    }
+    .quart-deck__phase {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+    }
+    .quart-deck__bearing {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2xs);
+      font-size: var(--text-2xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .quart-deck__bearing b {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .quart-deck__title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      line-height: 1.02;
+      color: var(--color-primary);
+      text-wrap: balance;
+      max-inline-size: 16ch;
+    }
+    .quart-deck__title em {
+      font-style: normal;
+      color: color-mix(in oklch, var(--color-cta) 86%, var(--color-primary));
+    }
+    .quart-deck__brief {
+      font-size: var(--text-sm);
+      line-height: 1.62;
+      color: var(--color-secondary);
+      max-inline-size: 46ch;
+      text-wrap: pretty;
+    }
+
+    /* progression du récit-deck — pas un graphique : une barre de cadence narrative */
+    .quart-deck__progress {
+      display: grid;
+      gap: var(--space-2xs);
+    }
+    .quart-deck__progress-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .quart-deck__progress-count {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      line-height: 1;
+      color: var(--color-primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .quart-deck__progress-count span {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text-faint);
+    }
+    .quart-deck__progress-tag {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+    }
+    .quart-deck__rail {
+      position: relative;
+      block-size: 6px;
+      border-radius: 999px;
+      background: color-mix(in oklch, var(--color-paper-deep) 80%, transparent);
+      border: 1px solid color-mix(in oklch, var(--color-rule) 50%, transparent);
+      overflow: hidden;
+    }
+    .quart-deck__rail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      --quart-fill: 73.7%; /* 14 / 19 verrouillées */
+      inline-size: var(--quart-fill);
+      border-radius: inherit;
+      background: linear-gradient(90deg,
+        color-mix(in oklch, var(--color-ocre) 92%, var(--color-secondary)) 0%,
+        var(--color-ocre) 60%,
+        color-mix(in oklch, var(--color-cta) 70%, var(--color-ocre)) 100%);
+      transition: --quart-fill var(--transition-slow);
+    }
+    @starting-style {
+      .quart-deck__rail::after { --quart-fill: 0%; }
+    }
+    .quart-deck__rail-ticks {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      padding-inline: 14%;
+      pointer-events: none;
+    }
+    .quart-deck__rail-ticks span {
+      inline-size: 1px;
+      background: color-mix(in oklch, var(--color-paper-warm) 70%, transparent);
+    }
+
+    /* les jalons du deck — chaque ligne se distingue par densité, pas par bordure */
+    .quart-deck__slides {
+      display: grid;
+      gap: var(--space-3xs);
+      margin-block-start: auto;
+    }
+    .quart-slide {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-2xs) var(--space-xs);
+      border-radius: var(--radius-sm);
+      background: color-mix(in oklch, var(--color-paper-deep) 36%, transparent);
+      transition:
+        background var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+    .quart-slide:hover {
+      background: color-mix(in oklch, var(--color-paper-deep) 64%, transparent);
+      box-shadow:
+        inset 2px 0 0 var(--color-ocre),
+        0 1px 6px oklch(0.32 0.020 70 / 0.12);
+    }
+    .quart-slide__index {
+      font-size: var(--text-2xs);
+      color: var(--color-text-faint);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+    .quart-slide__label {
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .quart-slide__state {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3xs);
+      white-space: nowrap;
+    }
+    .quart-slide__state::before {
+      content: '';
+      inline-size: 6px;
+      block-size: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .quart-slide--locked .quart-slide__state { color: var(--color-ok); }
+    .quart-slide--drift  .quart-slide__state { color: color-mix(in oklch, var(--color-cta) 78%, var(--color-secondary)); }
+    .quart-slide--drift  .quart-slide__label { color: color-mix(in oklch, var(--color-primary) 90%, var(--color-cta)); }
+    .quart-slide--queued .quart-slide__state { color: var(--color-text-faint); }
+    .quart-slide--queued .quart-slide__label { color: var(--color-secondary); }
+
+    /* casse de convention (A=3) : la barre d'action primaire n'est pas en pied de carte
+       — elle traverse la colonne du repère, surdimensionnée, comme la lentille du phare */
+    .quart-deck__act {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-block-start: var(--space-2xs);
+    }
+    .quart-lock {
+      flex: 1 1 14rem;
+      min-block-size: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2xs);
+      padding: var(--space-xs) var(--space-md);
+      border: 0;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-cream-on-dark);
+      background: linear-gradient(150deg,
+        color-mix(in oklch, var(--color-cta) 94%, #FFFCF5) 0%,
+        var(--color-cta) 52%,
+        color-mix(in oklch, var(--color-cta) 82%, var(--color-cta-deep)) 100%);
+      box-shadow: var(--shadow-card-warm);
+      touch-action: manipulation;
+      transition:
+        filter var(--transition-fast),
+        box-shadow var(--transition-base),
+        background var(--transition-base);
+    }
+    .quart-lock::before {
+      content: '';
+      inline-size: 9px;
+      block-size: 9px;
+      border-radius: 2px;
+      background: var(--color-cream-on-dark);
+      box-shadow:
+        0 0 0 3px color-mix(in oklch, var(--color-cream-on-dark) 22%, transparent),
+        0 3px 10px color-mix(in oklch, var(--color-dark-deepest) 20%, transparent);
+    }
+    .quart-lock:hover {
+      filter: brightness(1.05) saturate(1.04);
+      background: linear-gradient(150deg,
+        color-mix(in oklch, var(--color-cta) 90%, #FFFCF5) 0%,
+        var(--color-cta) 52%,
+        color-mix(in oklch, var(--color-cta) 86%, var(--color-cta-deep)) 100%);
+      box-shadow:
+        0 2px 8px oklch(0.32 0.020 70 / 0.18),
+        0 20px 48px oklch(0.40 0.150 25 / 0.22);
+    }
+    .quart-lock:active { filter: brightness(0.97); }
+    .quart-next {
+      min-block-size: 48px;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: var(--text-2xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      text-decoration: none;
+      background: color-mix(in oklch, var(--color-paper-deep) 50%, transparent);
+      border: 1px solid color-mix(in oklch, var(--color-rule) 55%, transparent);
+      touch-action: manipulation;
+      transition:
+        color var(--transition-fast),
+        background var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+    .quart-next:hover {
+      color: var(--color-primary);
+      background: color-mix(in oklch, var(--color-paper-deep) 78%, transparent);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklch, var(--color-ocre) 50%, transparent),
+        0 1px 6px oklch(0.32 0.020 70 / 0.12);
+    }
+    .quart-next time {
+      color: var(--color-text-faint);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.06em;
+    }
+
+    /* ───────── SUPPORT : la "List of Lights" — trame documentaire serrée ───────── */
+    .quart-list {
+      grid-area: list;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      padding: clamp(var(--space-sm), 1.8vw, var(--space-lg)) clamp(var(--space-sm), 1.8vw, var(--space-md));
+      border-radius: var(--radius-md);
+      background: color-mix(in oklch, var(--color-paper-warm) 88%, #FFFCF5);
+      box-shadow:
+        inset 0 1px 0 oklch(0.99 0.005 90 / 0.6),
+        inset 0 -1px 0 color-mix(in oklch, var(--color-paper-deep) 70%, transparent),
+        var(--shadow-card);
+    }
+    .quart-list__cap {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-block-end: var(--space-2xs);
+      border-block-end: 1px solid color-mix(in oklch, var(--color-rule) 60%, transparent);
+    }
+    .quart-list__title {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      color: var(--color-primary);
+    }
+    .quart-list__id {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-faint);
+      font-variant-numeric: tabular-nums;
+    }
+    .quart-list__rows {
+      display: grid;
+      gap: 0;
+    }
+    .quart-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: var(--space-sm);
+      padding-block: var(--space-2xs);
+      /* gouttière constante : le :hover ne change que des propriétés non-layout */
+      margin-inline: calc(var(--space-sm) * -1);
+      padding-inline: var(--space-sm);
+      border-radius: var(--radius-sm);
+      transition: background var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    /* densité documentaire : pas de bordure ligne-à-ligne — un demi-ton zébré discret */
+    .quart-row:nth-child(even) {
+      background: color-mix(in oklch, var(--color-paper-deep) 34%, transparent);
+    }
+    .quart-row:hover {
+      background: color-mix(in oklch, var(--color-paper-deep) 58%, transparent);
+      box-shadow:
+        inset 2px 0 0 var(--color-ocre),
+        0 1px 4px oklch(0.32 0.020 70 / 0.10);
+    }
+    .quart-row__key {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+    }
+    .quart-row__val {
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+      font-variant-numeric: tabular-nums;
+      text-align: end;
+      white-space: nowrap;
+    }
+    .quart-row__val small {
+      display: block;
+      font-size: var(--text-2xs);
+      color: var(--color-text-faint);
+      letter-spacing: 0.04em;
+      margin-block-start: 0.1em;
+    }
+    /* la cadence des éclats : 3e ligne — un témoin figé dans son état allumé (vert de veille) */
+    .quart-row--pulse .quart-row__val::after {
+      content: '';
+      display: inline-block;
+      inline-size: 6px;
+      block-size: 6px;
+      margin-inline-start: 0.5em;
+      border-radius: 50%;
+      vertical-align: 0.04em;
+      background: var(--color-ok);
+    }
+
+    /* ───────── IMAGERIE DE MISSION : planche d'ambiance — ciel de quart peint ───────── */
+    /* PUREMENT DÉCORATIF : à l'intérieur, uniquement l'<img> (+ son alt invisible) et le
+       traitement de surface — aucun texte, aucune légende. hauteur BORNÉE par aspect-ratio
+       (~200px à desktop) ; cadre hairline laiton pour rester dans la même famille de cartes
+       claires (l'image elle-même est conservée telle quelle — temporairement incongrue). */
+    .quart-imagery {
+      grid-area: imagery;
+      /* hauteur strictement bornée par aspect-ratio : on neutralise le stretch de grille */
+      align-self: start;
+      position: relative;
+      isolation: isolate;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 2 / 1;
+      background: var(--color-paper-warm);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 70%, transparent),
+        var(--shadow-card);
+    }
+    .quart-imagery__img {
+      position: absolute;
+      inset: 0;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+      object-position: 50% 38%;
+      filter: saturate(1.02) contrast(1.03);
+    }
+    /* voile bas léger — traitement de surface décoratif, dégradé directionnel (pas une lueur sans offset) ;
+       il assoit la planche dans la colonne claire ; aucun texte au-dessus */
+    .quart-imagery::after {
+      content: '';
+      position: absolute;
+      inset-block-end: 0;
+      inset-inline: 0;
+      block-size: 46%;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        color-mix(in oklch, var(--color-paper-deep) 28%, transparent) 100%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    /* ───────── le foyer chaud unique : le cap verrouillé ───────── */
+    .quart-cap {
+      grid-area: cap;
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xs);
+      padding: clamp(var(--space-sm), 1.8vw, var(--space-lg)) clamp(var(--space-sm), 1.8vw, var(--space-md));
+      border-radius: var(--radius-md);
+      background:
+        radial-gradient(140% 130% at 18% 10%, color-mix(in oklch, var(--color-cta) 11%, transparent), transparent 58%),
+        linear-gradient(155deg,
+          color-mix(in oklch, var(--color-paper-deep) 70%, var(--color-paper-warm)) 0%,
+          color-mix(in oklch, var(--color-paper-warm) 80%, var(--color-paper-deep)) 100%);
+      box-shadow:
+        inset 0 1px 0 color-mix(in oklch, var(--color-cta) 16%, transparent),
+        inset 0 0 0 1px color-mix(in oklch, var(--color-cta) 22%, transparent),
+        var(--shadow-card-warm);
+      overflow: hidden;
+    }
+    .quart-cap::before {
+      content: '';
+      position: absolute;
+      inset-block-start: -40%;
+      inset-inline-start: -20%;
+      inline-size: 70%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%,
+        color-mix(in oklch, var(--color-cta) 13%, transparent), transparent 66%);
+      filter: blur(26px);
+      mix-blend-mode: multiply;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .quart-cap__label {
+      font-size: var(--text-2xs);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: color-mix(in oklch, var(--color-cta) 78%, var(--color-secondary));
+    }
+    .quart-cap__line {
+      font-family: var(--font-display);
+      font-size: var(--text-md);
+      line-height: 1.12;
+      color: var(--color-primary);
+      text-wrap: balance;
+    }
+    .quart-cap__foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-block-start: var(--space-2xs);
+      font-size: var(--text-2xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+    .quart-cap__chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3xs);
+      padding: var(--space-3xs) var(--space-2xs);
+      border-radius: var(--radius-sm);
+      background: color-mix(in oklch, var(--color-ok) 18%, var(--color-paper-warm));
+      color: color-mix(in oklch, var(--color-ok) 30%, var(--color-primary));
+      border: 1px solid color-mix(in oklch, var(--color-ok) 30%, transparent);
+    }
+    .quart-cap__chip::before {
+      content: '';
+      inline-size: 6px;
+      block-size: 6px;
+      border-radius: 50%;
+      background: var(--color-ok);
+    }
+
+    /* ───────── focus & motion ───────── */
+    .quart-lock:focus-visible,
+    .quart-next:focus-visible {
+      outline: 2px solid var(--color-cta);
+      outline-offset: 2px;
+      border-radius: inherit;
+    }
+
+    @container (max-width: 720px) {
+      .artifact-witness__inner {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+          "ledger"
+          "deck"
+          "list"
+          "imagery"
+          "cap";
+      }
+      .quart-deck { align-self: stretch; }
+      .quart-deck__title { max-inline-size: none; }
+      /* sur une colonne, la vignette devient un bandeau panoramique plus bas */
+      .quart-imagery { aspect-ratio: 21 / 9; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .quart-deck__rail::after { transition: none; }
+      .quart-deck__rail::after, .quart-slide, .quart-lock, .quart-next {
+        transition-duration: 0.01ms;
+      }
+    }
+  }
+</style>
+
+<div class="artifact-witness__inner" style="container-type: inline-size;">
+
+  <!-- en-tête : wordmark + mission active + synchro -->
+  <header class="quart-ledger">
+    <span class="quart-ledger__mark" translate="no">Jacques</span>
+    <span class="quart-ledger__mission">
+      <span class="quart-ledger__kicker">Workspace · récit en cours</span>
+      <span class="quart-ledger__name">Atelier Méridien — Series&nbsp;A</span>
+    </span>
+    <span class="quart-ledger__sync">Récit synchronisé · il y a 6&nbsp;min</span>
+  </header>
+
+  <!-- DOMINANT : le repère / récit-deck en cours -->
+  <section class="quart-deck" aria-label="Récit-deck en cours">
+    <div class="quart-deck__head">
+      <span class="quart-deck__phase">Positionnement en construction</span>
+      <span class="quart-deck__bearing">Slide&nbsp;14&nbsp;/&nbsp;19&nbsp;·&nbsp;<b translate="no">v3.2</b></span>
+    </div>
+
+    <h2 class="quart-deck__title">La traction n’est pas une promesse — c’est une <em>cadence</em>.</h2>
+    <p class="quart-deck__brief">Récit de levée recentré autour d’un seul axe&#8239;: ce que l’équipe a tenu, livraison après livraison, là où le marché a divergé. Le deck ne raconte plus une ambition — il prouve une exécution.</p>
+
+    <div class="quart-deck__progress">
+      <div class="quart-deck__progress-meta">
+        <span class="quart-deck__progress-count">14<span>&nbsp;/&nbsp;19 verrouillées</span></span>
+        <span class="quart-deck__progress-tag">Trois itérations restantes avant relecture investisseurs</span>
+      </div>
+      <div class="quart-deck__rail" role="img" aria-label="14 slides verrouillées sur 19">
+        <div class="quart-deck__rail-ticks" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <ul class="quart-deck__slides" aria-label="Jalons du deck">
+      <li class="quart-slide quart-slide--locked">
+        <span class="quart-slide__index">06</span>
+        <span class="quart-slide__label">La constante — ce qui n’a pas bougé en douze mois</span>
+        <span class="quart-slide__state">Verrouillée</span>
+      </li>
+      <li class="quart-slide quart-slide--drift">
+        <span class="quart-slide__index">11</span>
+        <span class="quart-slide__label">Économie d’unité — le récit qui tient l’interrogatoire en comité</span>
+        <span class="quart-slide__state">Dérive détectée</span>
+      </li>
+      <li class="quart-slide quart-slide--queued">
+        <span class="quart-slide__index">15</span>
+        <span class="quart-slide__label">Emploi des fonds — la trajectoire 18 mois</span>
+        <span class="quart-slide__state">En file</span>
+      </li>
+    </ul>
+
+    <!-- A=3 : la barre d'action ne ferme pas la carte en pied — elle traverse, surdimensionnée -->
+    <div class="quart-deck__act">
+      <button type="button" class="quart-lock">Verrouiller le positionnement</button>
+      <a href="#prochaine-revue" class="quart-next">Programmer la prochaine revue · <time datetime="2026-05-22">22 mai</time></a>
+    </div>
+  </section>
+
+  <!-- SUPPORT : la List of Lights du repère -->
+  <aside class="quart-list" aria-label="Liste des feux — caractéristiques du repère">
+    <div class="quart-list__cap">
+      <span class="quart-list__title">Paramètres de mission</span>
+      <span class="quart-list__id" translate="no">Mission&nbsp;#038 · récit en cours</span>
+    </div>
+    <div class="quart-list__rows">
+      <div class="quart-row">
+        <span class="quart-row__key">Stade &amp; montant</span>
+        <span class="quart-row__val" translate="no">Series&nbsp;A · €18&nbsp;M visés</span>
+      </div>
+      <div class="quart-row">
+        <span class="quart-row__key">Audience cible</span>
+        <span class="quart-row__val">Comité PE/VC<small>+ technique</small></span>
+      </div>
+      <div class="quart-row quart-row--pulse">
+        <span class="quart-row__key">Cadence de livraison</span>
+        <span class="quart-row__val">4 livrables · 15&nbsp;jours</span>
+      </div>
+      <div class="quart-row">
+        <span class="quart-row__key">Durée d’engagement</span>
+        <span class="quart-row__val">8 semaines<small>cadrage + production</small></span>
+      </div>
+      <div class="quart-row">
+        <span class="quart-row__key">Kick-off</span>
+        <span class="quart-row__val">Kick-off · 4&nbsp;avr.</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- IMAGERIE DE MISSION : planche d'ambiance PUREMENT DÉCORATIVE — ciel de quart peint.
+       Aucun texte, aucune légende : uniquement l'<img> (son alt reste pour l'accessibilité) + le traitement de surface.
+       Image aux couleurs de la palette B — bandeau parchemin crème ivoire avec touches subtiles de bordeaux brique (rappel discret de l'accent CTA). -->
+  <figure class="quart-imagery">
+    <img class="quart-imagery__img" src="visual-final/jacques-c3-paletteB-atmosphere-parchemin.png"
+         alt="Détail de matière peinte au pinceau, parchemin crème parsemé de touches de pigment terre bordeaux — imagerie d'ambiance de la mission"
+         data-visual="ciel-etoiles" loading="lazy" width="2752" height="1536" decoding="async">
+  </figure>
+
+  <!-- le foyer chaud unique : le cap verrouillé -->
+  <section class="quart-cap" aria-label="Cap verrouillé">
+    <span class="quart-cap__label">Position confirmée · 14&nbsp;/&nbsp;19 slides</span>
+    <p class="quart-cap__line">«&#8239;On finance une équipe qui tient sa cadence — pas une qui rattrape la sienne.&#8239;»</p>
+    <div class="quart-cap__foot">
+      <span class="quart-cap__chip">Validation OK</span>
+      <span>Validé 03h12 · prochaine revue 18h</span>
+    </div>
+  </section>
+
+</div>
+
+</section>
+
+<section class="atmosphere-block">
+  <div class="atmosphere-block__grain-deep" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="atmosphere-block__content">
+    <span class="atmosphere-block__eyebrow">Notre point de vue</span>
+    <p class="atmosphere-block__quote">On ne finance pas une ambition. On finance une équipe qui a tenu son exécution sous pression — et qui sait l’inscrire dans un récit <em>lisible</em>. C’est exactement notre travail.</p>
+    <p class="atmosphere-block__cadence">
+      <span><b>38 récits</b> structurés depuis 2021</span>
+      <span><b>€340 M</b> levés par nos clients</span>
+      <span><b>8-12 sem.</b> d'engagement par mission</span>
+    </p>
+    <nav class="atmosphere-block__links" aria-label="Liens">
+      <a href="#cas">Études de cas</a>
+      <a href="#methode">Méthode</a>
+      <a href="#manifeste">Manifeste</a>
+      <a href="#contact">Réserver un appel</a>
+    </nav>
+    <div class="atmosphere-block__sign">
+      <span class="atmosphere-block__tagline"><span translate="no">jacques</span> — <span>Studio de positionnement</span></span>
+      <span class="atmosphere-block__meta">Studio de positionnement stratégique · Paris · depuis 2021</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ANIMATION DU FAISCEAU — pilotée en JS (narrative, pas décorative)
+     pivot fixe sur le phare (coords viewBox 1429,682), 12s / tour
+     ============================================================ -->
+<script>
+(function () {
+  const PIVOT_X = 1429;
+  const PIVOT_Y = 682;
+  const radius = 1300;
+  const perspective = 0.04;
+  const transitionWidth = 0.1;
+  const duration = 12000;
+  const baseWidth = 1;
+  const tipWidth = 40;
+  const depthScale = 0.5;
+  const glowIntensity = 0.1;
+  const globalOpacity = 0.6;
+
+  function smoothstep(t) {
+    t = Math.max(0, Math.min(1, t));
+    return t * t * t * (t * (6 * t - 15) + 10);
+  }
+
+  const root = document.getElementById('phareAnim');
+  const beam = document.getElementById('beam');
+  const halo = document.getElementById('halo');
+  const gradient = document.getElementById('beamGradient');
+  const cameraGlow = document.getElementById('cameraGlow');
+
+  // garde défensif : si l'un des éléments manque, on s'arrête sans erreur
+  if (!root || !beam || !halo || !gradient || !cameraGlow) return;
+
+  // calcule la géométrie du faisceau pour un angle donné et applique au DOM
+  function renderFrame(angle) {
+    const cosA = Math.cos(angle);
+    const sinA = Math.sin(angle);
+
+    let perspY;
+    if (sinA <= -transitionWidth) {
+      perspY = perspective;
+    } else if (sinA >= transitionWidth) {
+      perspY = 1.0;
+    } else {
+      const t01 = (sinA + transitionWidth) / (2 * transitionWidth);
+      perspY = perspective + (1 - perspective) * smoothstep(t01);
+    }
+
+    const xEnd = PIVOT_X - radius * cosA;
+    const yEnd = PIVOT_Y + radius * sinA * perspY;
+
+    const dx = xEnd - PIVOT_X;
+    const dy = yEnd - PIVOT_Y;
+    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+    const dirX = dx / len;
+    const dirY = dy / len;
+    const perpX = -dirY;
+    const perpY_perp = dirX;
+
+    const effectiveTipWidth = tipWidth * (1 + depthScale * sinA);
+    const p1x = PIVOT_X + perpX * baseWidth;
+    const p1y = PIVOT_Y + perpY_perp * baseWidth;
+    const p2x = PIVOT_X - perpX * baseWidth;
+    const p2y = PIVOT_Y - perpY_perp * baseWidth;
+    const p3x = xEnd - perpX * effectiveTipWidth;
+    const p3y = yEnd - perpY_perp * effectiveTipWidth;
+    const p4x = xEnd + perpX * effectiveTipWidth;
+    const p4y = yEnd + perpY_perp * effectiveTipWidth;
+
+    beam.setAttribute('points',
+      `${p1x.toFixed(1)},${p1y.toFixed(1)} ${p4x.toFixed(1)},${p4y.toFixed(1)} ${p3x.toFixed(1)},${p3y.toFixed(1)} ${p2x.toFixed(1)},${p2y.toFixed(1)}`
+    );
+
+    gradient.setAttribute('x1', PIVOT_X);
+    gradient.setAttribute('y1', PIVOT_Y);
+    gradient.setAttribute('x2', xEnd);
+    gradient.setAttribute('y2', yEnd);
+
+    const positionalOpacity = 0.25 + 0.75 * Math.max(0, (sinA + 1) / 2);
+    beam.setAttribute('opacity', (positionalOpacity * globalOpacity).toFixed(2));
+    halo.setAttribute('opacity', globalOpacity.toFixed(2));
+
+    const forwardFactor = Math.max(0, sinA);
+    const glowRadius = (15 + 60 * forwardFactor) * glowIntensity;
+    const glowOpacity = forwardFactor * 0.85 * glowIntensity * globalOpacity;
+    cameraGlow.setAttribute('cx', xEnd);
+    cameraGlow.setAttribute('cy', yEnd);
+    cameraGlow.setAttribute('r', glowRadius.toFixed(1));
+    cameraGlow.setAttribute('opacity', glowOpacity.toFixed(2));
+  }
+
+  // accessibilité : si l'utilisateur réduit les animations, on rend UNE seule frame fixe
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    // faisceau pointant vers ~7-8h (bas-gauche), glow caméra à 0, halo à globalOpacity
+    renderFrame(Math.PI * 1.27);
+    return;
+  }
+
+  let startTime = null;
+  function animate(t) {
+    if (startTime === null) startTime = t;
+    const elapsed = (t - startTime) % duration;
+    const rawT = elapsed / duration;
+    renderFrame(rawT * 2 * Math.PI);
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+})();
+</script>
+
+</body>
+</html>

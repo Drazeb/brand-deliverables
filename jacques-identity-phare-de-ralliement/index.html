@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jacques — Brand Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'JetBrains Mono',ui-monospace,monospace;background:#1F1A14;color:#F5F0E0;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
+.container{max-width:800px;width:100%;display:flex;flex-direction:column;align-items:center;gap:64px}
+.header{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.header__name{font-family:'Gloock','Georgia',serif;font-size:clamp(2.8rem,7vw,4.4rem);letter-spacing:-0.01em}
+.header__name .dot{color:#8C6B3C}
+.header__divider{width:48px;height:1px;background:#8C6B3C;opacity:0.5}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+.nav__card{display:flex;flex-direction:column;justify-content:flex-end;padding:32px 28px;min-height:200px;border-radius:8px;text-decoration:none;color:#F5F0E0;position:relative;overflow:hidden;border:1px solid transparent;transition:border-color 350ms cubic-bezier(.22,1,.36,1),transform 350ms cubic-bezier(.22,1,.36,1)}
+.nav__card:hover{border-color:#8C6B3C;transform:scale(1.006)}
+.nav__number{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;font-weight:600;letter-spacing:0.1em;color:#8C6B3C;margin-bottom:8px}
+.nav__title{font-family:'Gloock','Georgia',serif;font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.2;margin-bottom:6px}
+.nav__desc{font-size:0.82rem;color:rgba(245,240,224,0.55);max-width:42ch;line-height:1.5}
+.footer{font-size:0.72rem;color:rgba(245,240,224,0.55);letter-spacing:0.04em;text-align:center}
+@media(max-width:600px){.nav{grid-template-columns:1fr}.nav__card{grid-column:1!important}}
+</style></head>
+<body><div class="container">
+<header class="header"><h1 class="header__name">jacques<span class="dot">.</span></h1><div class="header__divider"></div></header>
+<nav class="nav">
+        <a href="brand-book/jacques-brand-book.html" class="nav__card" style="background:linear-gradient(135deg,#5C4A38 0%,#1F1A14 100%);grid-column:1/-1;">
+            <span class="nav__number">01</span>
+            <h2 class="nav__title">Brand Book éditorial</h2>
+            <p class="nav__desc">Identité condensée — intro Identity Card + 8 sections + closing</p>
+        </a>
+        <a href="design-system/jacques-design-system.html" class="nav__card" style="background:linear-gradient(135deg,#5C4A38 0%,#1F1A14 100%);grid-column:1/-1;">
+            <span class="nav__number">02</span>
+            <h2 class="nav__title">Design System technique</h2>
+            <p class="nav__desc">Manuel sobre type Carbon/Atlassian — foundations, tokens prêts à copier</p>
+        </a>
+        <a href="jacques-style-tile.html" class="nav__card" style="background:linear-gradient(135deg,#5C4A38 0%,#1F1A14 100%);">
+            <span class="nav__number">03</span>
+            <h2 class="nav__title">Style-Tile</h2>
+            <p class="nav__desc">Système de design complet — composants, surfaces, interactions</p>
+        </a>
+        <a href="jacques-batch2.html" class="nav__card" style="background:linear-gradient(135deg,#5C4A38 0%,#1F1A14 100%);">
+            <span class="nav__number">04</span>
+            <h2 class="nav__title">Système de Signes</h2>
+            <p class="nav__desc">Wordmark + iconographie ornementale + composants UI + data viz</p>
+        </a>
+        <a href="jacques-batch3.html" class="nav__card" style="background:linear-gradient(135deg,#5C4A38 0%,#1F1A14 100%);">
+            <span class="nav__number">05</span>
+            <h2 class="nav__title">Narration & Espace</h2>
+            <p class="nav__desc">Direction photo, composition, illustration</p>
+        </a>
+</nav>
+<footer class="footer">Brand Identity — Le Phare de Ralliement</footer>
+</div></body></html>

@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>jacques — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* === PALETTE — registre crème claire diurne (palette B "Granit Diurne / Bronze") === */
+    --color-paper:          #EDE6D6;
+    --color-paper-warm:     #E4DAC5;
+    --color-paper-deep:     #D9C7A8;
+    --color-rule:           #C9B89A;
+    --color-dark:           #5C4A38;
+    --color-dark-deepest:   #4A3B2C;
+    --color-cream-on-dark:  #F5F0E0;
+    --color-primary:        #1F1A14;
+    --color-secondary:      #3A3128;
+    --color-text-faint:     #6B5C46;
+    --color-ocre:           #8C6B3C;
+    --color-cta:            #7A1F2B;
+    --color-cta-deep:       #65171F;
+    --color-ok:             #4E6B3E;
+    --font-display: 'Gloock', 'Georgia', serif;
+    --font-body: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+    --color-text-primary: var(--color-primary);
+    --color-text-muted:   var(--color-secondary);
+
+    /* === TYPE SCALE === */
+    --text-2xs: 0.66rem;
+    --text-xs: 0.74rem;
+    --text-sm: 0.84rem;
+    --text-base: 1rem;
+    --text-md: 1.1875rem;
+    --text-lg: clamp(1.35rem, 1.7vw, 1.7rem);
+    --text-xl: clamp(1.9rem, 3vw, 2.6rem);
+    --text-hero: clamp(3.2rem, 8vw, 5rem);
+
+    /* === SPACING (8px modulaire) === */
+    --space-unit: 8px;
+    --space-3xs: calc(var(--space-unit) * 0.5);
+    --space-2xs: calc(var(--space-unit) * 1);
+    --space-xs: calc(var(--space-unit) * 1.5);
+    --space-sm: calc(var(--space-unit) * 2);
+    --space-md: calc(var(--space-unit) * 3);
+    --space-lg: calc(var(--space-unit) * 5);
+    --space-xl: calc(var(--space-unit) * 8);
+    --space-2xl: calc(var(--space-unit) * 13);
+    --space-3xl: calc(var(--space-unit) * 21);
+    --space-4xl: calc(var(--space-unit) * 30);
+
+    /* === RADIUS === */
+    --radius-sm: 3px;
+    --radius-md: 5px;
+
+    /* === SHADOWS === */
+    --shadow-card: 0 1px 2px oklch(0.32 0.020 70 / 0.16), 0 8px 22px oklch(0.30 0.020 70 / 0.13), 0 18px 40px oklch(0.30 0.020 70 / 0.08);
+    --shadow-card-warm: 0 2px 6px oklch(0.32 0.020 70 / 0.16), 0 16px 40px oklch(0.40 0.150 25 / 0.16);
+    --shadow-text: 0 1px 10px oklch(0.97 0.010 90 / 0.45), 0 1px 1px oklch(0.97 0.010 90 / 0.6);
+
+    /* === TRANSITIONS === */
+    --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+    --ease-out-quart: cubic-bezier(.25, 1, .5, 1);
+    --ease-fresnel: cubic-bezier(.22, .68, .28, 1);
+    --ease-in-out-deep: cubic-bezier(.65, 0, .25, 1);
+    --transition-fast: 180ms var(--ease-out-quart);
+    --transition-base: 360ms var(--ease-fresnel);
+    --transition-slow: 720ms var(--ease-in-out-deep);
+
+    /* === DOC SYSTEM (mode jour, sobre — adapté palette crème) === */
+    --doc-bg:        var(--color-paper);
+    --doc-surface:   #F5F0E4;
+    --doc-border:    color-mix(in oklch, var(--color-rule) 70%, transparent);
+    --doc-border-strong: color-mix(in oklch, var(--color-ocre) 45%, transparent);
+    --doc-text:      var(--color-primary);
+    --doc-text-2:    var(--color-secondary);
+    --doc-text-dim:  var(--color-text-faint);
+    --doc-accent:    var(--color-ocre);
+    --hairline:      1px solid var(--doc-border);
+    --fs-overline:   var(--text-2xs);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--doc-bg);
+    color: var(--doc-text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ============ LAYOUT ============ */
+  .doc { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+  /* ---------- SIDEBAR ---------- */
+  .doc__sidebar {
+    position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+    padding: var(--space-xl) var(--space-lg);
+    border-right: var(--hairline);
+    background: var(--doc-bg);
+    display: flex; flex-direction: column;
+  }
+  .sidebar__brand {
+    font-family: var(--font-display); font-size: var(--text-xl); line-height: 1;
+    color: var(--doc-text); margin: 0 0 var(--space-3xs) 0;
+  }
+  .sidebar__brand .dot { color: var(--color-cta); }
+  .sidebar__sub {
+    font-size: var(--text-2xs); letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--doc-text-dim); margin-bottom: var(--space-xl);
+  }
+  .sidebar__nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar__nav-section {
+    font-size: var(--text-2xs); letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--doc-text-dim); margin: var(--space-md) 0 var(--space-xs) 0;
+  }
+  .sidebar__nav-link {
+    display: flex; align-items: baseline; gap: var(--space-xs);
+    padding: 6px 0 6px var(--space-sm); margin-left: calc(var(--space-sm) * -1);
+    color: var(--doc-text-2); text-decoration: none; font-size: var(--text-sm);
+    border-left: 2px solid transparent;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+  .sidebar__nav-link:hover { color: var(--doc-text); border-left-color: var(--doc-border-strong); }
+  .sidebar__nav-link.is-active { color: var(--doc-text); border-left-color: var(--doc-accent); }
+  .sidebar__nav-num { color: var(--doc-text-dim); font-size: var(--text-2xs); min-width: 22px; font-variant-numeric: tabular-nums; }
+  .sidebar__meta {
+    margin-top: auto; padding-top: var(--space-xl);
+    font-size: var(--text-2xs); color: var(--doc-text-dim); line-height: 1.7;
+  }
+  .sidebar__meta strong { color: var(--doc-text-2); font-weight: 500; }
+
+  /* ---------- MAIN ---------- */
+  .doc__main {
+    position: relative; padding: var(--space-2xl) var(--space-2xl);
+    max-width: 1120px; isolation: isolate;
+  }
+  /* Hairline diagonale signature (hérité Batch 2/3) — gradient Foyer atténué sur fond clair */
+  .doc__main::before {
+    content: ''; position: absolute; top: 0;
+    left: clamp(2rem, 4vw, var(--space-xl));
+    width: 1px; height: 100%; z-index: 1;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      color-mix(in oklch, var(--color-ocre) 55%, transparent) 12%,
+      color-mix(in oklch, var(--color-ocre) 35%, transparent) 50%,
+      color-mix(in oklch, var(--color-ocre) 10%, transparent) 100%);
+    pointer-events: none;
+  }
+  /* Beacon mark — point Foyer en tête de hairline */
+  .doc__main::after {
+    content: ''; position: absolute;
+    top: clamp(1.6rem, 6vh, 3.2rem);
+    left: clamp(2rem, 4vw, var(--space-xl));
+    z-index: 2; width: 12px; height: 12px; margin-inline-start: -5.5px;
+    background: radial-gradient(circle, var(--color-ocre) 0%, transparent 70%);
+    box-shadow: 0 0 14px color-mix(in oklch, var(--color-ocre) 45%, transparent),
+                0 2px 6px color-mix(in oklch, var(--color-text-faint) 30%, transparent);
+    border-radius: 50%; pointer-events: none;
+  }
+  .doc__main > * { position: relative; z-index: 3; }
+
+  /* Header */
+  .page__header { margin-bottom: var(--space-2xl); }
+  .page__breadcrumb {
+    font-size: var(--text-2xs); letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--doc-text-dim); margin-bottom: var(--space-md);
+  }
+  .page__title {
+    font-family: var(--font-display); font-size: var(--text-hero); font-weight: 400;
+    line-height: 1.02; letter-spacing: -0.022em; margin: 0 0 var(--space-md) 0; color: var(--doc-text);
+  }
+  .page__lede {
+    font-size: var(--text-base); line-height: 1.7; color: var(--doc-text-2);
+    max-width: 64ch; margin: 0;
+  }
+
+  /* Sections */
+  .section { margin-bottom: var(--space-4xl); scroll-margin-top: var(--space-lg); }
+  .section__head {
+    display: grid; grid-template-columns: 80px 1fr; gap: var(--space-md);
+    align-items: baseline; padding-bottom: var(--space-md);
+    margin-bottom: var(--space-xl); border-bottom: var(--hairline);
+  }
+  .section__num { font-size: var(--text-2xs); letter-spacing: 0.1em; color: var(--doc-text-dim); font-variant-numeric: tabular-nums; }
+  .section__title {
+    font-family: var(--font-display); font-size: var(--text-xl); font-weight: 400;
+    line-height: 1.02; letter-spacing: -0.022em; margin: 0; color: var(--doc-text);
+  }
+  .section__intro { grid-column: 2; max-width: 64ch; color: var(--doc-text-2); line-height: 1.7; }
+
+  .subsection { margin-bottom: var(--space-2xl); }
+  .subsection__head { display: flex; align-items: baseline; gap: var(--space-sm); margin-bottom: var(--space-md); flex-wrap: wrap; }
+  .subsection__num { font-size: var(--text-2xs); letter-spacing: 0.20em; color: var(--color-cta); font-variant-numeric: tabular-nums; }
+  .subsection__title {
+    font-family: var(--font-display); font-weight: 400; font-size: var(--text-lg);
+    line-height: 1.1; letter-spacing: -0.012em; margin: 0; color: var(--doc-text);
+    border-block-end: 1px dotted color-mix(in oklch, var(--color-rule) 80%, transparent);
+    padding-block-end: var(--space-3xs);
+  }
+  .subsection__desc { font-size: var(--text-sm); color: var(--doc-text-2); line-height: 1.65; max-width: 64ch; margin: 0 0 var(--space-lg) 0; }
+
+  /* ============ ATOMES ============ */
+  .token-chip {
+    display: inline-block; font-family: var(--font-body); font-size: var(--text-2xs);
+    padding: 2px 8px; border: 1px solid var(--doc-border); border-radius: var(--radius-sm);
+    background: var(--doc-surface); color: var(--doc-text-2);
+  }
+  .doc-table {
+    width: 100%; border-collapse: collapse; font-size: var(--text-sm);
+    background: var(--doc-surface); border: var(--hairline); border-radius: var(--radius-sm); overflow: hidden;
+  }
+  .doc-table th, .doc-table td { text-align: left; padding: 10px 14px; border-bottom: var(--hairline); vertical-align: top; }
+  .doc-table th {
+    font-weight: 500; text-transform: uppercase; font-size: var(--text-2xs);
+    letter-spacing: 0.08em; color: var(--doc-text-dim);
+    background: color-mix(in oklch, var(--color-rule) 18%, transparent);
+  }
+  .doc-table tr:last-child td { border-bottom: 0; }
+  code, .mono { font-family: var(--font-body); font-size: var(--text-sm); color: var(--doc-text); }
+  .doc-table td code { color: var(--doc-text); }
+
+  /* ---------- LOI — bloc règle (signature : overline + barre + statement) ---------- */
+  .law {
+    padding: var(--space-xl) 0 var(--space-lg) 0; margin: 0 0 var(--space-2xl) 0;
+    border-block-start: 1px dotted color-mix(in oklch, var(--color-rule) 90%, transparent);
+    border-block-end:   1px dotted color-mix(in oklch, var(--color-rule) 90%, transparent);
+  }
+  .law__overline {
+    display: flex; align-items: center; gap: var(--space-sm);
+    font-family: var(--font-body); font-size: var(--fs-overline); font-weight: 600;
+    letter-spacing: 0.30em; text-transform: uppercase; color: var(--doc-accent);
+    margin-bottom: var(--space-md);
+  }
+  .law__overline::before { content: ''; display: inline-block; inline-size: clamp(28px, 4vw, 56px); block-size: 1px; background: var(--doc-accent); }
+  .law__statement {
+    font-family: var(--font-display); font-size: var(--text-lg); font-weight: 400; font-style: italic;
+    line-height: 1.25; letter-spacing: -0.012em; color: var(--doc-text); max-inline-size: 36ch; margin: 0 0 var(--space-md) 0;
+  }
+  .law__statement em { font-style: normal; color: var(--color-cta); }
+  .law__rules { list-style: none; margin: 0; padding: 0; font-family: var(--font-body); font-size: var(--text-sm); color: var(--doc-text-2); line-height: 1.75; max-inline-size: 72ch; }
+  .law__rules li { padding-block: 6px; border-block-end: 1px dotted color-mix(in oklch, var(--color-rule) 60%, transparent); }
+  .law__rules li:last-child { border-block-end: 0; }
+  .law__rules li::before { content: '— '; color: var(--doc-text-dim); }
+
+  /* ---------- DON'T — liste plate avec marqueur "×" Mono ---------- */
+  .dont-list { list-style: none; margin: 0; padding: 0; border-block-start: 1px dotted color-mix(in oklch, var(--color-rule) 90%, transparent); }
+  .dont-item {
+    display: grid; grid-template-columns: clamp(48px, 6vw, 80px) 1fr; gap: var(--space-md);
+    padding: var(--space-md) 0; border-block-end: 1px dotted color-mix(in oklch, var(--color-rule) 60%, transparent);
+    font-family: var(--font-body); font-size: var(--text-sm); line-height: 1.65; color: var(--doc-text-2);
+  }
+  .dont-item__marker {
+    font-family: var(--font-body); font-size: var(--text-2xs); font-weight: 600; letter-spacing: 0.20em;
+    color: var(--color-cta); font-variant-numeric: tabular-nums; text-transform: uppercase; padding-top: 2px;
+  }
+  .dont-item__marker::before { content: '× '; color: var(--color-cta); }
+  .dont-item code { color: var(--doc-text); }
+
+  /* ============ COLOR ============ */
+  .color-swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
+  .swatch { background: var(--doc-surface); border: var(--hairline); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-card); }
+  .swatch__chip { aspect-ratio: 16 / 9; border-bottom: var(--hairline); }
+  .swatch__body { padding: var(--space-sm); }
+  .swatch__role { font-size: var(--text-2xs); letter-spacing: 0.10em; text-transform: uppercase; color: var(--doc-text-dim); margin-bottom: 2px; }
+  .swatch__name { font-family: var(--font-display); font-size: var(--text-base); line-height: 1.15; margin: 0 0 var(--space-xs) 0; color: var(--doc-text); }
+  .swatch__values { display: flex; flex-direction: column; gap: 2px; font-size: var(--text-2xs); color: var(--doc-text-2); margin-bottom: var(--space-xs); }
+  .swatch__values code { font-size: var(--text-2xs); }
+  .swatch__usage { font-size: var(--text-2xs); line-height: 1.5; color: var(--doc-text-dim); }
+
+  /* ============ TYPO ============ */
+  .pairing { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+  .pairing__card { background: var(--doc-surface); border: var(--hairline); border-radius: var(--radius-md); padding: var(--space-xl); }
+  .pairing__role { font-size: var(--text-2xs); letter-spacing: 0.10em; text-transform: uppercase; color: var(--doc-text-dim); margin-bottom: var(--space-sm); }
+  .pairing__name { font-size: var(--text-sm); color: var(--doc-text-2); margin-bottom: var(--space-md); }
+  .pairing__specimen-display { font-family: var(--font-display); font-size: 3.8rem; line-height: 1.05; color: var(--doc-text); margin-bottom: var(--space-md); letter-spacing: -0.02em; }
+  .pairing__specimen-display em { font-style: italic; }
+  .pairing__specimen-mono { font-family: var(--font-body); line-height: 1.5; color: var(--doc-text); margin-bottom: var(--space-md); }
+  .pairing__weights { font-family: var(--font-body); font-size: var(--text-2xs); color: var(--doc-text-dim); line-height: 1.6; }
+  .pairing__weights .w300 { font-weight: 300; } .pairing__weights .w400 { font-weight: 400; } .pairing__weights .w500 { font-weight: 500; }
+  .pairing__weights .w600 { font-weight: 600; } .pairing__weights .w700 { font-weight: 700; }
+  .pairing__justif { margin-top: var(--space-md); padding-top: var(--space-md); border-top: var(--hairline); font-size: var(--text-sm); line-height: 1.65; color: var(--doc-text-2); }
+
+  .type-scale { display: flex; flex-direction: column; }
+  .type-scale__row { display: grid; grid-template-columns: 1fr 240px; gap: var(--space-lg); align-items: baseline; padding: var(--space-md) 0; border-bottom: var(--hairline); }
+  .type-scale__row:last-child { border-bottom: 0; }
+  .type-scale__specimen { color: var(--doc-text); font-family: var(--font-display); line-height: 1.1; letter-spacing: -0.01em; overflow: hidden; }
+  .type-scale__specimen--mono { font-family: var(--font-body); letter-spacing: 0; }
+  .type-scale__token { color: var(--doc-text); font-family: var(--font-body); font-size: var(--text-2xs); }
+  .type-scale__value { color: var(--doc-text-2); font-size: var(--text-2xs); margin-top: 2px; }
+  .type-scale__usage { margin-top: var(--space-xs); font-size: var(--text-2xs); color: var(--doc-text-dim); line-height: 1.5; }
+
+  /* ============ SPACING / RADIUS ============ */
+  .spacing-row { display: grid; grid-template-columns: 150px 1fr 280px; gap: var(--space-md); align-items: center; padding: var(--space-sm) 0; border-bottom: var(--hairline); }
+  .spacing-row:last-child { border-bottom: 0; }
+  .spacing-row__token { font-family: var(--font-body); font-size: var(--text-sm); color: var(--doc-text); }
+  .spacing-row__token small { display: block; font-size: var(--text-2xs); color: var(--doc-text-dim); margin-top: 2px; }
+  .spacing-row__bar-wrap { height: 12px; background: color-mix(in oklch, var(--color-rule) 25%, transparent); border-radius: 1px; position: relative; }
+  .spacing-row__bar { height: 12px; background: var(--doc-text-2); border-radius: 1px; }
+  .spacing-row__usage { font-size: var(--text-2xs); color: var(--doc-text-dim); line-height: 1.5; }
+
+  .radius-demo { display: flex; gap: var(--space-md); flex-wrap: wrap; }
+  .radius-demo__item { background: var(--doc-surface); border: var(--hairline); padding: var(--space-md); text-align: center; box-shadow: var(--shadow-card); }
+  .radius-demo__box { width: 80px; height: 56px; background: color-mix(in oklch, var(--color-ocre) 24%, var(--color-paper-deep)); border: 1px solid var(--color-ocre); margin: 0 auto var(--space-xs); }
+  .radius-demo__lbl { font-size: var(--text-2xs); color: var(--doc-text-dim); line-height: 1.5; }
+  .radius-demo__lbl strong { color: var(--doc-text); font-weight: 600; display: block; }
+
+  /* ============ ICONO / vocabulaire ============ */
+  .vocab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); }
+  .vocab-card { background: var(--doc-surface); border: var(--hairline); border-radius: var(--radius-sm); padding: var(--space-md); }
+  .vocab-card__sym { font-family: var(--font-display); font-size: var(--text-md); color: var(--color-ocre); margin-bottom: var(--space-xs); }
+  .vocab-card__name { font-size: var(--text-sm); color: var(--doc-text); margin-bottom: 2px; font-weight: 500; }
+  .vocab-card__desc { font-size: var(--text-2xs); color: var(--doc-text-dim); line-height: 1.5; }
+
+  /* ============ DARK CONTEXTUEL — non utilisé ici (marque diurne), conteneur clair ============ */
+  .demo-frame { background: var(--doc-surface); border: var(--hairline); border-radius: var(--radius-md); padding: var(--space-lg); box-shadow: var(--shadow-card); }
+  .demo-frame__cap { font-size: var(--text-2xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--doc-text-dim); margin-bottom: var(--space-md); }
+
+  /* ============ VISUELS ============ */
+  .visual-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+  .visual-card { border: var(--hairline); border-radius: var(--radius-md); overflow: hidden; background: var(--doc-surface); box-shadow: var(--shadow-card); }
+  .visual-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .visual-card--hero { grid-column: 1 / -1; }
+  .visual-card--hero img { aspect-ratio: 3 / 4; max-height: 560px; }
+  .visual-card__cap { padding: var(--space-sm) var(--space-md); border-top: var(--hairline); }
+  .visual-card__cap-k { font-size: var(--text-2xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-cta); }
+  .visual-card__cap-t { font-size: var(--text-2xs); color: var(--doc-text-dim); margin-top: 2px; line-height: 1.5; }
+  .ar-43 img { aspect-ratio: 4 / 3; }
+  .ar-11 img { aspect-ratio: 1 / 1; }
+
+  /* ============ TOKENS BLOCK ============ */
+  .tokens-block { position: relative; background: var(--color-dark); border-radius: var(--radius-md); padding: var(--space-lg); overflow: auto; box-shadow: var(--shadow-card); }
+  .tokens-block pre { margin: 0; font-family: var(--font-body); font-size: var(--text-2xs); line-height: 1.7; color: var(--color-cream-on-dark); white-space: pre; }
+  .tokens-block .tk-comment { color: color-mix(in oklch, var(--color-paper-deep) 70%, transparent); }
+  .tokens-block .tk-name { color: var(--color-paper-deep); }
+  .tokens-block .tk-val { color: var(--color-cream-on-dark); }
+  .tk-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-left: 8px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.2); }
+  .token-arch { font-size: var(--text-sm); line-height: 1.75; color: var(--doc-text-2); max-width: 72ch; margin-bottom: var(--space-lg); }
+  .token-arch code { background: color-mix(in oklch, var(--color-rule) 20%, transparent); padding: 1px 5px; border-radius: 3px; }
+
+  /* ============ FOOTER ============ */
+  .doc__footer { grid-column: 2; padding: var(--space-lg) var(--space-2xl); border-top: var(--hairline); font-size: var(--text-2xs); color: var(--doc-text-dim); display: flex; justify-content: space-between; align-items: baseline; }
+  .doc__footer .mono { color: var(--doc-text-2); }
+
+  @media (max-width: 900px) {
+    .doc { grid-template-columns: 1fr; }
+    .doc__sidebar { position: static; height: auto; }
+    .color-swatches, .vocab-grid { grid-template-columns: repeat(2, 1fr); }
+    .pairing, .visual-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="doc__sidebar">
+    <h1 class="sidebar__brand">jacques<span class="dot">.</span></h1>
+    <p class="sidebar__sub">Design System · v1.0</p>
+
+    <nav class="sidebar__nav">
+      <div class="sidebar__nav-section">Foundations</div>
+      <a class="sidebar__nav-link is-active" href="#color"><span class="sidebar__nav-num">01</span><span>Color</span></a>
+      <a class="sidebar__nav-link" href="#typography"><span class="sidebar__nav-num">02</span><span>Typography</span></a>
+      <a class="sidebar__nav-link" href="#spacing"><span class="sidebar__nav-num">03</span><span>Spacing &amp; Radius</span></a>
+
+      <div class="sidebar__nav-section">Identity</div>
+      <a class="sidebar__nav-link" href="#iconography"><span class="sidebar__nav-num">04</span><span>Iconography</span></a>
+      <a class="sidebar__nav-link" href="#logo"><span class="sidebar__nav-num">05</span><span>Logo</span></a>
+
+      <div class="sidebar__nav-section">Assets</div>
+      <a class="sidebar__nav-link" href="#dataviz"><span class="sidebar__nav-num">06</span><span>Data viz</span></a>
+      <a class="sidebar__nav-link" href="#photography"><span class="sidebar__nav-num">07</span><span>Photography</span></a>
+      <a class="sidebar__nav-link" href="#illustration"><span class="sidebar__nav-num">08</span><span>Illustration</span></a>
+
+      <div class="sidebar__nav-section">Patterns</div>
+      <a class="sidebar__nav-link" href="#composition"><span class="sidebar__nav-num">09</span><span>Composition</span></a>
+      <a class="sidebar__nav-link" href="#motion"><span class="sidebar__nav-num">10</span><span>Motion</span></a>
+
+      <div class="sidebar__nav-section">Resources</div>
+      <a class="sidebar__nav-link" href="#tokens"><span class="sidebar__nav-num">11</span><span>Tokens</span></a>
+    </nav>
+
+    <div class="sidebar__meta">
+      <strong>Concept</strong><br/>
+      Le Phare de Ralliement<br/><br/>
+      <strong>Calibrage</strong><br/>
+      A=3 Audace Créative · B=2 Différenciation<br/><br/>
+      <strong>Palette</strong><br/>
+      Granit Diurne / Bronze — crème diurne
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="doc__main">
+
+    <header class="page__header">
+      <p class="page__breadcrumb">Foundations</p>
+      <h1 class="page__title">Design System</h1>
+      <p class="page__lede">
+        Spécifications visuelles pour les équipes design et engineering : tokens,
+        composants atomiques, règles d'usage. Complète le brand book par tout ce
+        qui est nécessaire pour reproduire l'identité de manière conforme.
+      </p>
+    </header>
+
+    <!-- ============ 01 — COLOR ============ -->
+    <section class="section" id="color">
+      <div class="section__head">
+        <span class="section__num">01</span>
+        <div><h2 class="section__title">Color</h2></div>
+        <p class="section__intro">
+          14 tokens couleur en registre crème diurne. Fond dominant parchemin,
+          texte encre, foyer chaud bronze et bordeaux. Aucune teinte bleue —
+          fidélité au registre chaud.
+        </p>
+      </div>
+
+      <!-- 01.1 Loi chromatique -->
+      <div class="law">
+        <div class="law__overline">Registre chaud</div>
+        <p class="law__statement">
+          Foyer chaud <em>ponctuel</em>, dominante parchemin diurne, <em>aucune teinte bleue</em>.
+        </p>
+        <ul class="law__rules">
+          <li>Dominante parchemin/crème diurne ; foyers chauds bronze <code>#8C6B3C</code> et bordeaux <code>#7A1F2B</code> en points lumineux.</li>
+          <li>Aucune teinte bleue pour préserver le territoire (data-viz comprise).</li>
+          <li>CTA en dégradé Bordeaux <code>#7A1F2B</code> → <code>#65171F</code> ; pas de dégradés plats colorés sur les fonds.</li>
+        </ul>
+      </div>
+
+      <!-- 01.1 Palette primaire / surfaces -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">01.1</span>
+          <h3 class="subsection__title">Palette — 14 tokens</h3>
+        </div>
+        <p class="subsection__desc">
+          Accents décoratifs et signal (§02.1, §02.2), neutres et surfaces (§02.3).
+          Noms et hex recopiés du design specs.
+        </p>
+
+        <div class="color-swatches">
+
+          <article class="swatch"><div class="swatch__chip" style="background:#8C6B3C"></div><div class="swatch__body">
+            <div class="swatch__role">Accent décoratif signature</div>
+            <h4 class="swatch__name">Bronze de Fresnel patiné</h4>
+            <div class="swatch__values"><code>--color-ocre</code><code>#8C6B3C</code></div>
+            <p class="swatch__usage">Accent décoratif signature, traits ornementaux, filets.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#C9B89A"></div><div class="swatch__body">
+            <div class="swatch__role">Filets / séparateurs</div>
+            <h4 class="swatch__name">Sable hairline</h4>
+            <div class="swatch__values"><code>--color-rule</code><code>#C9B89A</code></div>
+            <p class="swatch__usage">Filets fins, séparateurs, détails de finition.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#5C4A38"></div><div class="swatch__body">
+            <div class="swatch__role">Section inversée</div>
+            <h4 class="swatch__name">Coursive Oxydée</h4>
+            <div class="swatch__values"><code>--color-dark</code><code>#5C4A38</code></div>
+            <p class="swatch__usage">Section inversée, blocs sombres chauds.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#7A1F2B"></div><div class="swatch__body">
+            <div class="swatch__role">Accent fort / foyer chaud signal</div>
+            <h4 class="swatch__name">Bordeaux Secteur Rouge</h4>
+            <div class="swatch__values"><code>--color-cta</code><code>#7A1F2B</code></div>
+            <p class="swatch__usage">Accent fort, CTA, foyer chaud signal.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#8C6B3C"></div><div class="swatch__body">
+            <div class="swatch__role">Accent secondaire</div>
+            <h4 class="swatch__name">Ocre bronze</h4>
+            <div class="swatch__values"><code>--color-ocre</code><code>#8C6B3C</code></div>
+            <p class="swatch__usage">Accent secondaire, rappel décoratif.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#65171F"></div><div class="swatch__body">
+            <div class="swatch__role">Profondeur du foyer chaud</div>
+            <h4 class="swatch__name">Bordeaux profond</h4>
+            <div class="swatch__values"><code>--color-cta-deep</code><code>#65171F</code></div>
+            <p class="swatch__usage">Ombres et dégradés de CTA, profondeur du foyer chaud.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#EDE6D6"></div><div class="swatch__body">
+            <div class="swatch__role">Fond dominant diurne</div>
+            <h4 class="swatch__name">Parchemin de List of Lights</h4>
+            <div class="swatch__values"><code>--color-paper</code><code>#EDE6D6</code></div>
+            <p class="swatch__usage">Fond dominant diurne.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#E4DAC5"></div><div class="swatch__body">
+            <div class="swatch__role">Surfaces de cartes</div>
+            <h4 class="swatch__name">Crème chaud</h4>
+            <div class="swatch__values"><code>--color-paper-warm</code><code>#E4DAC5</code></div>
+            <p class="swatch__usage">Surfaces de cartes.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#D9C7A8"></div><div class="swatch__body">
+            <div class="swatch__role">Surfaces secondaires</div>
+            <h4 class="swatch__name">Crème assombri</h4>
+            <div class="swatch__values"><code>--color-paper-deep</code><code>#D9C7A8</code></div>
+            <p class="swatch__usage">Surfaces secondaires, zones de regroupement.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#3A3128"></div><div class="swatch__body">
+            <div class="swatch__role">Texte secondaire / structurel</div>
+            <h4 class="swatch__name">Granit de Tour Diurne</h4>
+            <div class="swatch__values"><code>--color-secondary</code><code>#3A3128</code></div>
+            <p class="swatch__usage">Texte secondaire / éléments structurels sombres.</p>
+          </div></article>
+
+          <article class="swatch"><div class="swatch__chip" style="background:#1F1A14"></div><div class="swatch__body">
+            <div class="swatch__role">Neutre le plus dense / texte principal</div>
+            <h4 class="swatch__name">Encre de Carnet de Veille</h4>
+            <div class="swatch__values"><code>--color-primary</code><code>#1F1A14</code></div>
+            <p class="swatch__usage">Neutre le plus dense, texte principal.</p>
+          </div></article>
+
+        </div>
+        <p class="subsection__desc" style="margin-top:var(--space-md)">
+          Tokens d'appui du <code>:root</code> non détaillés en swatch (dérivés de la matière sombre / texte) :
+          <code>--color-dark-deepest</code> <code>#4A3B2C</code> (profondeurs de la section sombre),
+          <code>--color-cream-on-dark</code> <code>#F5F0E0</code> (texte crème sur section sombre),
+          <code>--color-text-faint</code> <code>#6B5C46</code> (brun moyen sableux — texte tertiaire / méta, ≈5:1).
+        </p>
+      </div>
+
+      <!-- 01.2 Sémantique -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">01.2</span>
+          <h3 class="subsection__title">Sémantique &amp; status</h3>
+        </div>
+        <p class="subsection__desc">Quatre rôles fonctionnels (§02.4). Pas de bleu pour Info — fidélité au registre chaud.</p>
+        <table class="doc-table">
+          <thead><tr><th style="width:14%">Rôle</th><th style="width:14%">Hex</th><th style="width:32%">Couleur</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td>Success</td><td><code>#4E6B3E</code></td><td><span class="token-chip" style="background:#4E6B3E; color:#EDE6D6; border-color:#4E6B3E">Vert de veille terreux</span></td><td>État verrouillé / validé.</td></tr>
+            <tr><td>Error</td><td><code>#7A1F2B</code></td><td><span class="token-chip" style="background:#7A1F2B; color:#EDE6D6; border-color:#7A1F2B">Bordeaux Secteur Rouge</span></td><td>Erreur, alerte critique.</td></tr>
+            <tr><td>Warning</td><td><code>#8C6B3C</code></td><td><span class="token-chip" style="background:#8C6B3C; color:#1F1A14; border-color:#8C6B3C">Bronze de Fresnel</span></td><td>Attention, état intermédiaire.</td></tr>
+            <tr><td>Info</td><td><code>#3A3128</code></td><td><span class="token-chip" style="background:#3A3128; color:#EDE6D6; border-color:#3A3128">Granit de Tour Diurne</span></td><td>Neutre — pas de bleu, fidélité au registre chaud.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 01.3 Data-viz palette -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">01.3</span>
+          <h3 class="subsection__title">Palette data-viz</h3>
+        </div>
+        <p class="subsection__desc">
+          Quatre teintes dédiées, sélectionnées pour la distinction sur fond parchemin (§02.5).
+          Ordre d'usage par priorité de série ; aucune teinte bleue pour préserver le territoire.
+        </p>
+        <table class="doc-table">
+          <thead><tr><th style="width:16%">Ordre</th><th style="width:18%">Hex</th><th style="width:30%">Teinte</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><code>#1F1A14</code></td><td><span class="token-chip" style="background:#1F1A14; color:#EDE6D6; border-color:#1F1A14">encre</span></td><td>Série principale.</td></tr>
+            <tr><td>2</td><td><code>#8C6B3C</code></td><td><span class="token-chip" style="background:#8C6B3C; color:#1F1A14; border-color:#8C6B3C">bronze</span></td><td>Deuxième série.</td></tr>
+            <tr><td>3</td><td><code>#7A1F2B</code></td><td><span class="token-chip" style="background:#7A1F2B; color:#EDE6D6; border-color:#7A1F2B">bordeaux</span></td><td>Valeur d'alerte / foyer.</td></tr>
+            <tr><td>4</td><td><code>#4E6B3E</code></td><td><span class="token-chip" style="background:#4E6B3E; color:#EDE6D6; border-color:#4E6B3E">vert veille</span></td><td>État validé.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 01.4 WCAG -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">01.4</span>
+          <h3 class="subsection__title">WCAG — contrastes vérifiés</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th>Combinaison</th><th>Ratio</th><th>Conformité</th></tr></thead>
+          <tbody>
+            <tr><td>Encre <code>#1F1A14</code> / Parchemin <code>#EDE6D6</code></td><td>≈14 : 1</td><td>Largement supérieur à AAA</td></tr>
+            <tr><td>Méta <code>#6B5C46</code> (brun sableux) / Parchemin</td><td>≈5 : 1</td><td>AA texte normal et large</td></tr>
+            <tr><td>Bordeaux <code>#7A1F2B</code> / Parchemin</td><td>≈7 : 1</td><td>Lisible (en CTA : texte parchemin sur bordeaux)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 01.5 Don't chromatique -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">01.5</span>
+          <h3 class="subsection__title">Don't — anti-direction chromatique</h3>
+        </div>
+        <p class="subsection__desc">Interdictions sourcées des règles explicites §02 et §04.3.</p>
+        <ul class="dont-list">
+          <li class="dont-item"><div class="dont-item__marker">01</div><div>Aucune teinte bleue, data-viz comprise — fidélité au territoire chaud (§02.4, §02.5, §07.3).</div></li>
+          <li class="dont-item"><div class="dont-item__marker">02</div><div>Pas de bleu froid dominant dans le traitement chromatique des visuels (§08.2).</div></li>
+          <li class="dont-item"><div class="dont-item__marker">03</div><div>Pas de dégradés plats colorés sur les fonds — les fonds restent en subtils dégradés parchemin → crème (§04.3).</div></li>
+          <li class="dont-item"><div class="dont-item__marker">04</div><div>Aucun dégradé arc-en-ciel en data-viz — teintes pleines sur fond parchemin (§07.3).</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 02 — TYPOGRAPHY ============ -->
+    <section class="section" id="typography">
+      <div class="section__head">
+        <span class="section__num">02</span>
+        <div><h2 class="section__title">Typography</h2></div>
+        <p class="section__intro">
+          Pairing à 2 familles : Gloock (display, serif éditorial) × JetBrains Mono
+          (body + données, mono technique). Contraste structurel serif × mono, faible
+          risque AI-slop. 8 tailles dans le type scale.
+        </p>
+      </div>
+
+      <!-- 02.1 Pairing -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">02.1</span>
+          <h3 class="subsection__title">Pairing stratégique</h3>
+        </div>
+        <p class="subsection__desc">
+          Deux familles strictement (§03.1). Jamais de Gloock sous <code>lg</code> —
+          les empattements perdent leur lisibilité en petit corps (§03.3).
+        </p>
+        <div class="pairing">
+          <div class="pairing__card">
+            <div class="pairing__role">Display</div>
+            <div class="pairing__name">Gloock · <code>'Gloock', 'Georgia', serif</code></div>
+            <div class="pairing__specimen-display">Aa <em>Aa</em></div>
+            <div class="pairing__weights"><span class="w400">Gloock Regular — empattements affirmés</span></div>
+            <p class="pairing__justif">
+              Serif éditorial à empattements affirmés, porte l'autorité documentaire
+              et les titres-phares. <strong>Usage</strong> : titres hero, titres de
+              section, chiffres-clés éditoriaux — partout où l'autorité et le caractère priment.
+            </p>
+          </div>
+          <div class="pairing__card">
+            <div class="pairing__role">Body / Mono</div>
+            <div class="pairing__name">JetBrains Mono · <code>'JetBrains Mono', ui-monospace, monospace</code></div>
+            <div class="pairing__specimen-mono" style="font-size:3.4rem; font-weight:400; line-height:1.05;">Aa <em>Aa</em></div>
+            <div class="pairing__weights">
+              <span class="w300">300</span> · <span class="w400">400</span> · <span class="w500">500</span> · <span class="w600">600</span> · <span class="w700">700</span> · italic
+            </div>
+            <p class="pairing__justif">
+              Mono technique instrumental, unifie corps de texte et données dans un
+              registre instrumental-marin. <strong>Usage</strong> : paragraphes,
+              libellés, métadonnées, valeurs chiffrées, code et tokens.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02.2 Type scale -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">02.2</span>
+          <h3 class="subsection__title">Type scale</h3>
+        </div>
+        <p class="subsection__desc">8 tailles canoniques (§03.2). Hero monte jusqu'à 8vw — disproportion assumée du calibrage A=3.</p>
+        <div class="type-scale">
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen" style="font-size: 3.6rem; font-style: italic;">Le repère</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-hero · 3xl / 4xl</div>
+              <div class="type-scale__value">clamp(3.2rem, 8vw, 5rem)</div>
+              <p class="type-scale__usage">Titres hero Gloock.</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen" style="font-size: 2.4rem;">Titre de section</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-xl · 2xl</div>
+              <div class="type-scale__value">clamp(1.9rem, 3vw, 2.6rem)</div>
+              <p class="type-scale__usage">Titres de section / chapitre Gloock.</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen" style="font-size: 1.7rem;">Sous-section</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-lg · lg</div>
+              <div class="type-scale__value">clamp(1.35rem, 1.7vw, 1.7rem)</div>
+              <p class="type-scale__usage">Titres de sous-section Gloock (plancher Gloock : jamais sous lg).</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen type-scale__specimen--mono" style="font-size: 1.1875rem;">Intertitre mono</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-md · md (xl typo)</div>
+              <div class="type-scale__value">1.1875rem</div>
+              <p class="type-scale__usage">Intertitres, lead documentaire mono.</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen type-scale__specimen--mono" style="font-size: 1rem;">Le phare ne demande pas. Il signale.</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-base · base</div>
+              <div class="type-scale__value">1rem · 16px</div>
+              <p class="type-scale__usage">Corps de texte courant.</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen type-scale__specimen--mono" style="font-size: 0.84rem;">Caption · label documentaire secondaire</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-sm · sm</div>
+              <div class="type-scale__value">0.84rem</div>
+              <p class="type-scale__usage">Captions, labels secondaires, axes data.</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen type-scale__specimen--mono" style="font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase;">47°57′N · 5°06′W</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-xs · xs</div>
+              <div class="type-scale__value">0.74rem</div>
+              <p class="type-scale__usage">Métadonnées, coordonnées, axes.</p>
+            </div>
+          </div>
+
+          <div class="type-scale__row">
+            <div class="type-scale__specimen type-scale__specimen--mono" style="font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase;">Overline · numérotation chapitre</div>
+            <div class="type-scale__meta">
+              <div class="type-scale__token">--text-2xs</div>
+              <div class="type-scale__value">0.66rem</div>
+              <p class="type-scale__usage">Overlines, kickers, numérotations (sourcé style-tile / Batch 2/3).</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 02.3 Rôles fonctionnels -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">02.3</span>
+          <h3 class="subsection__title">Rôles fonctionnels</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:24%">Famille</th><th>Rôle (§03.3)</th></tr></thead>
+          <tbody>
+            <tr><td>Gloock</td><td>Titres hero, titres de section, chiffres-clés éditoriaux — partout où l'autorité et le caractère priment. Jamais sous <code>lg</code>.</td></tr>
+            <tr><td>JetBrains Mono</td><td>Paragraphes, libellés, métadonnées, valeurs chiffrées, code et tokens.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 02.4 Lisibilité -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">02.4</span>
+          <h3 class="subsection__title">Lisibilité — directives</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th>Paramètre</th><th>Display (Gloock)</th><th>Body (JetBrains Mono)</th></tr></thead>
+          <tbody>
+            <tr><td>Line-height</td><td><code>1.05–1.15</code> sur titres</td><td><code>1.5–1.65</code> (le mono a besoin d'air)</td></tr>
+            <tr><td>Letter-spacing</td><td><code>≈ -0.01em</code> sur grands titres</td><td>neutre</td></tr>
+            <tr><td>Max-width de lecture</td><td>—</td><td><code>62–68 caractères (≈34rem)</code> pour les blocs de texte courant</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 02.5 Don't typo -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">02.5</span>
+          <h3 class="subsection__title">Don't — anti-direction typographique</h3>
+        </div>
+        <p class="subsection__desc">Interdictions sourcées des règles explicites §03.1 et §03.3.</p>
+        <ul class="dont-list">
+          <li class="dont-item"><div class="dont-item__marker">01</div><div>Troisième fonte — le pairing est fermé à 2 familles (§03.1).</div></li>
+          <li class="dont-item"><div class="dont-item__marker">02</div><div>Gloock sous <code>lg</code> — les empattements perdent leur lisibilité en petit corps (§03.3).</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 03 — SPACING & RADIUS ============ -->
+    <section class="section" id="spacing">
+      <div class="section__head">
+        <span class="section__num">03</span>
+        <div><h2 class="section__title">Spacing &amp; Radius</h2></div>
+        <p class="section__intro">
+          Grille de rythme base 8px (unité u), suite quasi-Fibonacci. Système
+          d'arrondis sobre 3–5px, aucune pilule — les angles quasi-vifs renforcent
+          le registre instrumental.
+        </p>
+      </div>
+
+      <!-- 03.1 Échelle de rythme -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">03.1</span>
+          <h3 class="subsection__title">Grille de rythme — base 8px</h3>
+        </div>
+        <p class="subsection__desc">
+          Base 8px (unité u). Suite quasi-Fibonacci pour un rythme à la fois dense et
+          respirant (§04.5). Tokens d'espacement du <code>:root</code>.
+        </p>
+        <div>
+          <div class="spacing-row"><div class="spacing-row__token">--space-xs<small>12px · 1.5u</small></div><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:12px"></div></div><div class="spacing-row__usage">Zones documentaires compactes.</div></div>
+          <div class="spacing-row"><div class="spacing-row__token">--space-sm<small>16px · 2u</small></div><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:16px"></div></div><div class="spacing-row__usage">Padding interne compact, tableaux.</div></div>
+          <div class="spacing-row"><div class="spacing-row__token">--space-md<small>24px · 3u</small></div><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:24px"></div></div><div class="spacing-row__usage">Padding standard, gouttière de grille.</div></div>
+          <div class="spacing-row"><div class="spacing-row__token">--space-lg<small>40px · 5u</small></div><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:40px"></div></div><div class="spacing-row__usage">Inter-blocs intra-section.</div></div>
+          <div class="spacing-row"><div class="spacing-row__token">--space-xl<small>64px · 8u</small></div><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:64px"></div></div><div class="spacing-row__usage">Marges latérales desktop, sous-blocs.</div></div>
+          <div class="spacing-row"><div class="spacing-row__token">--space-2xl<small>104px · 13u</small></div><div class="spacing-row__bar-wrap"><div class="spacing-row__bar" style="width:104px"></div></div><div class="spacing-row__usage">Inter-sections, hero aéré.</div></div>
+        </div>
+        <p class="subsection__desc" style="margin-top:var(--space-md)">
+          Le <code>:root</code> étend l'échelle au-delà du design specs §04.5 pour les besoins de la grille
+          modulaire : <code>--space-3xs</code> 4px, <code>--space-2xs</code> 8px, <code>--space-3xl</code> 168px (21u),
+          <code>--space-4xl</code> 240px (30u). Tous multiples de l'unité 8px.
+        </p>
+      </div>
+
+      <!-- 03.2 Densité -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">03.2</span>
+          <h3 class="subsection__title">Stratégie de densité</h3>
+        </div>
+        <p class="subsection__desc">
+          Le contraste de densité crée le rythme du « faisceau qui balaie » (§09.2).
+        </p>
+        <table class="doc-table">
+          <thead><tr><th>Mode</th><th>Spacing</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Aéré · charnière</strong></td><td><code>xl</code>–<code>2xl</code> (64–104px)</td><td>Hero et sections-phares — poser le point fixe.</td></tr>
+            <tr><td><strong>Compact · documentaire</strong></td><td><code>xs</code>–<code>sm</code> (12–16px)</td><td>Zones documentaires et tableaux — densité d'un carnet de veille.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 03.3 Radius -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">03.3</span>
+          <h3 class="subsection__title">Système d'arrondis</h3>
+        </div>
+        <p class="subsection__desc">
+          3–5px max, aucune pilule (§04.1). Les angles quasi-vifs renforcent le registre
+          instrumental et la « netteté obstinée ».
+        </p>
+        <div class="radius-demo">
+          <div class="radius-demo__item"><div class="radius-demo__box" style="border-radius:3px"></div><div class="radius-demo__lbl"><strong>--radius-sm · 3px</strong>Badges, inputs, petits éléments.</div></div>
+          <div class="radius-demo__item"><div class="radius-demo__box" style="border-radius:5px"></div><div class="radius-demo__lbl"><strong>--radius-md · 5px</strong>Cartes, conteneurs principaux.</div></div>
+          <div class="radius-demo__item"><div class="radius-demo__box" style="border-radius:0"></div><div class="radius-demo__lbl"><strong>lg / xl / full</strong>Non utilisés — système délibérément sobre.</div></div>
+        </div>
+      </div>
+
+      <!-- 03.4 Élévation -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">03.4</span>
+          <h3 class="subsection__title">Élévation &amp; profondeur</h3>
+        </div>
+        <p class="subsection__desc">Pas d'élévation au-delà de <code>--shadow-card</code> — registre sobre (§04.2).</p>
+        <table class="doc-table">
+          <thead><tr><th style="width:28%">Token</th><th>Composition</th></tr></thead>
+          <tbody>
+            <tr><td><code>subtle</code></td><td><code>inset 0 1px 0</code> highlight crème — séparateurs et filets de relief.</td></tr>
+            <tr><td><code>--shadow-card</code> (md / elevated)</td><td>3 couches brun désaturé : <code>0 1px 2px</code> + <code>0 8px 22px</code> + <code>0 18px 40px</code>.</td></tr>
+            <tr><td><code>--shadow-card-warm</code> (lg)</td><td>2 couches chaudes bordeaux : <code>0 2px 6px</code> + <code>0 16px 40px</code>.</td></tr>
+            <tr><td>z-index</td><td>base 0 · cartes/sticky 10 · overlays 100 · modales 1000.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 04 — ICONOGRAPHY ============ -->
+    <section class="section" id="iconography">
+      <div class="section__head">
+        <span class="section__num">04</span>
+        <div><h2 class="section__title">Iconography</h2></div>
+        <p class="section__intro">
+          Famille ORNEMENTAL (art déco / blason). Pictogrammes structurés,
+          symétriques, à logique héraldique. Mixte filaire + plages pleines, jamais
+          purement outlined ni purement filled.
+        </p>
+      </div>
+
+      <!-- 04.1 Grammaire -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">04.1</span>
+          <h3 class="subsection__title">Grammaire iconique</h3>
+        </div>
+        <p class="subsection__desc">
+          Famille ORNEMENTAL (art déco / blason) : pictogrammes structurés, symétriques,
+          à logique héraldique. Style mixte filaire + plages pleines maîtrisées, jamais
+          purement outlined ni purement filled — l'ornement prime sur l'épure froide.
+          Chaque icône se lit comme un emblème de cartouche (§06.1).
+        </p>
+      </div>
+
+      <!-- 04.2 Strokes -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">04.2</span>
+          <h3 class="subsection__title">Épaisseur &amp; finitions</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:30%">Paramètre</th><th>Valeur (§06.2)</th></tr></thead>
+          <tbody>
+            <tr><td>Stroke width</td><td>1,5–2px constant.</td></tr>
+            <tr><td>Couleur</td><td>Bronze <code>#8C6B3C</code> ou Encre <code>#1F1A14</code>.</td></tr>
+            <tr><td>Corner style</td><td>Angles vifs à très légèrement adoucis (≤2px), cohérents avec le radius sobre.</td></tr>
+            <tr><td>Finitions décoratives</td><td>Filets, sérifs et terminaisons en pointe à la manière des frises déco.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 04.3 Abstraction -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">04.3</span>
+          <h3 class="subsection__title">Niveau d'abstraction</h3>
+        </div>
+        <p class="subsection__desc">
+          Symbolique et emblématique plutôt que réaliste : l'icône évoque par le signe
+          codifié (boussole, faisceau, secteur, ancre stylisée) et non par l'illustration
+          littérale. Niveau d'abstraction élevé, lisible à petite taille, mémorisable
+          comme une marque de blason (§06.3).
+        </p>
+      </div>
+
+      <!-- 04.4 Vocabulaire / DA illustrative -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">04.4</span>
+          <h3 class="subsection__title">DA illustrative — vocabulaire</h3>
+        </div>
+        <p class="subsection__desc">
+          Vocabulaire instrumental-marin transposé en art déco. Composition centrée et
+          symétrique, foyer chaud bronze/bordeaux en accent ponctuel sur fond parchemin (§06.4).
+        </p>
+        <div class="vocab-grid">
+          <div class="vocab-card"><div class="vocab-card__sym">◎</div><div class="vocab-card__name">Boussole</div><div class="vocab-card__desc">Signe codifié — évocation par le signe (§06.3).</div></div>
+          <div class="vocab-card"><div class="vocab-card__sym">⟡</div><div class="vocab-card__name">Faisceau</div><div class="vocab-card__desc">Secteur lumineux du phare (§06.3, §06.4).</div></div>
+          <div class="vocab-card"><div class="vocab-card__sym">∡</div><div class="vocab-card__name">Secteur</div><div class="vocab-card__desc">Secteur lumineux (§06.3, §06.4).</div></div>
+          <div class="vocab-card"><div class="vocab-card__sym">⚓</div><div class="vocab-card__name">Ancre stylisée</div><div class="vocab-card__desc">Signe codifié, non littéral (§06.3).</div></div>
+          <div class="vocab-card"><div class="vocab-card__sym">◈</div><div class="vocab-card__name">Optique de Fresnel</div><div class="vocab-card__desc">Optiques de Fresnel (§06.4).</div></div>
+          <div class="vocab-card"><div class="vocab-card__sym">✳</div><div class="vocab-card__name">Rose des vents</div><div class="vocab-card__desc">Rose des vents (§06.4).</div></div>
+          <div class="vocab-card"><div class="vocab-card__sym">▣</div><div class="vocab-card__name">Cartouche</div><div class="vocab-card__desc">Cartouches — chaque icône se lit comme un emblème de cartouche (§06.1, §06.4).</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 — LOGO ============ -->
+    <section class="section" id="logo">
+      <div class="section__head">
+        <span class="section__num">05</span>
+        <div><h2 class="section__title">Logo</h2></div>
+        <p class="section__intro">
+          Wordmark — le nom « jacques » composé en Gloock. Pas de symbole : le mot
+          EST le repère. Les empattements affirmés portent à eux seuls l'autorité documentaire.
+        </p>
+      </div>
+
+      <!-- 05.1 Concept -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">05.1</span>
+          <h3 class="subsection__title">Concept &amp; symbolique</h3>
+        </div>
+        <div class="demo-frame" style="margin-bottom:var(--space-lg)">
+          <div class="demo-frame__cap">Wordmark · Gloock · casse basse</div>
+          <div style="font-family:var(--font-display); font-size:clamp(3.2rem,8vw,5rem); color:var(--color-primary); line-height:1;">jacques</div>
+        </div>
+        <p class="subsection__desc">
+          Aucun logo figuratif fourni : la marque s'exprime en wordmark — le nom
+          « jacques » composé en Gloock (font display). Pas de symbole : le mot EST
+          le repère (§05.1).
+        </p>
+      </div>
+
+      <!-- 05.2 Lockups -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">05.2</span>
+          <h3 class="subsection__title">Système de lockups</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:28%">Lockup</th><th>Description (§05.2)</th></tr></thead>
+          <tbody>
+            <tr><td>Horizontal / principal</td><td>« jacques » seul en Gloock, casse basse, sur une ligne.</td></tr>
+            <tr><td>Stacked</td><td>« jacques » avec baseline/tagline mono dessous (JetBrains Mono, casse haute espacée).</td></tr>
+            <tr><td>Icon-only</td><td>Initiale « j » en Gloock dans un cartouche carré radius 3px, fond Coursive Oxydée <code>#5C4A38</code> ou bronze — favicons et avatars.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 05.3 Zone d'exclusion -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">05.3</span>
+          <h3 class="subsection__title">Zone d'exclusion</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:34%">Paramètre</th><th>Valeur (§05.3)</th></tr></thead>
+          <tbody>
+            <tr><td>Espace de protection min.</td><td>Hauteur du « j » (jambe descendante incluse), appliquée sur les quatre côtés.</td></tr>
+            <tr><td>Taille min. écran</td><td>80px de large.</td></tr>
+            <tr><td>Taille min. impression</td><td>18mm — pour préserver la lisibilité des empattements.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 05.4 Variantes contexte -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">05.4</span>
+          <h3 class="subsection__title">Variantes de contexte</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:24%">Contexte</th><th>Traitement (§05.4)</th></tr></thead>
+          <tbody>
+            <tr><td>Light mode</td><td>Wordmark Encre <code>#1F1A14</code> ou Bronze <code>#8C6B3C</code> sur Parchemin <code>#EDE6D6</code>.</td></tr>
+            <tr><td>Dark mode</td><td>Wordmark Parchemin <code>#EDE6D6</code> ou Bronze <code>#8C6B3C</code> sur Coursive Oxydée <code>#5C4A38</code>.</td></tr>
+            <tr><td>Monochrome</td><td>Version pleine en <code>#1F1A14</code> (positif) ou <code>#EDE6D6</code> (négatif), aucun dégradé.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 06 — DATA VIZ ============ -->
+    <section class="section" id="dataviz">
+      <div class="section__head">
+        <span class="section__num">06</span>
+        <div><h2 class="section__title">Data visualization</h2></div>
+        <p class="section__intro">
+          Trois familles : bar, line, donut. Application stricte de la palette
+          data-viz, teintes pleines sur fond parchemin pour la clarté documentaire.
+          Aucune teinte bleue.
+        </p>
+      </div>
+
+      <!-- 06.1 Familles -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">06.1</span>
+          <h3 class="subsection__title">Style des graphiques</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:18%">Famille</th><th>Style (§07.1)</th></tr></thead>
+          <tbody>
+            <tr><td>Bar charts</td><td>Barres pleines à angles vifs (radius 0–3px), espacées, en teintes data-viz.</td></tr>
+            <tr><td>Line charts</td><td>Traits 2px nets, points-relevés marqués (registre carnet de veille).</td></tr>
+            <tr><td>Donuts</td><td>Segments à filets de séparation sable <code>#C9B89A</code>, centre annoté en chiffre Gloock.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 06.2 Grilles & axes -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">06.2</span>
+          <h3 class="subsection__title">Système de grilles</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:28%">Élément</th><th>Spécification (§07.2)</th></tr></thead>
+          <tbody>
+            <tr><td>Axes</td><td>Filet sable <code>#C9B89A</code> 1px.</td></tr>
+            <tr><td>Ticks</td><td>Discrets.</td></tr>
+            <tr><td>Grille</td><td>Horizontale légère uniquement (verticale supprimée pour l'épure).</td></tr>
+            <tr><td>Labels</td><td>JetBrains Mono <code>sm</code> (0.84rem), couleur méta <code>#6B5C46</code>.</td></tr>
+            <tr><td>Origine / lignes-repères</td><td>Bronze pour les seuils signifiants.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 06.3 Usage de la couleur -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">06.3</span>
+          <h3 class="subsection__title">Usage de la couleur</h3>
+        </div>
+        <p class="subsection__desc">
+          Application stricte de la palette data-viz dans l'ordre (§07.3). Aucun dégradé
+          arc-en-ciel ; teintes pleines sur fond parchemin.
+        </p>
+        <table class="doc-table">
+          <thead><tr><th style="width:16%">Ordre</th><th style="width:30%">Teinte</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><span class="token-chip" style="background:#1F1A14;color:#EDE6D6;border-color:#1F1A14">#1F1A14 encre</span></td><td>Série principale.</td></tr>
+            <tr><td>2</td><td><span class="token-chip" style="background:#8C6B3C;color:#1F1A14;border-color:#8C6B3C">#8C6B3C bronze</span></td><td>Deuxième série.</td></tr>
+            <tr><td>3</td><td><span class="token-chip" style="background:#7A1F2B;color:#EDE6D6;border-color:#7A1F2B">#7A1F2B bordeaux</span></td><td>Valeur d'alerte / foyer.</td></tr>
+            <tr><td>4</td><td><span class="token-chip" style="background:#4E6B3E;color:#EDE6D6;border-color:#4E6B3E">#4E6B3E vert veille</span></td><td>État validé.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 06.4 Typo donnée -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">06.4</span>
+          <h3 class="subsection__title">Typographie de la donnée</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:30%">Rôle</th><th>Traitement (§07.4)</th></tr></thead>
+          <tbody>
+            <tr><td>KPI éditoriaux</td><td>Gloock pour les chiffres-clés.</td></tr>
+            <tr><td>Tableaux et axes</td><td>JetBrains Mono.</td></tr>
+            <tr><td>Alignement</td><td>Nombres alignés à droite (tabular), libellés à gauche.</td></tr>
+            <tr><td>Tailles axes</td><td><code>xs</code> / <code>sm</code>.</td></tr>
+            <tr><td>Taille KPI vedette</td><td><code>2xl</code>–<code>3xl</code> ; valeurs courantes en <code>base</code>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 06.5 Don't dataviz -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">06.5</span>
+          <h3 class="subsection__title">Don't — anti-direction data-viz</h3>
+        </div>
+        <ul class="dont-list">
+          <li class="dont-item"><div class="dont-item__marker">01</div><div>Aucun dégradé arc-en-ciel — teintes pleines sur fond parchemin (§07.3).</div></li>
+          <li class="dont-item"><div class="dont-item__marker">02</div><div>Aucune teinte bleue pour préserver le territoire (§02.5).</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 07 — PHOTOGRAPHY ============ -->
+    <section class="section" id="photography">
+      <div class="section__head">
+        <span class="section__num">07</span>
+        <div><h2 class="section__title">Photography</h2></div>
+        <p class="section__intro">
+          Médium pictural — peinture à l'huile brushée, pas de photographie ni de
+          Recraft flat. Ambiance diurne, lumière rasante de phare, sujets naturels
+          marins. Visuels vus en condition réelle ci-dessous.
+        </p>
+      </div>
+
+      <!-- 07.1 Style -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">07.1</span>
+          <h3 class="subsection__title">Style photographique</h3>
+        </div>
+        <p class="subsection__desc">
+          Médium pictural — peinture à l'huile brushée. Ambiance diurne, lumière
+          rasante de phare, sujets naturels marins (eau, brume, ciel, roche, faisceau)
+          et instruments optiques. Texture de touche visible, matière, profondeur
+          picturale (§08.1).
+        </p>
+        <div class="visual-grid">
+          <div class="visual-card visual-card--hero">
+            <img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-hero.jpg" alt="Visuel hero pictural — peinture à l'huile brushée">
+            <div class="visual-card__cap"><div class="visual-card__cap-k">Hero · 3:4</div><div class="visual-card__cap-t">Peinture à l'huile brushée, lumière rasante de phare, palette crème diurne, foyer chaud.</div></div>
+          </div>
+          <div class="visual-card ar-11">
+            <img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-macro-halo.png" alt="Macro foyer / halo">
+            <div class="visual-card__cap"><div class="visual-card__cap-k">Macro · foyer halo · 1:1</div><div class="visual-card__cap-t">Foyer chaud bronze/bordeaux en point lumineux, touche d'impasto visible.</div></div>
+          </div>
+          <div class="visual-card ar-43">
+            <img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-pov-depuis-phare.png" alt="POV depuis le phare">
+            <div class="visual-card__cap"><div class="visual-card__cap-k">POV · depuis le phare</div><div class="visual-card__cap-t">Cadrage centré et stable, point fixe — fidèle à la posture du phare.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07.2 Traitement chromatique -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">07.2</span>
+          <h3 class="subsection__title">Traitement chromatique</h3>
+        </div>
+        <p class="subsection__desc">
+          Color grading aligné sur la palette : dominante parchemin/crème diurne, foyers
+          chauds bronze <code>#8C6B3C</code> et bordeaux <code>#7A1F2B</code> en points lumineux.
+          Ombres chaudes en Coursive Oxydée <code>#5C4A38</code>, jamais de bleu froid dominant.
+          Contraste élevé (A=3), grain pictural (§08.2).
+        </p>
+        <div class="visual-grid">
+          <div class="visual-card ar-43"><img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-atmosphere-parchemin.png" alt="Atmosphère parchemin"><div class="visual-card__cap"><div class="visual-card__cap-k">Grading · parchemin</div><div class="visual-card__cap-t">Dominante parchemin/crème diurne.</div></div></div>
+          <div class="visual-card ar-43"><img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-atmosphere-dramatique.png" alt="Atmosphère dramatique"><div class="visual-card__cap"><div class="visual-card__cap-k">Grading · contraste élevé</div><div class="visual-card__cap-t">Contraste élevé (A=3), foyers chauds en points lumineux.</div></div></div>
+        </div>
+      </div>
+
+      <!-- 07.3 Scénographie -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">07.3</span>
+          <h3 class="subsection__title">Scénographie produit</h3>
+        </div>
+        <p class="subsection__desc">
+          Le « produit » est mis en scène comme un instrument de navigation sur une table
+          de cartographie : lumière directionnelle, fond parchemin texturé, accessoires
+          marins discrets (compas, relevés). Cadrage centré et stable, point fixe —
+          fidèle à la posture du phare (§08.3).
+        </p>
+      </div>
+
+      <!-- 07.4 Prompt MidJourney -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">07.4</span>
+          <h3 class="subsection__title">Signature de prompting IA</h3>
+        </div>
+        <p class="subsection__desc">Prompt-type MidJourney (§08.4). Pas de Recraft : le registre est pictural, non flat.</p>
+        <div class="tokens-block"><pre>oil painting, brushed impasto texture, diurnal lighthouse light,
+warm cream and parchment palette, bronze and deep burgundy focal accents,
+marine instrumental subject, raking directional light, high contrast,
+painterly depth, no blue cast --ar 16:9 --style raw</pre></div>
+      </div>
+    </section>
+
+    <!-- ============ 08 — ILLUSTRATION ============ -->
+    <section class="section" id="illustration">
+      <div class="section__head">
+        <span class="section__num">08</span>
+        <div><h2 class="section__title">Illustration</h2></div>
+        <p class="section__intro">
+          Métaphore centrale : le faisceau du phare. Style pictural à l'huile brushée,
+          organique et matiéré — pas de flat ni de 3D. Médium unifié avec la direction
+          photographique.
+        </p>
+      </div>
+
+      <!-- 08.1 Métaphore -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">08.1</span>
+          <h3 class="subsection__title">Angle de métaphore</h3>
+        </div>
+        <p class="subsection__desc">
+          Métaphore visuelle centrale : le faisceau du phare — un repère fixe dont la
+          lumière structure le paysage sans le recouvrir. Décline cap, portée, secteur,
+          veille : la navigation guidée par un point d'autorité constant (§10.1).
+        </p>
+      </div>
+
+      <!-- 08.2 Physique -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">08.2</span>
+          <h3 class="subsection__title">Physique de l'illustration</h3>
+        </div>
+        <p class="subsection__desc">
+          Style pictural à l'huile brushée, organique et matiéré — pas de flat ni de 3D.
+          Touches visibles, lumière picturale, profondeur de matière. Cohérent avec la
+          Direction Photographique (§08), médium unifié (§10.2).
+        </p>
+        <div class="visual-grid">
+          <div class="visual-card ar-43"><img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-atmosphere-brouillard.png" alt="Plan atmosphérique — brouillard"><div class="visual-card__cap"><div class="visual-card__cap-k">Plan · brume</div><div class="visual-card__cap-t">Touches visibles, profondeur de matière, lumière picturale.</div></div></div>
+          <div class="visual-card ar-43"><img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-atmosphere-riviere.png" alt="Plan atmosphérique — rivière"><div class="visual-card__cap"><div class="visual-card__cap-k">Plan · matière</div><div class="visual-card__cap-t">Brushwork directionnel, médium huile organique.</div></div></div>
+          <div class="visual-card ar-43"><img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-atmosphere-doux.png" alt="Plan atmosphérique — doux"><div class="visual-card__cap"><div class="visual-card__cap-k">Plan · lumière douce</div><div class="visual-card__cap-t">Profondeur picturale, grain de touche.</div></div></div>
+          <div class="visual-card ar-11"><img loading="lazy" decoding="async" src="visual-final/jacques-c3-paletteB-macro-halo.png" alt="Foyer chaud ponctuel"><div class="visual-card__cap"><div class="visual-card__cap-k">Foyer · point focal</div><div class="visual-card__cap-t">Foyer chaud bronze/bordeaux en point focal unique.</div></div></div>
+        </div>
+      </div>
+
+      <!-- 08.3 Character design -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">08.3</span>
+          <h3 class="subsection__title">Character design</h3>
+        </div>
+        <p class="subsection__desc">
+          Pas de personnages : le registre est instrumental et paysager. Si une présence
+          humaine est nécessaire, elle reste silhouette lointaine et anonyme (gardien,
+          navigateur), jamais protagoniste illustré — l'instrument et la lumière sont
+          les sujets (§10.3).
+        </p>
+      </div>
+
+      <!-- 08.4 Lois de composition -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">08.4</span>
+          <h3 class="subsection__title">Lois de composition</h3>
+        </div>
+        <ul class="law__rules" style="max-inline-size:72ch">
+          <li>Composition centrée et stable autour du point fixe (le phare/foyer).</li>
+          <li>Faisceau directionnel comme ligne de force.</li>
+          <li>Horizon bas pour la portée.</li>
+          <li>Foyer chaud bronze/bordeaux en point focal unique.</li>
+          <li>Symétrie héraldique en écho à l'iconographie déco.</li>
+        </ul>
+      </div>
+
+      <!-- 08.5 Prompt MidJourney -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">08.5</span>
+          <h3 class="subsection__title">Directives de prompting IA</h3>
+        </div>
+        <p class="subsection__desc">Prompt-type MidJourney (§10.5). Pas de Recraft : le registre pictural exclut le flat illustré.</p>
+        <div class="tokens-block"><pre>oil painting illustration, brushed texture, lighthouse beam metaphor,
+structured stable composition, warm parchment and cream palette,
+bronze and burgundy focal light, marine instrumental scene,
+painterly impasto, high contrast, no flat vector, no blue cast --ar 3:2 --style raw</pre></div>
+      </div>
+    </section>
+
+    <!-- ============ 09 — COMPOSITION ============ -->
+    <section class="section" id="composition">
+      <div class="section__head">
+        <span class="section__num">09</span>
+        <div><h2 class="section__title">Composition</h2></div>
+        <p class="section__intro">
+          Grille 12 colonnes, gouttière 24px, alignement strict sur la grille de
+          rythme 8px. Le contraste de densité crée le rythme du « faisceau qui balaie ».
+        </p>
+      </div>
+
+      <!-- 09.1 Grilles -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">09.1</span>
+          <h3 class="subsection__title">Architecture de grilles</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:34%">Paramètre</th><th>Valeur (§09.1)</th></tr></thead>
+          <tbody>
+            <tr><td>Grille</td><td>12 colonnes.</td></tr>
+            <tr><td>Gouttière</td><td>24px (md).</td></tr>
+            <tr><td>Marges latérales</td><td>64px (xl) desktop / 24px mobile.</td></tr>
+            <tr><td>Conteneur max</td><td>≈ 1200px.</td></tr>
+            <tr><td>Alignement</td><td>Strict sur la grille de rythme 8px.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 09.2 Densité -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">09.2</span>
+          <h3 class="subsection__title">Stratégie de densité</h3>
+        </div>
+        <p class="subsection__desc">
+          Hero et sections-phares : très aérées (spacing <code>xl</code>–<code>2xl</code>,
+          64–104px) pour poser le point fixe. Zones documentaires et tableaux : compactes
+          (spacing <code>xs</code>–<code>sm</code>, 12–16px) pour la densité d'un carnet de
+          veille. Le contraste de densité crée le rythme du « faisceau qui balaie » (§09.2).
+        </p>
+      </div>
+
+      <!-- 09.3 Patterns -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">09.3</span>
+          <h3 class="subsection__title">Patterns de mise en page</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:24%">Pattern</th><th>Description (§09.3)</th></tr></thead>
+          <tbody>
+            <tr><td>Hero Split</td><td>Titre Gloock + chiffre-clé à gauche, visuel pictural à droite.</td></tr>
+            <tr><td>Carnet de Veille</td><td>Colonnes denses de relevés mono avec filets sable.</td></tr>
+            <tr><td>Bento Grid</td><td>Cartes <code>#E4DAC5</code> radius 5px, <code>--shadow-card</code>, pour synthèses et tableaux de bord.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 09.4 Rythme vertical -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">09.4</span>
+          <h3 class="subsection__title">Rythme vertical</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:34%">Niveau</th><th>Espacement (§09.4)</th></tr></thead>
+          <tbody>
+            <tr><td>Entre blocs majeurs</td><td><code>2xl</code> (104px).</td></tr>
+            <tr><td>Entre sous-blocs</td><td><code>xl</code> (64px).</td></tr>
+            <tr><td>Intra-section</td><td><code>lg</code> (40px).</td></tr>
+            <tr><td>Transitions</td><td>Filets bronze ou sable, sans rompre la continuité diurne.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 10 — MOTION ============ -->
+    <section class="section" id="motion">
+      <div class="section__head">
+        <span class="section__num">10</span>
+        <div><h2 class="section__title">Motion</h2></div>
+        <p class="section__intro">
+          Trois courbes d'easing nommées, quatre paliers de durée. Règle absolue :
+          jamais d'<code>ease</code> générique — toujours l'une des courbes nommées.
+        </p>
+      </div>
+
+      <!-- 10.1 Loi motion -->
+      <div class="law">
+        <div class="law__overline">Règle absolue</div>
+        <p class="law__statement">
+          Jamais d'<em>ease générique</em> — toujours l'une des courbes nommées.
+        </p>
+        <ul class="law__rules">
+          <li>Toute transition utilise <code>--ease-out-quart</code>, <code>--ease-fresnel</code> ou <code>--ease-in-out-deep</code> (§04.6).</li>
+        </ul>
+      </div>
+
+      <!-- 10.2 Easings -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">10.1</span>
+          <h3 class="subsection__title">Courbes d'easing</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:30%">Token</th><th>Valeur (§04.6)</th></tr></thead>
+          <tbody>
+            <tr><td><code>--ease-out-quart</code></td><td><code>cubic-bezier(.25,1,.5,1)</code></td></tr>
+            <tr><td><code>--ease-fresnel</code></td><td><code>cubic-bezier(.22,.68,.28,1)</code></td></tr>
+            <tr><td><code>--ease-in-out-deep</code></td><td><code>cubic-bezier(.65,0,.25,1)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 10.3 Durées -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">10.2</span>
+          <h3 class="subsection__title">Paliers de durée</h3>
+        </div>
+        <table class="doc-table">
+          <thead><tr><th style="width:24%">Palier</th><th style="width:18%">Durée</th><th>Usage (§04.6)</th></tr></thead>
+          <tbody>
+            <tr><td>fast</td><td>180ms</td><td>Micro-interactions.</td></tr>
+            <tr><td>base</td><td>360ms</td><td>Transitions standard.</td></tr>
+            <tr><td>slow</td><td>720ms</td><td>Révélations, faisceau.</td></tr>
+            <tr><td>auscultation</td><td>≈1200ms</td><td>Séquences narratives lentes, balayage du phare.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 10.4 Reduced motion -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">10.3</span>
+          <h3 class="subsection__title">Reduced motion</h3>
+        </div>
+        <p class="subsection__desc">
+          Sous <code>@media (prefers-reduced-motion: reduce)</code>, toutes les transitions
+          et animations sont neutralisées. Ce DS applique la règle (voir CSS en tête de document).
+        </p>
+      </div>
+
+      <!-- 10.5 Don't motion -->
+      <div class="subsection">
+        <div class="subsection__head">
+          <span class="subsection__num">10.4</span>
+          <h3 class="subsection__title">Don't — anti-direction motion</h3>
+        </div>
+        <ul class="dont-list">
+          <li class="dont-item"><div class="dont-item__marker">01</div><div>Jamais d'<code>ease</code> générique — toujours l'une des trois courbes nommées (§04.6).</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 11 — TOKENS ============ -->
+    <section class="section" id="tokens">
+      <div class="section__head">
+        <span class="section__num">11</span>
+        <div><h2 class="section__title">Tokens</h2></div>
+        <p class="section__intro">
+          Le bloc <code>:root</code> complet, identique au style-tile source. Prêt à
+          copier-coller dans un projet.
+        </p>
+      </div>
+
+      <p class="token-arch">
+        Ce design system utilise des tokens à 1 niveau (semantic uniquement). Pas de couche
+        primitive en amont (les valeurs sont nommées directement par leur rôle, ex:
+        <code>--color-ocre</code> plutôt que <code>--bronze-500</code>), pas de couche component
+        en aval (les composants utilisent les tokens semantic directement, ex: <code>var(--color-cta)</code>
+        dans le bouton primary plutôt qu'un <code>--button-primary-bg</code> dédié). Ce choix est
+        cohérent avec une marque mono-thème mono-brand. Pour un theming dark/light ou multi-brand,
+        il faudrait introduire la couche primitive.
+      </p>
+
+      <div class="tokens-block"><pre><span class="tk-comment">/* === PALETTE — Granit Diurne / Bronze (crème diurne) === */</span>
+<span class="tk-name">--color-paper</span>:          <span class="tk-val">#EDE6D6</span>;<span class="tk-swatch" style="background:#EDE6D6"></span>  <span class="tk-comment">/* Parchemin de List of Lights — fond dominant clair */</span>
+<span class="tk-name">--color-paper-warm</span>:     <span class="tk-val">#E4DAC5</span>;<span class="tk-swatch" style="background:#E4DAC5"></span>  <span class="tk-comment">/* Crème un peu plus chaud — surfaces de cartes */</span>
+<span class="tk-name">--color-paper-deep</span>:     <span class="tk-val">#D9C7A8</span>;<span class="tk-swatch" style="background:#D9C7A8"></span>  <span class="tk-comment">/* Crème assombri — fonds de badge teintés / zébré */</span>
+<span class="tk-name">--color-rule</span>:           <span class="tk-val">#C9B89A</span>;<span class="tk-swatch" style="background:#C9B89A"></span>  <span class="tk-comment">/* Hairlines / bordures — ton intermédiaire sable */</span>
+<span class="tk-name">--color-dark</span>:           <span class="tk-val">#5C4A38</span>;<span class="tk-swatch" style="background:#5C4A38"></span>  <span class="tk-comment">/* Coursive Oxydée — section inversée sombre */</span>
+<span class="tk-name">--color-dark-deepest</span>:   <span class="tk-val">#4A3B2C</span>;<span class="tk-swatch" style="background:#4A3B2C"></span>  <span class="tk-comment">/* Brun foncé — profondeurs de la section sombre */</span>
+<span class="tk-name">--color-cream-on-dark</span>:  <span class="tk-val">#F5F0E0</span>;<span class="tk-swatch" style="background:#F5F0E0"></span>  <span class="tk-comment">/* Crème clair pour texte sur la section sombre */</span>
+<span class="tk-name">--color-primary</span>:        <span class="tk-val">#1F1A14</span>;<span class="tk-swatch" style="background:#1F1A14"></span>  <span class="tk-comment">/* Encre de Carnet de Veille — texte principal */</span>
+<span class="tk-name">--color-secondary</span>:      <span class="tk-val">#3A3128</span>;<span class="tk-swatch" style="background:#3A3128"></span>  <span class="tk-comment">/* Granit de Tour Diurne — texte secondaire */</span>
+<span class="tk-name">--color-text-faint</span>:     <span class="tk-val">#6B5C46</span>;<span class="tk-swatch" style="background:#6B5C46"></span>  <span class="tk-comment">/* Brun moyen sableux — texte tertiaire / méta (≈5:1) */</span>
+<span class="tk-name">--color-ocre</span>:           <span class="tk-val">#8C6B3C</span>;<span class="tk-swatch" style="background:#8C6B3C"></span>  <span class="tk-comment">/* Bronze de Fresnel Patiné — accent décoratif / bordures */</span>
+<span class="tk-name">--color-cta</span>:            <span class="tk-val">#7A1F2B</span>;<span class="tk-swatch" style="background:#7A1F2B"></span>  <span class="tk-comment">/* Bordeaux Secteur Rouge — accent fort (CTA, foyer chaud) */</span>
+<span class="tk-name">--color-cta-deep</span>:       <span class="tk-val">#65171F</span>;<span class="tk-swatch" style="background:#65171F"></span>  <span class="tk-comment">/* Bordeaux plus profond — ombres / dégradés du CTA */</span>
+<span class="tk-name">--color-ok</span>:             <span class="tk-val">#4E6B3E</span>;<span class="tk-swatch" style="background:#4E6B3E"></span>  <span class="tk-comment">/* Vert de veille terreux — état "verrouillé/validé" */</span>
+
+<span class="tk-name">--font-display</span>: <span class="tk-val">'Gloock', 'Georgia', serif</span>;
+<span class="tk-name">--font-body</span>: <span class="tk-val">'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace</span>;
+
+<span class="tk-comment">/* alias texte par défaut sur fond clair */</span>
+<span class="tk-name">--color-text-primary</span>: <span class="tk-val">var(--color-primary)</span>;
+<span class="tk-name">--color-text-muted</span>:   <span class="tk-val">var(--color-secondary)</span>;
+
+<span class="tk-comment">/* === TYPE SCALE === */</span>
+<span class="tk-name">--text-2xs</span>: <span class="tk-val">0.66rem</span>;
+<span class="tk-name">--text-xs</span>: <span class="tk-val">0.74rem</span>;
+<span class="tk-name">--text-sm</span>: <span class="tk-val">0.84rem</span>;
+<span class="tk-name">--text-base</span>: <span class="tk-val">1rem</span>;
+<span class="tk-name">--text-md</span>: <span class="tk-val">1.1875rem</span>;
+<span class="tk-name">--text-lg</span>: <span class="tk-val">clamp(1.35rem, 1.7vw, 1.7rem)</span>;
+<span class="tk-name">--text-xl</span>: <span class="tk-val">clamp(1.9rem, 3vw, 2.6rem)</span>;
+<span class="tk-name">--text-hero</span>: <span class="tk-val">clamp(3.2rem, 8vw, 5rem)</span>;
+
+<span class="tk-comment">/* === SPACING (8px modulaire) === */</span>
+<span class="tk-name">--space-unit</span>: <span class="tk-val">8px</span>;
+<span class="tk-name">--space-3xs</span>: <span class="tk-val">calc(var(--space-unit) * 0.5)</span>;
+<span class="tk-name">--space-2xs</span>: <span class="tk-val">calc(var(--space-unit) * 1)</span>;
+<span class="tk-name">--space-xs</span>: <span class="tk-val">calc(var(--space-unit) * 1.5)</span>;
+<span class="tk-name">--space-sm</span>: <span class="tk-val">calc(var(--space-unit) * 2)</span>;
+<span class="tk-name">--space-md</span>: <span class="tk-val">calc(var(--space-unit) * 3)</span>;
+<span class="tk-name">--space-lg</span>: <span class="tk-val">calc(var(--space-unit) * 5)</span>;
+<span class="tk-name">--space-xl</span>: <span class="tk-val">calc(var(--space-unit) * 8)</span>;
+<span class="tk-name">--space-2xl</span>: <span class="tk-val">calc(var(--space-unit) * 13)</span>;
+<span class="tk-name">--space-3xl</span>: <span class="tk-val">calc(var(--space-unit) * 21)</span>;
+<span class="tk-name">--space-4xl</span>: <span class="tk-val">calc(var(--space-unit) * 30)</span>;
+
+<span class="tk-comment">/* === RADIUS === */</span>
+<span class="tk-name">--radius-sm</span>: <span class="tk-val">3px</span>;
+<span class="tk-name">--radius-md</span>: <span class="tk-val">5px</span>;
+
+<span class="tk-comment">/* === SHADOWS === */</span>
+<span class="tk-name">--shadow-card</span>: <span class="tk-val">0 1px 2px oklch(0.32 0.020 70 / 0.16), 0 8px 22px oklch(0.30 0.020 70 / 0.13), 0 18px 40px oklch(0.30 0.020 70 / 0.08)</span>;
+<span class="tk-name">--shadow-card-warm</span>: <span class="tk-val">0 2px 6px oklch(0.32 0.020 70 / 0.16), 0 16px 40px oklch(0.40 0.150 25 / 0.16)</span>;
+<span class="tk-name">--shadow-text</span>: <span class="tk-val">0 1px 10px oklch(0.97 0.010 90 / 0.45), 0 1px 1px oklch(0.97 0.010 90 / 0.6)</span>;
+
+<span class="tk-comment">/* === TRANSITIONS === */</span>
+<span class="tk-name">--ease-out-expo</span>: <span class="tk-val">cubic-bezier(.16, 1, .3, 1)</span>;
+<span class="tk-name">--ease-out-quart</span>: <span class="tk-val">cubic-bezier(.25, 1, .5, 1)</span>;
+<span class="tk-name">--ease-fresnel</span>: <span class="tk-val">cubic-bezier(.22, .68, .28, 1)</span>;
+<span class="tk-name">--ease-in-out-deep</span>: <span class="tk-val">cubic-bezier(.65, 0, .25, 1)</span>;
+<span class="tk-name">--transition-fast</span>: <span class="tk-val">180ms var(--ease-out-quart)</span>;
+<span class="tk-name">--transition-base</span>: <span class="tk-val">360ms var(--ease-fresnel)</span>;
+<span class="tk-name">--transition-slow</span>: <span class="tk-val">720ms var(--ease-in-out-deep)</span>;</pre></div>
+
+      <p class="token-arch" style="margin-top:var(--space-lg)">
+        Bilan : <strong>14 couleurs · 2 fontes · 8 type-scale · 2 radius · 3 shadows · 11 spacing · 7 transitions</strong>.
+      </p>
+    </section>
+
+    <footer class="doc__footer">
+      <span>jacques — Design System — Le Phare de Ralliement</span>
+      <span class="mono">v1.0 · 11 sections · palette Granit Diurne / Bronze</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Indicateur d'état actif dans la sidebar (scroll spy minimal)
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.sidebar__nav-link[href^="#"]'));
+    var map = {};
+    links.forEach(function (l) { var id = l.getAttribute('href').slice(1); var s = document.getElementById(id); if (s) map[id] = l; });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('is-active'); });
+          var l = map[e.target.id]; if (l) l.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+    Object.keys(map).forEach(function (id) { obs.observe(document.getElementById(id)); });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jacques — Narration & Espace — Le Phare de Ralliement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @layer reset, tokens, components;
+
+        @layer reset {
+            *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        }
+
+        @layer tokens {
+            :root {
+    /* === PALETTE — registre crème claire diurne (palette B "Granit Diurne / Bronze") === */
+    --color-paper:          #EDE6D6;   /* Parchemin de List of Lights — fond dominant clair */
+    --color-paper-warm:     #E4DAC5;   /* Crème un peu plus chaud — surfaces de cartes */
+    --color-paper-deep:     #D9C7A8;   /* Crème assombri — fonds de badge teintés / zébré */
+    --color-rule:           #C9B89A;   /* Hairlines / bordures — ton intermédiaire sable */
+    --color-dark:           #5C4A38;   /* Coursive Oxydée — section inversée sombre */
+    --color-dark-deepest:   #4A3B2C;   /* Brun foncé encore plus sombre — profondeurs de la section sombre */
+    --color-cream-on-dark:  #F5F0E0;   /* Crème clair pour texte sur la section sombre */
+    --color-primary:        #1F1A14;   /* Encre de Carnet de Veille — texte principal */
+    --color-secondary:      #3A3128;   /* Granit de Tour Diurne — texte secondaire */
+    --color-text-faint:     #6B5C46;   /* Brun moyen sableux — texte tertiaire / méta sur clair (≈5:1) */
+    --color-ocre:           #8C6B3C;   /* Bronze de Fresnel Patiné — accent décoratif / UI ≥24px / bordures */
+    --color-cta:            #7A1F2B;   /* Bordeaux Secteur Rouge — accent fort événementiel (CTA, foyer chaud) */
+    --color-cta-deep:       #65171F;   /* Bordeaux plus profond — ombres / dégradés du CTA */
+    --color-ok:             #4E6B3E;   /* Vert de veille terreux — état "verrouillé/validé" (≈4.6:1 sur paper) */
+    --font-display: 'Gloock', 'Georgia', serif;
+    --font-body: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+    /* alias texte par défaut sur fond clair */
+    --color-text-primary: var(--color-primary);
+    --color-text-muted:   var(--color-secondary);
+
+    /* === TYPE SCALE === */
+    --text-2xs: 0.66rem;
+    --text-xs: 0.74rem;
+    --text-sm: 0.84rem;
+    --text-base: 1rem;
+    --text-md: 1.1875rem;
+    --text-lg: clamp(1.35rem, 1.7vw, 1.7rem);
+    --text-xl: clamp(1.9rem, 3vw, 2.6rem);
+    --text-hero: clamp(3.2rem, 8vw, 5rem);
+
+    /* === SPACING (8px modulaire) === */
+    --space-unit: 8px;
+    --space-3xs: calc(var(--space-unit) * 0.5);
+    --space-2xs: calc(var(--space-unit) * 1);
+    --space-xs: calc(var(--space-unit) * 1.5);
+    --space-sm: calc(var(--space-unit) * 2);
+    --space-md: calc(var(--space-unit) * 3);
+    --space-lg: calc(var(--space-unit) * 5);
+    --space-xl: calc(var(--space-unit) * 8);
+    --space-2xl: calc(var(--space-unit) * 13);
+    --space-3xl: calc(var(--space-unit) * 21);
+    --space-4xl: calc(var(--space-unit) * 30);
+
+    /* === RADIUS === */
+    --radius-sm: 3px;
+    --radius-md: 5px;
+
+    /* === SHADOWS (multi-couches, subtiles sur fond clair — brun désaturé peu opaque) === */
+    --shadow-card: 0 1px 2px oklch(0.32 0.020 70 / 0.16), 0 8px 22px oklch(0.30 0.020 70 / 0.13), 0 18px 40px oklch(0.30 0.020 70 / 0.08);
+    --shadow-card-warm: 0 2px 6px oklch(0.32 0.020 70 / 0.16), 0 16px 40px oklch(0.40 0.150 25 / 0.16);
+    --shadow-text: 0 1px 10px oklch(0.97 0.010 90 / 0.45), 0 1px 1px oklch(0.97 0.010 90 / 0.6);
+
+    /* === TRANSITIONS === */
+    --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+    --ease-out-quart: cubic-bezier(.25, 1, .5, 1);
+    --ease-fresnel: cubic-bezier(.22, .68, .28, 1);
+    --ease-in-out-deep: cubic-bezier(.65, 0, .25, 1);
+    --transition-fast: 180ms var(--ease-out-quart);
+    --transition-base: 360ms var(--ease-fresnel);
+    --transition-slow: 720ms var(--ease-in-out-deep);
+  }
+        }
+
+        @layer components {
+            body { font-family: var(--font-body); color: var(--color-text-primary); background: var(--color-paper); }
+        }
+    </style>
+</head>
+<body>
+<a href="#main" class="skip-link">Aller au contenu</a>
+<main id="main">
+
+<style>
+/* ============================================================
+   CHAPITRE 08 — DIRECTION PHOTO (palette B crème "Granit Diurne / Bronze")
+   Registre : peinture à l'huile brushée appliquée au paysage aérien — version graduée crème.
+   Curseur A=3 (Rupture). Toutes classes préfixées .ch08-
+   ============================================================ */
+@layer ch08-tokens, ch08-graphic, ch08-components;
+
+@layer ch08-tokens {
+  /* @property animable — lu dans le radial-gradient du hero ET animé par @keyframes ch08-beam */
+  @property --ch08-beam-pos {
+    syntax: '<percentage>'; inherits: false; initial-value: 18%;
+  }
+}
+
+@layer ch08-graphic {
+  /* grain tuilé hérité du style-tile source (multiply discret sur fond clair) */
+  .ch08-grain {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='cn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23cn)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+    mix-blend-mode: multiply;
+    opacity: 0.06;
+  }
+}
+
+@layer ch08-components {
+
+  /* ---------- échafaudage commun ---------- */
+  .ch08-root {
+    --ch08-pad-block: clamp(var(--space-2xl), 9vw, var(--space-4xl));
+    position: relative;
+    background: var(--color-paper);
+    color: var(--color-text-primary);
+    padding-block: var(--ch08-pad-block);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  /* voilages atmosphériques (≥3 radial-gradients répartis, ton bronze/bordeaux très dilué) */
+  .ch08-root::before {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 45% at 82% 8%, color-mix(in oklch, var(--color-ocre) 12%, transparent) 0%, transparent 60%),
+      radial-gradient(50% 40% at 12% 88%, color-mix(in oklch, var(--color-cta) 7%, transparent) 0%, transparent 58%),
+      radial-gradient(70% 60% at 50% 50%, color-mix(in oklch, var(--color-paper-warm) 60%, transparent) 0%, transparent 70%);
+  }
+  .ch08-ctn {
+    position: relative; z-index: 2;
+    inline-size: min(1180px, 92vw);
+    margin-inline: auto;
+    padding-inline: clamp(var(--space-md), 4vw, var(--space-2xl));
+  }
+
+  /* ---------- ouverture de chapitre ---------- */
+  .ch08-open { margin-block-end: clamp(var(--space-xl), 6vw, var(--space-3xl)); }
+  .ch08-open__kicker {
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    text-transform: uppercase; letter-spacing: 0.34em;
+    color: var(--color-ocre);
+    margin-block-end: var(--space-md);
+  }
+  .ch08-open__kicker::before {
+    content: ''; inline-size: 38px; block-size: 2px;
+    background: var(--color-ocre);
+  }
+  .ch08-open__num {
+    font-family: var(--font-body); font-weight: 600;
+    color: var(--color-cta); letter-spacing: 0.1em;
+  }
+  .ch08-open__title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--color-primary);
+    line-height: 1.02;
+    max-inline-size: 18ch;
+    margin-block-end: var(--space-md);
+    text-wrap: balance;
+  }
+  .ch08-open__lead {
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: 1.6;
+    color: var(--color-secondary);
+    max-inline-size: 58ch;
+    text-wrap: pretty;
+  }
+  .ch08-open__lead b { color: var(--color-primary); font-weight: 600; }
+
+  /* ---------- en-tête de sous-section (08.x) ---------- */
+  .ch08-sub { margin-block-start: clamp(var(--space-xl), 6vw, var(--space-3xl)); }
+  .ch08-sub__head { margin-block-end: var(--space-lg); }
+  .ch08-sub__label {
+    display: inline-flex; align-items: baseline; gap: var(--space-sm);
+    font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs);
+    text-transform: uppercase; letter-spacing: 0.22em;
+    color: var(--color-ocre);
+    margin-block-end: var(--space-sm);
+  }
+  .ch08-sub__label i { font-style: normal; color: var(--color-cta); }
+  .ch08-sub__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--color-primary);
+    line-height: 1.05;
+    margin-block-end: var(--space-xs);
+    text-wrap: balance;
+  }
+  .ch08-sub__desc {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: var(--color-secondary);
+    max-inline-size: 64ch;
+    text-wrap: pretty;
+  }
+
+  /* ============================================================
+     08.1 — STYLE PHOTOGRAPHIQUE (moodboard de vraies images)
+     ============================================================ */
+  .ch08-mood {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 11vw;
+    gap: 3px;
+    container-type: inline-size;
+  }
+  .ch08-frame {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    background: var(--color-paper-deep);
+    box-shadow: var(--shadow-card);
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      filter var(--transition-base);
+  }
+  .ch08-frame img {
+    position: absolute; inset: 0; z-index: 0;
+    inline-size: 100%; block-size: 100%;
+    object-fit: cover;
+    /* harmonisation chromatique douce vers le crème diurne — pas de border */
+    filter: saturate(0.94) contrast(1.02);
+    transition: transform var(--transition-slow), filter var(--transition-base);
+  }
+  /* dégradé de lisibilité depuis le bas, teinté encre */
+  .ch08-frame::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklch, var(--color-primary) 78%, transparent) 0%,
+      color-mix(in oklch, var(--color-primary) 30%, transparent) 32%,
+      transparent 62%);
+  }
+  .ch08-frame:hover {
+    transform: scale(1.006);
+    box-shadow:
+      0 2px 4px oklch(0.30 0.02 70 / 0.18),
+      0 14px 34px oklch(0.30 0.02 70 / 0.16),
+      0 28px 60px oklch(0.30 0.02 70 / 0.10);
+    filter: saturate(1.02);
+  }
+  .ch08-frame:hover img { transform: scale(1.018); filter: saturate(1) contrast(1.05); }
+  .ch08-frame__cap {
+    position: relative; z-index: 2;
+    padding: var(--space-md);
+  }
+  .ch08-frame__over {
+    display: block;
+    font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs);
+    text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--color-paper-deep);
+    margin-block-end: var(--space-3xs);
+  }
+  .ch08-frame__name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    color: var(--color-cream-on-dark);
+    line-height: 1.1;
+    margin-block-end: var(--space-3xs);
+  }
+  .ch08-frame__note {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    color: color-mix(in oklch, var(--color-cream-on-dark) 72%, transparent);
+    line-height: 1.55;
+    max-inline-size: 38ch;
+  }
+  /* placement éditorial asymétrique — le hero domine (A=3 grille brisée) */
+  .ch08-frame--hero    { grid-column: span 7; grid-row: span 3; }
+  .ch08-frame--pov     { grid-column: span 5; grid-row: span 2; }
+  .ch08-frame--macro   { grid-column: span 5; grid-row: span 1; }
+  .ch08-frame--brume   { grid-column: span 5; grid-row: span 2; }
+  .ch08-frame--riviere { grid-column: span 7; grid-row: span 2; }
+  @container (max-width: 640px) {
+    .ch08-mood { grid-auto-rows: 26vw; }
+    .ch08-frame--hero, .ch08-frame--pov, .ch08-frame--macro,
+    .ch08-frame--brume, .ch08-frame--riviere { grid-column: span 12; grid-row: span 1; }
+  }
+
+  /* ============================================================
+     08.2 — TRAITEMENT CHROMATIQUE (color grading : la série atmosphère)
+     ============================================================ */
+  .ch08-grade {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+  }
+  .ch08-step {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    background: var(--color-paper-warm);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .ch08-step:hover {
+    transform: scale(1.006);
+    box-shadow:
+      0 2px 4px oklch(0.30 0.02 70 / 0.18),
+      0 12px 30px oklch(0.30 0.02 70 / 0.15);
+  }
+  .ch08-step__vis { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
+  .ch08-step__vis img {
+    inline-size: 100%; block-size: 100%; object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+  .ch08-step:hover .ch08-step__vis img { transform: scale(1.02); }
+  /* bande tonale — incarne la zone que l'image démontre (SHOW>TELL) */
+  .ch08-step__ramp { display: flex; block-size: 5px; }
+  .ch08-step__ramp span { flex: 1; }
+  .ch08-step__info {
+    padding: var(--space-md);
+    border-block-start: 2px solid var(--ramp-accent, var(--color-rule));
+    flex: 1;
+  }
+  .ch08-step__idx {
+    font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs); letter-spacing: 0.14em;
+    color: var(--color-text-faint);
+  }
+  .ch08-step__tag {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    color: var(--color-primary);
+    line-height: 1.08;
+    margin-block: var(--space-3xs) var(--space-2xs);
+  }
+  .ch08-step__use {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    color: var(--color-secondary);
+    line-height: 1.55;
+  }
+  @media (max-width: 880px) { .ch08-grade { grid-template-columns: repeat(2, 1fr); } }
+
+  /* note d'extrêmes (brouillard / rivière) en bandeau diptyque */
+  .ch08-poles {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-block-start: 3px;
+  }
+  .ch08-pole {
+    position: relative; overflow: hidden; min-block-size: 260px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    box-shadow: var(--shadow-card);
+  }
+  .ch08-pole img {
+    position: absolute; inset: 0; z-index: 0;
+    inline-size: 100%; block-size: 100%; object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+  .ch08-pole:hover img { transform: scale(1.02); }
+  .ch08-pole::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to top,
+      color-mix(in oklch, var(--color-primary) 74%, transparent) 0%,
+      transparent 55%);
+  }
+  .ch08-pole__cap { position: relative; z-index: 2; padding: var(--space-md); }
+  .ch08-pole__tag {
+    display: block; font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--ramp-accent, var(--color-paper-deep));
+    margin-block-end: var(--space-3xs);
+  }
+  .ch08-pole__name {
+    display: block; font-family: var(--font-display); font-size: var(--text-md);
+    color: var(--color-cream-on-dark); line-height: 1.1; margin-block-end: var(--space-3xs);
+  }
+  .ch08-pole__note {
+    display: block; font-family: var(--font-body); font-size: var(--text-2xs);
+    color: color-mix(in oklch, var(--color-cream-on-dark) 74%, transparent);
+    line-height: 1.55; max-inline-size: 40ch;
+  }
+  @media (max-width: 720px) { .ch08-poles { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     08.3 — SCÉNOGRAPHIE (hero + pov + animation en situation)
+     ============================================================ */
+  .ch08-stage {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 3px;
+    align-items: stretch;
+  }
+  /* hero plein-format — l'image-pivot posée comme tableau de référence */
+  .ch08-hero {
+    position: relative; overflow: hidden;
+    min-block-size: 520px;
+    box-shadow: var(--shadow-card);
+  }
+  .ch08-hero img {
+    position: absolute; inset: 0; z-index: 0;
+    inline-size: 100%; block-size: 100%; object-fit: cover;
+  }
+  /* faisceau implicite — bande lumineuse pâle balayée via @property animé */
+  .ch08-hero::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(
+      130% 50% at var(--ch08-beam-pos) 16%,
+      color-mix(in oklch, var(--color-cream-on-dark) 32%, transparent) 0%,
+      transparent 42%);
+    mix-blend-mode: screen;
+    /* balayage joué UNE fois, piloté par le scroll d'apparition du hero (pas de boucle infinie) */
+    animation: ch08-beam linear both;
+    animation-timeline: view();
+    animation-range: cover 5% cover 95%;
+  }
+  /* fallback navigateurs sans scroll-driven animations : pose statique, pas de boucle */
+  @supports not (animation-timeline: view()) {
+    .ch08-hero::before { animation: none; --ch08-beam-pos: 48%; }
+  }
+  @keyframes ch08-beam {
+    from { --ch08-beam-pos: 18%; }
+    to   { --ch08-beam-pos: 78%; }
+  }
+  .ch08-hero__plate {
+    position: absolute; z-index: 2; inset-block-end: 0; inset-inline: 0;
+    padding: var(--space-lg) var(--space-md);
+    background: linear-gradient(to top,
+      color-mix(in oklch, var(--color-primary) 80%, transparent) 0%,
+      transparent 100%);
+  }
+  .ch08-hero__over {
+    display: block; font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.22em;
+    color: var(--color-ocre); margin-block-end: var(--space-2xs);
+  }
+  .ch08-hero__title {
+    font-family: var(--font-display); font-size: var(--text-lg);
+    color: var(--color-cream-on-dark); line-height: 1.04; max-inline-size: 20ch;
+    margin-block-end: var(--space-2xs); text-wrap: balance;
+  }
+  .ch08-hero__note {
+    font-family: var(--font-body); font-size: var(--text-2xs);
+    color: color-mix(in oklch, var(--color-cream-on-dark) 76%, transparent);
+    line-height: 1.6; max-inline-size: 52ch;
+  }
+
+  /* colonne droite — pov + animation empilés */
+  .ch08-stack { display: grid; grid-template-rows: 1fr auto; gap: 3px; }
+  .ch08-pov {
+    position: relative; overflow: hidden; min-block-size: 240px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    box-shadow: var(--shadow-card);
+  }
+  .ch08-pov img {
+    position: absolute; inset: 0; z-index: 0;
+    inline-size: 100%; block-size: 100%; object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+  .ch08-pov:hover img { transform: scale(1.02); }
+  .ch08-pov::after {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(to top,
+      color-mix(in oklch, var(--color-primary) 72%, transparent) 0%, transparent 60%);
+  }
+  .ch08-pov__cap { position: relative; z-index: 2; padding: var(--space-md); }
+  .ch08-pov__over {
+    display: block; font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--color-paper-deep); margin-block-end: var(--space-3xs);
+  }
+  .ch08-pov__name {
+    display: block; font-family: var(--font-display); font-size: var(--text-base);
+    color: var(--color-cream-on-dark); line-height: 1.1;
+  }
+  .ch08-pov__note {
+    display: block; font-family: var(--font-body); font-size: var(--text-2xs);
+    color: color-mix(in oklch, var(--color-cream-on-dark) 74%, transparent);
+    line-height: 1.5; margin-block-start: var(--space-3xs); max-inline-size: 34ch;
+  }
+
+  /* cartouche animation — l'iframe autoporteuse, ratio portrait respecté */
+  .ch08-anim {
+    background: var(--color-paper-warm);
+    box-shadow: var(--shadow-card);
+    border-block-start: 2px solid var(--color-ocre);
+    overflow: hidden;
+  }
+  .ch08-anim__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--space-sm); padding: var(--space-sm) var(--space-md);
+  }
+  .ch08-anim__tag {
+    font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--color-ocre);
+  }
+  .ch08-anim__meta {
+    font-family: var(--font-body); font-size: var(--text-2xs);
+    color: var(--color-text-faint); letter-spacing: 0.06em;
+  }
+  .ch08-anim__hold {
+    position: relative;
+    aspect-ratio: 1493 / 2000;
+    inline-size: 100%;
+    background: var(--color-paper-deep);
+  }
+  .ch08-anim__hold iframe {
+    position: absolute; inset: 0;
+    inline-size: 100%; block-size: 100%;
+    border: 0; display: block;
+  }
+  @media (max-width: 920px) {
+    .ch08-stage { grid-template-columns: 1fr; }
+    .ch08-hero { min-block-size: 380px; }
+  }
+
+  /* ============================================================
+     08.4 — SIGNATURE DE PROMPTING IA
+     ============================================================ */
+  .ch08-prompts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+  }
+  .ch08-prompt {
+    position: relative;
+    background: var(--color-dark);
+    color: var(--color-cream-on-dark);
+    padding: var(--space-lg);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .ch08-prompt::before {
+    content: ''; position: absolute; inset-block: 0; inset-inline-start: 0;
+    inline-size: 3px; background: var(--color-ocre);
+  }
+  .ch08-prompt--cta::before { background: var(--color-cta); }
+  /* voilage sombre matière sur le bloc code (cohérent section inversée du style-tile) */
+  .ch08-prompt::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(70% 60% at 88% 12%, color-mix(in oklch, var(--color-ocre) 16%, transparent) 0%, transparent 60%),
+      radial-gradient(60% 50% at 8% 92%, color-mix(in oklch, var(--color-cta) 12%, transparent) 0%, transparent 58%),
+      var(--color-dark-deepest);
+  }
+  .ch08-prompt:hover {
+    transform: scale(1.004);
+    box-shadow: var(--shadow-card-warm);
+  }
+  .ch08-prompt__head {
+    display: flex; align-items: center; gap: var(--space-sm);
+    margin-block-end: var(--space-md);
+  }
+  .ch08-prompt__engine {
+    font-family: var(--font-body); font-weight: 600;
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--color-ocre);
+  }
+  .ch08-prompt--cta .ch08-prompt__engine { color: color-mix(in oklch, var(--color-cta) 60%, var(--color-cream-on-dark)); }
+  .ch08-prompt__role {
+    font-family: var(--font-body); font-size: var(--text-2xs);
+    color: color-mix(in oklch, var(--color-cream-on-dark) 55%, transparent);
+    letter-spacing: 0.04em;
+  }
+  .ch08-prompt__code {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    color: color-mix(in oklch, var(--color-cream-on-dark) 82%, transparent);
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .ch08-prompt__code .hl { color: var(--color-cream-on-dark); font-weight: 600; }
+  .ch08-prompt__code .ac { color: var(--color-ocre); }
+  .ch08-prompt__code .ct { color: color-mix(in oklch, var(--color-cta) 55%, var(--color-cream-on-dark)); }
+  .ch08-prompt__code .dim { color: color-mix(in oklch, var(--color-cream-on-dark) 42%, transparent); }
+  .ch08-tags { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin-block-start: var(--space-md); }
+  .ch08-tag {
+    font-family: var(--font-body); font-size: var(--text-2xs);
+    padding: var(--space-3xs) var(--space-sm);
+    border: 1px solid color-mix(in oklch, var(--color-ocre) 45%, transparent);
+    color: color-mix(in oklch, var(--color-cream-on-dark) 65%, transparent);
+    border-radius: var(--radius-sm);
+  }
+  .ch08-tag--hot {
+    border-color: var(--color-ocre);
+    color: var(--color-cream-on-dark);
+    background: color-mix(in oklch, var(--color-ocre) 16%, transparent);
+  }
+  @media (max-width: 820px) { .ch08-prompts { grid-template-columns: 1fr; } }
+
+  /* focus-visible cohérent (accent CTA) */
+  .ch08-root :where(a, button, iframe, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-cta);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* touch target / accessibilité des images cliquables non requise — pas d'interactif natif ici */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch08-hero::before { animation: none; }
+}
+</style>
+
+<section class="ch08-root">
+  <div class="ch08-ctn">
+
+    <!-- ===== Ouverture du chapitre ===== -->
+    <header class="ch08-open">
+      <span class="ch08-open__kicker"><span class="ch08-open__num">08</span> Direction photo</span>
+      <h2 class="ch08-open__title">Une matière en mouvement, un seul point qui ne bouge pas.</h2>
+      <p class="ch08-open__lead">La direction visuelle de jacques n'est pas photographique au sens du reportage : elle est <b>picturale</b>. Un paysage aérien peint au pinceau brossé, vallonné, traversé d'une rivière argentée — et, posé tout en haut à droite, un foyer chaud minuscule qui ne tente jamais de couvrir le paysage. Toute la scène respire la crème diurne du parchemin de veille ; le repère, lui, tient à part. C'est sa stabilité, pas sa taille, qui rend la traversée lisible.</p>
+    </header>
+
+    <!-- ===== 08.1 — Style Photographique (moodboard) ===== -->
+    <div class="ch08-sub">
+      <div class="ch08-sub__head">
+        <span class="ch08-sub__label"><i>08.1</i> Style photographique</span>
+        <h3 class="ch08-sub__title">Le moodboard est déjà peint.</h3>
+        <p class="ch08-sub__desc">Pas de banque d'images, pas de mise en scène : la matière est une peinture à l'huile brossée, empâtements directionnels visibles, aucune surface lisse. On lit le paysage d'au-dessus comme une carte vivante. Le foyer chaud reste ponctuel — jamais un mur de couleur, toujours une pointe.</p>
+      </div>
+      <div class="ch08-mood">
+        <figure class="ch08-frame ch08-frame--hero">
+          <img src="visual-final/jacques-c3-paletteB-hero.jpg" alt="Vue aérienne peinte d'une vallée crème traversée d'une rivière serpentine argentée, foyer chaud ponctuel en haut à droite" loading="lazy">
+          <figcaption class="ch08-frame__cap">
+            <span class="ch08-frame__over">Image-pivot</span>
+            <span class="ch08-frame__name">La vallée vue d'en haut</span>
+            <span class="ch08-frame__note">Brushwork tourbillonnant sur ~95 % du cadre. Le repère occupe moins de 0,1 % de la surface — et c'est lui qu'on cherche.</span>
+          </figcaption>
+        </figure>
+        <figure class="ch08-frame ch08-frame--pov">
+          <img src="visual-final/jacques-c3-paletteB-pov-depuis-phare.png" alt="Point de vue depuis le repère lumineux dominant la vallée brossée" loading="lazy">
+          <figcaption class="ch08-frame__cap">
+            <span class="ch08-frame__over">Point de vue</span>
+            <span class="ch08-frame__name">Depuis le repère</span>
+            <span class="ch08-frame__note">Le contrechamp : ce que voit le repère fixe. Hauteur qui porte, pas hauteur qui surplombe.</span>
+          </figcaption>
+        </figure>
+        <figure class="ch08-frame ch08-frame--macro">
+          <img src="visual-final/jacques-c3-paletteB-macro-halo.png" alt="Plan macro sur le halo du foyer chaud, empâtements de peinture rapprochés" loading="lazy">
+          <figcaption class="ch08-frame__cap">
+            <span class="ch08-frame__over">Macro</span>
+            <span class="ch08-frame__name">Le grain du foyer</span>
+          </figcaption>
+        </figure>
+        <figure class="ch08-frame ch08-frame--brume">
+          <img src="visual-final/jacques-c3-paletteB-atmosphere-brouillard.png" alt="Variante atmosphérique brouillard : la vallée peinte voilée de brume claire" loading="lazy">
+          <figcaption class="ch08-frame__cap">
+            <span class="ch08-frame__over">Atmosphère</span>
+            <span class="ch08-frame__name">Le voile de brume</span>
+            <span class="ch08-frame__note">La brume est un négatif de matière, pas un vide lisse — elle reste peinte.</span>
+          </figcaption>
+        </figure>
+        <figure class="ch08-frame ch08-frame--riviere">
+          <img src="visual-final/jacques-c3-paletteB-atmosphere-riviere.png" alt="Variante atmosphérique mettant en valeur la rivière serpentine argentée comme tracé directeur" loading="lazy">
+          <figcaption class="ch08-frame__cap">
+            <span class="ch08-frame__over">Atmosphère</span>
+            <span class="ch08-frame__name">La rivière comme tracé</span>
+            <span class="ch08-frame__note">La serpentine argentée joue le faisceau dessiné dans le paysage : la trajectoire passe par la matière.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- ===== 08.2 — Traitement Chromatique (color grading) ===== -->
+    <div class="ch08-sub">
+      <div class="ch08-sub__head">
+        <span class="ch08-sub__label"><i>08.2</i> Traitement chromatique</span>
+        <h3 class="ch08-sub__title">Quatre niveaux, un même parchemin.</h3>
+        <p class="ch08-sub__desc">Le color grading diurne se lit comme une rampe : du plus calme (uniforme) au plus contrasté (dramatique). Chaque niveau a un usage assigné — fond de contenu, surface de section, accent, moment de vision. La masse reste toujours crème ; ce qui change, c'est l'intensité du foyer et la profondeur des creux.</p>
+      </div>
+      <div class="ch08-grade">
+        <article class="ch08-step" style="--ramp-accent: var(--color-rule);">
+          <div class="ch08-step__vis">
+            <img src="visual-final/jacques-c3-paletteB-atmosphere-uniforme.png" alt="Niveau uniforme : color grading le plus calme, masse crème homogène" loading="lazy">
+          </div>
+          <div class="ch08-step__ramp">
+            <span style="background:#EDE6D6"></span><span style="background:#E4DAC5"></span>
+            <span style="background:#D9C7A8"></span><span style="background:#C9B89A"></span>
+          </div>
+          <div class="ch08-step__info">
+            <span class="ch08-step__idx">Niveau 1</span>
+            <span class="ch08-step__tag">Uniforme</span>
+            <span class="ch08-step__use">Le plus calme. Fonds de pages de contenu, lectures longues, documentation technique.</span>
+          </div>
+        </article>
+        <article class="ch08-step" style="--ramp-accent: var(--color-ocre);">
+          <div class="ch08-step__vis">
+            <img src="visual-final/jacques-c3-paletteB-atmosphere-parchemin.png" alt="Niveau parchemin : grading crème un peu plus chaud, surfaces de cartes" loading="lazy">
+          </div>
+          <div class="ch08-step__ramp">
+            <span style="background:#E4DAC5"></span><span style="background:#D9C7A8"></span>
+            <span style="background:#C9B89A"></span><span style="background:#8C6B3C"></span>
+          </div>
+          <div class="ch08-step__info">
+            <span class="ch08-step__idx">Niveau 2</span>
+            <span class="ch08-step__tag">Parchemin</span>
+            <span class="ch08-step__use">Crème chaleureux. Surfaces de cartes, encarts, sections de respiration éditoriale.</span>
+          </div>
+        </article>
+        <article class="ch08-step" style="--ramp-accent: var(--color-cta);">
+          <div class="ch08-step__vis">
+            <img src="visual-final/jacques-c3-paletteB-atmosphere-doux.png" alt="Niveau doux : grading contrasté modéré, le foyer chaud commence à porter" loading="lazy">
+          </div>
+          <div class="ch08-step__ramp">
+            <span style="background:#D9C7A8"></span><span style="background:#8C6B3C"></span>
+            <span style="background:#7A1F2B"></span><span style="background:#5C4A38"></span>
+          </div>
+          <div class="ch08-step__info">
+            <span class="ch08-step__idx">Niveau 3</span>
+            <span class="ch08-step__tag">Doux</span>
+            <span class="ch08-step__use">Le foyer porte. Accents, appels à l'action, points de bascule d'une page.</span>
+          </div>
+        </article>
+        <article class="ch08-step" style="--ramp-accent: var(--color-cta-deep);">
+          <div class="ch08-step__vis">
+            <img src="visual-final/jacques-c3-paletteB-atmosphere-dramatique.png" alt="Niveau dramatique : grading le plus contrasté, creux profonds et foyer pleinement chaud" loading="lazy">
+          </div>
+          <div class="ch08-step__ramp">
+            <span style="background:#8C6B3C"></span><span style="background:#7A1F2B"></span>
+            <span style="background:#65171F"></span><span style="background:#4A3B2C"></span>
+          </div>
+          <div class="ch08-step__info">
+            <span class="ch08-step__idx">Niveau 4</span>
+            <span class="ch08-step__tag">Dramatique</span>
+            <span class="ch08-step__use">Vision. Moment de marque, ouverture de chapitre, plein écran d'impact.</span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ===== 08.3 — Scénographie (mise en situation) ===== -->
+    <div class="ch08-sub">
+      <div class="ch08-sub__head">
+        <span class="ch08-sub__label"><i>08.3</i> Scénographie</span>
+        <h3 class="ch08-sub__title">Le visuel en situation, pas dans un cadre d'appareil.</h3>
+        <p class="ch08-sub__desc">L'image-pivot n'est pas montrée dans un mockup de device : elle est posée plein-format comme un tableau de référence, accompagnée du contrechamp depuis le repère et de la version animée du faisceau. C'est ainsi qu'elle vit dans un support — en surface dominante, jamais en vignette décorative.</p>
+      </div>
+      <div class="ch08-stage">
+        <figure class="ch08-hero">
+          <img src="visual-final/jacques-c3-paletteB-hero.jpg" alt="Image-pivot plein-format : la vallée peinte vue d'en haut, foyer chaud ponctuel" loading="lazy">
+          <figcaption class="ch08-hero__plate">
+            <span class="ch08-hero__over">Surface dominante</span>
+            <span class="ch08-hero__title">Le paysage tient le cadre, le repère tient l'œil.</span>
+            <span class="ch08-hero__note">Usage : pleine page d'ouverture, couverture, hero éditorial. Un voile lumineux pâle balaie lentement la matière — le faisceau implicite, jamais un projecteur.</span>
+          </figcaption>
+        </figure>
+        <div class="ch08-stack">
+          <figure class="ch08-pov">
+            <img src="visual-final/jacques-c3-paletteB-pov-depuis-phare.png" alt="Contrechamp depuis le repère vers la vallée brossée" loading="lazy">
+            <figcaption class="ch08-pov__cap">
+              <span class="ch08-pov__over">Contrechamp</span>
+              <span class="ch08-pov__name">Depuis le repère</span>
+              <span class="ch08-pov__note">Le second cadrage du système : ce que le repère regarde.</span>
+            </figcaption>
+          </figure>
+          <figure class="ch08-anim">
+            <div class="ch08-anim__head">
+              <span class="ch08-anim__tag">Version animée</span>
+              <span class="ch08-anim__meta">Faisceau pâle · boucle</span>
+            </div>
+            <div class="ch08-anim__hold">
+              <iframe src="visual-final/jacques-c3-paletteB-animation.html" loading="lazy" title="Animation du faisceau de lumière pâle balayant le paysage peint"></iframe>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 08.4 — Signature de Prompting IA ===== -->
+    <div class="ch08-sub">
+      <div class="ch08-sub__head">
+        <span class="ch08-sub__label"><i>08.4</i> Signature de prompting IA</span>
+        <h3 class="ch08-sub__title">Régénérer dans l'univers, mot pour mot.</h3>
+        <p class="ch08-sub__desc">Médium pictural (peinture à l'huile brossée) — registre MidJourney, pas de vecteur Recraft. Les prompts ci-dessous reproduisent la signature : paysage aérien peint, foyer chaud ponctuel, palette crème graduée, brushwork tourbillonnant. Copier, coller, générer.</p>
+      </div>
+      <div class="ch08-prompts">
+        <article class="ch08-prompt">
+          <div class="ch08-prompt__head">
+            <span class="ch08-prompt__engine">MidJourney</span>
+            <span class="ch08-prompt__role">Image-pivot · paysage aérien</span>
+          </div>
+          <p class="ch08-prompt__code"><span class="hl">brushed oil painting</span>, aerial top-down view of a rolling valley at twilight, <span class="ac">swirling impasto brushwork</span> like Van Gogh, a <span class="ac">silver serpentine river</span> winding through the hills, <span class="ct">one tiny warm point of light</span> on the far upper-right ridge, <span class="hl">cream and parchment palette</span>, soft sandy ochres, painterly texture everywhere, no smooth areas, <span class="dim">--ar 3:4 --style raw --s 250</span></p>
+          <div class="ch08-tags">
+            <span class="ch08-tag ch08-tag--hot">oil painting</span>
+            <span class="ch08-tag">impasto</span>
+            <span class="ch08-tag ch08-tag--hot">aerial valley</span>
+            <span class="ch08-tag">cream palette</span>
+          </div>
+        </article>
+        <article class="ch08-prompt ch08-prompt--cta">
+          <div class="ch08-prompt__head">
+            <span class="ch08-prompt__engine">MidJourney</span>
+            <span class="ch08-prompt__role">Contrechamp · depuis le repère</span>
+          </div>
+          <p class="ch08-prompt__code"><span class="hl">brushed oil painting</span>, view looking out from a high fixed vantage over a painted valley, <span class="ac">thick directional brushstrokes</span> on the slopes, low diffuse daylight, <span class="ct">a single warm glow in the foreground</span> reading as a steady beacon, <span class="hl">warm cream tones, patinated bronze accents</span>, foggy painterly atmosphere, edges crisp on the focus only, <span class="dim">--ar 4:5 --style raw --s 200</span></p>
+          <div class="ch08-tags">
+            <span class="ch08-tag ch08-tag--hot">point of view</span>
+            <span class="ch08-tag">fixed beacon</span>
+            <span class="ch08-tag ch08-tag--hot">bronze accent</span>
+          </div>
+        </article>
+        <article class="ch08-prompt">
+          <div class="ch08-prompt__head">
+            <span class="ch08-prompt__engine">MidJourney</span>
+            <span class="ch08-prompt__role">Macro · grain du foyer</span>
+          </div>
+          <p class="ch08-prompt__code"><span class="hl">macro oil painting detail</span>, close-up on a <span class="ct">warm halo of light</span> emerging from dense painterly darkness, <span class="ac">visible impasto strokes</span>, palette-knife texture, cream and ochre pigments melting into warm bordeaux at the core, <span class="hl">no perfect circle, irregular organic edge</span>, tactile paint surface, <span class="dim">--ar 1:1 --style raw --s 300</span></p>
+          <div class="ch08-tags">
+            <span class="ch08-tag ch08-tag--hot">macro</span>
+            <span class="ch08-tag">palette knife</span>
+            <span class="ch08-tag ch08-tag--hot">warm halo</span>
+          </div>
+        </article>
+        <article class="ch08-prompt">
+          <div class="ch08-prompt__head">
+            <span class="ch08-prompt__engine">MidJourney</span>
+            <span class="ch08-prompt__role">Atmosphère · brume / rivière</span>
+          </div>
+          <p class="ch08-prompt__code"><span class="hl">brushed oil painting</span>, same aerial valley veiled in <span class="ac">painted morning fog</span>, the <span class="ct">silver river</span> still legible as the directing line, <span class="hl">cream parchment dominant</span>, fog rendered as moving paint not smooth haze, swirling sky, faint warm beacon barely visible, <span class="dim">--ar 3:4 --style raw --s 250</span></p>
+          <div class="ch08-tags">
+            <span class="ch08-tag ch08-tag--hot">atmosphere</span>
+            <span class="ch08-tag">painted fog</span>
+            <span class="ch08-tag ch08-tag--hot">serpentine river</span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </div>
+  <span class="ch08-grain" aria-hidden="true"></span>
+</section>
+
+<style>
+@layer ch09 {
+
+  /* ---------------------------------------------------------
+     SECTION SHELL — rythme vertical différencié (chapitre 09)
+     padding-block volontairement distinct des autres chapitres
+     --------------------------------------------------------- */
+  .ch09-section {
+    position: relative;
+    padding-block: clamp(var(--space-2xl), 7vw, var(--space-4xl)) var(--space-xl);
+    padding-inline: clamp(var(--space-md), 5vw, var(--space-3xl));
+    color: var(--color-text-primary);
+  }
+  .ch09-section + .ch09-section {
+    padding-block-start: var(--space-2xl);
+    border-block-start: 1px solid color-mix(in oklch, var(--color-rule) 60%, transparent);
+  }
+  .ch09-shell {
+    max-inline-size: 1180px;
+    margin-inline: auto;
+  }
+
+  /* ---- en-tête de sous-section : overline à décorateur linéaire + titre + chapeau ---- */
+  .ch09-head {
+    display: grid;
+    gap: var(--space-sm);
+    margin-block-end: var(--space-xl);
+    max-inline-size: 62ch;
+  }
+  .ch09-head__over {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-ocre);
+  }
+  .ch09-head__over::before {
+    content: '';
+    inline-size: clamp(28px, 4vw, 56px);
+    block-size: 2px;
+    background: var(--color-ocre);
+  }
+  .ch09-head__index {
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in oklch, var(--color-ocre) 70%, var(--color-secondary));
+  }
+  .ch09-head__title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--color-primary);
+    text-wrap: balance;
+  }
+  .ch09-head__title em {
+    font-style: normal;
+    color: color-mix(in oklch, var(--color-cta) 86%, var(--color-primary));
+  }
+  .ch09-head__lead {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-secondary);
+    text-wrap: pretty;
+  }
+
+  /* caption mono partagée sous les démonstrations */
+  .ch09-cap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-md);
+    margin-block-start: var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+  .ch09-cap b { color: var(--color-primary); font-weight: 600; }
+  .ch09-cap i { font-style: normal; color: var(--color-cta); }
+
+  /* =========================================================
+     09.1 — ARCHITECTURE DE GRILLES
+     plan documentaire : surface composite, colonnes réelles
+     + blocs étiquetés posés en grid-column / grid-row
+     ========================================================= */
+  .ch09-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: clamp(40px, 6vw, 64px);
+    gap: var(--space-2xs);
+    padding: clamp(var(--space-sm), 2vw, var(--space-lg));
+    border-radius: var(--radius-md);
+    background:
+      radial-gradient(120% 86% at 88% 4%, color-mix(in oklch, var(--color-ocre) 9%, transparent), transparent 56%),
+      linear-gradient(168deg,
+        color-mix(in oklch, var(--color-paper-warm) 88%, #FFFCF5) 0%,
+        var(--color-paper-warm) 56%,
+        color-mix(in oklch, var(--color-paper-warm) 84%, var(--color-paper-deep)) 100%);
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+    overflow: hidden;
+  }
+  /* trame des 12 colonnes : hairlines verticales en fond (mask de répétition) */
+  .ch09-grid::before {
+    content: '';
+    position: absolute;
+    inset: clamp(var(--space-sm), 2vw, var(--space-lg));
+    z-index: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--color-rule) 42%, transparent) 0,
+      color-mix(in oklch, var(--color-rule) 42%, transparent) 1px,
+      transparent 1px,
+      transparent calc(100% / 12)
+    );
+    pointer-events: none;
+  }
+  .ch09-cell {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.2em;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .ch09-cell__role {
+    font-size: var(--text-2xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .ch09-cell__span {
+    font-size: var(--text-2xs);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.1em;
+    opacity: 0.78;
+  }
+  .ch09-cell:hover { transform: scale(1.012); box-shadow: var(--shadow-card); }
+  /* le foyer : un seul bloc chaud (le repère verrouillé) — accent = événement */
+  .ch09-cell--focus {
+    grid-column: 1 / span 7;
+    grid-row: 1 / span 2;
+    color: var(--color-cream-on-dark);
+    background:
+      radial-gradient(140% 120% at 84% 8%, color-mix(in oklch, var(--color-ocre) 26%, transparent), transparent 60%),
+      linear-gradient(150deg,
+        color-mix(in oklch, var(--color-cta) 94%, #FFFCF5) 0%,
+        var(--color-cta) 54%,
+        color-mix(in oklch, var(--color-cta) 82%, var(--color-cta-deep)) 100%);
+    box-shadow: var(--shadow-card-warm);
+  }
+  .ch09-cell--focus:hover { box-shadow: 0 2px 8px oklch(0.32 0.020 70 / 0.18), 0 20px 48px oklch(0.40 0.150 25 / 0.22); }
+  .ch09-cell--support {
+    grid-column: 8 / span 5;
+    grid-row: 1 / span 1;
+    background: color-mix(in oklch, var(--color-paper-deep) 50%, var(--color-paper-warm));
+    color: var(--color-secondary);
+    padding-inline-start: var(--space-xs);
+  }
+  .ch09-cell--note {
+    grid-column: 8 / span 5;
+    grid-row: 2 / span 1;
+    background: color-mix(in oklch, var(--color-paper-deep) 32%, transparent);
+    color: var(--color-text-faint);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 55%, transparent);
+  }
+  .ch09-cell--margin {
+    grid-column: 1 / span 4;
+    grid-row: 3 / span 1;
+    background: color-mix(in oklch, var(--color-paper) 60%, transparent);
+    color: var(--color-text-faint);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 50%, transparent);
+  }
+  .ch09-cell--gutter {
+    grid-column: 5 / span 4;
+    grid-row: 3 / span 1;
+    background: color-mix(in oklch, var(--color-paper) 60%, transparent);
+    color: var(--color-text-faint);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 50%, transparent);
+  }
+  .ch09-cell--baseline {
+    grid-column: 9 / span 4;
+    grid-row: 3 / span 1;
+    background: color-mix(in oklch, var(--color-ok) 14%, var(--color-paper-warm));
+    color: var(--color-secondary);
+    padding-inline-start: var(--space-xs);
+  }
+
+  /* légende sous la grille — alignée sur le langage hairline */
+  .ch09-grid-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    margin-block-start: var(--space-md);
+  }
+  .ch09-grid-legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+  }
+  .ch09-grid-legend__swatch {
+    inline-size: 14px;
+    block-size: 14px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  /* =========================================================
+     09.2 — STRATÉGIE DE DENSITÉ
+     aéré vs compact — padding 3× + interlignes opposés
+     ========================================================= */
+  .ch09-dens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-md);
+    align-items: start;
+  }
+  .ch09-dens-card {
+    position: relative;
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--color-paper-warm) 90%, #FFFCF5);
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+    overflow: hidden;
+  }
+  .ch09-dens-card__cap {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-block-end: 1px solid color-mix(in oklch, var(--color-rule) 60%, transparent);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+  .ch09-dens-card__metric {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ocre);
+    font-weight: 600;
+  }
+  .ch09-dens-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+  .ch09-dens-item__mark {
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 2px;
+    background: var(--color-ocre);
+    margin-block-start: 0.45em;
+  }
+  .ch09-dens-item__title {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+  }
+  .ch09-dens-item__desc {
+    font-family: var(--font-body);
+    color: var(--color-secondary);
+  }
+
+  /* --- mode AÉRÉ : padding XXL (≈3×), gap large, peu de contenu, interligne ample --- */
+  .ch09-dens-card--airy .ch09-dens-card__body {
+    display: grid;
+    gap: var(--space-2xl);
+    padding: var(--space-2xl);
+  }
+  .ch09-dens-card--airy .ch09-dens-item { gap: var(--space-lg); }
+  .ch09-dens-card--airy .ch09-dens-item__title {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+    margin-block-end: var(--space-sm);
+  }
+  .ch09-dens-card--airy .ch09-dens-item__desc {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+  }
+
+  /* --- mode COMPACT : padding minimal (≈1×), serré, interligne réduit, plus de lignes --- */
+  .ch09-dens-card--packed .ch09-dens-card__body {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: var(--space-sm) var(--space-md);
+  }
+  .ch09-dens-card--packed .ch09-dens-item {
+    gap: var(--space-2xs);
+    padding-block: var(--space-3xs);
+  }
+  .ch09-dens-card--packed .ch09-dens-item:nth-child(even) {
+    background: color-mix(in oklch, var(--color-paper-deep) 30%, transparent);
+    margin-inline: calc(var(--space-md) * -1);
+    padding-inline: var(--space-md);
+  }
+  .ch09-dens-card--packed .ch09-dens-item__mark { margin-block-start: 0.3em; }
+  .ch09-dens-card--packed .ch09-dens-item__title {
+    font-size: var(--text-sm);
+    line-height: 1.15;
+    display: inline;
+  }
+  .ch09-dens-card--packed .ch09-dens-item__desc {
+    font-size: var(--text-2xs);
+    line-height: 1.25;
+    color: var(--color-text-faint);
+  }
+
+  /* =========================================================
+     09.3 — PATTERNS DE MISE EN PAGE
+     surface EXPRESSIVE : maquettes filaires en clip-path / blend
+     ========================================================= */
+  .ch09-pat {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-md);
+  }
+  .ch09-pat-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--color-paper-warm) 88%, #FFFCF5);
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .ch09-pat-card:hover {
+    transform: scale(1.008);
+    box-shadow: var(--shadow-card-warm);
+  }
+  .ch09-pat-card__stage {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    padding: var(--space-sm);
+    background:
+      radial-gradient(80% 60% at 20% 0%, color-mix(in oklch, var(--color-ocre) 8%, transparent), transparent 60%),
+      color-mix(in oklch, var(--color-paper-deep) 40%, var(--color-paper-warm));
+    border-block-end: 1px solid color-mix(in oklch, var(--color-rule) 55%, transparent);
+    overflow: hidden;
+  }
+  /* primitives filaires partagées */
+  .wf {
+    background: color-mix(in oklch, var(--color-secondary) 22%, transparent);
+    border-radius: 2px;
+  }
+  .wf--ink { background: color-mix(in oklch, var(--color-primary) 32%, transparent); }
+  .wf--focus {
+    background: linear-gradient(150deg, var(--color-cta), color-mix(in oklch, var(--color-cta) 82%, var(--color-cta-deep)));
+  }
+  .wf--gold { background: color-mix(in oklch, var(--color-ocre) 60%, transparent); }
+
+  /* pattern 1 : hero split asymétrique 5/7 (pas de 50/50) */
+  .ch09-wf-split {
+    block-size: 100%;
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-xs);
+  }
+  .ch09-wf-split__text { display: grid; align-content: center; gap: 6px; }
+  .ch09-wf-split__text .wf { block-size: 8px; }
+  .ch09-wf-split__text .wf:nth-child(1) { inline-size: 80%; block-size: 14px; }
+  .ch09-wf-split__text .wf:nth-child(2) { inline-size: 95%; }
+  .ch09-wf-split__text .wf:nth-child(3) { inline-size: 60%; }
+  .ch09-wf-split__text .wf:nth-child(4) { inline-size: 38%; block-size: 16px; margin-block-start: 4px; }
+  .ch09-wf-split__vis {
+    border-radius: var(--radius-sm);
+    background:
+      radial-gradient(60% 60% at 80% 20%, color-mix(in oklch, var(--color-ocre) 30%, transparent), transparent 60%),
+      linear-gradient(160deg, color-mix(in oklch, var(--color-dark) 80%, var(--color-paper-deep)), var(--color-dark-deepest));
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* pattern 2 : bento — cellules de tailles différentes, 1 chaude */
+  .ch09-wf-bento {
+    block-size: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: var(--space-xs);
+  }
+  .ch09-wf-bento__cell { border-radius: var(--radius-sm); background: color-mix(in oklch, var(--color-paper) 70%, var(--color-paper-deep)); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 45%, transparent); }
+  .ch09-wf-bento__cell--hero { grid-column: 1 / span 2; grid-row: 1 / span 2; background: color-mix(in oklch, var(--color-dark) 70%, var(--color-paper-deep)); }
+  .ch09-wf-bento__cell--acc { background: linear-gradient(150deg, var(--color-cta), var(--color-cta-deep)); box-shadow: var(--shadow-card-warm); }
+
+  /* pattern 3 : feature grid — hero full-bleed + 3 colonnes égales */
+  .ch09-wf-feat {
+    block-size: 100%;
+    display: grid;
+    grid-template-rows: 1.4fr 1fr;
+    gap: var(--space-xs);
+  }
+  .ch09-wf-feat__hero { border-radius: var(--radius-sm); background: linear-gradient(160deg, color-mix(in oklch, var(--color-dark) 78%, var(--color-paper-deep)), var(--color-dark-deepest)); }
+  .ch09-wf-feat__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); }
+  .ch09-wf-feat__cell { border-radius: var(--radius-sm); background: color-mix(in oklch, var(--color-paper) 66%, var(--color-paper-deep)); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 45%, transparent); }
+  .ch09-wf-feat__cell:nth-child(2) { background: color-mix(in oklch, var(--color-ocre) 16%, var(--color-paper-warm)); }
+
+  /* pattern 4 : manifeste plein cadre + barre signal */
+  .ch09-wf-mani {
+    block-size: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--space-xs);
+    place-items: center;
+  }
+  .ch09-wf-mani__lines { display: grid; gap: 6px; justify-items: center; align-content: center; inline-size: 100%; }
+  .ch09-wf-mani__lines .wf { block-size: 10px; }
+  .ch09-wf-mani__lines .wf:nth-child(1) { inline-size: 70%; }
+  .ch09-wf-mani__lines .wf:nth-child(2) { inline-size: 50%; }
+  .ch09-wf-mani__bar {
+    inline-size: 100%;
+    block-size: 22px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(90deg, var(--color-cta), var(--color-cta-deep));
+    box-shadow: var(--shadow-card-warm);
+  }
+
+  .ch09-pat-card__info { padding: var(--space-md); display: grid; gap: var(--space-2xs); }
+  .ch09-pat-card__name {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    color: var(--color-primary);
+  }
+  .ch09-pat-card__ratio {
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ocre);
+    font-variant-numeric: tabular-nums;
+  }
+  .ch09-pat-card__desc {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--color-secondary);
+    text-wrap: pretty;
+  }
+
+  /* =========================================================
+     09.4 — RYTHME VERTICAL
+     règle 8px : barème vertical + blocs réels mesurés
+     ========================================================= */
+  .ch09-rhythm {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-lg);
+    align-items: start;
+    padding: clamp(var(--space-md), 2vw, var(--space-xl));
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--color-paper-warm) 90%, #FFFCF5);
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+  }
+  /* la réglette 8px — graduations majeures + mineures via repeating-gradient */
+  .ch09-ruler {
+    position: relative;
+    inline-size: 56px;
+    align-self: stretch;
+    border-radius: var(--radius-sm);
+    background:
+      repeating-linear-gradient(180deg,
+        color-mix(in oklch, var(--color-rule) 55%, transparent) 0,
+        color-mix(in oklch, var(--color-rule) 55%, transparent) 1px,
+        transparent 1px,
+        transparent 8px),
+      repeating-linear-gradient(180deg,
+        color-mix(in oklch, var(--color-ocre) 60%, transparent) 0,
+        color-mix(in oklch, var(--color-ocre) 60%, transparent) 1px,
+        transparent 1px,
+        transparent 40px),
+      color-mix(in oklch, var(--color-paper-deep) 36%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 50%, transparent);
+  }
+  .ch09-ruler__unit {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: var(--space-sm);
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.06em;
+    color: var(--color-ocre);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 560px) { .ch09-ruler { display: none; } .ch09-rhythm { grid-template-columns: 1fr; } }
+
+  .ch09-stack { display: grid; }
+  .ch09-stack__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-md);
+  }
+  .ch09-stack__block {
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    padding-inline: var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+  }
+  .ch09-stack__block--hero {
+    min-block-size: 96px;
+    background:
+      radial-gradient(120% 90% at 90% 0%, color-mix(in oklch, var(--color-ocre) 12%, transparent), transparent 60%),
+      color-mix(in oklch, var(--color-paper-deep) 52%, var(--color-paper-warm));
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    padding-inline-start: var(--space-md);
+  }
+  .ch09-stack__block--card {
+    min-block-size: 56px;
+    background: color-mix(in oklch, var(--color-paper) 72%, var(--color-paper-deep));
+    padding-inline-start: var(--space-md);
+  }
+  .ch09-stack__block--cta {
+    min-block-size: 48px;
+    color: var(--color-cream-on-dark);
+    background: linear-gradient(150deg, var(--color-cta), color-mix(in oklch, var(--color-cta) 82%, var(--color-cta-deep)));
+    box-shadow: var(--shadow-card-warm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+  .ch09-stack__gap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* l'écart vertical incarné par sa propre hauteur — pas juste une étiquette */
+  .ch09-stack__gap--lg { min-block-size: 40px; }
+  .ch09-stack__gap--md { min-block-size: 24px; }
+  .ch09-stack__gap--sm { min-block-size: 16px; }
+  .ch09-stack__gap::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 4px;
+    inline-size: 2px;
+    background: repeating-linear-gradient(180deg, var(--color-ocre) 0 3px, transparent 3px 6px);
+    border-radius: 999px;
+    opacity: 0.7;
+  }
+  .ch09-stack__measure {
+    justify-self: end;
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .ch09-stack__measure b { color: var(--color-secondary); font-weight: 600; }
+
+  /* =========================================================
+     A11Y — focus visible + reduced motion (chapitre)
+     ========================================================= */
+  .ch09-section :where(a, button, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-cta);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ch09-section *, .ch09-section *::before, .ch09-section *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* responsive : la grille 12 col se compacte proprement */
+  @media (max-width: 620px) {
+    .ch09-grid { grid-auto-rows: clamp(36px, 9vw, 52px); }
+    .ch09-cell__role { font-size: 0.6rem; }
+  }
+}
+</style>
+
+<!-- =================================================================
+     09.1 — ARCHITECTURE DE GRILLES
+     ================================================================= -->
+<section class="ch09-section">
+  <div class="ch09-shell">
+    <div class="ch09-head">
+      <span class="ch09-head__over"><span class="ch09-head__index">09.1</span> Architecture de grilles</span>
+      <h2 class="ch09-head__title">Une trame de <em>relevé</em>, pas une grille de produit</h2>
+      <p class="ch09-head__lead">Douze colonnes, gouttière constante, marges franches. La structure se lit comme une carte du SHOM : tout est posé sur le même repère, et un seul bloc — le foyer — capte la chaleur. Le reste sert de support documentaire.</p>
+    </div>
+
+    <div class="ch09-grid" role="img" aria-label="Schéma d'une grille à douze colonnes : un bloc foyer chaud occupe sept colonnes, entouré de blocs de support, de note, de marge, de gouttière et de ligne de base">
+      <div class="ch09-cell ch09-cell--focus">
+        <span class="ch09-cell__role">Foyer · bloc dominant</span>
+        <span class="ch09-cell__span">7 colonnes · 2 rangées</span>
+      </div>
+      <div class="ch09-cell ch09-cell--support">
+        <span class="ch09-cell__role">Support · liste de feux</span>
+        <span class="ch09-cell__span">5 colonnes</span>
+      </div>
+      <div class="ch09-cell ch09-cell--note">
+        <span class="ch09-cell__role">Note · méta de quart</span>
+        <span class="ch09-cell__span">5 colonnes</span>
+      </div>
+      <div class="ch09-cell ch09-cell--margin">
+        <span class="ch09-cell__role">Marge de relevé</span>
+        <span class="ch09-cell__span">4 colonnes</span>
+      </div>
+      <div class="ch09-cell ch09-cell--gutter">
+        <span class="ch09-cell__role">Gouttière régulière</span>
+        <span class="ch09-cell__span">un pas constant</span>
+      </div>
+      <div class="ch09-cell ch09-cell--baseline">
+        <span class="ch09-cell__role">Ligne de base validée</span>
+        <span class="ch09-cell__span">4 colonnes</span>
+      </div>
+    </div>
+
+    <div class="ch09-grid-legend">
+      <span class="ch09-grid-legend__item"><span class="ch09-grid-legend__swatch" style="background:var(--color-cta)"></span>Foyer — accent unique</span>
+      <span class="ch09-grid-legend__item"><span class="ch09-grid-legend__swatch" style="background:color-mix(in oklch, var(--color-ocre) 24%, var(--color-paper-warm));"></span>Support bronze</span>
+      <span class="ch09-grid-legend__item"><span class="ch09-grid-legend__swatch" style="background:color-mix(in oklch, var(--color-rule) 55%, transparent)"></span>Trame &amp; gouttière</span>
+      <span class="ch09-grid-legend__item"><span class="ch09-grid-legend__swatch" style="background:color-mix(in oklch, var(--color-ok) 30%, var(--color-paper-warm));"></span>Ligne validée</span>
+    </div>
+
+    <p class="ch09-cap">
+      <span><b>12</b> colonnes</span>
+      <span><b>Gouttière</b> constante <i>· non négociable</i></span>
+      <span><b>Marges</b> franches</span>
+    </p>
+  </div>
+</section>
+
+<!-- =================================================================
+     09.2 — STRATÉGIE DE DENSITÉ
+     ================================================================= -->
+<section class="ch09-section">
+  <div class="ch09-shell">
+    <div class="ch09-head">
+      <span class="ch09-head__over"><span class="ch09-head__index">09.2</span> Stratégie de densité</span>
+      <h2 class="ch09-head__title">Le <em>vide</em> est un instrument de portée</h2>
+      <p class="ch09-head__lead">Deux régimes, jamais l'entre-deux mou. La planche aérée laisse respirer chaque énoncé : c'est la posture du faisceau qui balaie loin. La planche compacte resserre le relevé : c'est la table de quart, lue d'un coup d'œil. Mêmes contenus, densités opposées.</p>
+    </div>
+
+    <div class="ch09-dens">
+      <!-- AÉRÉ -->
+      <article class="ch09-dens-card ch09-dens-card--airy">
+        <div class="ch09-dens-card__cap">
+          <span>Régime aéré</span>
+          <span class="ch09-dens-card__metric">marge ×3</span>
+        </div>
+        <div class="ch09-dens-card__body">
+          <div class="ch09-dens-item">
+            <span class="ch09-dens-item__mark" aria-hidden="true"></span>
+            <div>
+              <div class="ch09-dens-item__title">Portée longue</div>
+              <p class="ch09-dens-item__desc">Une idée se pose, seule, et tient l'espace. Le lecteur a le temps de viser avant que la suivante n'arrive.</p>
+            </div>
+          </div>
+          <div class="ch09-dens-item">
+            <span class="ch09-dens-item__mark" aria-hidden="true"></span>
+            <div>
+              <div class="ch09-dens-item__title">Cadence lente</div>
+              <p class="ch09-dens-item__desc">Marge intérieure ample, interligne ouvert. La page devient un balayage calme et certain.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- COMPACT -->
+      <article class="ch09-dens-card ch09-dens-card--packed">
+        <div class="ch09-dens-card__cap">
+          <span>Régime compact</span>
+          <span class="ch09-dens-card__metric">marge ×1</span>
+        </div>
+        <div class="ch09-dens-card__body">
+          <div class="ch09-dens-item"><span class="ch09-dens-item__mark" aria-hidden="true"></span><div><span class="ch09-dens-item__title">Relevé serré.</span> <span class="ch09-dens-item__desc">Tout est lisible d'un coup d'œil, sans déplacement de l'œil.</span></div></div>
+          <div class="ch09-dens-item"><span class="ch09-dens-item__mark" aria-hidden="true"></span><div><span class="ch09-dens-item__title">Interlignes courts.</span> <span class="ch09-dens-item__desc">La table de quart empile la donnée sans la noyer.</span></div></div>
+          <div class="ch09-dens-item"><span class="ch09-dens-item__mark" aria-hidden="true"></span><div><span class="ch09-dens-item__title">Zébré discret.</span> <span class="ch09-dens-item__desc">Un demi-ton sépare les lignes, jamais une bordure.</span></div></div>
+          <div class="ch09-dens-item"><span class="ch09-dens-item__mark" aria-hidden="true"></span><div><span class="ch09-dens-item__title">Cadence rapide.</span> <span class="ch09-dens-item__desc">On scanne, on vérifie, on passe au point suivant.</span></div></div>
+          <div class="ch09-dens-item"><span class="ch09-dens-item__mark" aria-hidden="true"></span><div><span class="ch09-dens-item__title">Densité assumée.</span> <span class="ch09-dens-item__desc">Le document technique ne s'excuse pas de sa précision.</span></div></div>
+        </div>
+      </article>
+    </div>
+
+    <p class="ch09-cap">
+      <span>Aéré <b>= portée</b></span>
+      <span>Compact <b>= relevé</b></span>
+      <span>Différence de marge <i>×3</i></span>
+    </p>
+  </div>
+</section>
+
+<!-- =================================================================
+     09.3 — PATTERNS DE MISE EN PAGE
+     ================================================================= -->
+<section class="ch09-section">
+  <div class="ch09-shell">
+    <div class="ch09-head">
+      <span class="ch09-head__over"><span class="ch09-head__index">09.3</span> Patterns de mise en page</span>
+      <h2 class="ch09-head__title">Quatre dispositions, <em>un seul foyer</em> par écran</h2>
+      <p class="ch09-head__lead">Chaque gabarit casse la symétrie de défaut : ratios francs, débordements maîtrisés, un seul bloc chaud par composition. Les maquettes sont montrées telles qu'on les pose — pas décrites de loin.</p>
+    </div>
+
+    <div class="ch09-pat">
+      <article class="ch09-pat-card">
+        <div class="ch09-pat-card__stage" aria-hidden="true">
+          <div class="ch09-wf-split">
+            <div class="ch09-wf-split__text"><span class="wf wf--ink"></span><span class="wf"></span><span class="wf"></span><span class="wf wf--focus"></span></div>
+            <div class="ch09-wf-split__vis"></div>
+          </div>
+        </div>
+        <div class="ch09-pat-card__info">
+          <span class="ch09-pat-card__ratio">Split 5 / 7</span>
+          <span class="ch09-pat-card__name">Héro asymétrique</span>
+          <p class="ch09-pat-card__desc">Texte à gauche, planche peinte à droite. Le titre éditorial empiète légèrement sur la matière. Jamais de partage cinquante-cinquante.</p>
+        </div>
+      </article>
+
+      <article class="ch09-pat-card">
+        <div class="ch09-pat-card__stage" aria-hidden="true">
+          <div class="ch09-wf-bento">
+            <span class="ch09-wf-bento__cell ch09-wf-bento__cell--hero"></span>
+            <span class="ch09-wf-bento__cell"></span>
+            <span class="ch09-wf-bento__cell ch09-wf-bento__cell--acc"></span>
+            <span class="ch09-wf-bento__cell"></span>
+          </div>
+        </div>
+        <div class="ch09-pat-card__info">
+          <span class="ch09-pat-card__ratio">Bento 3 × 2</span>
+          <span class="ch09-pat-card__name">Damier de relevé</span>
+          <p class="ch09-pat-card__desc">Cellules de tailles inégales, gouttière constante. Le bloc dominant occupe deux modules ; un seul module porte l'accent bordeaux.</p>
+        </div>
+      </article>
+
+      <article class="ch09-pat-card">
+        <div class="ch09-pat-card__stage" aria-hidden="true">
+          <div class="ch09-wf-feat">
+            <div class="ch09-wf-feat__hero"></div>
+            <div class="ch09-wf-feat__row"><span class="ch09-wf-feat__cell"></span><span class="ch09-wf-feat__cell"></span><span class="ch09-wf-feat__cell"></span></div>
+          </div>
+        </div>
+        <div class="ch09-pat-card__info">
+          <span class="ch09-pat-card__ratio">Feature 1 + 3</span>
+          <span class="ch09-pat-card__name">Bandeau &amp; triade</span>
+          <p class="ch09-pat-card__desc">Bandeau pleine largeur en tête, trois colonnes égales en pied. Le marqueur bronze signale la colonne pivot — preuves, chiffres, méthode.</p>
+        </div>
+      </article>
+
+      <article class="ch09-pat-card">
+        <div class="ch09-pat-card__stage" aria-hidden="true">
+          <div class="ch09-wf-mani">
+            <div class="ch09-wf-mani__lines"><span class="wf wf--ink"></span><span class="wf"></span></div>
+            <span class="ch09-wf-mani__bar"></span>
+          </div>
+        </div>
+        <div class="ch09-pat-card__info">
+          <span class="ch09-pat-card__ratio">Manifeste + signal</span>
+          <span class="ch09-pat-card__name">Plein cadre conclusif</span>
+          <p class="ch09-pat-card__desc">Énoncé centré sur masse claire, puis barre signal pleine largeur en bordeaux. Le foyer arrive en dernier, comme l'éclat qui ferme la rotation.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     09.4 — RYTHME VERTICAL
+     ================================================================= -->
+<section class="ch09-section">
+  <div class="ch09-shell">
+    <div class="ch09-head">
+      <span class="ch09-head__over"><span class="ch09-head__index">09.4</span> Rythme vertical</span>
+      <h2 class="ch09-head__title">Tout cale sur le <em>pas de huit</em></h2>
+      <p class="ch09-head__lead">L'unité de base est le pas de huit ; les graduations majeures tombent tous les quarante. Le rythme n'est pas plat : un bandeau ample, un écart franc, une carte dense, puis l'éclat final. La cadence guide l'œil sans jamais le perdre.</p>
+    </div>
+
+    <div class="ch09-rhythm">
+      <div class="ch09-ruler" aria-hidden="true"><span class="ch09-ruler__unit">pas&nbsp;8</span></div>
+
+      <div class="ch09-stack">
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__block ch09-stack__block--hero">Bandeau de tête</div>
+          <span class="ch09-stack__measure"><b>96</b> · douze pas</span>
+        </div>
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__gap ch09-stack__gap--lg" aria-hidden="true"></div>
+          <span class="ch09-stack__measure">écart <b>40</b></span>
+        </div>
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__block ch09-stack__block--card">Carte de support</div>
+          <span class="ch09-stack__measure"><b>56</b> · sept pas</span>
+        </div>
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__gap ch09-stack__gap--sm" aria-hidden="true"></div>
+          <span class="ch09-stack__measure">écart <b>16</b></span>
+        </div>
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__block ch09-stack__block--card">Carte jumelle</div>
+          <span class="ch09-stack__measure"><b>56</b> · sept pas</span>
+        </div>
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__gap ch09-stack__gap--md" aria-hidden="true"></div>
+          <span class="ch09-stack__measure">écart <b>24</b></span>
+        </div>
+        <div class="ch09-stack__row">
+          <div class="ch09-stack__block ch09-stack__block--cta">Réserver un appel</div>
+          <span class="ch09-stack__measure"><i>foyer</i> <b>48</b></span>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch09-cap">
+      <span>Unité <b>8</b></span>
+      <span>Graduation majeure <b>40</b></span>
+      <span>Rythme <i>haché, pas régulier</i></span>
+    </p>
+  </div>
+</section>
+
+<style>
+/* ============================================================
+   CHAPITRE 10 — SYSTÈME D'ILLUSTRATION NARRATIVE
+   Registre : peinture à l'huile brushée (Van Gogh) / paysage aérien
+   Palette CRÈME DIURNE "Granit Diurne / Bronze" — :root du style-tile
+   Curseur A=3 (Rupture) · classes préfixées .ch10-
+   ============================================================ */
+@layer ch10-graphic, ch10-components;
+
+@property --ch10-river-draw {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+@property --ch10-fire-bloom {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@layer ch10-graphic {
+  /* matière picturale réutilisable : empâtements brushés simulés par superposition
+     de gradients directionnels + grain tuilé en soft-light. Aucune zone lisse. */
+  .ch10-impasto {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  /* couche d'empâtement : coups de brosse diagonaux tourbillonnants (la "matière en mouvement") */
+  .ch10-impasto::before {
+    content: '';
+    position: absolute; inset: -8%;
+    z-index: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(118deg,
+        color-mix(in oklch, var(--color-paper-deep) 64%, transparent) 0 7px,
+        transparent 7px 17px),
+      repeating-linear-gradient(64deg,
+        color-mix(in oklch, var(--color-ocre) 16%, transparent) 0 5px,
+        transparent 5px 22px),
+      radial-gradient(58% 44% at 22% 20%, color-mix(in oklch, var(--color-paper) 86%, #FFFCF5), transparent 70%),
+      radial-gradient(64% 50% at 84% 88%, color-mix(in oklch, var(--color-paper-deep) 46%, transparent), transparent 64%),
+      linear-gradient(152deg,
+        color-mix(in oklch, var(--color-paper-warm) 90%, #FFFCF5) 0%,
+        var(--color-paper-warm) 48%,
+        color-mix(in oklch, var(--color-paper-warm) 80%, var(--color-paper-deep)) 100%);
+    filter: blur(0.4px) contrast(1.04);
+    transform: rotate(-0.4deg);
+  }
+  /* grain de toile peinte — soft-light, jamais grain photo */
+  .ch10-impasto::after {
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='c10n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23c10n)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+    mix-blend-mode: soft-light;
+    opacity: 0.38;
+  }
+  .ch10-impasto > * { position: relative; z-index: 2; }
+}
+
+@layer ch10-components {
+  /* ───────── structure de chapitre ───────── */
+  .ch10 {
+    background: var(--color-paper);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+  }
+  .ch10__ctn {
+    max-inline-size: 1180px;
+    margin-inline: auto;
+    padding-inline: clamp(var(--space-md), 5vw, var(--space-3xl));
+  }
+  /* rythme vertical PROPRE au chapitre 10 (différencié des autres chapitres) */
+  .ch10-sec { padding-block: clamp(var(--space-2xl), 7vw, var(--space-3xl)); position: relative; }
+  .ch10-sec + .ch10-sec { border-block-start: 1px solid color-mix(in oklch, var(--color-rule) 54%, transparent); }
+
+  .ch10-over {
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: 0.28em;
+    color: var(--color-ocre);
+    margin-block-end: var(--space-md);
+  }
+  .ch10-over::before {
+    content: ''; inline-size: 34px; block-size: 2px;
+    background: var(--color-ocre);
+  }
+  .ch10-h {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1.04; color: var(--color-primary);
+    text-wrap: balance; max-inline-size: 22ch;
+    margin-block-end: var(--space-sm);
+  }
+  .ch10-h em { font-style: normal; color: color-mix(in oklch, var(--color-cta) 86%, var(--color-primary)); }
+  .ch10-lead {
+    font-size: var(--text-sm); line-height: 1.7;
+    color: var(--color-secondary); max-inline-size: 58ch;
+    text-wrap: pretty;
+    margin-block-end: var(--space-xl);
+  }
+
+  /* ════════ 10.1 — ANGLE DE MÉTAPHORE ════════
+     Démonstration : la matière brushée tourbillonne PARTOUT, un seul foyer fixe.
+     Le panneau picturale + le foyer chaud + la légende cohabitent en contexte. */
+  .ch10-meta {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(var(--space-sm), 1.6vw, var(--space-md));
+    align-items: stretch;
+  }
+  @media (max-width: 860px) { .ch10-meta { grid-template-columns: 1fr; } }
+
+  /* le grand panneau pictural — paysage aérien brushé avec rivière serpentine + foyer */
+  .ch10-canvas {
+    position: relative; isolation: isolate;
+    min-block-size: clamp(340px, 42vw, 460px);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 66%, transparent), var(--shadow-card);
+  }
+  /* la rivière / faisceau tracé : trait argenté-clair serpentin, animé en draw */
+  .ch10-canvas__river {
+    position: absolute; inset: 0; z-index: 3; inline-size: 100%; block-size: 100%;
+    pointer-events: none;
+  }
+  .ch10-canvas__river path {
+    fill: none;
+    stroke: color-mix(in oklch, var(--color-cream-on-dark) 88%, var(--color-ocre));
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 1px 3px oklch(0.30 0.02 70 / 0.35));
+    stroke-dasharray: 1100;
+    stroke-dashoffset: calc(1100 - 1100 * var(--ch10-river-draw) / 100%);
+    transition: --ch10-river-draw var(--transition-slow);
+  }
+  .ch10-canvas:hover .ch10-canvas__river path,
+  .ch10-canvas:focus-within .ch10-canvas__river path { --ch10-river-draw: 100%; }
+  @starting-style { .ch10-canvas__river path { --ch10-river-draw: 0%; } }
+
+  /* le FOYER unique : point fixe chaud calibré (bordeaux/bronze) en haut-droit */
+  .ch10-canvas__fire {
+    position: absolute; z-index: 4;
+    inset-block-start: 16%; inset-inline-end: 14%;
+    inline-size: 14px; block-size: 14px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 42%,
+      color-mix(in oklch, var(--color-cta) 30%, #FFF6E6) 0%,
+      var(--color-cta) 46%, var(--color-cta-deep) 100%);
+    box-shadow:
+      0 0 0 calc(6px + 5px * var(--ch10-fire-bloom)) color-mix(in oklch, var(--color-cta) 26%, transparent),
+      0 0 calc(22px + 18px * var(--ch10-fire-bloom)) calc(4px + 6px * var(--ch10-fire-bloom)) color-mix(in oklch, var(--color-ocre) 60%, transparent);
+    transition: --ch10-fire-bloom var(--transition-slow);
+  }
+  /* le foyer s'épanouit UNE fois quand on survole/focus le panneau (pas de pulsation infinie) */
+  .ch10-canvas:hover .ch10-canvas__fire,
+  .ch10-canvas:focus-within .ch10-canvas__fire { --ch10-fire-bloom: 1; }
+  .ch10-canvas__cap {
+    position: absolute; z-index: 5;
+    inset-block-end: var(--space-sm); inset-inline: var(--space-sm);
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2xs) var(--space-md);
+    padding: var(--space-2xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--color-paper) 72%, transparent);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    font-size: var(--text-2xs); letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--color-secondary);
+  }
+  .ch10-canvas__cap b { color: var(--color-primary); font-weight: 600; }
+  .ch10-canvas__cap i { color: var(--color-cta); font-style: normal; }
+
+  /* la lecture de la métaphore — colonne de droite, deux propos opposés */
+  .ch10-read { display: flex; flex-direction: column; gap: clamp(var(--space-sm), 1.4vw, var(--space-md)); }
+  .ch10-read__card {
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: center; gap: var(--space-2xs);
+    padding: clamp(var(--space-md), 2vw, var(--space-lg));
+    border-radius: var(--radius-md);
+  }
+  /* carte "matière en mouvement" : fond brushé agité (INCARNE le propos) */
+  .ch10-read__card--matter {
+    background:
+      repeating-linear-gradient(122deg,
+        color-mix(in oklch, var(--color-paper-deep) 50%, transparent) 0 6px,
+        transparent 6px 15px),
+      linear-gradient(150deg, color-mix(in oklch, var(--color-paper-warm) 92%, #FFFCF5), var(--color-paper-warm));
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+  }
+  /* carte "point fixe" : fond calme, un foyer chaud (INCARNE le contraste) */
+  .ch10-read__card--anchor {
+    color: var(--color-cream-on-dark);
+    background:
+      radial-gradient(120% 120% at 84% 22%, color-mix(in oklch, var(--color-cta) 30%, transparent), transparent 56%),
+      linear-gradient(155deg, var(--color-dark) 0%, var(--color-dark-deepest) 100%);
+    box-shadow: var(--shadow-card-warm);
+  }
+  .ch10-read__k {
+    font-size: var(--text-2xs); letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+  .ch10-read__card--anchor .ch10-read__k { color: color-mix(in oklch, var(--color-ocre) 78%, var(--color-cream-on-dark)); }
+  .ch10-read__t { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.06; color: var(--color-primary); }
+  .ch10-read__card--anchor .ch10-read__t { color: var(--color-cream-on-dark); }
+  .ch10-read__d { font-size: var(--text-2xs); line-height: 1.62; color: var(--color-secondary); }
+  .ch10-read__card--anchor .ch10-read__d { color: color-mix(in oklch, var(--color-cream-on-dark) 78%, transparent); }
+
+  /* ════════ 10.2 — PHYSIQUE DE L'ILLUSTRATION ════════
+     4 propriétés du médium pictural, chacune INCARNÉE par une surface réelle. */
+  .ch10-phys {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: clamp(var(--space-sm), 1.6vw, var(--space-md));
+  }
+  @media (max-width: 720px) { .ch10-phys { grid-template-columns: 1fr; } }
+  .ch10-phys__c {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-block-size: 230px;
+    display: flex; flex-direction: column; justify-content: flex-end; gap: var(--space-2xs);
+    padding: clamp(var(--space-md), 2vw, var(--space-lg));
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 58%, transparent), var(--shadow-card);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .ch10-phys__c:hover {
+    transform: scale(1.008);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-ocre) 60%, transparent), 0 2px 8px oklch(0.32 0.02 70 / 0.16), 0 22px 48px oklch(0.30 0.02 70 / 0.14);
+  }
+  .ch10-phys__c > * { position: relative; z-index: 2; }
+  /* a — empâtement directionnel épais */
+  .ch10-phys__c--impasto::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      repeating-linear-gradient(112deg,
+        color-mix(in oklch, var(--color-ocre) 30%, var(--color-paper-warm)) 0 9px,
+        color-mix(in oklch, var(--color-paper-deep) 60%, var(--color-paper-warm)) 9px 19px);
+    filter: contrast(1.08) blur(0.3px);
+  }
+  /* b — aucune zone lisse : tourbillons radiaux */
+  .ch10-phys__c--swirl::before {
+    content: ''; position: absolute; inset: -10%; z-index: 0;
+    background:
+      conic-gradient(from 40deg at 38% 44%,
+        color-mix(in oklch, var(--color-paper-warm) 92%, #FFFCF5),
+        color-mix(in oklch, var(--color-paper-deep) 70%, transparent),
+        color-mix(in oklch, var(--color-ocre) 22%, var(--color-paper-warm)),
+        color-mix(in oklch, var(--color-paper-warm) 92%, #FFFCF5));
+    filter: blur(2px) contrast(1.05);
+    mix-blend-mode: multiply;
+  }
+  /* c — masse claire dominante, foyer chaud ponctuel */
+  .ch10-phys__c--focus::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(22% 22% at 78% 26%, color-mix(in oklch, var(--color-cta) 60%, transparent), transparent 62%),
+      radial-gradient(30% 30% at 78% 26%, color-mix(in oklch, var(--color-ocre) 34%, transparent), transparent 70%),
+      linear-gradient(150deg, color-mix(in oklch, var(--color-paper-warm) 94%, #FFFCF5), var(--color-paper-warm));
+  }
+  /* d — toile peinte, jamais grain numérique (grain soft-light) */
+  .ch10-phys__c--canvas::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='c10cv'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.18 0.04' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23c10cv)'/%3E%3C/svg%3E"),
+      linear-gradient(150deg, color-mix(in oklch, var(--color-paper-warm) 90%, #FFFCF5), var(--color-paper-warm));
+    background-size: 120px 120px, cover;
+    background-blend-mode: soft-light, normal;
+  }
+  .ch10-phys__tag {
+    font-size: var(--text-2xs); letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--color-ocre);
+  }
+  .ch10-phys__t { font-family: var(--font-display); font-size: var(--text-base); color: var(--color-primary); }
+  .ch10-phys__d { font-size: var(--text-2xs); line-height: 1.6; color: var(--color-secondary); max-inline-size: 34ch; }
+
+  /* ════════ 10.3 — LANGAGE RÉCURRENT (Character Design) ════════
+     Pas de personnages. Les motifs picturaux récurrents montrés EN CONTEXTE :
+     bandeau brushé en arrière-plan derrière le texte + séparateurs entre blocs. */
+  .ch10-lex { display: flex; flex-direction: column; gap: 0; }
+  .ch10-lex__row {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center; gap: var(--space-md);
+    padding: clamp(var(--space-md), 2.2vw, var(--space-lg)) clamp(var(--space-md), 2.6vw, var(--space-xl));
+    transition: background var(--transition-fast);
+  }
+  /* arrière-plan brushé DERRIÈRE le texte (élément récurrent en contexte) */
+  .ch10-lex__row::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      repeating-linear-gradient(116deg,
+        color-mix(in oklch, var(--color-paper-deep) 30%, transparent) 0 8px,
+        transparent 8px 20px);
+    opacity: 0.5;
+    transition: opacity var(--transition-base), transform var(--transition-slow);
+  }
+  .ch10-lex__row:hover::before { opacity: 0.82; transform: translateX(-6px); }
+  .ch10-lex__row > * { position: relative; z-index: 2; }
+  /* séparateurs : un trait peint, pas une hairline froide */
+  .ch10-lex__row + .ch10-lex__row {
+    border-block-start: 2px solid transparent;
+    border-image: repeating-linear-gradient(90deg,
+      var(--color-rule) 0 14px, transparent 14px 24px) 1;
+  }
+  .ch10-lex__txt { display: flex; flex-direction: column; gap: var(--space-3xs); }
+  .ch10-lex__name { font-family: var(--font-display); font-size: var(--text-md); color: var(--color-primary); line-height: 1.02; }
+  .ch10-lex__role { font-size: var(--text-2xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-text-faint); }
+  .ch10-lex__use { font-size: var(--text-2xs); line-height: 1.55; color: var(--color-secondary); max-inline-size: 52ch; margin-block-start: var(--space-3xs); }
+  /* le glyphe récurrent posé EN CONTEXTE à droite, sur le bandeau brushé */
+  .ch10-lex__mark {
+    inline-size: clamp(58px, 7vw, 80px); aspect-ratio: 1;
+    display: grid; place-items: center;
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--color-paper) 60%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 60%, transparent);
+  }
+  .ch10-lex__mark svg { inline-size: 64%; block-size: 64%; display: block; }
+
+  /* ════════ 10.4 — LOIS DE COMPOSITION ════════
+     4 règles de cohabitation illustration / texte / CTA — chaque démo INCARNÉE. */
+  .ch10-laws { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(var(--space-sm), 1.6vw, var(--space-md)); }
+  @media (max-width: 720px) { .ch10-laws { grid-template-columns: 1fr; } }
+  .ch10-law {
+    position: relative;
+    padding: clamp(var(--space-md), 2vw, var(--space-lg));
+    border-radius: var(--radius-md);
+    border-inline-start: 2px solid transparent;
+    background: color-mix(in oklch, var(--color-paper-warm) 88%, #FFFCF5);
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+    transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+  }
+  .ch10-law:hover {
+    transform: scale(1.006);
+    border-inline-start-color: var(--color-ocre);
+    box-shadow: 0 2px 8px oklch(0.32 0.02 70 / 0.16), 0 20px 44px oklch(0.30 0.02 70 / 0.13);
+  }
+  .ch10-law__num {
+    font-family: var(--font-display); font-size: var(--text-xl); line-height: 1;
+    color: color-mix(in oklch, var(--color-ocre) 36%, var(--color-paper-deep));
+    position: absolute; inset-block-start: var(--space-sm); inset-inline-end: var(--space-md);
+  }
+  .ch10-law__t { font-family: var(--font-display); font-size: var(--text-base); color: var(--color-primary); margin-block-end: var(--space-2xs); max-inline-size: 18ch; }
+  .ch10-law__d { font-size: var(--text-2xs); line-height: 1.62; color: var(--color-secondary); max-inline-size: 40ch; }
+  .ch10-law__demo {
+    margin-block-start: var(--space-md);
+    block-size: 80px; border-radius: var(--radius-sm);
+    overflow: hidden; display: flex; gap: 2px;
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-rule) 50%, transparent);
+  }
+  .ch10-demo-paint {
+    position: relative; flex: 2; min-inline-size: 0;
+    background:
+      radial-gradient(40% 60% at 30% 40%, color-mix(in oklch, var(--color-ocre) 22%, transparent), transparent 70%),
+      repeating-linear-gradient(120deg, color-mix(in oklch, var(--color-paper-deep) 52%, var(--color-paper-warm)) 0 6px, var(--color-paper-warm) 6px 14px);
+  }
+  .ch10-demo-paint--focus::after {
+    content: ''; position: absolute; inset-block-start: 30%; inset-inline-start: 64%;
+    inline-size: 9px; block-size: 9px; border-radius: 50%;
+    background: var(--color-cta);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-cta) 24%, transparent), 0 3px 14px 2px color-mix(in oklch, var(--color-ocre) 60%, transparent);
+  }
+  .ch10-demo-text {
+    flex: 3; min-inline-size: 0;
+    display: flex; flex-direction: column; justify-content: center; gap: 5px;
+    padding-inline: var(--space-sm);
+    background: var(--color-paper-warm);
+  }
+  .ch10-demo-text span { block-size: 5px; border-radius: 2px; background: color-mix(in oklch, var(--color-secondary) 30%, transparent); }
+  .ch10-demo-text span:nth-child(1) { inline-size: 58%; background: color-mix(in oklch, var(--color-primary) 34%, transparent); block-size: 7px; }
+  .ch10-demo-text span:nth-child(2) { inline-size: 84%; }
+  .ch10-demo-text span:nth-child(3) { inline-size: 46%; }
+  /* loi 02 — marge de sécurité : gouttière peinte explicite */
+  .ch10-demo-gap { flex: 0 0 28px; background: repeating-linear-gradient(to bottom, var(--color-ocre) 0 3px, transparent 3px 9px); opacity: 0.5; }
+  /* loi 03 — le CTA prime : bloc bordeaux dominant */
+  .ch10-demo-cta { flex: 2; display: grid; place-items: center; background: linear-gradient(150deg, var(--color-cta), var(--color-cta-deep)); }
+  .ch10-demo-cta span { inline-size: 42%; block-size: 7px; border-radius: 2px; background: color-mix(in oklch, var(--color-cream-on-dark) 70%, transparent); }
+  .ch10-demo-paint--muted { flex: 1; opacity: 0.5; }
+  /* loi 04 — échelle contextuelle : 3 tailles de foyer décroissantes */
+  .ch10-demo-scale { flex: 1; position: relative; background: var(--color-paper-warm); display: flex; align-items: center; justify-content: space-around; }
+  .ch10-demo-scale i { display: block; border-radius: 50%; background: radial-gradient(circle at 45% 40%, color-mix(in oklch, var(--color-cta) 28%, #FFF6E6), var(--color-cta) 60%, var(--color-cta-deep)); }
+  .ch10-demo-scale i:nth-child(1) { inline-size: 26px; block-size: 26px; box-shadow: 0 3px 14px 2px color-mix(in oklch, var(--color-ocre) 55%, transparent), 0 1px 4px color-mix(in oklch, var(--color-cta) 40%, transparent); }
+  .ch10-demo-scale i:nth-child(2) { inline-size: 13px; block-size: 13px; }
+  .ch10-demo-scale i:nth-child(3) { inline-size: 6px; block-size: 6px; opacity: 0.6; }
+
+  /* ════════ 10.5 — DIRECTIVES DE PROMPTING IA ════════ */
+  .ch10-pmt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(var(--space-sm), 1.6vw, var(--space-md)); }
+  @media (max-width: 820px) { .ch10-pmt-grid { grid-template-columns: 1fr; } }
+  .ch10-pmt {
+    position: relative;
+    padding: clamp(var(--space-md), 2vw, var(--space-lg));
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--color-paper-warm) 90%, #FFFCF5);
+    box-shadow: inset 0 1px 0 oklch(0.99 0.005 90 / 0.6), var(--shadow-card);
+  }
+  .ch10-pmt--cta { border-inline-start-color: var(--color-cta); }
+  .ch10-pmt__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-sm); margin-block-end: var(--space-sm); }
+  .ch10-pmt__engine { font-size: var(--text-2xs); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-ocre); font-weight: 600; }
+  .ch10-pmt--cta .ch10-pmt__engine { color: var(--color-cta); }
+  .ch10-pmt__use { font-size: var(--text-2xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-faint); }
+  .ch10-pmt__code {
+    font-family: var(--font-body); font-size: var(--text-2xs); line-height: 1.85;
+    color: var(--color-primary); word-break: break-word;
+    margin: 0;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklch, var(--color-paper-deep) 30%, var(--color-paper));
+    border: 1px solid color-mix(in oklch, var(--color-rule) 56%, transparent);
+    white-space: pre-wrap;
+  }
+  .ch10-pmt__code .hl { color: var(--color-cta); }
+  .ch10-pmt__code .ac { color: var(--color-ocre); }
+  .ch10-pmt__code .dim { color: var(--color-text-faint); }
+  .ch10-pmt__tags { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin-block-start: var(--space-md); }
+  .ch10-pmt__tag {
+    font-size: var(--text-2xs); letter-spacing: 0.06em;
+    padding: var(--space-3xs) var(--space-sm);
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklch, var(--color-rule) 64%, transparent);
+    color: var(--color-secondary);
+  }
+  .ch10-pmt__tag--hot { border-color: color-mix(in oklch, var(--color-cta) 60%, transparent); color: var(--color-cta); background: color-mix(in oklch, var(--color-cta) 8%, transparent); }
+
+  /* ════════ FOOTER / COLOPHON ════════ */
+  .ch10-colo {
+    position: relative; isolation: isolate; overflow: hidden;
+    text-align: center;
+    padding-block: clamp(var(--space-2xl), 6vw, var(--space-3xl));
+    padding-inline: var(--space-lg);
+    color: var(--color-cream-on-dark);
+    background:
+      radial-gradient(46% 38% at 50% 30%, color-mix(in oklch, var(--color-dark) 88%, var(--color-ocre)), transparent 70%),
+      linear-gradient(178deg, var(--color-dark) 0%, var(--color-dark-deepest) 100%);
+  }
+  /* le foyer du colophon : un seul point chaud, fidèle à la métaphore */
+  .ch10-colo::after {
+    content: ''; position: absolute; z-index: 0; pointer-events: none;
+    inset-block-end: -14%; inset-inline-start: 50%; transform: translateX(-50%);
+    inline-size: min(640px, 90vw); aspect-ratio: 1.4 / 1;
+    background: radial-gradient(ellipse 40% 60% at 50% 100%,
+      color-mix(in oklch, color-mix(in oklch, var(--color-ocre) 80%, var(--color-cta)) 52%, transparent) 0%,
+      color-mix(in oklch, var(--color-ocre) 26%, transparent) 34%, transparent 64%);
+    filter: blur(10px); mix-blend-mode: screen;
+  }
+  .ch10-colo > * { position: relative; z-index: 2; }
+  .ch10-colo__mark {
+    font-size: var(--text-2xs); letter-spacing: 0.34em; text-transform: uppercase;
+    color: color-mix(in oklch, var(--color-ocre) 80%, var(--color-cream-on-dark));
+    margin-block-end: var(--space-md);
+  }
+  .ch10-colo__h { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.16; color: var(--color-cream-on-dark); text-wrap: balance; }
+  .ch10-colo__h span:last-child { color: color-mix(in oklch, var(--color-ocre) 76%, var(--color-cream-on-dark)); }
+  .ch10-colo__meta { margin-block-start: var(--space-md); font-size: var(--text-2xs); letter-spacing: 0.2em; text-transform: uppercase; color: color-mix(in oklch, var(--color-cream-on-dark) 58%, transparent); }
+  .ch10-colo__rule { inline-size: 56px; block-size: 2px; background: color-mix(in oklch, var(--color-ocre) 60%, transparent); border: none; margin: var(--space-lg) auto 0; }
+
+  :where(.ch10 a, .ch10 button, .ch10 [tabindex]):focus-visible {
+    outline: 2px solid var(--color-cta);
+    outline-offset: 2px; border-radius: var(--radius-sm);
+  }
+}
+</style>
+
+<div class="ch10">
+
+  <!-- ════════ 10.1 — ANGLE DE MÉTAPHORE ════════ -->
+  <section class="ch10-sec ch10-meta-sec">
+    <div class="ch10__ctn">
+      <span class="ch10-over">10.1 — Angle de métaphore</span>
+      <h2 class="ch10-h">Tout bouge, sauf <em>un point</em>.</h2>
+      <p class="ch10-lead">L'illustration n'invente pas un décor : elle met en scène un rapport de portée inversé. La vallée entière tourbillonne dans une peinture à l'huile brushée — empâtements directionnels, matière épaisse, aucune zone lisse. Au milieu de ce mouvement, un seul foyer reste fixe. Ce n'est pas sa taille qui rend la traversée calculable, c'est sa stabilité. La rivière serpentine est le faisceau tracé dans le paysage.</p>
+
+      <div class="ch10-meta">
+        <figure class="ch10-canvas ch10-impasto" tabindex="0" aria-label="Paysage aérien peint à l'huile : vallée brushée tourbillonnante traversée d'une rivière serpentine, foyer chaud fixe en haut à droite">
+          <svg class="ch10-canvas__river" viewBox="0 0 600 460" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 30 70 C 180 120, 120 200, 250 240 S 420 300, 360 370 S 480 430, 580 410" />
+          </svg>
+          <span class="ch10-canvas__fire" aria-hidden="true"></span>
+          <figcaption class="ch10-canvas__cap">
+            <span><b>Matière</b> ≈ 95% du cadre</span>
+            <span>Foyer <i>&lt; 0,1%</i></span>
+            <span>Diagonale serpentine</span>
+          </figcaption>
+        </figure>
+
+        <div class="ch10-read">
+          <article class="ch10-read__card ch10-read__card--matter ch10-impasto">
+            <span class="ch10-read__k">La masse</span>
+            <h3 class="ch10-read__t">Le mouvement brushé</h3>
+            <p class="ch10-read__d">Strates de relief étagées, ciel non-narratif, coups de brosse partout. Le négatif n'est jamais lisse : c'est du négatif de matière.</p>
+          </article>
+          <article class="ch10-read__card ch10-read__card--anchor">
+            <span class="ch10-read__k">Le repère</span>
+            <h3 class="ch10-read__t">Le foyer fixe</h3>
+            <p class="ch10-read__d">Un point chaud calibré, posté à l'écart. Il ne crie pas, il tient. C'est l'unique chaleur dans une masse claire — le signal qui perce le bruit.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 10.2 — PHYSIQUE DE L'ILLUSTRATION ════════ -->
+  <section class="ch10-sec">
+    <div class="ch10__ctn">
+      <span class="ch10-over">10.2 — Physique de l'illustration</span>
+      <h2 class="ch10-h">Peinte, jamais lissée.</h2>
+      <p class="ch10-lead">Le médium est pictural : huile brushée, empâtements visibles, texture de toile peinte. Aucun aplat vectoriel, aucun trait flat, aucun grain photographique ou numérique. Quatre propriétés gouvernent chaque visuel — chacune est montrée ici sur la surface qu'elle décrit.</p>
+
+      <div class="ch10-phys">
+        <article class="ch10-phys__c ch10-phys__c--impasto">
+          <span class="ch10-phys__tag">Empâtement</span>
+          <h3 class="ch10-phys__t">Coups de brosse directionnels</h3>
+          <p class="ch10-phys__d">La matière a une épaisseur et un sens. Les passes suivent le relief du paysage, jamais une trame régulière.</p>
+        </article>
+        <article class="ch10-phys__c ch10-phys__c--swirl">
+          <span class="ch10-phys__tag">Tourbillon</span>
+          <h3 class="ch10-phys__t">Aucune zone lisse</h3>
+          <p class="ch10-phys__d">Le ciel et la terre s'enroulent en volutes à la Van Gogh. Pas de fond plat : le mouvement occupe tout le champ.</p>
+        </article>
+        <article class="ch10-phys__c ch10-phys__c--focus">
+          <span class="ch10-phys__tag">Foyer</span>
+          <h3 class="ch10-phys__t">Masse claire, point chaud</h3>
+          <p class="ch10-phys__d">La crème domine. Le bronze et le bordeaux n'apparaissent qu'en un foyer ponctuel — l'événement chromatique unique.</p>
+        </article>
+        <article class="ch10-phys__c ch10-phys__c--canvas">
+          <span class="ch10-phys__tag">Toile</span>
+          <h3 class="ch10-phys__t">Grain de peinture</h3>
+          <p class="ch10-phys__d">La texture est celle d'une toile travaillée à l'huile — un grain organique de matière, jamais un bruit photo ni un dithering.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 10.3 — LANGAGE RÉCURRENT ════════ -->
+  <section class="ch10-sec">
+    <div class="ch10__ctn">
+      <span class="ch10-over">10.3 — Langage récurrent</span>
+      <h2 class="ch10-h">Pas de personnages — des <em>motifs</em>.</h2>
+      <p class="ch10-lead">Le système n'a ni mascotte ni figure illustrée. Son vocabulaire est fait de trois motifs picturaux qui reviennent d'un visuel à l'autre. Chacun est montré ici dans son contexte d'usage : posé sur la matière brushée, derrière le texte qu'il accompagne.</p>
+
+      <div class="ch10-lex">
+        <div class="ch10-lex__row">
+          <div class="ch10-lex__txt">
+            <span class="ch10-lex__role">Motif primaire</span>
+            <h3 class="ch10-lex__name">La rivière serpentine</h3>
+            <p class="ch10-lex__use">Le faisceau tracé dans le paysage. Sert de fil conducteur — guide l'œil d'un bord à l'autre d'une composition, en couverture comme en séparateur de section.</p>
+          </div>
+          <div class="ch10-lex__mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M 6 14 C 30 22, 14 38, 34 42 S 54 56, 58 50" fill="none" stroke="var(--color-ocre)" stroke-width="3.4" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="ch10-lex__row">
+          <div class="ch10-lex__txt">
+            <span class="ch10-lex__role">Motif d'accent</span>
+            <h3 class="ch10-lex__name">Le foyer ponctuel</h3>
+            <p class="ch10-lex__use">L'unique chaleur. Toujours seul, jamais répété dans le même cadre. Marque le point de ralliement — un repère, un CTA, une donnée pivot.</p>
+          </div>
+          <div class="ch10-lex__mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="20" fill="none" stroke="var(--color-ocre)" stroke-width="1.4" opacity="0.5"/><circle cx="32" cy="32" r="7" fill="var(--color-cta)"/></svg>
+          </div>
+        </div>
+        <div class="ch10-lex__row">
+          <div class="ch10-lex__txt">
+            <span class="ch10-lex__role">Motif de fond</span>
+            <h3 class="ch10-lex__name">Les strates de relief</h3>
+            <p class="ch10-lex__use">Les plans étagés de la vallée. Donnent la profondeur sans illustrer un sujet — la trame brushée derrière laquelle vient se poser le texte.</p>
+          </div>
+          <div class="ch10-lex__mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M 4 44 Q 20 32, 34 40 T 60 36" fill="none" stroke="var(--color-ocre)" stroke-width="2.6" stroke-linecap="round"/><path d="M 4 54 Q 22 44, 36 50 T 60 48" fill="none" stroke="var(--color-ocre)" stroke-width="2.2" stroke-linecap="round" opacity="0.55"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 10.4 — LOIS DE COMPOSITION ════════ -->
+  <section class="ch10-sec">
+    <div class="ch10__ctn">
+      <span class="ch10-over">10.4 — Lois de composition</span>
+      <h2 class="ch10-h">Comment l'illustration cohabite.</h2>
+      <p class="ch10-lead">Quatre règles règlent la rencontre entre la peinture, le texte et l'appel à l'action. Chaque règle est démontrée sur un mini-cas, pas seulement énoncée.</p>
+
+      <div class="ch10-laws">
+        <article class="ch10-law">
+          <span class="ch10-law__num">01</span>
+          <h3 class="ch10-law__t">Le texte ne s'écrit pas dans la matière</h3>
+          <p class="ch10-law__d">La peinture occupe sa zone, le texte la sienne. On ne pose jamais un paragraphe sur le brushwork agité : on le pose à côté, sur une surface calme.</p>
+          <div class="ch10-law__demo">
+            <div class="ch10-demo-paint"></div>
+            <div class="ch10-demo-text"><span></span><span></span><span></span></div>
+          </div>
+        </article>
+        <article class="ch10-law">
+          <span class="ch10-law__num">02</span>
+          <h3 class="ch10-law__t">Une marge de respiration peinte</h3>
+          <p class="ch10-law__d">Entre l'illustration et tout texte, une gouttière franche. La matière a besoin d'air pour rester lisible comme peinture, pas comme texture de fond.</p>
+          <div class="ch10-law__demo">
+            <div class="ch10-demo-paint"></div>
+            <div class="ch10-demo-gap"></div>
+            <div class="ch10-demo-text"><span></span><span></span><span></span></div>
+          </div>
+        </article>
+        <article class="ch10-law">
+          <span class="ch10-law__num">03</span>
+          <h3 class="ch10-law__t">Le foyer prime sur le décor</h3>
+          <p class="ch10-law__d">Quand la peinture et l'appel à l'action coexistent, le foyer chaud gagne la hiérarchie. La matière s'efface en arrière-plan, le signal occupe le premier plan.</p>
+          <div class="ch10-law__demo">
+            <div class="ch10-demo-paint ch10-demo-paint--muted"></div>
+            <div class="ch10-demo-cta"><span></span></div>
+          </div>
+        </article>
+        <article class="ch10-law">
+          <span class="ch10-law__num">04</span>
+          <h3 class="ch10-law__t">L'échelle suit l'usage</h3>
+          <p class="ch10-law__d">En couverture, le paysage occupe le cadre, le foyer reste minuscule. En composant, on garde le foyer seul. En pied de page, il s'éteint presque — un filigrane.</p>
+          <div class="ch10-law__demo">
+            <div class="ch10-demo-scale"><i></i><i></i><i></i></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 10.5 — DIRECTIVES DE PROMPTING IA ════════ -->
+  <section class="ch10-sec">
+    <div class="ch10__ctn">
+      <span class="ch10-over">10.5 — Directives de prompting IA</span>
+      <h2 class="ch10-h">Générer dans le registre.</h2>
+      <p class="ch10-lead">Le médium est pictural : on prompte en peinture à l'huile, jamais en flat ou vector. L'outil recommandé est MidJourney — Recraft ne convient pas ici (il produit du vectoriel). Reprenez la structure : huile brushée, paysage aérien, masse claire dominante, foyer chaud unique.</p>
+
+      <div class="ch10-pmt-grid">
+        <article class="ch10-pmt">
+          <div class="ch10-pmt__head">
+            <span class="ch10-pmt__engine">MidJourney</span>
+            <span class="ch10-pmt__use">Hero / couverture</span>
+          </div>
+          <pre class="ch10-pmt__code"><span class="hl">expressive oil painting</span>, <span class="ac">aerial cartographic view</span> of a rolling valley crossed by a serpentine silver river, thick directional brushwork, <span class="hl">impasto</span>, swirling Van Gogh-like sky, 5 layered relief strata, <span class="ac">a tiny single warm light point</span> top-right (lighthouse, &lt;0.1% of frame), <span class="hl">creamy graded palette</span> parchment beige and patinated bronze, no smooth areas, painterly texture, <span class="dim">--ar 3:4 --style raw --s 250</span></pre>
+          <div class="ch10-pmt__tags">
+            <span class="ch10-pmt__tag ch10-pmt__tag--hot">oil painting</span>
+            <span class="ch10-pmt__tag">impasto</span>
+            <span class="ch10-pmt__tag ch10-pmt__tag--hot">aerial valley</span>
+            <span class="ch10-pmt__tag">cream graded</span>
+          </div>
+        </article>
+
+        <article class="ch10-pmt">
+          <div class="ch10-pmt__head">
+            <span class="ch10-pmt__engine">MidJourney</span>
+            <span class="ch10-pmt__use">Planche d'ambiance</span>
+          </div>
+          <pre class="ch10-pmt__code"><span class="hl">brushed oil landscape</span>, abstracted <span class="ac">painted ridges and mist</span> in motion, no architecture, only natural matter (light, sky, terrain, water), <span class="hl">heavy visible brushstrokes</span>, warm cream and sand tones, soft daylight color grading, <span class="ac">one faint warm focal glow</span>, painterly negative space, <span class="dim">--ar 16:9 --style raw --s 200</span></pre>
+          <div class="ch10-pmt__tags">
+            <span class="ch10-pmt__tag ch10-pmt__tag--hot">painted ridges</span>
+            <span class="ch10-pmt__tag">natural matter</span>
+            <span class="ch10-pmt__tag">daylight grade</span>
+          </div>
+        </article>
+
+        <article class="ch10-pmt ch10-pmt--cta">
+          <div class="ch10-pmt__head">
+            <span class="ch10-pmt__engine">MidJourney</span>
+            <span class="ch10-pmt__use">Détail / foyer</span>
+          </div>
+          <pre class="ch10-pmt__code"><span class="hl">close oil painting study</span> of a single warm light source on a brushed ridge, <span class="ac">deep bordeaux and bronze glow</span> against pale cream surroundings, thick impasto strokes radiating outward, <span class="hl">the light stays small and precise</span>, calm focal point in agitated matter, <span class="dim">--ar 1:1 --style raw --s 220</span></pre>
+          <div class="ch10-pmt__tags">
+            <span class="ch10-pmt__tag ch10-pmt__tag--hot">focal glow</span>
+            <span class="ch10-pmt__tag">bordeaux bronze</span>
+            <span class="ch10-pmt__tag">precise</span>
+          </div>
+        </article>
+
+        <article class="ch10-pmt ch10-pmt--cta">
+          <div class="ch10-pmt__head">
+            <span class="ch10-pmt__engine">MidJourney</span>
+            <span class="ch10-pmt__use">À éviter (garde-fou)</span>
+          </div>
+          <pre class="ch10-pmt__code"><span class="dim">Anti-prompt — ne jamais produire :</span> postcard lighthouse in a storm, romantic sea mist, decorative maritime icons, flat vector illustration, coaching / motivational imagery, blue-violet gradients, smooth digital render. <span class="hl">--no</span> flat vector, postcard, storm, stock photo, neon, blue gradient, glossy 3d</pre>
+          <div class="ch10-pmt__tags">
+            <span class="ch10-pmt__tag">anti-cliché maritime</span>
+            <span class="ch10-pmt__tag">anti-flat</span>
+            <span class="ch10-pmt__tag">anti-coaching</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ FOOTER / COLOPHON ════════ -->
+  <footer class="ch10-colo">
+    <p class="ch10-colo__mark">Narration &amp; Espace</p>
+    <h2 class="ch10-colo__h"><span>La matière bouge.</span> <span>Le repère tient.</span></h2>
+    <p class="ch10-colo__meta">Le Phare de Ralliement — A3 × B2</p>
+    <hr class="ch10-colo__rule">
+  </footer>
+
+</div>
+
+</main>
+</body>
+</html>

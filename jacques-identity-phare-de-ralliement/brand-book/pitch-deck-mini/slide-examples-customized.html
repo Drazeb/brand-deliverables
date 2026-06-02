@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>jacques — Mini Deck (Le Phare de Ralliement)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<!-- ASSEMBLY:HEAD_START -->
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2A231B; padding: 24px; font-family: 'JetBrains Mono', monospace; }
+  .slide {
+    position: relative;
+    width: 1280px;
+    height: 720px;
+    margin: 0 auto 24px auto;
+    overflow: hidden;
+  }
+  .slide-dark { background: #5C4A38; }
+  .slide-light { background: #EDE6D6; }
+  .g { font-family: 'Gloock', Georgia, serif; }
+  .m { font-family: 'JetBrains Mono', monospace; }
+  .export-btn {
+    position: fixed; top: 4480px; left: 1100px; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px 18px; background: #7A1F2B; color: #EDE6D6;
+    border: none; border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; cursor: pointer;
+  }
+</style>
+<!-- ASSEMBLY:HEAD_END -->
+</head>
+<body>
+<!-- ASSEMBLY:SLIDES_START -->
+
+<!-- ============ SLIDE 1 — COVER (DARK) ============ -->
+<div class="slide slide-dark">
+  <div style="position:absolute; top:480px; left:0; width:1280px; height:240px; background:#4A3B2C;"></div>
+  <!-- foyer chaud unique (haut-droit) -->
+  <div style="position:absolute; top:96px; left:900px; width:340px; height:20px; text-align:right;">
+    <div style="display:inline-block; width:16px; height:16px; background:#C8A04A; border-radius:50%; vertical-align:middle;"></div>
+    <span class="m" style="color:#A89878; font-size:11px; letter-spacing:1.5px; margin-left:10px;">FOYER · 47°57'N</span>
+  </div>
+  <!-- bloc texte cover -->
+  <div style="position:absolute; top:300px; left:96px; width:960px; height:360px;">
+    <div class="m" style="color:#C9B89A; font-size:13px; letter-spacing:2px;">STUDIO DE POSITIONNEMENT STRATÉGIQUE</div>
+    <div class="g" style="color:#F5F0E0; font-size:92px; line-height:1.04; letter-spacing:-0.01em; margin-top:18px;">Le repère qui<br>fait lever le cap.</div>
+    <div style="width:180px; height:2px; background:#8C6B3C; margin-top:26px;"></div>
+    <div class="m" style="color:#C9B89A; font-size:16px; line-height:1.55; margin-top:22px; width:720px;">Un point fixe qui structure la traversée d'une startup, du positionnement au pitch deck investisseur.</div>
+  </div>
+  <!-- wordmark + prospect -->
+  <div class="g" style="position:absolute; top:648px; left:96px; width:200px; height:40px; color:#C8A04A; font-size:30px;">jacques</div>
+  <div class="m" style="position:absolute; top:658px; left:980px; width:204px; height:20px; color:#A89878; font-size:12px; letter-spacing:1px;">{Nom du Prospect} · {Date}</div>
+</div>
+
+<!-- ============ SLIDE 2 — CASE STUDY (LIGHT) ============ -->
+<div class="slide slide-light">
+  <!-- colonne gauche : preuve chiffrée -->
+  <div style="position:absolute; top:88px; left:96px; width:600px; height:560px;">
+    <div class="m" style="color:#6B5C46; font-size:13px; letter-spacing:2px;">PREUVE · LIST OF LIGHTS</div>
+    <div style="width:140px; height:2px; background:#8C6B3C; margin-top:14px;"></div>
+    <div class="g" style="color:#1F1A14; font-size:138px; line-height:1; margin-top:54px;">32</div>
+    <div class="m" style="color:#7A1F2B; font-size:18px; letter-spacing:1px; margin-top:10px;">MILLES NAUTIQUES DE PORTÉE</div>
+    <div class="m" style="color:#3A3128; font-size:16px; line-height:1.6; margin-top:24px; width:560px;">Un fondateur naviguait à vue depuis douze mois. Trois quarts de calibrage plus tard, sa trajectoire est redevenue calculable : un cap unique, tenu jusqu'au tour de table.</div>
+    <div class="m" style="color:#6B5C46; font-size:12px; letter-spacing:1px; margin-top:108px;">SOURCE · LIST OF LIGHTS — SHOM, ÉPHÉMÉRIDES 2024</div>
+  </div>
+  <!-- carnet de veille (carte droite) -->
+  <div style="position:absolute; top:160px; left:760px; width:424px; height:400px; background:#E4DAC5; border-radius:5px; border:1px solid #D9C7A8;">
+    <div style="padding:28px 32px;">
+      <div class="m" style="color:#6B5C46; font-size:12px; letter-spacing:1.5px;">CARNET DE VEILLE</div>
+      <div class="m" style="color:#3A3128; font-size:14px; margin-top:22px;">Position du repère</div>
+      <div class="g" style="color:#1F1A14; font-size:26px; margin-top:2px;">47°57'N · 5°06'W</div>
+      <div style="width:360px; height:1px; background:#C9B89A; margin-top:18px;"></div>
+      <div class="m" style="color:#3A3128; font-size:14px; margin-top:18px;">Cadence des éclats</div>
+      <div class="g" style="color:#1F1A14; font-size:26px; margin-top:2px;">4 éclats · 15 s</div>
+      <div style="width:360px; height:1px; background:#C9B89A; margin-top:18px;"></div>
+      <div class="m" style="color:#3A3128; font-size:14px; margin-top:18px;">Mise en service</div>
+      <div class="g" style="color:#1F1A14; font-size:26px; margin-top:2px;">1863</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3 — DATA VISUALIZATION (LIGHT) ============ -->
+<div class="slide slide-light">
+  <!-- titre -->
+  <div style="position:absolute; top:80px; left:96px; width:900px; height:140px;">
+    <div class="m" style="color:#6B5C46; font-size:13px; letter-spacing:2px;">CADENCE DU SIGNAL</div>
+    <div class="g" style="color:#1F1A14; font-size:44px; line-height:1.1; margin-top:12px;">La traction se lit comme une portée.</div>
+    <div style="width:160px; height:2px; background:#8C6B3C; margin-top:18px;"></div>
+  </div>
+  <!-- zone graphique : barres en flex (colonnes label + barre), zéro absolute interne -->
+  <div style="position:absolute; top:560px; left:96px; width:740px; height:1px; background:#C9B89A;"></div>
+  <div style="position:absolute; top:300px; left:96px; width:740px; height:260px; display:flex; align-items:flex-end; justify-content:flex-start; gap:60px; padding-left:44px;">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-end;">
+      <div style="width:90px; height:80px; background:#1F1A14; border-radius:2px;"></div>
+      <div class="m" style="color:#6B5C46; font-size:12px; margin-top:8px;">Q1</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-end;">
+      <div style="width:90px; height:140px; background:#1F1A14; border-radius:2px;"></div>
+      <div class="m" style="color:#6B5C46; font-size:12px; margin-top:8px;">Q2</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-end;">
+      <div style="width:90px; height:192px; background:#8C6B3C; border-radius:2px;"></div>
+      <div class="m" style="color:#6B5C46; font-size:12px; margin-top:8px;">Q3</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-end;">
+      <div style="width:90px; height:260px; background:#7A1F2B; border-radius:2px;"></div>
+      <div class="m" style="color:#6B5C46; font-size:12px; margin-top:8px;">Q4</div>
+    </div>
+  </div>
+  <!-- panneau insight -->
+  <div style="position:absolute; top:280px; left:900px; width:284px; height:280px; background:#E4DAC5; border-radius:5px; border:1px solid #D9C7A8;">
+    <div style="padding:28px;">
+      <div class="m" style="color:#6B5C46; font-size:12px; letter-spacing:1.5px;">RELEVÉ DE QUART</div>
+      <div class="g" style="color:#1F1A14; font-size:58px; line-height:1; margin-top:20px;">×4,2</div>
+      <div class="m" style="color:#3A3128; font-size:14px; line-height:1.55; margin-top:24px;">La cadence des éclats quadruple sur neuf mois. Un seul foyer porte le signal : pas de bruit ajouté.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4 — DASHBOARD / KPIs (DARK) ============ -->
+<div class="slide slide-dark">
+  <div style="position:absolute; top:80px; left:96px; width:1000px; height:140px;">
+    <div class="m" style="color:#C9B89A; font-size:13px; letter-spacing:2px;">TABLEAU DE QUART</div>
+    <div class="g" style="color:#F5F0E0; font-size:46px; line-height:1.1; margin-top:12px;">Quatre coordonnées tenues à la veille.</div>
+    <div style="width:160px; height:2px; background:#8C6B3C; margin-top:18px;"></div>
+  </div>
+  <!-- KPI 1 -->
+  <div style="position:absolute; top:280px; left:96px; width:264px; height:300px; background:#4A3B2C; border-radius:5px; border:1px solid #6B5640;">
+    <div style="padding:28px;">
+      <div class="m" style="color:#C9B89A; font-size:12px; letter-spacing:1px;">PORTÉE NOMINALE</div>
+      <div class="g" style="color:#F5F0E0; font-size:72px; line-height:1; margin-top:48px;">32</div>
+      <div class="m" style="color:#A89878; font-size:13px; line-height:1.5; margin-top:56px;">milles nautiques adressés</div>
+    </div>
+  </div>
+  <!-- KPI 2 -->
+  <div style="position:absolute; top:280px; left:392px; width:264px; height:300px; background:#4A3B2C; border-radius:5px; border:1px solid #6B5640;">
+    <div style="padding:28px;">
+      <div class="m" style="color:#C9B89A; font-size:12px; letter-spacing:1px;">CADENCE</div>
+      <div class="g" style="color:#C8A04A; font-size:72px; line-height:1; margin-top:48px;">4·15</div>
+      <div class="m" style="color:#A89878; font-size:13px; line-height:1.5; margin-top:56px;">éclats sur quinze secondes</div>
+    </div>
+  </div>
+  <!-- KPI 3 -->
+  <div style="position:absolute; top:280px; left:688px; width:264px; height:300px; background:#4A3B2C; border-radius:5px; border:1px solid #6B5640;">
+    <div style="padding:28px;">
+      <div class="m" style="color:#C9B89A; font-size:12px; letter-spacing:1px;">HAUTEUR FOCALE</div>
+      <div class="g" style="color:#F5F0E0; font-size:72px; line-height:1; margin-top:48px;">70</div>
+      <div class="m" style="color:#A89878; font-size:13px; line-height:1.5; margin-top:56px;">mètres de recul stratégique</div>
+    </div>
+  </div>
+  <!-- KPI 4 (foyer chaud bordeaux) -->
+  <div style="position:absolute; top:280px; left:984px; width:200px; height:300px; background:#7A1F2B; border-radius:5px;">
+    <div style="padding:28px;">
+      <div class="m" style="color:#EAC9B0; font-size:12px; letter-spacing:1px;">EN SERVICE</div>
+      <div class="g" style="color:#F5F0E0; font-size:60px; line-height:1; margin-top:48px;">1863</div>
+      <div class="m" style="color:#EAC9B0; font-size:13px; line-height:1.5; margin-top:60px;">le signal tient depuis</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5 — PROCESS / TIMELINE (LIGHT) ============ -->
+<div class="slide slide-light">
+  <div style="position:absolute; top:80px; left:96px; width:1000px; height:140px;">
+    <div class="m" style="color:#6B5C46; font-size:13px; letter-spacing:2px;">TRAJECTOIRE · TROIS QUARTS</div>
+    <div class="g" style="color:#1F1A14; font-size:46px; line-height:1.1; margin-top:12px;">Neuf semaines, trois caps successifs.</div>
+    <div style="width:160px; height:2px; background:#8C6B3C; margin-top:18px;"></div>
+  </div>
+  <!-- filet timeline -->
+  <div style="position:absolute; top:360px; left:160px; width:960px; height:2px; background:#8C6B3C;"></div>
+  <!-- étape 1 -->
+  <div style="position:absolute; top:300px; left:160px; width:280px; height:300px;">
+    <div class="m" style="color:#6B5C46; font-size:13px; letter-spacing:1px;">SEM. 1–3</div>
+    <div style="width:18px; height:18px; background:#1F1A14; border-radius:50%; margin-top:34px; margin-left:48px;"></div>
+    <div class="g" style="color:#1F1A14; font-size:30px; margin-top:14px;">Veille</div>
+    <div class="m" style="color:#3A3128; font-size:14px; line-height:1.55; margin-top:10px;">On relève les signaux du marché et l'état de la flotte. Aucune décision : on calibre le repère.</div>
+  </div>
+  <!-- étape 2 (foyer chaud) -->
+  <div style="position:absolute; top:300px; left:480px; width:280px; height:300px;">
+    <div class="m" style="color:#6B5C46; font-size:13px; letter-spacing:1px;">SEM. 4–6</div>
+    <div style="width:18px; height:18px; background:#7A1F2B; border-radius:50%; margin-top:34px; margin-left:48px;"></div>
+    <div class="g" style="color:#1F1A14; font-size:30px; margin-top:14px;">Calibrage</div>
+    <div class="m" style="color:#3A3128; font-size:14px; line-height:1.55; margin-top:10px;">On fixe le cap unique et la cadence des éclats. Le positionnement devient une coordonnée datable.</div>
+  </div>
+  <!-- étape 3 -->
+  <div style="position:absolute; top:300px; left:800px; width:300px; height:300px;">
+    <div class="m" style="color:#6B5C46; font-size:13px; letter-spacing:1px;">SEM. 7–9</div>
+    <div style="width:18px; height:18px; background:#1F1A14; border-radius:50%; margin-top:34px; margin-left:48px;"></div>
+    <div class="g" style="color:#1F1A14; font-size:30px; margin-top:14px;">Ralliement</div>
+    <div class="m" style="color:#3A3128; font-size:14px; line-height:1.55; margin-top:10px;">Le pitch deck porte le signal jusqu'au tour de table. Les équipes se règlent sur le même point fixe.</div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 6 — ICON GRID (DARK) ============ -->
+<div class="slide slide-dark">
+  <div style="position:absolute; top:80px; left:96px; width:1000px; height:140px;">
+    <div class="m" style="color:#C9B89A; font-size:13px; letter-spacing:2px;">CE QUE LE PHARE TIENT</div>
+    <div class="g" style="color:#F5F0E0; font-size:46px; line-height:1.1; margin-top:12px;">Quatre instruments, un seul foyer.</div>
+    <div style="width:160px; height:2px; background:#8C6B3C; margin-top:18px;"></div>
+  </div>
+  <!-- pilier 1 : Fresnel -->
+  <div style="position:absolute; top:300px; left:96px; width:240px; height:280px;">
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#E8DCC2" stroke-width="2"><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="9" stroke="#C8A04A"/><circle cx="24" cy="24" r="3" fill="#C8A04A" stroke="none"/></svg>
+    <div class="g" style="color:#F5F0E0; font-size:24px; margin-top:18px;">Repère</div>
+    <div class="m" style="color:#C9B89A; font-size:13px; line-height:1.55; margin-top:8px;">Un positionnement calibré, lisible de loin.</div>
+  </div>
+  <!-- pilier 2 : Secteur -->
+  <div style="position:absolute; top:300px; left:392px; width:240px; height:280px;">
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#E8DCC2" stroke-width="2"><polygon points="8,16 40,16 40,34 8,34"/><polyline points="8,16 24,28 40,16" stroke="#C8A04A"/></svg>
+    <div class="g" style="color:#F5F0E0; font-size:24px; margin-top:18px;">Cap</div>
+    <div class="m" style="color:#C9B89A; font-size:13px; line-height:1.55; margin-top:8px;">Une portée longue, documentée, datable.</div>
+  </div>
+  <!-- pilier 3 : Boussole -->
+  <div style="position:absolute; top:300px; left:688px; width:240px; height:280px;">
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#E8DCC2" stroke-width="2"><circle cx="24" cy="24" r="16"/><polygon points="24,10 29,24 24,38 19,24" stroke="#C8A04A"/></svg>
+    <div class="g" style="color:#F5F0E0; font-size:24px; margin-top:18px;">Coordonnées</div>
+    <div class="m" style="color:#C9B89A; font-size:13px; line-height:1.55; margin-top:8px;">Des décisions ancrées sur des points fixes.</div>
+  </div>
+  <!-- pilier 4 : Veille (foyer chaud) -->
+  <div style="position:absolute; top:300px; left:984px; width:200px; height:280px;">
+    <svg width="64" height="64" viewBox="0 0 48 48" fill="none" stroke="#E8DCC2" stroke-width="2"><polyline points="10,32 20,22 28,30 38,16" stroke="#C8A04A"/><circle cx="38" cy="16" r="3" fill="#7A1F2B" stroke="none"/></svg>
+    <div class="g" style="color:#F5F0E0; font-size:24px; margin-top:18px;">Cadence</div>
+    <div class="m" style="color:#C9B89A; font-size:13px; line-height:1.55; margin-top:8px;">Des éclats réguliers jusqu'au tour de table.</div>
+  </div>
+  <div class="g" style="position:absolute; top:632px; left:96px; width:200px; height:40px; color:#C8A04A; font-size:28px;">jacques</div>
+</div>
+
+<!-- ASSEMBLY:SLIDES_END -->
+<!-- ASSEMBLY:SCRIPT_START -->
+<script src="https://unpkg.com/dom-to-pptx@1.1.4/dist/dom-to-pptx.bundle.js"></script>
+<button class="export-btn" onclick="exportToPptx()">Exporter en PPTX</button>
+<script>
+async function exportToPptx() {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const btn = document.querySelector('.export-btn');
+  btn.textContent = 'Export en cours...';
+  btn.disabled = true;
+  try {
+    await domToPptx.exportToPptx(slides, { fileName: 'jacques-mini-deck.pptx' });
+    btn.textContent = 'Export réussi';
+    setTimeout(() => { btn.textContent = 'Exporter en PPTX'; btn.disabled = false; }, 2000);
+  } catch (error) {
+    console.error('Export error:', error);
+    alert('Erreur export: ' + error.message);
+    btn.textContent = 'Erreur - Réessayer';
+    btn.disabled = false;
+  }
+}
+</script>
+<!-- ASSEMBLY:SCRIPT_END -->
+</body>
+</html>
