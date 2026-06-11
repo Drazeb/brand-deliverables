@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Features de sécurité enfant · 37 apps · analyse transversale · pour Kidsono</title>
+<title>Features de sécurité enfant · rapport · pour Kidsono</title>
 <style>
   :root{
     --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
@@ -57,22 +57,52 @@
   .dot{font-weight:800;}
   .d3{color:var(--c-price);} .d2{color:var(--c-flow);} .d1{color:#bbb;}
   @media(max-width:980px){.avis{grid-template-columns:1fr;}}
+
+  /* ===== HABILLAGE ÉDITORIAL (test) ===== */
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:46px 44px 34px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.18;font-weight:700;margin:14px 0 16px;max-width:880px;}
+  .standfirst{font-size:15.5px;color:#444;max-width:780px;line-height:1.65;}
+  .cover-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 30px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
+  .cover-meta b{color:#333;}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 26px;margin-top:18px;}
+  .toc .toc-t{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .toc a{display:flex;gap:14px;align-items:baseline;text-decoration:none;color:inherit;padding:6px 0;border-bottom:1px dashed #eee8d5;font-size:14px;}
+  .toc a:last-child{border-bottom:none;}
+  .toc a:hover .tt{color:var(--c-trust);}
+  .toc .tn{font-family:Georgia,serif;font-weight:700;color:var(--accent-dark);min-width:26px;}
+  .toc .tt{font-weight:600;}
+  .chapter{margin-top:52px;}
+  .ch-band{display:flex;align-items:baseline;gap:18px;border-bottom:3px solid var(--accent-dark);padding-bottom:10px;}
+  .ch-num{font-family:Georgia,serif;font-size:46px;font-weight:700;color:var(--accent-dark);line-height:1;}
+  .ch-title{font-family:Georgia,serif;font-size:25px;font-weight:700;line-height:1.2;}
+  .chapeau{font-size:14px;color:#555;max-width:840px;line-height:1.7;margin:14px 0 22px;border-left:3px solid var(--accent);padding-left:16px;font-style:italic;}
+  .report-foot{margin-top:50px;border-top:1px solid var(--border);padding-top:14px;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="hero">
-    <div class="eyebrow">Benchmark onboarding · Analyse transversale · Angle 13 du backlog · 37 apps</div>
-    <h1>Features de sécurité enfant : l'inventaire complet, et le test de la thèse "positionnement bouclier"</h1>
-    <div class="subtitle">Inventaire exhaustif des features de sécurité enfant repérées dans les 37 apps du corpus, classées en 10 familles de features. Vérification de leur répartition par famille d'apps (transversales ou clustérisées ?). Puis test de la thèse de Charles : "blinder les features de sécurité enfant peut-il être un élément différenciant de positionnement pour Kidsono ?"</div>
-    <div class="context"><b>Méthode et limite.</b> Mining systématique des 37 analyses complètes + metadata (storyboards écran par écran, sections trust, espaces parents capturés). Limite assumée : le corpus est centré onboarding ; les réglages parentaux profonds n'ont été capturés que là où le parcours y est passé (Bayam, Alma, Quelle Histoire, Pinkfong, Kidjo notamment). Les absences sont donc des "non observé dans le parcours capturé", pas des certitudes d'absence. Une passe complémentaire ciblée est proposée en fin de document.</div>
-    <div class="legende">Niveaux de confiance : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern sur le panel · <span class="conf e">Estim.</span> directionnel.</div>
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Benchmark onboarding · Analyse transversale</div>
+    <h1>Features de sécurité enfant : l'inventaire du marché, et la thèse du positionnement bouclier</h1>
+    <div class="standfirst">Inventaire exhaustif des features de sécurité enfant repérées dans les 37 apps du corpus, classées en 10 familles. Leur répartition par famille d'apps, ce qui relève du standard attendu et ce qui peut encore différencier, le test de la thèse "l'app la plus sûre, qui n'abrutit pas", et le panorama complet pour construire le positionnement.</div>
+    <div class="cover-meta">
+      <span><b>Corpus</b> · 37 apps analysées écran par écran</span>
+      <span><b>Date</b> · 11 juin 2026</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+    </div>
   </header>
 
-  <!-- ============ TYPOLOGIE ============ -->
-  <h2 class="section">1 · Les 10 familles de features de sécurité enfant identifiées sur le corpus</h2>
-  <p class="section-sub">Classement par mécanique. Pour chaque famille : qui l'a, et les implémentations remarquables. <span class="conf s">Solide</span> pour les features citées (vues sur captures).</p>
+  <nav class="toc">
+    <div class="toc-t">Sommaire</div>
+    <a href="#ch01"><span class="tn">01</span><span class="tt">L'inventaire : les 10 familles de features</span></a><a href="#ch02"><span class="tn">02</span><span class="tt">La répartition par famille d'apps : table stakes et différenciants</span></a><a href="#ch03"><span class="tn">03</span><span class="tt">La thèse de positionnement, testée</span></a><a href="#ch04"><span class="tn">04</span><span class="tt">Le panorama : la panoplie rangée par inquiétude parentale</span></a><a href="#ch05"><span class="tn">05</span><span class="tt">Limites de l'inventaire, et la suite</span></a>
+  </nav>
+
+  <div class="chapter" id="ch01">
+    <div class="ch-band"><span class="ch-num">01</span><span class="ch-title">L'inventaire : les 10 familles de features</span></div>
+    <p class="chapeau">Trente-sept applications passées au crible, dix familles de mécaniques. Du simple calcul qui filtre l'adulte au verrou d'écran à appui long, ce chapitre inventorie tout ce que le marché a inventé pour rassurer le parent, avec, pour chaque famille, l'implémentation la plus aboutie observée.</p>
+<!-- ============ TYPOLOGIE ============ -->
   <div class="tbl-wrap">
   <table>
     <thead><tr><th>#</th><th>Famille de feature</th><th>Ce que c'est</th><th>Qui l'a, et comment</th><th>Implémentation remarquable</th></tr></thead>
@@ -91,9 +121,13 @@
   </table>
   </div>
 
-  <!-- ============ TRANSVERSALITÉ ============ -->
-  <h2 class="section">2 · Le check de transversalité : les features se clustérisent fortement par famille d'apps</h2>
-  <p class="section-sub">Verdict : NON transversales. Chaque famille d'apps a son "kit" dominant, et deux familles n'ont rien. <span class="dot d3">●</span> fort / <span class="dot d2">●</span> présent / <span class="dot d1">○</span> absent ou anecdotique.</p>
+  
+  </div>
+
+  <div class="chapter" id="ch02">
+    <div class="ch-band"><span class="ch-num">02</span><span class="ch-title">La répartition par famille d'apps : table stakes et différenciants</span></div>
+    <p class="chapeau">Ces features ne sont pas réparties au hasard : chaque famille d'apps a son kit, et deux familles n'en ont aucun. La matrice complète d'abord, puis ce que le parent attend (les table stakes) séparé de ce qui peut encore différencier. Le constat central : personne n'empile, personne ne met en scène.</p>
+<!-- ============ TRANSVERSALITÉ ============ -->
   <div class="tbl-wrap">
   <table style="min-width:1100px;">
     <thead><tr><th>Famille d'apps</th><th>P1 Gate</th><th>P2 Temps</th><th>P3 Écran qui s'efface</th><th>P4 Verrou</th><th>P5 Âge</th><th>P6 DYS</th><th>P7 Données</th><th>P8 Sans pub</th><th>P9 Espace parent</th><th>P10 Claim sûr</th><th>Lecture</th></tr></thead>
@@ -120,9 +154,13 @@
     </ul>
   </div>
 
-  <!-- ============ THÈSE ============ -->
-  <h2 class="section">4 · La thèse Kidsono testée : "l'app la plus sûre, qui n'abrutit pas"</h2>
-  <p class="section-sub">Hypothèse de Charles : l'omniprésence de ces features signale un besoin parental massif ; aucune app ne se positionne dessus ; Kidsono pourrait blinder et en faire un élément différenciant. Test contre le corpus.</p>
+  
+  </div>
+
+  <div class="chapter" id="ch03">
+    <div class="ch-band"><span class="ch-num">03</span><span class="ch-title">La thèse de positionnement, testée</span></div>
+    <p class="chapeau">L'hypothèse de départ : le besoin de sécurité est si universellement adressé qu'il révèle une attente parentale massive, et personne n'en a fait un positionnement. Ce chapitre la confronte aux données du corpus, réserves comprises, et en tire un kit en trois étages.</p>
+<!-- ============ THÈSE ============ -->
   <div class="avis">
     <div class="acard f"><div class="ttl">Ce qui soutient la thèse</div><ul>
       <li><span class="conf o">Observé</span> Le besoin est validé par les actes, pas par du déclaratif : 11 apps construisent des gates, 9 des chronos, 4 paient une certification kidSAFE, 2 leaders monétisent le contrôle du temps. On n'investit pas ça sans demande.</li>
@@ -153,9 +191,13 @@
     <div class="impl"><b>Impact business attendu.</b> <span class="conf e">Estim.</span> Conversion : le stack + sa mise en scène ciblent exactement le parent prudent, le segment qui fuit les CB et que tout le corpus perd au paywall ; c'est aussi la réponse frontale à l'objection Okoo. Rétention : minuteur + rituel encadré = un usage que le parent peut DÉFENDRE dans le foyer (l'app qu'on n'a pas à confisquer), donc moins de churn de culpabilité. Acquisition : l'angle "l'app qui éteint l'écran" est un angle de presse parentale naturel, rare levier de CAC gratuit. Le tout est cumulable avec le trust éditorial : mêmes écrans, même récit.</div>
   </div>
 
-  <!-- ============ PANORAMA POSITIONNEMENT ============ -->
-  <h2 class="section" id="panorama">5 · Le panorama pour construire le positionnement : toute la panoplie, rangée par inquiétude parentale</h2>
-  <p class="section-sub">La vue "catalogue à piocher". Chaque ligne = une inquiétude réelle du parent ; en face, TOUT ce que le corpus a inventé pour y répondre, du plus basique au plus abouti, et la version Kidsono possible. Un positionnement "l'app la plus sûre" se construit en couvrant CHAQUE ligne avec au moins une feature, puis en les sommant dans un écran d'engagements (section 4, étage 3).</p>
+  
+  </div>
+
+  <div class="chapter" id="ch04">
+    <div class="ch-band"><span class="ch-num">04</span><span class="ch-title">Le panorama : la panoplie rangée par inquiétude parentale</span></div>
+    <p class="chapeau">La vue catalogue. Huit inquiétudes parentales réelles, et pour chacune la panoplie complète du marché, du basique au plus abouti, avec la version Kidsono possible. C'est ici qu'on pioche pour construire le positionnement.</p>
+<!-- ============ PANORAMA POSITIONNEMENT ============ -->
   <div class="tbl-wrap">
   <table style="min-width:1500px;">
     <thead><tr><th>L'inquiétude du parent</th><th>Familles de features</th><th>La panoplie existante, du basique au plus abouti</th><th>La version Kidsono possible (à piocher)</th></tr></thead>
@@ -220,7 +262,13 @@
     </ul>
   </div>
 
-  <!-- ============ LIMITES ============ -->
+  
+  </div>
+
+  <div class="chapter" id="ch05">
+    <div class="ch-band"><span class="ch-num">05</span><span class="ch-title">Limites de l'inventaire, et la suite</span></div>
+    <p class="chapeau">Ce que cet inventaire ne peut pas voir (le corpus est centré onboarding), et la passe complémentaire proposée pour le compléter sans re-parser les 37 apps.</p>
+<!-- ============ LIMITES ============ -->
   <div class="lesson" style="--cat:var(--c-flow)">
     <h3><span class="num">→</span>Limites de l'inventaire et passe complémentaire proposée</h3>
     <ul>
@@ -230,7 +278,12 @@
     </ul>
   </div>
 
+  
+  </div>
+
+  <div class="report-foot">
   <p class="legende" style="margin-top:22px;">Sources : mining systématique des 37 `analyse.md` + `metadata.yaml` du corpus (`benchmark-onboarding/apps/`), captures référencées dans chaque analyse. Angle 13 du backlog (`analyse-transversale-backlog-13-angles.md`). Colonne "Features de sécurité enfant" ajoutée en parallèle aux tableaux de `analyse-transversale-cartographie-corpus-37.html`. Lecture seule respectée sur `benchmark-onboarding/`. Dernière mise à jour : 2026-06-11.</p>
+  </div>
 
 </div>
 </body>
