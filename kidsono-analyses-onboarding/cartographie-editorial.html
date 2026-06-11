@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cartographie du corpus · 37 apps · 7 familles de service · pour Kidsono</title>
+<title>Cartographie du corpus · 37 apps · rapport · pour Kidsono</title>
 <style>
   :root{
     --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
@@ -97,22 +97,52 @@
   .acard.f .ttl{color:var(--c-price);} .acard.r .ttl{color:var(--c-barrier);} .acard.p .ttl{color:var(--c-trust);}
   .acard li{font-size:12.5px;margin-bottom:4px;margin-left:15px;}
   @media(max-width:980px){.three,.avis{grid-template-columns:1fr;}}
+
+  /* ===== HABILLAGE ÉDITORIAL ===== */
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:46px 44px 34px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.18;font-weight:700;margin:14px 0 16px;max-width:880px;}
+  .standfirst{font-size:15.5px;color:#444;max-width:780px;line-height:1.65;}
+  .cover-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 30px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
+  .cover-meta b{color:#333;}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 26px;margin-top:18px;}
+  .toc .toc-t{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .toc a{display:flex;gap:14px;align-items:baseline;text-decoration:none;color:inherit;padding:6px 0;border-bottom:1px dashed #eee8d5;font-size:14px;}
+  .toc a:last-child{border-bottom:none;}
+  .toc a:hover .tt{color:var(--c-trust);}
+  .toc .tn{font-family:Georgia,serif;font-weight:700;color:var(--accent-dark);min-width:26px;}
+  .toc .tt{font-weight:600;}
+  .chapter{margin-top:52px;}
+  .ch-band{display:flex;align-items:baseline;gap:18px;border-bottom:3px solid var(--accent-dark);padding-bottom:10px;}
+  .ch-num{font-family:Georgia,serif;font-size:46px;font-weight:700;color:var(--accent-dark);line-height:1;}
+  .ch-title{font-family:Georgia,serif;font-size:25px;font-weight:700;line-height:1.2;}
+  .chapeau{font-size:14px;color:#555;max-width:840px;line-height:1.7;margin:14px 0 22px;border-left:3px solid var(--accent);padding-left:16px;font-style:italic;}
+  .report-foot{margin-top:50px;border-top:1px solid var(--border);padding-top:14px;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="hero">
-    <div class="eyebrow">Benchmark onboarding · Cartographie du corpus · 37 apps analysées (sur 63 shortlistées)</div>
-    <h1>7 familles de service : la proposition de cartographie</h1>
-    <div class="subtitle">Le corpus a triplé et mélange désormais des métiers très différents (histoires audio kids, curriculum d'apprentissage, manga à l'épisode, livres audio à crédit). Cette cartographie propose un nouveau point d'entrée : grouper les apps par traits structurels de SERVICE, et lire le succès/échec À L'INTÉRIEUR de chaque famille, là où la comparaison redevient valide.</div>
-    <div class="context"><b>Pourquoi le point d'entrée succès/échec sature.</b> Il reste pertinent sur le marché FR (Cercle 1 : il y a des vivants et des morts). Mais les cercles 3 à 6 ont été sélectionnés PARMI les références : il n'y a quasiment que des gagnants (biais de sélection assumé de la shortlist). Comparer la notoriété d'Epic à celle de Capitaine Aventure ne dit plus rien. La question utile devient : <b>qu'est-ce que les gagnants d'une même famille font pareil, et qu'est-ce qui change d'une famille à l'autre ?</b></div>
-    <div class="warn">⚠️ Apps 36 (WEBTOON) et 37 (DramaBox) : analyses les plus récentes, signalées comme encore en cours de finalisation par Charles. Les données utilisées ici viennent de leurs metadata déjà posées ; à re-vérifier quand elles seront figées.</div>
-    <div class="legende">Niveaux de confiance : <span class="conf s">Solide</span> vérifié captures · <span class="conf o">Observé</span> pattern sur le panel · <span class="conf e">Estim.</span> directionnel. Notoriété : nb d'avis store dominant (échelle log officielle). Les 3 axes d'onboarding (Forme / Dose / Monétisation) restent inchangés : la cartographie s'AJOUTE, elle ne remplace rien.</div>
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Benchmark onboarding · Analyse transversale</div>
+    <h1>Cartographie du corpus : 37 applications, 7 familles de service</h1>
+    <div class="standfirst">Le corpus mélange désormais des métiers très différents : histoires audio pour enfants, programmes d'apprentissage, bibliothèques de livres lus, feuilletons à l'épisode, livres audio à crédits. Cette cartographie les classe par traits structurels de service, lit le succès et l'échec à l'intérieur de chaque famille (là où la comparaison est valide), et en tire la lecture stratégique pour Kidsono : ce qu'il faut battre, piller, transposer.</div>
+    <div class="cover-meta">
+      <span><b>Corpus</b> · 37 apps analysées écran par écran (2 en cours de finalisation)</span>
+      <span><b>Date</b> · 11 juin 2026</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+    </div>
   </header>
 
-  <!-- ============ LA PROPOSITION ============ -->
-  <h2 class="section">1 · La proposition : 4 traits structurels de service, 7 familles</h2>
+  <nav class="toc">
+    <div class="toc-t">Sommaire</div>
+    <a href="#ch01"><span class="tn">01</span><span class="tt">La grille de lecture : 4 traits de service, 7 familles</span></span><a href="#ch02"><span class="tn">02</span><span class="tt">Ce que la carte révèle : le modèle suit la structure du contenu</span></span><a href="#ch03"><span class="tn">03</span><span class="tt">Les fiches-familles : critères, flow type, enseignements</span></span><a href="#ch04"><span class="tn">04</span><span class="tt">La lecture stratégique : les anneaux, et la place de Kidsono</span></span><a href="#ch05"><span class="tn">05</span><span class="tt">Règles d'usage et avis</span></span>
+  </nav>
+
+  <div class="chapter" id="ch01">
+    <div class="ch-band"><span class="ch-num">01</span><span class="ch-title">La grille de lecture : 4 traits de service, 7 familles</span></div>
+    <p class="chapeau">Le corpus a triplé et mélange des métiers très différents. Ce chapitre pose la proposition de classification (quatre traits structurels de service) et déroule la carte complète : 37 applications réparties en 7 familles, avec la signature observée des gagnants de chacune.</p>
+<h2 class="section">La proposition : 4 traits structurels de service, 7 familles</h2>
   <p class="section-sub">Les 3 axes existants décrivent l'ONBOARDING. Ce qui manque pour s'y retrouver, c'est une typologie du SERVICE lui-même. Proposition : 4 traits par app, dont les combinaisons fréquentes forment 7 familles.</p>
   <div class="tbl-wrap">
   <table>
@@ -127,8 +157,7 @@
   </div>
   <p class="section-sub" style="margin-top:10px;">Le trait le plus puissant est <b>T3 (structure de consommation)</b> : c'est lui qui prédit le modèle de monétisation des gagnants (démonstration au bloc 3). [Observé]</p>
 
-  <!-- ============ LA CARTE ============ -->
-  <h2 class="section">2 · La carte : les 37 apps en 7 familles (et 2 scissions)</h2>
+  <h2 class="section">La carte : les 37 apps en 7 familles (et 2 scissions)</h2>
   <p class="section-sub"><b>Pastille verte = leader(s) d'adoption de la famille</b> (le chiffre = nb total d'avis sur le store dominant, notre proxy de notoriété). Gris = les autres membres. <b>Toutes les pastilles sont cliquables → fiche complète de l'app (presentation.html)</b>. Affectations [Observé] depuis les analyses par app. F1 est scindée tiennent/meurent (seule famille qui contient les deux), F4 et F5 sont scindées pour cohérence interne.</p>
   <div class="tbl-wrap">
   <table>
@@ -201,9 +230,14 @@
   </table>
   </div>
 
-  <!-- ============ DEMONSTRATION ============ -->
-  <div class="lesson" style="--cat:var(--c-trust)">
-    <h3><span class="num">3</span>Pourquoi ce point d'entrée marche : le modèle gagnant change de famille en famille</h3>
+  
+  </div>
+
+  <div class="chapter" id="ch02">
+    <div class="ch-band"><span class="ch-num">02</span><span class="ch-title">Ce que la carte révèle : le modèle suit la structure du contenu</span></div>
+    <p class="chapeau">Deux démonstrations. D'abord, il n'existe pas de modèle gagnant universel : le leader de chaque famille utilise un modèle différent, dicté par la structure de son unité de valeur. Ensuite, le cluster crédit décomposé : quatre mécaniques, deux structures porteuses, et la question produit que cela pose à Kidsono.</p>
+<div class="lesson" style="--cat:var(--c-trust)">
+    <h3><span class="num">→</span>Pourquoi ce point d'entrée marche : le modèle gagnant change de famille en famille</h3>
     <ul>
       <li><span class="conf o">Observé</span> Il n'y a PAS de modèle gagnant universel. Le leader de chaque famille utilise un modèle différent, et ce modèle suit la <b>structure de l'unité de valeur (T3)</b> : curriculum → reverse trial + freemium d'appel (Lingokids) · bibliothèque → hard paywall + trial (Epic) · livre long → crédit-propriété ou quota-temps (Audible, Storytel) · feuilleton → coins + wait-to-unlock (DramaBox) · vidéo de marque → paiement sec ou gratuit (CoComelon, Okoo) · état/sommeil → promesse de résultat + trial (Moshi).</li>
       <li><span class="conf o">Observé</span> Correction honnête apportée à la synthèse 19 apps : la famille F4 montre que la dose "freemium sans carte" n'est PAS condamnée en soi. Les deux leaders kids du corpus (Lingokids 593k, ABCmouse 88k) sont exactement "reverse trial + vraie dose freemium + testable sans carte", soit la reco "reverse trial + amortisseurs" déjà formulée, désormais validée par les leaders. Ce qui reste sans aucun gagnant : la MONÉTISATION freemium pure (sans essai ni mur, type Quelle Histoire/Whisperies/LILI) et le gratuit non orchestré.</li>
@@ -211,9 +245,8 @@
     </ul>
   </div>
 
-  <!-- ============ CLUSTER CREDIT ============ -->
   <div class="lesson" style="--cat:var(--c-model)">
-    <h3><span class="num">4</span>Le cluster crédit décomposé : 4 mécaniques, 2 structures porteuses, et LA question produit Kidsono</h3>
+    <h3><span class="num">→</span>Le cluster crédit décomposé : 4 mécaniques, 2 structures porteuses, et LA question produit Kidsono</h3>
     <table>
       <thead><tr><th>Variante</th><th>Mécanique</th><th>Apps</th><th>Condition structurelle (pourquoi ça marche là)</th></tr></thead>
       <tbody>
@@ -230,8 +263,14 @@
     <div class="impl"><b>LA question produit que la carto pose à Kidsono.</b> Le crédit Kidsono doit choisir son habitat, et chacun exige une structure de catalogue différente : <b>(a) crédit-propriété</b> ("cette histoire appartient à Thelma, pour toujours") : marche sur des histoires-doudou réécoutées, valorise le replay, crée du patrimoine familial anti-churn ; <b>(b) quota-temps</b> ("X heures d'écoute par mois, tout le catalogue") : marche sur un catalogue large indifférencié, pédagogie à la Storytel par moments d'usage ("histoires du soir", "trajets") ; <b>(c) crédit-impatience</b> (wait-to-unlock sur des séries) : exige une PART SÉRIELLE du catalogue (épisodes à suite). La donnée produit à établir avant de trancher : <b>quelle part des ~400 titres est sérielle (épisodes à cliffhanger) vs unitaire (histoires finies) ?</b> <span class="conf e">Estim.</span> Un hybride est plausible (quota-temps en socle + propriété en récompense rituelle), mais chaque rail ajouté coûte en lisibilité : à trancher sur la structure réelle du catalogue, pas sur l'envie de tout prendre.</div>
   </div>
 
-  <!-- ============ FICHES-FAMILLES DÉTAILLÉES ============ -->
-  <h2 class="section">5 · Les fiches-familles détaillées : critères, flow d'onboarding type, enseignements</h2>
+  
+  </div>
+
+  <div class="chapter" id="ch03">
+    <div class="ch-band"><span class="ch-num">03</span><span class="ch-title">Les fiches-familles : critères, flow type, enseignements</span></div>
+    <p class="chapeau">Le cœur du document. Pour chacune des dix familles et sous-familles : la ligne de synthèse sur les six critères du benchmark, le flow d'onboarding type au format des fiches par app, et ce que la fiche fait ressortir.</p>
+<!-- ============ FICHES-FAMILLES DÉTAILLÉES ============ -->
+  <h2 class="section">Les fiches-familles détaillées : critères, flow d'onboarding type, enseignements</h2>
   <p class="section-sub">Pour chaque famille/sous-famille, trois éléments : la ligne de synthèse sur les 6 critères du benchmark (Archétype d'onboarding · Dose de gratuit · Modèle de monétisation · Carte bleue pour tester · Essai gratuit · Trust signals), le flow d'onboarding type au format visuel des fiches par app, et ce que la fiche fait ressortir. Pastille verte = leader d'adoption de la famille (nb total d'avis), toutes les pastilles sont cliquables vers la fiche de l'app. Pourcentages [Estimation] directionnelle, échelle famille.</p>
 
   <section class="fiche" style="--fc:var(--accent-dark)">
@@ -735,8 +774,14 @@
     </ul>
   </div>
 
-  <!-- ============ ANNEAUX ============ -->
-  <h2 class="section">6 · Deuxième lecture : les 3 anneaux de distance à Kidsono</h2>
+  
+  </div>
+
+  <div class="chapter" id="ch04">
+    <div class="ch-band"><span class="ch-num">04</span><span class="ch-title">La lecture stratégique : les anneaux, et la place de Kidsono</span></div>
+    <p class="chapeau">La même carte relue par l'usage en mission : ce qu'il faut battre, ce qu'il faut piller, ce qu'il faut transposer. Et la position de Kidsono : une case vide, à lire dans les deux sens.</p>
+<!-- ============ ANNEAUX ============ -->
+  <h2 class="section">Deuxième lecture : les 3 anneaux de distance à Kidsono</h2>
   <p class="section-sub">La même carte, relue par l'usage en mission : chaque famille a un RÔLE différent. C'est la grille "que prendre où".</p>
   <div class="three">
     <div class="card c-a1"><div class="ttl">Anneau 1 · À battre (même métier, même public)</div><ul>
@@ -759,9 +804,8 @@
     </ul></div>
   </div>
 
-  <!-- ============ POSITION KIDSONO ============ -->
   <div class="lesson" style="--cat:var(--c-price)">
-    <h3><span class="num">7</span>Où est Kidsono sur cette carte</h3>
+    <h3><span class="num">→</span>Où est Kidsono sur cette carte</h3>
     <ul>
       <li><span class="conf o">Observé</span> Métier de F1 (histoires audio enfant, catalogue-replay) + ambition de modèle de F6/F7 (crédit/temps) + atout de conviction que personne n'exploite à fond (trust éditorial + institutions). Cette combinaison n'existe dans aucune des 37 apps : <b>la case est vide</b>.</li>
       <li><span class="conf o">Observé</span> Une case vide se lit dans les deux sens : opportunité (aucun concurrent direct sur ce couple métier x modèle) ET absence de preuve (aucun acteur n'a démontré que le crédit fonctionne sur des histoires kids finies ; F1 plafonne bas partout). Le risque n'est pas d'être copié, il est que le couple ne prenne pas.</li>
@@ -769,9 +813,14 @@
     </ul>
   </div>
 
-  <!-- ============ METHODO ============ -->
-  <div class="lesson" style="--cat:var(--c-flow)">
-    <h3><span class="num">8</span>Règles d'usage proposées (à valider avant de figer)</h3>
+  
+  </div>
+
+  <div class="chapter" id="ch05">
+    <div class="ch-band"><span class="ch-num">05</span><span class="ch-title">Règles d'usage et avis</span></div>
+    <p class="chapeau">Comment se servir de cette cartographie sans la dévoyer, ce qu'elle vaut, et ce qu'elle ne dit pas.</p>
+<div class="lesson" style="--cat:var(--c-flow)">
+    <h3><span class="num">→</span>Règles d'usage proposées (à valider avant de figer)</h3>
     <ul>
       <li><b>R1 : la famille est le point d'entrée par défaut</b> de toute analyse transversale future ; le spectre succès/échec devient un overlay INTRA-famille (et reste pleinement valide intra-marché FR).</li>
       <li><b>R2 : les 7 familles + 4 traits sont figés après validation Charles</b> (même logique de sanctuarisation que la typologie des 3 axes : on coche ou on remonte, on n'invente pas de famille en cours de route). Une app inclassable = signal qu'il faut une décision, pas un label maison.</li>
@@ -781,7 +830,6 @@
     </ul>
   </div>
 
-  <!-- ============ L'AVIS ============ -->
   <h2 class="section">L'avis sur cette cartographie</h2>
   <div class="avis">
     <div class="acard f"><div class="ttl">Force</div><ul>
@@ -803,6 +851,7 @@
   </div>
 
   <p class="legende" style="margin-top:22px;">Sources : `benchmark-onboarding/apps/*/metadata.yaml` (37 apps), `_data/vitalite-notoriete.csv` (notoriété complète au 2026-06-11, store dominant), `shortlist-benchmark-client.md` (cercles, 63 apps). Complète `analyse-transversale-synthese-19-apps.html` (synthèse onboarding) sans la remplacer. Lecture seule respectée sur `benchmark-onboarding/`. Dernière mise à jour : 2026-06-11.</p>
+  </div>
 
 </div>
 </body>
