@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modèles économiques par famille · 37 applications · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-flow:#c4761a; --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55; --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 24px 70px;}
+  .conf{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:#e8f6ee;color:#1f7d45;} .conf.o{background:#e9f0fc;color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+  .legende{font-size:12px;color:var(--muted);margin:8px 0 0;}
+  h2.section{font-size:18px;margin:30px 0 6px;display:flex;align-items:center;gap:10px;}
+  h2.section::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--accent-dark);display:inline-block;}
+  .section-sub{font-size:13px;color:var(--muted);margin:0 0 14px 16px;}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:980px;}
+  th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{background:#fbfbf8;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);}
+  tr:last-child td{border-bottom:none;}
+  td.fam{font-weight:800;min-width:140px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:1px 2px 1px 0;}
+  .t-green{background:var(--c-price-soft);color:var(--c-price);}
+  .t-red{background:var(--c-barrier-soft);color:var(--c-barrier);}
+  .t-amber{background:var(--c-flow-soft);color:var(--c-flow);}
+  .t-violet{background:var(--c-model-soft);color:var(--c-model);}
+  .t-blue{background:var(--c-trust-soft);color:var(--c-trust);}
+  .t-grey{background:#f0f0ec;color:#777;}
+  .t-gold{background:#fdf6dc;color:#9a7200;}
+  .app-chip{display:inline-block;font-size:11.5px;background:#f4f4ef;border:1px solid var(--border);border-radius:8px;padding:1px 7px;margin:1px 2px;white-space:nowrap;font-weight:700;}
+  a.app-chip{text-decoration:none;color:inherit;cursor:pointer;transition:border-color .12s, box-shadow .12s;}
+  a.app-chip:hover{border-color:var(--c-trust);box-shadow:0 1px 5px rgba(37,99,201,.18);}
+  .mex{margin-top:6px;font-size:11px;color:var(--muted);}
+  .het{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;background:#fdecea;color:#a3261f;}
+  .lesson{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--cat);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+  .lesson h3{font-size:15px;color:var(--cat);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .lesson h3 .num{min-width:22px;height:22px;border-radius:6px;background:var(--cat);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;padding:0 5px;}
+  .lesson ul{margin:0 0 0 18px;} .lesson li{font-size:13px;margin-bottom:5px;}
+  .avis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px;}
+  .acard{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface);}
+  .acard .ttl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+  .acard.f .ttl{color:var(--c-price);} .acard.r .ttl{color:var(--c-barrier);} .acard.p .ttl{color:var(--c-trust);}
+  .acard li{font-size:12.5px;margin-bottom:4px;margin-left:15px;}
+  /* ===== HABILLAGE ÉDITORIAL ===== */
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:46px 44px 34px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.18;font-weight:700;margin:14px 0 16px;max-width:880px;}
+  .standfirst{font-size:15.5px;color:#444;max-width:780px;line-height:1.65;}
+  .cover-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 30px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
+  .cover-meta b{color:#333;}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 26px;margin-top:18px;}
+  .toc .toc-t{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .toc a{display:flex;gap:14px;align-items:baseline;text-decoration:none;color:inherit;padding:6px 0;border-bottom:1px dashed #eee8d5;font-size:14px;}
+  .toc a:last-child{border-bottom:none;}
+  .toc a:hover .tt{color:var(--c-trust);}
+  .toc .tn{font-family:Georgia,serif;font-weight:700;color:var(--accent-dark);min-width:26px;}
+  .toc .tt{font-weight:600;}
+  .chapter{margin-top:52px;}
+  .ch-band{display:flex;align-items:baseline;gap:18px;border-bottom:3px solid var(--accent-dark);padding-bottom:10px;}
+  .ch-num{font-family:Georgia,serif;font-size:46px;font-weight:700;color:var(--accent-dark);line-height:1;}
+  .ch-title{font-family:Georgia,serif;font-size:25px;font-weight:700;line-height:1.2;}
+  .chapeau{font-size:14px;color:#555;max-width:840px;line-height:1.7;margin:14px 0 22px;border-left:3px solid var(--accent);padding-left:16px;font-style:italic;}
+  .report-foot{margin-top:50px;border-top:1px solid var(--border);padding-top:14px;}
+  @media(max-width:980px){.avis{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Benchmark onboarding · Analyse transversale</div>
+    <h1>Les modèles économiques, famille par famille</h1>
+    <div class="standfirst">Quatre paramètres qui décrivent comment chaque famille d'applications gagne de l'argent : le modèle de monétisation, la dose de gratuit (ce qu'on peut consommer sans payer), la carte bleue pour tester, et l'essai gratuit. Pour chaque case : la valeur majoritaire de la famille en pastille, l'explication, et un ou deux meilleurs exemples cliquables qui ouvrent la fiche de l'application, avec ses écrans.</div>
+    <div class="cover-meta">
+      <span><b>Panel</b> · 37 applications analysées écran par écran</span>
+      <span><b>Date</b> · 12 juin 2026</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-t">Sommaire</div>
+    <a href="#ch01"><span class="tn">01</span><span class="tt">La matrice : 10 familles × 4 paramètres économiques</span></a>
+    <a href="#ch02"><span class="tn">02</span><span class="tt">Les enseignements, paramètre par paramètre</span></a>
+  </nav>
+
+  <div class="chapter" id="ch01">
+    <div class="ch-band"><span class="ch-num">01</span><span class="ch-title">La matrice : 10 familles × 4 paramètres économiques</span></div>
+    <p class="chapeau">La valeur majoritaire de chaque famille, en pastille. Quand un paramètre se divise vraiment, deux pastilles. Le badge rouge signale la seule famille qui ne converge pas (F1b, et c'est son problème). Tableau large, défilement horizontal assumé.</p>
+    <div class="tbl-wrap">
+    <table style="min-width:1700px;">
+      <thead><tr><th>Famille</th><th>Modèle de monétisation</th><th>Dose de gratuit</th><th>Carte bleue pour tester</th><th>Essai gratuit</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="fam">F1a · Histoires audio enfant : ceux qui tiennent <span class="tag t-gold">métier Kidsono</span></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Reverse trial</span><br>Essai gratuit puis prélèvement automatique (4/4). Prix FR : 2,50 à 11,99 €/mois, vendus au mensuel<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Freemium bande-annonce</span> <span class="tag t-red">Hard paywall</span><br>Pas d'étage gratuit où vivre sans carte : des extraits, ou rien. Deux micro-exceptions orchestrées (1-2 contenus en vitrine chez KiLi, démo chez Readmio)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Requise</span><br>(4/4). La carte est exigée pour démarrer l'essai<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">7 jours</span><br>(4/4). Le standard de la famille<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F1b · Histoires audio enfant : ceux qui meurent ou végètent</td>
+        <td style="white-space:normal;"><span class="het">Hétérogène</span> <span class="tag t-grey">Dispersé</span><br>Gratuit permanent, mur payant sec, publicité, essai : aucun choix net de famille. Le seul point commun : aucun modèle assumé<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a> <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Freemium</span><br>Du vrai gratuit (4/6), mais laissé en libre-service, sans mise en scène ni parcours<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a> <a class="app-chip" href="apps/05-whisperies/presentation.html">Whisperies</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Sans carte</span><br>(5/6)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Aucun</span><br>(4/6). Le gratuit permanent remplace l'essai, et ne convertit pas<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/05-whisperies/presentation.html">Whisperies</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F2 · Sommeil / calme / bien-être enfant</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Reverse trial</span><br>(3/4). Prix élevés portés par la promesse de résultat : 49,99 à 89,99 €/an, ancrés à l'année<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Hard paywall</span> <span class="tag t-green">Freemium</span><br>Rien avant le mur chez Moshi et Cosmic Kids ; un vrai palier gratuit derrière le mur passable chez Aumio<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Sans carte</span><br>(3/4), grâce aux amortisseurs : 3 jours de premium sans carte à la fermeture du mur (Moshi), bascule vers le gratuit (Aumio)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">7 à 14 jours</span><br>7 jours (Moshi, Aumio), 14 jours (Cosmic Kids)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F3 · Bibliothèques de livres enfants lus à voix haute</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Reverse trial</span><br>(3/4). Les prix les plus hauts du segment enfant : 57,99 à 99,99 €/an, équivalents 4,83 à 8,49 €/mois<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Hard paywall</span><br>(3/4) : rien à consommer avant l'essai, pas même un extrait. Exception : Skybrary (100 livres gratuits permanents)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/29-skybrary/presentation.html">Skybrary</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Requise</span><br>(3/4). Soutenable uniquement grâce à la notoriété de marque américaine<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">7 jours à 1 mois</span><br>7 jours (Epic, Vooks), 1 mois (Pickatale, et le premium de Skybrary)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/16-pickatale/presentation.html">Pickatale</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F4a · Programmes d'apprentissage : l'essai proposé, jamais imposé</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Reverse trial</span><br>L'essai est offert au mur d'entrée, jamais imposé. 69,99 à 89,99 €/an<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Freemium</span><br>Un vrai palier gratuit permanent : activités complètes jouables sans payer, cadenas de profondeur<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Sans carte</span><br>(2/2). Le modèle des deux plus grosses applications enfants du panel<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">7 jours</span><br>Vigilance : chez Lingokids, l'essai n'est proposé qu'au premier passage, il disparaît des murs internes<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F4b · Programmes d'apprentissage : la conviction avant le mur</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Reverse trial</span><br>(4/4). 79,99 à 129,99 €/an : les paniers les plus élevés du panel enfant<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Hard paywall</span><br>(3/4) : le diagnostic remplace la dégustation. Exception : Reading.com (leçon gratuite calibrée au niveau de l'enfant)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Requise</span><br>(3/4) ; Reading.com passable, donc testable sans carte<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">7 à 30 jours</span><br>7 jours (Homer, Hooked), 30 jours (Reading Eggs, sur le seul plan mensuel)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F5a · Vidéo / TV enfant gratuite</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Financement public</span> <span class="tag t-red">Publicité</span><br>Les deux variantes du gratuit : service public sans publicité (Okoo) ou publicité + pistage (Gulli)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a> <a class="app-chip" href="apps/09-gulli/presentation.html">Gulli</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Tout gratuit</span><br>(2/2)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Sans carte</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Sans objet</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F5b · Dessins animés et comptines de licences mondiales</td>
+        <td style="white-space:normal;"><span class="tag t-red">Hard paywall</span><br>Paiement SEC, sans essai : prix d'appel le 1er mois (CoComelon), achat unique à vie ou bundle de 30+ applications (Pinkfong). 34,99 à 62,99 €/an<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Freemium</span><br>Réel mais MINORITAIRE : quelques contenus complets gratuits, le reste verrouillé<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Sans carte</span><br>(3/3)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Aucun</span><br>(2/3) : la notoriété de la marque remplace l'essai. Exception : Super Simple Songs (7 jours)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/25-super-simple-songs/presentation.html">Super Simple Songs</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F6 · Livre audio long adulte <span class="tag t-violet">cluster crédit</span></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Crédit-propriété</span> <span class="tag t-violet">Quota d'heures</span><br>1 crédit = 1 livre possédé à vie (Audible, Libro.fm) ou abonnement plafonné en heures d'écoute (Storytel : 15/30/45 h, 9,99 à 17,99 €/mois)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Freemium bande-annonce</span><br>Strict : extraits de ~5 minutes, jamais une œuvre complète gratuite<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Requise</span><br>(3/3) pour toute consommation complète ; achat hors application chez Libro.fm<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/33-libro-fm/presentation.html">Libro.fm</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">1 mois</span> <span class="tag t-red">Aucun</span><br>1 mois (Audible, Storytel) ; Libro.fm remplace l'essai par un livre offert à l'inscription<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/33-libro-fm/presentation.html">Libro.fm</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F7 · Feuilleton à l'épisode <span class="tag t-violet">cluster crédit</span></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Achat à l'unité / crédit</span><br>Packs de pièces achetés ponctuellement (0,99 à 29,99 €), un épisode verrouillé coûte 9 à 50 pièces. DramaBox ajoute un abonnement illimité en second rail<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a> <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Freemium</span><br>Massif : 5 à 13 épisodes complets gratuits par série, et l'attente (24-48 h) débloque gratuitement la suite<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a> <a class="app-chip" href="apps/35-ono/presentation.html">ONO</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Sans carte</span><br>(5/5). On consomme des heures de contenu sans jamais donner sa carte<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Aucun</span><br>(4/5). Le paiement à l'unité dispense d'essai : on ne s'engage à rien<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a> <a class="app-chip" href="apps/36-webtoon/presentation.html">WEBTOON</a></div></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="chapter" id="ch02">
+    <div class="ch-band"><span class="ch-num">02</span><span class="ch-title">Les enseignements, paramètre par paramètre</span></div>
+    <p class="chapeau">Ce qui ressort quand on lit la matrice en colonnes : les standards du marché, les exceptions qui comptent, et ce que les gagnants partagent.</p>
+
+    <div class="lesson" style="--cat:var(--c-model)">
+      <h3><span class="num">1</span>Modèle de monétisation : l'essai-puis-prélèvement est le standard mondial du payant enfant</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> Toutes les familles payantes pour enfants fonctionnent en reverse trial (essai gratuit puis prélèvement automatique), des histoires audio françaises aux programmes d'apprentissage américains. Les deux seules autres logiques vivent ailleurs : le paiement sec sans essai chez les marques mondiales (la notoriété remplace l'essai) — exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a> — et le crédit chez les contenus adultes — exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a>.</li>
+        <li><span class="conf o">Observé</span> Deux mondes de prix : le marché français vend au MENSUEL (2,50 à 11,99 €/mois), l'international vend à l'ANNÉE avec ancrage (49,99 à 129,99 €/an, mensuel affiché en repoussoir). Les paniers les plus élevés sont chez les programmes d'apprentissage, portés par la promesse de résultat scolaire — exemple : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a>.</li>
+        <li><span class="conf o">Observé</span> Le crédit observé vit sur deux types de contenus seulement : le livre de plusieurs heures qu'on possède ou qu'on rationne — exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a> — et l'épisode à suspense qu'on débloque — exemples : <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a> <a class="app-chip" href="apps/35-ono/presentation.html">ONO</a>. Aucun référent sur un catalogue d'histoires courtes pour enfants : le terrain de Kidsono est vierge.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-price)">
+      <h3><span class="num">2</span>Dose de gratuit : du vrai gratuit chez les leaders, mais toujours mis en scène</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> Les deux plus grosses applications enfants du panel offrent un VRAI palier gratuit permanent (activités complètes jouables sans payer) — exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a>. À l'autre extrême, les bibliothèques de livres lus ne donnent rien du tout avant l'essai — exemple : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a>.</li>
+        <li><span class="conf o">Observé</span> Ce qui sépare les gagnants des perdants n'est pas la quantité de gratuit, c'est sa MISE EN SCÈNE : le gratuit des gagnants est poussé (une quête quotidienne en vitrine, un épisode lancé tout seul), le gratuit des perdants traîne dans le catalogue — exemples : <a class="app-chip" href="apps/05-whisperies/presentation.html">Whisperies</a> <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a>.</li>
+        <li><span class="conf o">Observé</span> La bande-annonce (extraits seuls, jamais une œuvre complète) est la dose des histoires audio françaises qui tiennent et des livres audio adultes : elle convertit par frustration, et suppose un pilier de conviction fort à côté — exemples : <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a> <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a>.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-trust)">
+      <h3><span class="num">3</span>Carte bleue pour tester : les leaders prouvent qu'on peut s'en passer</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> La carte exigée d'emblée est le choix des familles à conviction (histoires audio FR, bibliothèques US, programmes à quiz) : elle filtre fort, et ne tient qu'avec une marque déjà désirée ou un argumentaire puissant — exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a>.</li>
+        <li><span class="conf o">Observé</span> Mais les applications les plus adoptées du panel sont toutes testables SANS carte, par un amortisseur : palier gratuit permanent (<a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a>), 3 jours de premium offerts à la fermeture du mur (<a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a>), épisodes gratuits en libre accès (<a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a>). Le refus de carte n'est jamais une fin de parcours chez les gagnants.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-flow)">
+      <h3><span class="num">4</span>Essai gratuit : 7 jours, et un détail qui compte</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> 7 jours est le standard. Les essais plus longs (14 jours à 1 mois) compensent soit un prix élevé, soit une promesse qui demande du temps pour se prouver — exemples : <a class="app-chip" href="apps/16-pickatale/presentation.html">Pickatale</a> <a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a>.</li>
+        <li><span class="conf o">Observé</span> Deux pratiques à connaître : l'essai réservé au premier passage, qui disparaît des murs internes après refus (<a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a>) ; et l'essai affiché sur le seul plan mensuel pendant que l'annuel, mieux margé, est facturé immédiatement (<a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a>). Les familles sans essai assument : la marque (<a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a>) ou le paiement à l'unité sans engagement (<a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a>) le remplacent.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="legende" style="margin-top:34px;">Sources : les 37 analyses écran par écran du benchmark (captures réelles sur iPhone, juin 2026). Prix relevés aux 10-12 juin 2026, volatils (tests fréquents chez les acteurs internationaux). Dernière mise à jour : 12 juin 2026.</p>
+
+</div>
+</body>
+</html>
