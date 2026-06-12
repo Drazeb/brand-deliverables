@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whisperies · Présentation d'analyse (proposition de format)</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .degraded-badge { display:inline-block; background:#ff8c00; color:#fff; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:700; margin-left:8px; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 05 · Cercle 1 (concurrent direct FR)</div>
+    <h1>Whisperies</h1>
+    <div class="subtitle">Livres animés (lecture autonome) + livres audio narrés pour enfants · collection adaptée aux enfants dys</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 9 strict + 12 bonus</span>
+      <span><b>Modèle :</b> Freemium, paywall par format</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">Paywall par format : gratuit = lecture, payant = audio</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Prix d'appel très bas (2,99 €/mois)</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Bugs de finition aux moments clés (i18n non traduit, CTA en anglais)</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Freemium par format (lecture gratuite, audio payant)</div>
+      <div class="note">Tout le catalogue est lisible gratuitement en livre animé. Seul le format audio narré est payant.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Freemium (paywall par format)</div>
+      <div class="note">Pas de trial : on monétise le format de confort (audio, sans pub), pas le contenu.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">2,99 €/mois <span class="pill green">Bas</span></div>
+      <div class="note">Premium audio sans pub. Le moins cher du corpus.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">Aucun</div>
+      <div class="note">Pas de trial observé. Le freemium fait office de découverte (livres animés gratuits).</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+      <div class="note">Freemium : livres animés complets gratuits, testable sans carte.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">Différé puis soft-gate (3 pages)</div>
+      <div class="note">Inscription gratuite forcée après ~3 pages de lecture, et pour télécharger / mettre en favori.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">Sur le format audio + confort (pub, hors ligne, favoris)</div>
+      <div class="note">Tap 'Livre audio' → paywall Premium. Pub retirée, hors ligne et favoris débloqués.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Généreuse (sur un format) <span class="pill green">Généreuse</span></div>
+      <div class="note">Tous les livres animés sont lisibles gratuitement (lecture autonome). Seul l'audio narré est payant.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Faible-moyen <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+      <div class="note">Abondance chiffrée (535 histoires), social proof léger, filtres âge. Aucune caution éditeur / expert / presse.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Faible-moyen <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+      <div class="note">Filtres par âge (3- à 10+) et durée de lecture. Pas de gate adulte ni d'espace parent dédié observé.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Légère <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+      <div class="note">Filtres âge / durée optionnels dans la recherche. Pas de profil enfant créé en onboarding.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui <span class="pill green">Présent</span></div>
+      <div class="note">Livres animés complets lisibles gratuitement (contenu entier, pas un teaser).</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">2 formats</div>
+      <div class="note">Livre animé (lecture autonome, gratuit) et livre audio (narration, premium). Même œuvre, deux formats.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">9 + 12</div>
+      <div class="note">9 onboarding strict + 12 bonus. Pas d'écran store capturé.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 21</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash dragon + Notif → Tour 5 slides (pédagogie) → Politique de confidentialité → Accueil Connexion/Inscription/Passer → Catalogue → Lecture animée (3 pages → gate)
+   100%                  ~88%                          ~82%                          ~80%                                  ~65%       ~45%
+                                                                                          → Inscription gratuite forcée (lecture illimitée des animés)
+                                                                                          → Tap 'Livre audio' → Paywall Premium 2,99€ · Abonné : ~2-4%   [Estimation]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Abondance catalogue</b> · Fort (535 histoires)</span>
+      <span class="chip present"><b>Social proof / avis</b> · Faible-moyen</span>
+      <span class="chip present"><b>Filtres parentaux (âge / durée)</b> · Faible-moyen</span>
+      <span class="chip absent">Autorité éditoriale / éditeurs</span>
+      <span class="chip absent">Transparence pricing</span>
+      <span class="chip absent">Écosystème / partenariats</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Paywall par format</b> (signature) : gratuit = livre animé (lecture autonome, avec pub), payant = livre audio (narration, sans pub). Le contenu n'est pas verrouillé, seul le format l'est.</li>
+      <li><b>Double palier de conversion</b> : soft-gate compte gratuit après 3 pages de lecture, puis hard paywall Premium pour l'audio.</li>
+      <li><b>Soft-gate multi-points</b> : le compte gratuit est demandé sur la lecture (>3 pages), les téléchargements et les favoris.</li>
+      <li><b>Paywall doux avec alternative</b> : au tap 'Livre audio', on propose 'Lire le livre interactif' (l'alternative gratuite) plutôt qu'un mur sec.</li>
+      <li><b>Prix d'appel très bas</b> (2,99€/mois) + tour pédagogique 5 slides qui explique le double format avant le catalogue.</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Modèle original (paywall par format) qui préserve l'accès au contenu.</li><li>Prix d'appel très bas (2,99€/mois).</li><li>Paywall doux avec alternative gratuite + vraie valeur gratuite (animés complets).</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Finition défaillante (bugs i18n, fautes, anglais) au pire moment (conversion).</li><li>Pub dans une app enfants = irritant parental.</li><li>Trust quasi inexistant ; collection dys (atout) invisible.</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>Original sur le modèle (paywall par format, rare).</li><li>En retard sur la finition et le trust.</li><li>Agressif-positif sur le prix (casse les prix du corpus).</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Paywall par format avec alternative gratuite proposée.</li><li>Capture du compte gratuit en soft-gate multi-points.</li><li>Prix d'appel lisible et bas ; valeur gratuite réelle.</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Tous les bugs de finition (i18n, fautes, CTA en anglais).</li><li>Pub dans le tier enfant ; onboarding trop long avant le catalogue.</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Quel format gratuit vs payant (extrait/intégrale, texte/audio) maximise la conversion.</li><li>Valoriser un axe d'accessibilité (équivalent de la collection dys non exploitée).</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"01-splash-logo-dragon.png",ph:"Phase 1 · Splash",t:"Splash logo dragon",d:"Fond blanc, mascotte dragon vert + logotype 'Whisperies' en script rouge. Lancement depuis l'App Store.",ta:"Identité de marque ludique et mémorable (le dragon est l'élément récurrent de l'app).",c:"strict"},
+  {f:"02-notif-ios-tuto-tourner-page.png",ph:"Phase 1 · Splash",t:"Notif iOS + tuto 'tourner la page'",d:"Pop-up système iOS d'autorisation des notifications. En pied : 'Le saviez-vous ? Pour tourner la page, faites glisser votre doigt de droite à gauche'.",ta:"Demande de notif prématurée (avant la valeur). Le tutoriel de geste annonce l'interaction clé des livres animés (tourner la page soi-même).",c:"strict"},
+  {f:"03-tour-decouvrez-livres-audio-animes.png",ph:"Phase 2 · Tour pédagogique",t:"Tour 1 · DÉCOUVREZ",d:"'DÉCOUVREZ des centaines de livres audio et d'histoires animées', mockup de la home.",ta:"Promesse d'abondance + double format (audio + animé) posée d'emblée.",c:"strict"},
+  {f:"04-tour-adaptez-lecture-enfant.png",ph:"Phase 2 · Tour pédagogique",t:"Tour 2 · ADAPTEZ",d:"'ADAPTEZ chaque lecture à chaque enfant', mockup 'Ma recherche' avec filtres Âge et Durée de lecture.",ta:"Argument parental (adaptation à l'âge et au temps disponible). Contrôle implicite.",c:"strict"},
+  {f:"05-tour-choisissez-mode-lecture.png",ph:"Phase 2 · Tour pédagogique",t:"Tour 3 · CHOISISSEZ votre mode",d:"'CHOISISSEZ votre mode de lecture', fiche avec badge PREMIUM et les 2 boutons 'Livre animé' / 'Livre audio'.",ta:"C'est ici qu'est posée la dualité animé (gratuit) / audio (premium). Le badge PREMIUM apparaît dès la pédagogie.",c:"strict"},
+  {f:"06-tour-ecoutez-livres-audio.png",ph:"Phase 2 · Tour pédagogique",t:"Tour 4 · ÉCOUTEZ",d:"'ÉCOUTEZ vos livres audio préférés', mockup d'un livre audio avec badge PREMIUM + bandeau 'Pensez à désactiver les notifications pour une expérience optimale'.",ta:"Valorisation du format audio (le produit premium). Le badge PREMIUM rappelle que l'audio est payant.",c:"strict"},
+  {f:"07-tour-accedez-hors-connexion-degrade.png",ph:"Phase 2 · Tour pédagogique",t:"Tour 5 · ACCÉDEZ hors connexion",d:"'ACCÉDEZ hors connexion', mockup 'Mes téléchargements'. Capture coupée en deux (la politique de confidentialité glissait par-dessus, spinner visible). Capture dégradée conservée pour la complétude du tour.",ta:"Argument hors ligne (trajets, vacances), confort lié au compte / premium.",c:"strict",degraded:true},
+  {f:"08-politique-confidentialite.png",ph:"Phase 3 · Conformité / Compte",t:"Politique de confidentialité",d:"Écran de texte RGPD complet (responsable de traitement, finalités, sous-traitants), bouton 'J'accepte'.",ta:"Conformité posée tôt (avant même le compte). Sérieux juridique, mais friction textuelle dense à l'entrée.",c:"strict"},
+  {f:"09-accueil-connexion-inscription.png",ph:"Phase 3 · Conformité / Compte",t:"Accueil Connexion / Inscription / Passer",d:"Illustration (écureuils lisant, montgolfière), 'Whisperies · Livres audio & histoires animées pour enfants', boutons CONNEXION / INSCRIPTION, 'PASSER' en haut.",ta:"Compte proposé mais skippable. 3 chemins : Connexion, Inscription (→ catalogue), ou Passer (→ catalogue sans compte, lecture limitée à 3 pages).",c:"strict"},
+  {f:"10-bonus-home-catalogue-renard.png",ph:"Bonus · Catalogue",t:"Home catalogue (hero Le renard)",d:"Hero 'À la une' (Le renard et l'enfant apprivoisé), sections 'Les dernières histoires publiées', 'Coup de cœur Whisperies', 'Histoires d'animaux'. Nav : Accueil / Recherche / Téléchargement / Favoris / Mon compte.",ta:"Éditorialisation classique. Catalogue entièrement visible (pas de cadenas généralisé).",c:"bonus"},
+  {f:"11-bonus-fiche-livre-anime-vs-audio.png",ph:"Bonus · Fiche / Modèle",t:"Fiche livre (animé vs audio)",d:"Fiche 'Le renard et l'enfant apprivoisé' : badges 3+, 5 min, auteure + illustratrice. Deux boutons : 'Livre animé' (actif) / 'Livre audio' (gris). Onglets L'histoire / Les avis / Vous aimerez.",ta:"La dualité de format est l'élément central de la fiche. Animé en avant (gratuit), audio en second (premium).",c:"bonus"},
+  {f:"12-bonus-popup-audio-premium.png",ph:"Bonus · Paywall doux",t:"Pop-up 'audio = Premium'",d:"Au tap sur 'Livre audio' : 'Les livres audio sont tous disponibles avec Whisperies Premium.' + 'Découvrez Whisperies Premium' / 'Lire le livre interactif'.",ta:"Redirection douce. Le refus n'est pas un mur sec : on propose l'alternative gratuite ('Lire le livre interactif' = le livre animé). Bonne UX de paywall.",c:"bonus"},
+  {f:"13-bonus-paywall-premium-2-99.png",ph:"Bonus · Paywall",t:"Paywall Premium 2,99€/mois",d:"'Avec Whisperies Premium passez plus de temps en famille avec un accès sans publicité ! Seulement 2,99€/mois', bouton 'YES, I SUBSCRIBE' (en anglais, bug de localisation).",ta:"Prix très bas (2,99€/mois, le moins cher du corpus), argument 'temps en famille + sans pub'. Défaut : CTA en anglais sur une app française.",c:"bonus"},
+  {f:"14-bonus-livre-anime-lecture-p1.png",ph:"Bonus · Lecture animée",t:"Livre animé · lecture page 1",d:"Lecture verticale d'un livre animé : illustration enfant + renard, chevrons haut/bas, points de progression à gauche (auteure / illustratrice).",ta:"L'enfant lit en tournant les pages (geste annoncé au début). Expérience de livre interactif animé.",c:"bonus"},
+  {f:"15-bonus-livre-anime-lecture-p2.png",ph:"Bonus · Lecture animée",t:"Livre animé · lecture page 2 (+ texte)",d:"Page suivante : illustration renard, bloc de texte du récit, points de progression (certains en rouge = avancée).",ta:"Le texte est présent (lecture autonome). C'est la valeur gratuite réelle (histoire complète à lire soi-même).",c:"bonus"},
+  {f:"16-bonus-gate-inscription-lecture-3-pages.png",ph:"Bonus · Soft-gate compte",t:"Gate inscription après 3 pages (bug i18n)",d:"Au bout de ~3 pages, l'app affiche un gate d'inscription. Ici les libellés ne sont pas traduits (clés connect.freeRegister / connect.readAllAnimatedStoryAndFavorite / connect.iRegister). Capture dégradée mais c'est l'écran de compte forcé pour continuer la lecture.",ta:"Soft-gate de capture du compte gratuit (1er palier de conversion). DÉFAUT majeur : bug i18n (clés brutes au lieu du texte FR) au pire moment.",c:"bonus",degraded:true},
+  {f:"17-bonus-recherche-535-histoires.png",ph:"Bonus · Navigation catalogue",t:"Recherche (535 histoires)",d:"'Ma recherche · vos histoires par univers, âge ou durée de lecture', filtres Type / Âge (3-/3+/6+/8+/10+), '535 histoires disponibles', grille de couvertures.",ta:"Preuve d'abondance chiffrée (535) + filtres parentaux (âge, durée). Tout le catalogue est explorable.",c:"bonus"},
+  {f:"18-bonus-gate-inscription-telechargements.png",ph:"Bonus · Soft-gate compte",t:"Gate inscription · Téléchargements",d:"Onglet 'Mes téléchargements', pop-up 'Pour profiter de cette foncionnalité, créez votre compte ! S'INSCRIRE' (coquille 'foncionnalité' dans l'app).",ta:"Le téléchargement hors ligne est gated derrière le compte. Défaut : faute d'orthographe dans le pop-up.",c:"bonus"},
+  {f:"19-bonus-gate-inscription-favoris.png",ph:"Bonus · Soft-gate compte",t:"Gate inscription · Favoris",d:"Onglet 'Mes favoris', même pop-up 'Pour profiter de cette foncionnalité, créez votre compte ! S'INSCRIRE'.",ta:"Les favoris sont aussi gated derrière le compte. Le même gate est répété sur chaque fonctionnalité de persistance = capture du compte multi-points.",c:"bonus"},
+  {f:"20-bonus-mon-compte-non-connecte.png",ph:"Bonus · Compte",t:"Mon compte (non connecté)",d:"Onglet 'Mon compte' non connecté : dragon en montgolfière, bouton 'S'ABONNER', liens Noter l'application / FAQ / Contacter l'équipe / Mentions légales / CGU.",ta:"Push abonnement (S'ABONNER) + demande de notation (boost ASO). Pas de gate ici, juste de la promo.",c:"bonus"},
+  {f:"21-bonus-formulaire-inscription.png",ph:"Bonus · Inscription",t:"Formulaire S'inscrire",d:"'S'INSCRIRE · ACCÈS GRATUIT À TOUTES LES HISTOIRES ANIMÉES', champs Nom d'utilisateur + E-mail + Mot de passe, checkbox 'J'ai un cadeau e-carte pour Whisperies premium', bouton 'Je m'inscris !', 'PASSER' en haut.",ta:"Le titre vend la contrepartie ('accès gratuit à toutes les histoires animées' = lecture illimitée). La checkbox e-carte = canal cadeau / B2B2C. Inscription = 3 champs, skippable.",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').innerHTML=s.t+(s.degraded?'<span class="degraded-badge">capture dégradée</span>':''); $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

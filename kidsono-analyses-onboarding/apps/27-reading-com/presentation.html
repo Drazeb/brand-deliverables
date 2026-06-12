@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading.com · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 27 · Cercle 6C (apprendre à lire, read-along)</div>
+    <h1>Reading.com</h1>
+    <div class="subtitle">Méthode structurée pour apprendre à lire (phonics, Direct Instruction) : le parent devient le professeur. L'onboarding le plus long et le plus sophistiqué du corpus (esprit Noom). Édité par Reading.com (États-Unis).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">États-Unis</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data"><b>À venir</b> : en cours de collecte. Aucune donnée App Store consolidée pour cette app à ce jour.</div>
+        <div class="src">Bloc à compléter quand la session data aura ajouté Reading.com à vitalite-notoriete.csv.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data"><b>À venir</b> : en cours de collecte. La shortlist mentionne une forte adoption (54k notes US), à confirmer.</div>
+        <div class="src">Aucun chiffre fabriqué. Verdict à renseigner via l'échelle log de 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Reverse trial</div><div class="knote">essai 7 j, CB requise seulement si on prend l'essai (skippable)</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval"><b>Personnalisation poussée</b> + <b>Persuasion avancée</b></div><div class="knote">dominante = quiz long Noom + plan + certification ; composante = vidéo conviction premium</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium</div><div class="knote">version limitée gratuite calibrée au niveau (1 leçon + 1 livre + 2 jeux)</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Sans carte ❌</div><div class="knote">paywall skippable → freemium accessible sans CB</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">1 semaine</div><div class="knote">puis 79,99 €/an (6,67 €/mois) ou 14,99 €/mois</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div><div class="knote">certification, transparence facturation, rappel J-2, kidSAFE, méthode</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Onboarding le plus long du corpus : ~10 questions, ~5,5 min (style Noom)</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Double personnalisation : profil enfant (plan + certif.) puis placement (niveau)</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Paywall skippable + freemium calibré au niveau réel de l'enfant</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">De l'accueil à l'app, en passant par le quiz, le plan, l'email et le paywall skippable. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash + hook 2.5M parents</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~88%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Réassurance + témoignages + kidSAFE</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Quiz profil enfant + parent (~10 Q)</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~62%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Calcul + plan + certificat nominatif</div><span class="fbadge">Reveal</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-flow)"><div class="pct">~55%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Email (seul, pas de mot de passe)</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~48%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Paywall reverse trial (skippable)</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-trust)"><div class="pct">~42%</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Vidéo de conviction premium (post-skip)</div><span class="fbadge">Persuasion</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~38%</div><div class="fnode"><div class="fn-i">Étape 8</div><div class="fn-t">Perso #2 : placement niveau → Leçon 4</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~30%</div><div class="fnode"><div class="fn-i">Étape 9</div><div class="fn-t">App freemium : 1ère leçon gratuite calibrée</div><span class="fbadge">Aha</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">3-6%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Total paywall interne (Lesson 5, Books, Games)</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Position du compte</div><div class="v">Email seul, milieu d'onboarding (écran 31)</div><div class="note">Avant le paywall. Pas de mot de passe : capture de lead.</div></div>
+      <div class="fr"><div class="lab">Position du paywall</div><div class="v">Écran 36, skippable</div><div class="note">Skip → version limitée gratuite. Total paywall interne dès Lesson 5.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée. Parcours le plus long du corpus (~5,5 min), drop-off mécaniquement élevé mais survivants très qualifiés.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">55 écrans d'onboarding strict + 5 bonus post-onboarding + 1 store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 61</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Personnalisation poussée</div>
+        <div class="note">Quiz LONG type Noom + plan personnalisé + certification + 2e perso de placement. Persuasion avancée en composante (vidéo conviction premium).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Reverse trial</div>
+        <div class="note">Essai 1 semaine. CB requise UNIQUEMENT si on prend l'essai (Apple Pay vérifié). Paywall skippable.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">6,67 à 14,99 €/mois <span class="pill amber">Moyen-haut</span></div>
+        <div class="note">79,99 €/an (6,67 €/mois équiv., "Save 56%") ou 14,99 €/mois. Prix barré 179,88 €.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">1 semaine</div>
+        <div class="note">Sur les deux plans. Rappel notifié 2 jours avant la fin.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Sans carte <span class="pill green">Favorable</span></div>
+        <div class="note">Paywall skippable (croix X) → version limitée gratuite SANS CB. CB seulement si on prend l'essai.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Freemium <span class="pill green">Complet</span></div>
+        <div class="note">Version limitée : 1 leçon personnalisée complète + 1 sample book + 2 games, calibrée au niveau.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui <span class="pill green">Présent</span></div>
+        <div class="note">Leçon gratuite jouée (Alphabet Song 3:11), calibrée au niveau réel. Mais PAS aha-first : le mur précède la valeur.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Formats de contenu</div>
+        <div class="val">4 types</div>
+        <div class="note">Lessons, Books (Co-Read), Games, Videos. 110 leçons, 78 livres, jeux de phonics.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> onboarding ultra-personnalisé (quiz long + plan + certification) puis <b>reverse trial skippable</b> (1 semaine gratuite, CB seulement si essai). Qui skippe accède à une <b>version limitée gratuite calibrée au niveau</b> (1 leçon + 1 livre + 2 jeux) ; avancer au-delà déclenche le <b>total paywall</b> (79,99 €/an ou 14,99 €/mois).</div>
+    <ul class="blist">
+      <li><b>Valeur vécue gratuitement : oui</b> (leçon calibrée jouée), mais ce n'est pas un onboarding "aha-moment first" : le paywall (écran 36) précède toute valeur.</li>
+      <li><b>Double personnalisation</b> : profil enfant (→ plan + certificat) puis placement niveau (→ démarrage Leçon 4, pas de leçons trop faciles).</li>
+      <li><b>Prix moyen-haut</b> compensé par une transparence de facturation exemplaire (rappel J-2, "no payment now", "easy to cancel").</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Milieu <span class="pill amber">Email seul</span></div>
+        <div class="note">Email demandé écran 31 (après le plan, avant le paywall). Pas de mot de passe : capture de lead.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Écran 36 <span class="pill green">Skippable</span></div>
+        <div class="note">Reverse trial skippable, puis total paywall interne dès Lesson 5 (écran 57).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Poussée <span class="dots"><span class="on">●●●●●</span></span></div>
+        <div class="note">DEUX moments : quiz profil (~10 Q → plan + certif.) + assessment de placement (niveau → Leçon 4).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">55 + 5 + 1</div>
+        <div class="note">55 onboarding strict + 5 bonus + 1 store. ~5,5 min : le plus long du corpus.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">Trust hybride saturé : social proof de masse, transparence pricing, certification, méthode scientifique.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Persuasion / production</div>
+        <div class="val">Avancée <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">Carrousels de réassurance massifs + vidéo de conviction premium (post-skip). Sort du lot.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Témoignages / social proof</b> · Massif</span>
+      <span class="chip present"><b>Transparence pricing</b> · Massif</span>
+      <span class="chip present"><b>Stats utilisateurs</b> · Massif</span>
+      <span class="chip present"><b>Certification enfant</b> · Fort</span>
+      <span class="chip present"><b>Caution méthode scientifique</b> · Fort</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Contrôle parental</b> · Moyen</span>
+      <span class="chip present"><b>Cautions experts</b> · Moyen</span>
+      <span class="chip present"><b>Écosystème / Apple</b> · Faible</span>
+      <span class="chip present"><b>Awards (Featured by Apple)</b> · Faible</span>
+      <span class="chip present"><b>Autorité éditoriale</b> · Faible</span>
+      <span class="chip absent">Logos presse</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Sunk cost / engagement maximal</b> : ~10 questions + plan + certificat AVANT de voir le prix. Le parent a tout investi quand le paywall arrive.</li>
+      <li><b>Théâtralisation du calcul</b> (écran 26 "Personalizing... 36%") et <b>outcome reveal + certificat nominatif</b> ("Reading Rockstar") : mécanique Noom, projection émotionnelle.</li>
+      <li><b>Transparence facturation pro-conversion</b> : rappel J-2, "No payment now", "Easy to cancel", "Secured with Apple". Réduit l'anxiété d'engagement.</li>
+      <li><b>Freemium calibré au niveau</b> (placement → Lesson 4) : la gratuité n'est pas ennuyeuse, l'aha est réel.</li>
+      <li><b>Conviction anxiogène</b> (écran 23 : opposition au "whole language", "strong lobbies" vs "science-backed") : registre clivant, à signaler.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Perso poussée la plus aboutie du corpus (avec Homer).</li><li>Transparence facturation exemplaire.</li><li>Freemium calibré au niveau : aha réel.</li><li>Trust hybride saturé, production premium.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Le plus long du corpus (~5,5 min) : drop-off élevé.</li><li>Registre anxiogène / clivant (lobbies).</li><li>Double friction au skip (vidéo + 2e perso).</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>En avance sur la personnalisation.</li><li>Exemplaire sur la transparence facturation.</li><li>Contrarian sur la longueur (pari sur l'engagement).</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Transparence facturation (rappel J-2, "no payment now", "easy to cancel").</li><li>Paywall skippable + freemium calibré au niveau.</li><li>Outcome reveal personnalisé (plan + certificat nominatif).</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Onboarding de ~5,5 min sans brand pull ni budget.</li><li>Registre anxiogène (opposition au système scolaire).</li><li>Double mur de friction au skip de l'essai.</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Perso poussée vs perso simple (conversion vs drop-off).</li><li>Paywall skippable + freemium calibré vs hard paywall total (Homer).</li><li>Email seul en milieu d'onboarding vs compte différé.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"02-splash-your-child-will-learn-to-read.png",ph:"Phase 1 · Accueil",t:"Splash",d:"'Your child will learn to read!' (will souligné).",ta:"Promesse forte d'emblée.",c:"strict"},
+  {f:"03-loading-mascottes.png",ph:"Phase 1 · Accueil",t:"Loading",d:"Mascottes monstres + 'Loading...'.",ta:"Identité graphique colorée.",c:"strict"},
+  {f:"04-hook-science-plus-you-2-5m-parents.png",ph:"Phase 1 · Accueil",t:"Hook 2.5M parents",d:"'Science + You = Confident reader!', Featured by Apple, 4.7★ +9k, 'Join 2.5 Million parents'. Get started / Log in.",ta:"Social proof de masse + caution Apple dès l'entrée.",c:"strict"},
+  {f:"05-no-prep-required-research-backed.png",ph:"Phase 1 · Réassurance",t:"No prep required",d:"'Step-by-step phonics lessons' + 'RESEARCH-BACKED, based on the proven Direct Instruction method'.",ta:"Caution méthode scientifique, parent rassuré (no prep).",c:"strict"},
+  {f:"06-quiz-main-reason-teach-read.png",ph:"Phase 2 · Perso #1",t:"Quiz : raison d'apprendre",d:"'What is the main reason you want to teach your child to read?' (school, homeschool, bond, worried, struggling, other).",ta:"1ère question du quiz long. Barre de progression Noom.",c:"strict"},
+  {f:"07-testimonial-works-wonders-kidsafe.png",ph:"Phase 1 · Réassurance",t:"Témoignage + kidSAFE",d:"'Works Wonders' 5★ (parent) + badges kidSAFE.",ta:"Social proof + certification sécurité enfant.",c:"strict"},
+  {f:"08-lets-learn-about-your-team.png",ph:"Phase 2 · Perso #1",t:"Let's learn about your team",d:"'Let's get to know you and your child so we can personalize your journey.'",ta:"Transition vers la perso, cadre 'team'.",c:"strict"},
+  {f:"09-quiz-how-old-is-child.png",ph:"Phase 2 · Perso #1",t:"Quiz : âge enfant",d:"'About how old is your child?' (Under 3 → 8+).",ta:"Calibre l'âge.",c:"strict"},
+  {f:"10-reassurance-59k-5yo-helped.png",ph:"Phase 1 · Réassurance",t:"59k+ 5-year-olds",d:"'We've helped 59k+ 5-year-old children learn to read.'",ta:"Stat ciblée sur l'âge déclaré (perso de la preuve sociale).",c:"strict"},
+  {f:"11-quiz-gender-child.png",ph:"Phase 2 · Perso #1",t:"Quiz : genre enfant",d:"'What gender is your child?' (Girl / Boy / Unspecified).",ta:"Profilage.",c:"strict"},
+  {f:"12-select-avatar-child.png",ph:"Phase 2 · Perso #1",t:"Avatar enfant",d:"'Select an avatar for your child' (12 avatars monstres).",ta:"Embodiment / appropriation du profil.",c:"strict"},
+  {f:"13-input-child-name.png",ph:"Phase 2 · Perso #1",t:"Prénom enfant",d:"'What is your child's name?' (clavier).",ta:"Personnalisation nominative (Thelma).",c:"strict"},
+  {f:"14-how-exciting-thelma-journey.png",ph:"Phase 2 · Perso #1",t:"How exciting!",d:"'Get ready for Thelma's learn-to-read journey!' (carte de progression illustrée).",ta:"Renforcement émotionnel à mi-quiz.",c:"strict"},
+  {f:"15-input-your-parent-name.png",ph:"Phase 2 · Perso #1",t:"Prénom parent",d:"'And what's your name?' + 'We never share or sell any information!'",ta:"Profilage du parent + réassurance données.",c:"strict"},
+  {f:"16-quiz-parent-age.png",ph:"Phase 2 · Perso #1",t:"Quiz : âge parent",d:"'Nice to meet you, Charles! How old are you?' (13-17 → 55+).",ta:"Profilage parent nominatif.",c:"strict"},
+  {f:"17-quiz-who-are-you-to-child.png",ph:"Phase 2 · Perso #1",t:"Quiz : lien parent-enfant",d:"'Who are you to Thelma?' (Mom / Dad / Grandparent / Teacher / Other).",ta:"Profilage de la relation.",c:"strict"},
+  {f:"18-reassurance-what-a-team-rooting.png",ph:"Phase 2 · Perso #1",t:"What a team!",d:"'We're rooting for you' (avatars parent + enfant : Dad and Thelma).",ta:"Renforcement de l'engagement à deux.",c:"strict"},
+  {f:"19-quiz-main-challenge-teaching.png",ph:"Phase 2 · Perso #1",t:"Quiz : principal défi",d:"'What's the main challenge teaching Thelma to read?' (first time, lack of time, too expensive, ineffective programs, lack of motivation, other).",ta:"Identifie l'objection à traiter ensuite.",c:"strict"},
+  {f:"20-reassurance-no-training-first-timers.png",ph:"Phase 2 · Perso #1",t:"No training required",d:"'We love first-timers! We've built the best learn-to-read program on earth.'",ta:"Réponse adaptée au défi déclaré (first time).",c:"strict"},
+  {f:"21-quiz-learning-to-read-at-school.png",ph:"Phase 2 · Perso #1",t:"Quiz : lecture à l'école",d:"'Is Thelma learning to read at school?' (Yes / Not really / Not yet / homeschooled).",ta:"Contextualise la scolarisation.",c:"strict"},
+  {f:"22-quiz-reading-method-at-school.png",ph:"Phase 2 · Perso #1",t:"Quiz : méthode à l'école",d:"'What reading method at Thelma's school?' (Phonics / Whole Language / Balanced Literacy / I don't know).",ta:"Met en place l'opposition de méthode (écran suivant).",c:"strict"},
+  {f:"23-conviction-whole-language-far-from-ideal.png",ph:"Phase 2 · Conviction",t:"Whole language = far from ideal",d:"'Schools still use outdated methods like whole language, often because of strong lobbies. Our science-backed method is proven more effective.'",ta:"Conviction anxiogène / opposition au système scolaire. Clivant.",c:"strict"},
+  {f:"24-testimonial-trusted-by-teachers.png",ph:"Phase 2 · Réassurance",t:"Trusted by teachers",d:"'Fantastic!' 5★ (primary teacher 15 ans) + 'Effective learning. Trusted by teachers.'",ta:"Social proof d'autorité (enseignant).",c:"strict"},
+  {f:"25-quiz-checklist-applies-to-child.png",ph:"Phase 2 · Perso #1",t:"Checklist compétences",d:"'The following applies to Thelma... (check all that apply)' : parle en phrases, raconte, tient un livre…",ta:"Évaluation déclarative des pré-acquis.",c:"strict"},
+  {f:"26-personalizing-analyzing-did-you-know.png",ph:"Phase 3 · Reveal",t:"Personalizing...",d:"Barres 'Analyzing goals 36% / profile / reading readiness' + 'Did You Know? Children are 19x more likely to learn with a parent (Psychology Today)'.",ta:"Théâtralisation du calcul (mécanique Noom pure).",c:"strict"},
+  {f:"27-woohoo-profile-set-up.png",ph:"Phase 3 · Reveal",t:"Woohoo!",d:"'Thelma's profile is all set up' (confettis, avatar validé).",ta:"Récompense, clôture du quiz.",c:"strict"},
+  {f:"28-plan-10-lessons-reading-first-book.png",ph:"Phase 3 · Reveal",t:"Plan : 10 leçons",d:"'In just 10 short lessons, Thelma will be reading his first book!' + courbe de progression.",ta:"Outcome reveal : promesse concrète.",c:"strict"},
+  {f:"29-plan-second-grade-level-certification.png",ph:"Phase 3 · Reveal",t:"Plan : niveau + certificat",d:"'By the end, he will be at a second grade reading level' + certificat nominatif 'Reading Rockstar' (Picture Your Child's Name Here).",ta:"Projection émotionnelle de réussite avant le prix.",c:"strict"},
+  {f:"30-quiz-how-did-you-hear-about-us.png",ph:"Phase 4 · Compte",t:"How did you hear about us?",d:"Radio / News / Friends / Youtube / TV / Google / App Store / Facebook / Instagram / Podcast / TikTok / Other.",ta:"Attribution marketing intégrée au funnel.",c:"strict"},
+  {f:"31-email-save-profile-progress.png",ph:"Phase 4 · Compte",t:"Email (seul)",d:"'Save Thelma's profile and learning progress' + 4.7★ + 'We never share/sell' + 'progress summaries, printables, tips'.",ta:"Capture de lead par email seul, avant le paywall. Framé comme un service.",c:"strict"},
+  {f:"32-testimonial-finalizing-plan.png",ph:"Phase 4 · Compte",t:"Finalizing your plan",d:"Témoignage 'perfect balance, well worth the cost' + 'Finalizing your plan... 50%'.",ta:"Théâtralisation + social proof avant le mur.",c:"strict"},
+  {f:"33-recap-ready-110-lessons-78-books.png",ph:"Phase 5 · Paywall",t:"Récap valeur",d:"'Ready to teach Thelma? ✓110 step-by-step lessons ✓Phonics games ✓78 interactive books ✓And so much more'.",ta:"Abondance catalogue avant le prix.",c:"strict"},
+  {f:"34-trial-intro-1-week-free.png",ph:"Phase 5 · Paywall",t:"1 week free",d:"'We offer 1 week free so everyone can try Reading.com.'",ta:"Cadre l'essai comme un don, baisse la barrière.",c:"strict"},
+  {f:"35-trial-reminder-2-days-before.png",ph:"Phase 5 · Paywall",t:"Rappel J-2",d:"'We'll remind you 2 days before your trial ends' (enveloppe + cloche).",ta:"Transparence facturation forte, réduit l'anxiété d'engagement.",c:"strict"},
+  {f:"36-paywall-1-week-free-skippable.png",ph:"Phase 5 · Paywall",t:"Paywall (skippable)",d:"'1 week for free then 6,67 €/month' (179,88 € barré → 79,99 €/an), 2.5M+ Parents, 4.7★, 'Secured with Apple', 'Redeem your free week', 'No payment now / Easy to cancel'. Croix X = SKIP.",ta:"Reverse trial skippable. CB seulement si on prend l'essai.",c:"strict"},
+  {f:"37-skip-limited-version-confirmation.png",ph:"Phase 5 · Paywall",t:"Skip → version limitée",d:"'You've selected the limited version' : 1 personalized lesson, 1 sample book, 2 unlocked games. 'Continue with Limited Version' / 'Try Premium for Free'.",ta:"Confirme le freemium accessible sans CB. Dernière relance premium.",c:"strict"},
+  {f:"38-conviction-video-word-pinatas.png",ph:"Phase 6 · Persuasion",t:"Vidéo : Word Pinatas",d:"'Playing Word Pinatas will help Thelma develop decoding speed and reading fluency' (animation premium).",ta:"Vidéo de conviction post-skip : récupère l'intention.",c:"strict"},
+  {f:"39-conviction-video-logo-reading.png",ph:"Phase 6 · Persuasion",t:"Vidéo : logo animé",d:"Logo Reading.com animé (plein écran paysage).",ta:"Production premium, marque renforcée.",c:"strict"},
+  {f:"40-conviction-video-by-lesson-ten.png",ph:"Phase 6 · Persuasion",t:"Vidéo : by lesson ten",d:"Séquence filmée enfant sur tablette : 'By lesson ten, your child will be reading their first book.'",ta:"Preuve par l'usage filmé.",c:"strict"},
+  {f:"41-conviction-video-second-grade-level.png",ph:"Phase 6 · Persuasion",t:"Vidéo : second grade",d:"'And by the end of the program, they'll be at a second grade reading level.'",ta:"Réaffirme la promesse de résultat.",c:"strict"},
+  {f:"42-conviction-video-core-program.png",ph:"Phase 6 · Persuasion",t:"Vidéo : core program",d:"'The core of our program is fifteen-minute [lessons]' (map de leçons animée).",ta:"Réassurance effort (15 min/jour).",c:"strict"},
+  {f:"43-placement-calculate-thelma-placement.png",ph:"Phase 7 · Perso #2",t:"Placement : intro",d:"'What lesson should Thelma begin at? Make sure Thelma is present.' → 'Calculate Thelma's placement' / 'Maybe later'.",ta:"2e personnalisation : calibrage du niveau réel.",c:"strict"},
+  {f:"44-placement-letters-mm-ss-tt-sounds.png",ph:"Phase 7 · Perso #2",t:"Placement : sons Mm Ss Tt",d:"'Does Thelma know the sound each of these letters makes? Mm Ss Tt' (No → lesson 1 / Yes → next).",ta:"Évaluation adaptative du niveau.",c:"strict"},
+  {f:"45-placement-letter-rr-sound.png",ph:"Phase 7 · Perso #2",t:"Placement : son Rr",d:"'Does Thelma know the sound this letter makes? Rr' (No → skip to lesson 4 / Yes → next).",ta:"Branchement adaptatif (skip lessons).",c:"strict"},
+  {f:"46-placement-read-word-at.png",ph:"Phase 7 · Perso #2",t:"Placement : lire 'at'",d:"'Can Thelma read this word? at' (No → skip to lesson 4 / Yes → next).",ta:"Évalue la lecture de mots simples.",c:"strict"},
+  {f:"47-placement-result-skip-to-lesson-4.png",ph:"Phase 7 · Perso #2",t:"Résultat : skip Lesson 4 (1/3)",d:"'Assessment complete · We recommend Thelma skip to Lesson 4. What will he skip? Lessons 1-3 cover Mm, Aa, Ss.'",ta:"Outcome du placement : calibrage justifié.",c:"strict"},
+  {f:"48-placement-result-what-will-skip.png",ph:"Phase 7 · Perso #2",t:"Résultat : what will skip",d:"Carrousel slide 1 : ce que Thelma va sauter.",ta:"Pédagogie du calibrage.",c:"strict"},
+  {f:"49-placement-result-whats-coming-up.png",ph:"Phase 7 · Perso #2",t:"Résultat : what's coming up (2/3)",d:"'The next lessons introduce more consonant and short vowel sounds, you'll start blending two letters.'",ta:"Projette la suite, maintient l'engagement.",c:"strict"},
+  {f:"50-placement-result-stay-or-skip-lesson.png",ph:"Phase 7 · Perso #2",t:"Résultat : stay or skip (3/3)",d:"'Enjoy the journey! Starting with easy wins builds confidence.' → 'Stay at Lesson 1' / 'Skip to Lesson 4'.",ta:"Choix final calibré, dédramatise la difficulté.",c:"strict"},
+  {f:"51-paywall-overlay-on-lessons-map.png",ph:"Phase 8 · App",t:"Overlay paywall sur la map",d:"Overlay Yearly/Monthly transitoire sur la map de leçons avant l'accès.",ta:"Relance paywall avant l'entrée dans l'app.",c:"strict"},
+  {f:"52-home-lessons-map-calibrated.png",ph:"Phase 8 · App",t:"Home : map de leçons",d:"Map type jeu de l'oie + nav latérale Lessons / Books / Games / Videos.",ta:"Arrivée sur l'app. Parcours gamifié.",c:"strict"},
+  {f:"53-grownup-gate-lesson-4-free.png",ph:"Phase 8 · App",t:"Grownup gate + Lesson 4",d:"'Grownup Required : Enter fifteen / thirty-seven / sixty in order' + 'Lesson 4 : letter T and blend letters'.",ta:"Gate parental anti-souscription enfant. Démarrage calibré à la Leçon 4.",c:"strict"},
+  {f:"54-lesson-4-activity-cards.png",ph:"Phase 8 · App",t:"Lesson 4 : activités",d:"Cartes Alphabet Song / Sound Sliders / Letter Review / New Letter / Sounds.",ta:"Structure d'une leçon (multi-activités).",c:"strict"},
+  {f:"55-free-lesson-alphabet-song-intro.png",ph:"Phase 8 · Aha",t:"Leçon gratuite : intro",d:"'Alphabet Song' (intro animée).",ta:"Entrée dans la valeur gratuite.",c:"strict"},
+  {f:"56-free-lesson-alphabet-song-player.png",ph:"Phase 8 · Aha",t:"Leçon gratuite : player",d:"Player vidéo 3:11 'Sing along to learn all the letters' + bulle 'Say this part out loud to Thelma'.",ta:"Aha-moment niveau 1 : valeur complète vécue gratuitement, calibrée.",c:"strict"},
+  {f:"57-bonus-lesson-5-subscription-required.png",ph:"Bonus · Total paywall",t:"Lesson 5 : subscription required",d:"'Subscription required' : Preview / 'Start your free trial'.",ta:"Total paywall pour avancer au-delà des leçons gratuites.",c:"bonus"},
+  {f:"58-bonus-total-paywall-yearly-monthly.png",ph:"Bonus · Total paywall",t:"Total paywall plein",d:"Yearly 79,99 € (6,67 €/mo, Save 56%) vs Monthly 14,99 €, 'Redeem your free week', '0,00 € due today then 79,99 € billed every year', Restore purchases.",ta:"Mur complet : 2 plans, promo annuel.",c:"bonus"},
+  {f:"59-bonus-apple-pay-cb-sheet.png",ph:"Bonus · Total paywall",t:"Apple Pay (CB)",d:"Carte CCOOP ••••1045, 'Learn to Read (Monthly), Essai gratuit 1 semaine, 14,99 €/mois, à partir du 18 juin 2026, sans engagement'.",ta:"CB requise UNIQUEMENT ici (si on prend l'essai). Vérifié.",c:"bonus"},
+  {f:"60-bonus-books-section-locked-trial.png",ph:"Bonus · Catalogue",t:"Section Books (verrouillée)",d:"Couvertures Co-Read toutes 'Start free trial' + 'Requires subscription' + 'Get physical Reading.com books! Show me / Maybe later'.",ta:"Catalogue Books quasi tout verrouillé + cross-sell livres physiques.",c:"bonus"},
+  {f:"61-bonus-games-section-locked-trial.png",ph:"Bonus · Catalogue",t:"Section Games (verrouillée)",d:"'Hungry Cloud', 'Space Trace' verrouillés 'Start free trial' / 'Requires subscription'.",ta:"Catalogue Games quasi tout verrouillé (le plus fermé).",c:"bonus"},
+  {f:"01-store-app-store-listing.png",ph:"Acquisition store",t:"Fiche App Store",d:"'Apprendre à lire en anglais', 'Your Child will Learn to Read', 'From ABCs to 2nd Grade Reading', 'Stress-free Phonics Lessons', 14 avis (store FR), éditeur Teaching.com.",ta:"Positionnement store : phonics structuré, résultat scolaire.",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

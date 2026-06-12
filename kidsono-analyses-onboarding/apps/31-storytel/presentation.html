@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storytel · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 31 · Secteur connexe (livres audio) · App miroir Kidsono</div>
+    <h1>Storytel</h1>
+    <div class="subtitle">Plateforme d'abonnement de livres audio et ebooks, structurée en quota d'heures d'écoute par mois. Le modèle économique du corpus le plus proche de Kidsono. Éditée par Storytel Sweden AB (origine Suède).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">Suède (testée FR)</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">À venir / en cours de collecte (absente de la base vitalité-notoriété).</div>
+        <div class="src">Sera renseignée par la session data (App Store FR). Aucun chiffre fabriqué.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">À venir / en cours de collecte. Indicatif store (non classé officiellement) : note ~4,7 / 5, catégorie Livres.</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Reverse trial</div><div class="knote">essai 1 mois, CB requise, structuré en quota d'heures</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Accès direct</div><div class="knote">compte + perso langues triviale + paywall direct</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium teaser</div><div class="knote">catalogue visible, rien de complet sans payer</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Requise ✅</div><div class="knote">Apple Pay obligatoire dès l'essai</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">1 mois</div><div class="knote">puis 9,99 à 17,99 €/mois selon le tier</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div><div class="knote">abondance + transparence pricing, le reste absent</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Abonnement structuré en quota d'heures (15 / 30 / 45 h par mois)</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Tiers nommés par occasion d'usage, bibliothèque complète à tous les niveaux</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Onboarding ultra-court : compte, langues, paywall en ~90 s</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash + accueil (400 000+ couvertures)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Création de compte (Apple / Google / Email)</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~72%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Perso langues (filtre trivial)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~65%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">ATT (Allow tracking)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~58%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Paywall reverse trial (skippable)</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~40%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Catalogue visible · Listen → paywall</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">&nbsp;</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Choix du tier (15 / 30 / 45 h)</div><span class="fbadge">Tiers</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">&nbsp;</div><div class="fnode"><div class="fn-i">Étape 8</div><div class="fn-t">Confirm plan + Apple Pay (CB)</div><span class="fbadge">Achat</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">4-7%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Essai activé ~10-15% · Payé ~4-7%</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Position du compte</div><div class="v">Étape 2 (tôt)</div><div class="note">Sign-up juste après l'accueil, avant toute exploration.</div></div>
+      <div class="fr"><div class="lab">Position du paywall</div><div class="v">Étape 5 (direct), skippable</div><div class="note">Mur posé tôt mais sortie facile (croix). Relancé à chaque tentative d'écoute.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">9 écrans d'onboarding strict + 6 bonus (exploration catalogue) + 2 store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 17</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Accès direct</div>
+        <div class="note">Compte + mini-perso langues (filtre) + paywall direct. Aucun argumentaire, aucun quiz de profil.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Reverse trial</div>
+        <div class="note">Essai 1 mois puis abonnement récurrent auto. Structuré en quota d'heures, mais on paie un abonnement, pas des crédits.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix (3 tiers)</div>
+        <div class="val">9,99 à 17,99 €/mois <span class="pill amber">Médian</span></div>
+        <div class="note">15 h / 9,99 € (défaut) · 30 h / 14,99 € · 45 h / 17,99 €. Le tier fait varier le TEMPS, pas le catalogue.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">1 mois</div>
+        <div class="note">Identique sur les 3 tiers. Renouvellement auto explicite à l'échéance.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Requise <span class="pill red">Barrière</span></div>
+        <div class="note">Apple Pay obligatoire pour démarrer l'essai (carte sur fichier). Vérifié (Apple Pay sheet).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Teaser <span class="pill red">Avare</span></div>
+        <div class="note">Catalogue + fiches + durées visibles, mais aucune œuvre complète sans payer. Freemium teaser.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Non <span class="pill red">Absente</span></div>
+        <div class="note">Aha-moment absent : tenter "Listen" renvoie au paywall. Aucun aha-first non plus.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Structure de l'offre</div>
+        <div class="val">Quota d'heures</div>
+        <div class="note">Tiers nommés par occasion d'usage : loisirs (15h) / trajets (30h) / tous les jours (45h). Bibliothèque complète partout.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> freemium teaser (tout le catalogue visible, rien de complet jouable) débloqué par un <b>reverse trial</b> (1 mois gratuit, CB requise) sur un abonnement <b>structuré en quota d'heures</b> : 15 h / 9,99 €, 30 h / 14,99 €, 45 h / 17,99 € par mois. Le tier plafonne le temps d'écoute, pas le contenu.</div>
+    <ul class="blist">
+      <li><b>Modèle miroir de Kidsono</b> : on segmente le TEMPS d'écoute mensuel, pas le catalogue (bibliothèque complète à tous les tiers).</li>
+      <li><b>Quota habillé en abonnement, pas en crédit</b> : on ne paie jamais "par crédit", on paie un abonnement mensuel fixe plafonné en heures. D'où le label Reverse trial.</li>
+      <li><b>Aha-moment absent</b> : la CB est demandée sans qu'aucune œuvre complète n'ait été vécue. Pari tenable car marque très connue.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Tôt (étape 2) <span class="pill amber">Friction</span></div>
+        <div class="note">Sign-up avant toute exploration. Atténué par le SSO Apple / Google.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Direct (étape 5) <span class="pill amber">Précoce</span></div>
+        <div class="note">Mur posé tôt mais skippable. Relancé à chaque tentative d'écoute.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Triviale <span class="dots"><span class="on">●</span><span class="off">○○○○</span></span></div>
+        <div class="note">Sélection de langues uniquement (filtre catalogue). Aucun profil construit.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">9 + 6 + 2</div>
+        <div class="note">9 onboarding strict + 6 bonus (catalogue) + 2 store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Mise quasi nulle sur le trust. Abondance catalogue + transparence pricing, le reste absent.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Transparence pricing</div>
+        <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">"Cancel anytime", sans engagement, date de prélèvement affichée, Apple Pay sheet détaillée.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Transparence pricing</b> · Fort</span>
+      <span class="chip present"><b>Autorité éditoriale (licences)</b> · Moyen</span>
+      <span class="chip present"><b>Contrôle parental (Kids mode)</b> · Faible</span>
+      <span class="chip present"><b>Stats / chiffres</b> · Faible</span>
+      <span class="chip absent">Social proof</span>
+      <span class="chip absent">Écosystème / partenariats</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Abondance en hero</b> : "400 000+ best-selling stories and Originals" + grilles de couvertures massives. La promesse = le volume.</li>
+      <li><b>Transparence pricing forte</b> : compense la CB requise (date de prélèvement, "sans engagement", résiliation expliquée).</li>
+      <li><b>Pédagogie du quota par usage</b> : tiers nommés "loisirs / trajets / tous les jours", projection dans le quotidien.</li>
+      <li><b>Ancrage de prix</b> : tier 45 h le plus cher affiché en haut, tier 15 h le moins cher pré-sélectionné (leurre haut de gamme + défaut au prix d'appel).</li>
+      <li><b>Dark patterns doux</b> : consentement marketing pré-coché à la création de compte, ATT habillée en "You're in control". Leurre du bouton "Listen" qui renvoie au paywall.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Quota d'heures lisible : on segmente le temps, pas le catalogue.</li><li>Tiers nommés par occasion d'usage.</li><li>Transparence pricing exemplaire + onboarding ultra-court (~90 s).</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Aha-moment absent : CB demandée sans valeur vécue.</li><li>Teaser pur : tout visible, rien jouable (frustration, drop-off).</li><li>Dark patterns doux (consentement pré-coché, ATT) : anti-trust côté parent.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>Standard sur le reverse trial CB.</li><li>En avance sur la structuration quota d'heures par usage.</li><li>Contrarian (faible) sur le trust, assumé par la notoriété.</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono <span style="font-size:12px;font-weight:600;color:var(--muted);">(app miroir, modèle économique le plus proche)</span></h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Quota nommé par occasion d'usage (transposable : "histoires du soir", "trajets", "vacances").</li><li>Bibliothèque complète à tous les tiers (segmenter le temps, pas le contenu).</li><li>Transparence pricing maximale.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Onboarding zéro-aha (CB sans valeur vécue) : intenable pour un challenger.</li><li>ATT + consentement marketing pré-coché.</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Quota d'heures comme argument de contrôle du temps d'écran (pro-parent).</li><li>Report ou non des heures inutilisées.</li><li>Reverse trial CB requise vs freemium sans CB (volume vs conversion).</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"03-splash-logo.png",ph:"Phase 1 · Accueil",t:"Splash Storytel",d:"Logo orange + 'Storytel' sur fond noir.",ta:"Identité minimale, marque connue.",c:"strict"},
+  {f:"04-accueil-audiobooks-for-everyone.png",ph:"Phase 1 · Accueil",t:"Audiobooks for everyone",d:"Grille massive de couvertures. '400 000+ best-selling stories and Originals. Cancel anytime.' Create account / Log in.",ta:"Abondance catalogue en hero + 'cancel anytime' dès l'entrée.",c:"strict"},
+  {f:"05-compte-create-account.png",ph:"Phase 2 · Compte",t:"Create account",d:"Continue with Apple / Google / E-mail. 1re case consentement (communications Storytel) pré-cochée, 2e décochée. T&C + Privacy.",ta:"Compte très tôt, SSO pour réduire la friction. Consentement marketing pré-coché (dark pattern doux).",c:"strict"},
+  {f:"06-perso-select-languages.png",ph:"Phase 3 · Perso",t:"Select your languages",d:"French + English pré-cochés ; Arabic, Swedish, German, Spanish, Italian, Polish, Dutch, Finnish. Continue.",ta:"Mini-perso = simple filtre catalogue par langue. Aucun profil. Trop léger pour 'Personnalisation'.",c:"strict"},
+  {f:"07-paywall-subscribe-now-45h.png",ph:"Phase 4 · Paywall",t:"Subscribe now (45h)",d:"'Subscribe now and step into a world of stories.' 'from 9,99 €/month', '1 month for free', '1 compte, jusqu'à 45 heures d'écoute par mois.' Try now. Skippable (croix).",ta:"Paywall direct mais sortie facile + transparence. Quota d'heures en sous-texte de modalité.",c:"strict"},
+  {f:"08-att-allow-tracking.png",ph:"Phase 4 · ATT",t:"You're in control (ATT)",d:"'Allow tracking and tailor your experience.' Continue (plein noir) + Privacy Policy.",ta:"ATT habillée en bénéfice utilisateur, bouton plein invitant à accepter.",c:"strict"},
+  {f:"15-tiers-heures-15-30-45.png",ph:"Phase 5 · Tiers",t:"Combien d'heures par mois ?",d:"3 tiers : 45h/17,99€ (loisirs tous les jours), 30h/14,99€ (trajets), 15h/9,99€ (loisirs, pré-sélectionné). Chacun '1 month for free'. 'Bibliothèque complète de titres.'",ta:"ÉCRAN CLÉ. Quota d'heures nommé par usage. On segmente le temps, pas le catalogue. Ancrage haut de gamme.",c:"strict"},
+  {f:"16-confirm-plan-reverse-trial.png",ph:"Phase 5 · Confirmation",t:"Confirm your plan",d:"'1 compte, écoutez jusqu'à 15 heures par mois. Free 1-month trial, then 9,99 €/month. Once the free trial ends, the subscription automatically renews at 9,99 € every month until you cancel.' I agree to Conditions.",ta:"SIGNATURE REVERSE TRIAL : essai 1 mois puis abonnement récurrent auto. C'est l'écran qui tranche la monétisation.",c:"strict"},
+  {f:"17-applepay-cb-requise.png",ph:"Phase 5 · Souscription",t:"Apple Pay (CB requise)",d:"'Basic 15 hours (France) · Storytel · Abonnement · Essai gratuit pendant 1 mois · 9,99 € par mois à partir du 11 juil. 2026 · Sans engagement.' Carte ...1045.",ta:"CB REQUISE (carte sur fichier obligatoire pour l'essai). Produit nommé 'Basic 15 hours'.",c:"strict"},
+  {f:"09-catalogue-home.png",ph:"Bonus · Catalogue",t:"Home (après skip)",d:"Onglets Accueil / Séries / Enfants / English / Svenska. 'Titres du moment', durées audio affichées, 'Prix littéraires', 'Titres tendances'.",ta:"Catalogue librement parcourable après skip du paywall.",c:"bonus"},
+  {f:"10-catalogue-enfants-harry-potter.png",ph:"Bonus · Catalogue",t:"Enfants · Harry Potter",d:"Onglet Enfants, hero Harry Potter ('La célèbre série de J.K. Rowling TM').",ta:"Section kids existe, mise en avant de licences fortes (autorité éditoriale).",c:"bonus"},
+  {f:"11-catalogue-enfants-nouveautes.png",ph:"Bonus · Catalogue",t:"Enfants · Nouveautés",d:"'Nouveautés', 'Lots of new books!', durées affichées (10h20m...).",ta:"Profondeur du catalogue kids visible.",c:"bonus"},
+  {f:"12-catalogue-enfants-chien-pourri.png",ph:"Bonus · Catalogue",t:"Enfants · Chien Pourri",d:"Rangées 'Chien Pourri', 'Les plus recherchés', durées.",ta:"Catalogue kids francophone (Chien Pourri, Jim Bouton).",c:"bonus"},
+  {f:"13-fiche-livre-listen-chien-pourri.png",ph:"Bonus · Fiche",t:"Fiche Chien Pourri",d:"'Not rated, 0 ratings'. Bouton 'Listen' (▶). Version: Abridged · French · 18m · Children. Synopsis.",ta:"La fiche promet l'écoute (bouton plein), mais c'est un leurre vers le paywall. Social proof absent (0 ratings).",c:"bonus"},
+  {f:"14-paywall-apres-listen.png",ph:"Bonus · Paywall",t:"Paywall sur 'Listen'",d:"Même paywall que l'étape 4, déclenché en tapant 'Listen'.",ta:"Confirme le verrouillage : aucune œuvre complète sans abonnement. Freemium teaser.",c:"bonus"},
+  {f:"01-store-fiche-appstore.png",ph:"Store · App Store",t:"Fiche App Store",d:"'Storytel · Audiobooks Library', 4,7 / 5 sur ~1,1k notes, 12+, #98 Livres, Storytel Sweden AB.",ta:"Notoriété de marque + note élevée = brand pull qui rend le teaser sec tenable.",c:"store"},
+  {f:"02-store-fiche-appstore-screenshots.png",ph:"Store · App Store",t:"Screenshots store",d:"Claim '1 million+ audiobooks and e-books'. (Diffère du '400 000+' in-app : chiffres d'abondance non alignés.)",ta:"Promesse d'abondance maximale en argument store.",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

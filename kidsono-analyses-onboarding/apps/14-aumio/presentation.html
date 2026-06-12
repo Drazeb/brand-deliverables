@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aumio · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés (compactes, avec mini-explication du jargon) */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue (volontairement plus discret) */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable (derrière un bouton) */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 14 · Cercle 2 (audio kids internationaux)</div>
+    <h1>Aumio</h1>
+    <div class="subtitle">Sommeil et relaxation pour votre enfant : histoires, sons et méditations au coucher, créés par des experts et soutenus par la science. Édité par Aumio GmbH (Allemagne).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">Allemagne</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-green"></span>Vivante</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-blue"></span>Connue</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">Dernière mise à jour : <b>18 mai 2026</b> · <b>72 avis publiés sur les 3 derniers mois</b>.</div>
+        <div class="src">Signaux : récence des mises à jour + activité d'avis récente.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">Note <b>4,79 / 5</b> sur <b>5 898 avis</b> au total · catégorie Éducation.</div>
+        <div class="src">Volume d'avis = proxy d'adoption (App Store DE (store dominant)). Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Reverse trial</div><div class="knote">essai 7 jours puis prélèvement auto</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Personnalisation simple</div><div class="knote">profil court (perso de base, pas un quiz Noom)</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium</div><div class="knote">au moins une œuvre complète offerte</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Sans carte ❌</div><div class="knote">tier gratuit sans carte ; CB pour l'essai premium</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">1 semaine</div><div class="knote">puis 89,99€/an</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div><div class="knote">science/experts, remboursement assurance</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Paywall AVANT le contenu (sans aha-moment préalable)</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Accès gratuit via remboursement assurance maladie (Allemagne)</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Caution "soutenu par la science" + stat 37 min de sommeil</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash + intro (S'inscrire)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Perso : nom, âge, objectif</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Routine + notif opt-in</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-flow)"><div class="pct">~60%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Compte (email + OTP)</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~50%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Paywall avant le contenu (skip OK)</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">&nbsp;</div><div class="fnode"><div class="fn-i">Voie alt.</div><div class="fn-t">Remboursement assurance (Krankenkasse)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~35%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Accès freemium (cadenas + Aperçu)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">3-6%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Essai CB ~8-12% · Payé ~3-6%</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Position du compte</div><div class="v">Avant le paywall</div><div class="note">Email + mot de passe temporaire (OTP) demandés à la fin de la perso, avant le mur.</div></div>
+      <div class="fr"><div class="lab">Position du paywall</div><div class="v">Avant le contenu</div><div class="note">Mur posé avant toute consommation, mais skippable via la croix de fermeture.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">1 écran store + 11 écrans d'onboarding strict + 12 bonus. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 24</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Personnalisation simple</div>
+        <div class="note">Onboarding construit autour d'un profil court (perso de base). Pas un quiz long type Noom.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Reverse trial</div>
+        <div class="note">Essai 7 jours gratuit puis abonnement. CB requise dès l'essai.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">89,99 €/an <span class="pill red">Élevé</span></div>
+        <div class="note">~7,50€/mois (équiv.). Affiché "l'équivalent d'un café/mois". Haut du corpus.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">1 semaine</div>
+        <div class="note">Reverse trial, prélèvement automatique à J+7 sauf annulation.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Sans carte <span class="pill green">Favorable</span></div>
+        <div class="note">Le tier gratuit (ex player 21:47) est accessible en skippant le paywall, sans carte. CB requise seulement pour l'essai premium 7 jours (Apple Pay vérifié).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Voie d'accès alternative</div>
+        <div class="val">Remboursement assurance</div>
+        <div class="note">Accès gratuit si l'assurance maladie allemande couvre les frais (Krankenkasse).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui, si skip <span class="pill amber">Conditionnel</span></div>
+        <div class="note">Quelques contenus complets après le paywall (player 21:47), mais seulement si on skippe le mur.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Positionnement</div>
+        <div class="val">Sommeil / relaxation</div>
+        <div class="note">Histoires, sons et méditations au coucher. Univers spatial (Aumionaute).</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> personnalisation simple (nom, âge, objectif) puis <b>paywall avant le contenu</b>, débloqué par un <b>reverse trial</b> 7 jours (CB requise) à 89,99€/an. Voie alternative : <b>accès gratuit via remboursement assurance maladie</b> (marché allemand).</div>
+    <ul class="blist">
+      <li><b>Paywall avant toute consommation</b> : on demande de payer avant d'avoir rien fait vivre. Skippable, mais à contre-courant de l'aha-moment first.</li>
+      <li><b>Prix élevé</b> (89,99€/an) derrière une <b>CB requise</b> : double barrière à l'entrée du trial.</li>
+      <li><b>Remboursement assurance</b> = canal d'acquisition / financement alternatif qui dé-risque le prix (propre à l'Allemagne).</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW (paramètres) -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Avant paywall <span class="pill amber">Friction tôt</span></div>
+        <div class="note">Email + OTP (mot de passe temporaire par mail) demandés à la fin de la perso.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Avant le contenu <span class="pill red">Précoce</span></div>
+        <div class="note">Mur juste après le compte, avant toute consommation. Skippable via la croix.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Légère <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Nom, âge (date de naissance), objectif Sommeil/Relaxation, routine de rappels.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">1 + 11 + 12</div>
+        <div class="note">1 store + 11 onboarding strict + 12 bonus. Durée strict ~90 s.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+        <div class="note">Caution science/experts, stat d'efficacité, remboursement assurance. Pas d'autorité éditoriale.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Remboursement tiers</div>
+        <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">Logos de ~24 assurances maladie allemandes, accès gratuit si couverture. Caution para-médicale.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Transparence pricing</b> · Fort</span>
+      <span class="chip present"><b>Écosystème / remboursement assurance</b> · Fort</span>
+      <span class="chip present"><b>Abondance (3000h)</b> · Moyen</span>
+      <span class="chip present"><b>Cautions experts (science)</b> · Moyen</span>
+      <span class="chip present"><b>Stats d'efficacité (37 min)</b> · Faible</span>
+      <span class="chip present"><b>Social proof</b> · Faible</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Contrôle parental</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Caution science/experts</b> : "créé par des experts, soutenu par la science" + stat concrète "37 minutes de sommeil en plus". Argument parental crédible et chiffré.</li>
+      <li><b>Remboursement assurance maladie</b> : accès gratuit si la mutuelle couvre les frais (logique para-médicale allemande). Caution institutionnelle + canal d'acquisition.</li>
+      <li><b>Anchoring prix</b> : "89,99€/an = l'équivalent d'un café/mois" pour faire passer un prix annuel élevé.</li>
+      <li><b>Code de réduction</b> sur le paywall : levier promo / campagnes.</li>
+      <li><b>Friction notable</b> : paywall avant le contenu, compte avant le paywall, CB requise. Pas de dark pattern dur (croix visible, statut verrouillé clairement signalé).</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Onboarding court, perso simple bien faite.</li><li>Caution science + stat d'efficacité (37 min).</li><li>Remboursement assurance = canal original.</li><li>Univers de marque cohérent (sommeil).</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Paywall avant tout contenu : drop-off probable.</li><li>Prix élevé + CB requise : double barrière.</li><li>Compte avant paywall : friction tôt.</li><li>Trust faible hors science/remboursement.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>À contre-courant sur le paywall avant contenu.</li><li>Standard sur reverse trial CB + anchoring prix.</li><li>Différenciant sur le remboursement assurance.</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Perso simple (nom, âge, objectif) = sur-mesure sans alourdir.</li><li>Caution "soutenu par la science" + stat d'efficacité.</li><li>Explorer un canal de prise en charge tiers (mutuelle, CE, institution).</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Paywall avant toute consommation de valeur.</li><li>Prix élevé + CB requise sans gratuit vécu en amont.</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Aha-moment avant le paywall vs paywall direct.</li><li>Reverse trial CB vs freemium sans CB.</li><li>Compte différé vs compte avant paywall.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"00-store-app-store-fiche.png",ph:"Phase 0 · Acquisition store",t:"Fiche App Store",d:"'Aumio: Sommeil et meditation, histoires et sons pour dormir'. ★ 22 avis, catégorie Éducation, éditeur Aumio GmbH. Screenshots : '37 minutes plus vite', '3000 sons'.",ta:"Positionnement sommeil + promesse d'efficacité chiffrée dès le store.",c:"store"},
+  {f:"01-splash-mascotte.png",ph:"Phase 1 · Accueil",t:"Splash mascotte",d:"Cosmonaute violet sur fond bleu nuit.",ta:"Identité de marque spatiale, ton apaisant.",c:"strict"},
+  {f:"02-intro-sinscrire.png",ph:"Phase 1 · Accueil",t:"Intro · S'inscrire",d:"Claim 'Sommeil et relaxation pour votre enfant', mascotte méditant. CTA 'S'inscrire maintenant'. Mention perso des données.",ta:"Hook unique, entrée directe dans la perso.",c:"strict"},
+  {f:"03-perso-nom-enfant.png",ph:"Phase 2 · Personnalisation",t:"Nom de l'enfant",d:"'Quel est le nom de votre enfant ? Ou choisissez un surnom.' Champ libre (dots 1/7).",ta:"Personnalisation amorçante (le prénom crée l'attachement).",c:"strict"},
+  {f:"04-perso-age-enfant.png",ph:"Phase 2 · Personnalisation",t:"Âge de l'enfant",d:"'Quel âge a votre Aumionaute ?' Roue date de naissance, 'Âge : 6' (dots 2/7).",ta:"L'âge adapte le contenu. Vocabulaire de marque (Aumionaute).",c:"strict"},
+  {f:"05-perso-objectif-sommeil-relaxation.png",ph:"Phase 2 · Personnalisation",t:"Objectif",d:"'Où vous mènera votre voyage ?' Choix Sommeil / Relaxation (dots 3/7).",ta:"Segmentation par intention, oriente les recommandations.",c:"strict"},
+  {f:"06-perso-routine.png",ph:"Phase 2 · Personnalisation",t:"Routine",d:"'Créez une routine qui convient à votre famille.' Configurer plus tard (défaut) / Routine sur mesure (dots 4/7).",ta:"Perso de rétention (rappels), faible friction (défaut = plus tard).",c:"strict"},
+  {f:"07-notif-opt-in.png",ph:"Phase 2 · Personnalisation",t:"Notif opt-in",d:"Modale 'Autoriser les notifications' (cloche). Autoriser / Pas maintenant.",ta:"Pre-prompt custom avant la demande système iOS.",c:"strict"},
+  {f:"08-compte-email.png",ph:"Phase 3 · Compte",t:"Se connecter (email)",d:"'Pour utiliser Aumio, vous devez vous connecter avec votre adresse e-mail' (récupérer/partager l'abonnement). Champ E-mail (dots 6/7).",ta:"Capture l'email AVANT le paywall (relance possible).",c:"strict"},
+  {f:"09-compte-otp-mot-de-passe.png",ph:"Phase 3 · Compte",t:"Mot de passe (OTP)",d:"'Veuillez vérifier votre boîte de réception ! Mot de passe temporaire envoyé, valide 10 minutes.' Lien support (dots 7/7).",ta:"Login sans mot de passe (magic password) : sécurité mais friction.",c:"strict"},
+  {f:"10-compte-succes.png",ph:"Phase 3 · Compte",t:"Compte créé",d:"Grand check vert sur fond bleu nuit.",ta:"Feedback de validation avant le mur payant.",c:"strict"},
+  {f:"11-paywall-aumioverse.png",ph:"Phase 4 · Paywall",t:"Paywall Aumioverse",d:"'Débloquez tout l'Aumioverse !' 3 bénéfices (experts/science, dorment 37 min plus vite, 3000h). 89,99€/an 'équivalent d'un café/mois, Test 7 jours'.",ta:"Paywall AVANT le contenu. Anchoring prix + caution science.",c:"strict"},
+  {f:"12-bonus-paywall-scroll-sabonner.png",ph:"Bonus · Paywall",t:"Paywall (scroll)",d:"Suite du paywall : CTA 'S'abonner maintenant' + 'Entrez le code de réduction'.",ta:"Code promo = levier campagne. CTA principal en bas.",c:"bonus"},
+  {f:"13-bonus-assurance-logos-krankenkasse.png",ph:"Bonus · Remboursement",t:"Logos assurances maladie",d:"'Votre assurance maladie prend en charge les frais.' Grille de ~24 logos (Allianz, AOK, DAK, DKV, HEK, IKK, KKH, Techniker…). 'Activez l'application gratuitement.'",ta:"Caution institutionnelle santé + accès gratuit (DiGA-like allemand).",c:"bonus"},
+  {f:"14-bonus-assurance-liste-selection.png",ph:"Bonus · Remboursement",t:"Choix de l'assurance",d:"'Choisissez votre assurance maladie. Votre assurance en couvre les frais.' Liste sélectionnable (Allianz, AOK Bayern/Nordost/PLUS, Barmenia, BIG…).",ta:"Voie d'accès alternative au paiement direct.",c:"bonus"},
+  {f:"15-bonus-home-bonjour-thelma.png",ph:"Bonus · Catalogue",t:"Home 'Bonjour Thelma'",d:"Profil enfant (6 ans). 'Démarrage rapide' : Histoires du Soir, Paysages Sonores. Onglets fusée / lune / soleil / profil.",ta:"Accueil personnalisé après skip du paywall.",c:"bonus"},
+  {f:"16-bonus-home-reco-verrouille.png",ph:"Bonus · Catalogue",t:"Recommandations (verrouillé)",d:"'Seppi a le droit d'avoir peur' (21 min), badge Conseil + cadenas.",ta:"Contenu verrouillé visible : frustration / désir.",c:"bonus"},
+  {f:"17-bonus-home-tout-debloquer.png",ph:"Bonus · Relance",t:"Tout débloquer",d:"'Joué récemment / Favoris' vide. Illustration arc-en-ciel + 'Débloquez un monde d'histoires et de rêves' + CTA 'Tout débloquer'.",ta:"Relance paywall in-app permanente.",c:"bonus"},
+  {f:"18-bonus-player-pando-gratuit.png",ph:"Bonus · Consommation",t:"Player Pando (gratuit)",d:"'Pando aimerait bien dormir', lecteur audio en cours (0:03 / 21:47), jouable en entier.",ta:"Valeur vécue gratuitement (post-skip) : un contenu complet.",c:"bonus"},
+  {f:"19-bonus-fiche-seppi-verrouille.png",ph:"Bonus · Teaser",t:"Fiche Seppi (verrouillé)",d:"'Seppi a le droit d'avoir peur', tags Histoire / Conseil / 3-12 ans. Boutons 'Aperçu' (extrait) et 'Déverrouiller' (cadenas).",ta:"Teaser : aperçu autorisé, contenu complet verrouillé.",c:"bonus"},
+  {f:"20-bonus-paywall-relance.png",ph:"Bonus · Relance",t:"Paywall ré-affiché",d:"Même paywall 'Débloquez tout l'Aumioverse' ré-affiché depuis l'app.",ta:"Pression de conversion répétée.",c:"bonus"},
+  {f:"21-bonus-onglet-nuit-reposante.png",ph:"Bonus · Catalogue",t:"Onglet Nuit Reposante",d:"Catégories Histoire / Sons / Méditation, section 'En vedette'. Univers nocturne.",ta:"Curation par moment de la journée (coucher).",c:"bonus"},
+  {f:"22-bonus-onglet-journee-detendue.png",ph:"Bonus · Catalogue",t:"Onglet Journée Détendue",d:"Version diurne (Histoire / Méditation / 0-10 min), 'En vedette'.",ta:"Curation par moment (journée) : usage élargi.",c:"bonus"},
+  {f:"23-bonus-applepay-cb-requise.png",ph:"Bonus · Souscription",t:"Apple Pay (CB requise)",d:"'Essai gratuit pendant 1 semaine, 89,99€ par an, à partir du 17 juin 2026, renouvellement automatique.' Carte ••••1045.",ta:"Reverse trial CB REQUISE (vérifié). Carte obligatoire pour l'essai.",c:"bonus"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

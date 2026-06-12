@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souffleur de Rêves · Présentation d'analyse (proposition de format)</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 03 · Studio audio indépendant FR</div>
+    <h1>Souffleur de Rêves</h1>
+    <div class="subtitle">Audiomagine · 1200 histoires audio pour enfants 3-12 ans, avec mode méditation pour l'endormissement</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 1 store + 8 strict + 14 bonus</span>
+      <span><b>Note store :</b> 4,5★ (2,7k avis), Divertissement</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">Quelques histoires offertes, le reste cadenassé</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Lecture-preview coupée brutalement à 1 minute</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Reverse trial 7 jours (carte requise), double paywall</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Freemium + teaser à deux vitesses</div>
+      <div class="note">Quelques séries offertes complètes, le reste du catalogue verrouillé par cadenas avec preview coupée.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Reverse trial (double paywall)</div>
+      <div class="note">Essai 7 jours gratuit, carte requise. Le 1er paywall mène à un 2e paywall-carousel avant la carte.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">5,99 €/mois</div>
+      <div class="note">Plan mensuel unique. Annuel "bientôt disponible" (placeholder) : pas de comparaison de prix possible.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">7 jours</div>
+      <div class="note">Proposé sur le seul plan mensuel. Renouvellement auto sauf annulation.</div>
+    </div>
+
+    <div class="tile cat-barrier">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Requise <span class="pill red">Barrière</span></div>
+      <div class="note">Apple Pay obligatoire pour démarrer l'essai (carte •••1045, renouvellement à partir du 17 juin). Vérifié.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">Différé <span class="pill green">Favorable</span></div>
+      <div class="note">Jamais demandé pendant l'onboarding. Compte purement optionnel, exploration libre avant.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">À la lecture</div>
+      <div class="note">Déclenché à la lecture (~1 min) puis double paywall : 1er paywall → carousel de réassurance → carte.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Partielle <span class="pill amber">Mitigée</span></div>
+      <div class="note">Section "offertes" complètes, mais le reste coupé à ~1 min.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Faible-moyen <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+      <div class="note">Abondance chiffrée et contrôle parental présents ; autorité éditoriale, écosystème, presse, experts absents.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Validation parentale calcul 5×5 avant achat, filtres par tranche d'âge 3+/6+/8+. Pas de chrono temps d'écran.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Optionnelle légère <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+      <div class="note">Filtres âge + mode d'écoute (dodo / divertissement) dans Paramétrages, jamais imposés.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui, partielle <span class="pill green">Présent</span></div>
+      <div class="note">Quelques séries offertes complètes en libre, mais l'essentiel du catalogue est coupé à 1 min.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">Audio + texte</div>
+      <div class="note">Histoires audio, textes (tapuscrit, 970 histoires), versions anglaises (140). Mode méditation/dodo.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">1 + 8 + 14</div>
+      <div class="note">1 store + 8 onboarding strict + 14 bonus = 23 écrans (dont double paywall + Apple Pay).</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 23</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash → Carousel À la une (3 hero) → Tour guidé 4 étapes (PASSER) → Catalogue direct + offertes + cadenas
+   100%        ~90%                       ~75%                          ~70%
+                                                              → Lecture preview ~1 min : ~40%
+                                                              → Paywall affiché : ~25%
+                                                              → Trial activé (carte requise) : ~6-9% · Payé : 2-4%   [Estimation]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Preuve d'abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Contrôle parental</b> · Fort</span>
+      <span class="chip present"><b>Social proof (note store)</b> · Moyen</span>
+      <span class="chip present"><b>Transparence pricing</b> · Faible</span>
+      <span class="chip present"><b>Stats utilisateurs</b> · Faible</span>
+      <span class="chip absent">Autorité éditoriale / marques</span>
+      <span class="chip absent">Écosystème / partenariats</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Carousel hero rotatif</b> au démarrage (3 hero "À la une") : éditorialisation forte par séries phares au lieu d'un splash statique.</li>
+      <li><b>Tour guidé 4 étapes skippable</b> avant le catalogue : pré-explication des features, risque de drop élevé (étape 4 a même un texte dupliqué).</li>
+      <li><b>Section "Mes histoires offertes" éditorialisée</b> : signal de gratuité crédible sans tout offrir, transforme le teaser en freemium partiel.</li>
+      <li><b>Lecture preview tronquée à ~1 min sans warning</b> : frustration intense pour pousser au paywall, mais perçu comme bug par certains.</li>
+      <li><b>Double paywall</b> + validation parentale 5×5 + lecteur audio persistant pendant le paywall ("je suis déjà engagé").</li>
+      <li><b>Insistance chiffrée</b> sur l'abondance ("1200", "1100", "1214 histoires") martelée à chaque étape clé.</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Accès direct au catalogue sans signup forcé.</li><li>Vraie gratuité partielle via "offertes".</li><li>Carousel hero + validation parentale astucieux.</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Coupure 1 min sans warning (perçue comme bug).</li><li>Carte requise + double paywall : friction de sortie.</li><li>Positionnement mono-volume, 5 trust sur 10 absents.</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>En retard : pas d'annuel, pas de caution externe.</li><li>Standard sur paywall à la lecture + compte différé.</li><li>Contrarian sur l'absence totale de quiz au démarrage.</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Carousel hero rotatif sur 3 séries phares.</li><li>Section "offertes" éditorialisée rafraîchie.</li><li>Validation parentale anti-fraude enfant.</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Tour guidé 4 étapes pré-catalogue.</li><li>Coupure 1 min sans warning.</li><li>Paywall single-plan, compte différé indéfini.</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Ratio offert / verrouillé optimal.</li><li>Plan annuel dès le paywall (vs mensuel seul).</li><li>Carte requise vs freemium sans carte.</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"00-app-store-fiche.png",ph:"Acquisition · App Store",t:"Fiche App Store",d:"Nom mascotté 'Souffleur de Rêves' + claim '1200 histoires audio pour votre enfant', catégorie Divertissement, 4,5★ sur 2,7k avis, 3 screenshots qui martèlent l'abondance.",ta:"Positionnement monothématique sur l'abondance chiffrée. Aucun logo média, partenariat éditeur ou caution experte affiché.",c:"store"},
+  {f:"01-splash-mise-a-jour-contenus.png",ph:"Phase 1 · Accueil",t:"Splash 'Mise à jour de vos contenus'",d:"Fond violet, logo mascotte étoile souriante centrée, 'Mise à jour de vos contenus' + 'Merci de patienter…'. Couvertures du catalogue en arrière-plan transparent.",ta:"Transition technique transformée en pré-teaser visuel. Le claim 'Mise à jour' inscrit une promesse de catalogue vivant.",c:"strict"},
+  {f:"02-carousel-une-arsene-lupin.png",ph:"Phase 2 · Hero rotatif",t:"Carousel À la une · Arsène Lupin",d:"Pleine image illustration d'un garçon lisant 'La confrérie de Minuit'. Badges 'À LA UNE' + '8+'. 'GRANDE SÉRIE AUDIO EN 10 ÉPISODES'. CTA 'Découvrir toutes les histoires'.",ta:"Éditorialisation forte par série phare au lieu d'un splash statique. Référence culturelle haut de gamme (Lupin) qui parle aux parents.",c:"strict"},
+  {f:"03-carousel-une-histoire.png",ph:"Phase 2 · Hero rotatif",t:"Carousel À la une · À la découverte de l'Histoire",d:"Format identique, item 'À la découverte de l'Histoire' (8+). Le carousel défile auto ou au swipe entre les hero.",ta:"Montrer la diversité éditoriale en quelques secondes (histoire, fiction, sciences humaines).",c:"strict"},
+  {f:"04-carousel-une-zoe-ecole.png",ph:"Phase 2 · Hero rotatif",t:"Carousel À la une · Zoé à l'école des grands",d:"Item suivant, 6+, 'GRANDE SÉRIE AUDIO EN 10 ÉPISODES'. Variation de tranche d'âge pour couvrir plusieurs enfants.",ta:"Couvrir un autre âge cible (6+) pour rassurer les parents avec plusieurs enfants. Message 'il y en a pour tous les âges' sans le dire.",c:"strict"},
+  {f:"05-tour-guide-parametrages.png",ph:"Phase 3 · Tour guidé",t:"Tour guidé 1/4 · Paramétrages",d:"Card overlay sur fond catalogue. Mockup Paramétrages : toggles 3+/6+/8+, 'Choisissez le mode d'écoute' (3 emojis), 'Votre compte'. Dots de progression + bouton PASSER.",ta:"Pré-explication de feature sans l'imposer. Tour skippable mais coût cognitif élevé pour un user qui veut juste du contenu.",c:"strict"},
+  {f:"06-tour-guide-meditation.png",ph:"Phase 3 · Tour guidé",t:"Tour guidé 2/4 · Une méditation ?",d:"Mockup 'Cassandre entre deux mondes' en À LA UNE. Texte dense sur le mode méditation pour la routine du dodo, avec 'pressez longuement sur le bouton de lecture' pour personnaliser.",ta:"Positionnement secondaire wellness/dodo. Texte trop dense, mal lu par les parents pressés.",c:"strict"},
+  {f:"07-tour-guide-lecture-continue.png",ph:"Phase 3 · Tour guidé",t:"Tour guidé 3/4 · Lecture continue",d:"Mockup grille 'Mes grandes séries audio' (Stella et Galaxy, P'tit Pierre…). Texte : 'Lecture continue · Écoutez d'affilée tous les épisodes…'.",ta:"Promesse autoplay/playlist (rétention session longue), positionnement sur l'autonomie d'écoute.",c:"strict"},
+  {f:"08-tour-guide-lisez-textes.png",ph:"Phase 3 · Tour guidé",t:"Tour guidé 4/4 · Lisez les textes (texte dupliqué)",d:"Mockup grille. Le titre dit 'Lisez les textes des histoires' mais le corps est IDENTIQUE à l'étape 3 (probable bug de contenu non détecté).",ta:"Étape pédagogiquement ratée. Le titre annonce une feature de lecture du texte mais le contenu reprend la lecture continue. Décrédibilise le tour.",c:"strict"},
+  {f:"09-bonus-catalogue-home-hero.png",ph:"Bonus · Catalogue direct",t:"Catalogue home · Les secrets de la forêt",d:"Direct-to-catalogue après le tour. Hero À LA UNE 'Les secrets de la forêt' (3+, 'Arthur et Papilou - Saison 1 en 5 épisodes') avec bouton lecture et cadenas en bas-droite. Filtres âge dans le header.",ta:"Pas d'aha-moment guidé, le user est lâché en autonomie. Le cadenas est présent dès le hero (pré-signal de friction).",c:"bonus"},
+  {f:"10-bonus-catalogue-scroll-offertes.png",ph:"Bonus · Catalogue direct",t:"Catalogue scroll · section 'Mes histoires offertes'",d:"Section '✓ Mes histoires offertes…' avec 2 séries (Bienvenue au Royaume des six pattes 3+, Le monde derrière l'écran Ép 3). Plus bas, '⚡ Tendances du moment' (Elmer et Clyde, Le cirque des étoiles).",ta:"Signal de gratuité crédible via éditorialisation distincte. C'est le mécanisme qui sauve le profil freemium partiel.",c:"bonus"},
+  {f:"11-bonus-fiche-royaume-six-pattes.png",ph:"Bonus · Fiche offerte",t:"Fiche Royaume des six pattes · état initial",d:"Fiche série 'offerte' : grande illustration mascotte papillon, 'Grande série audio en 12 épisode(s)', gros bouton pill violet 'ÉCOUTER LA SÉRIE', partage + favoris, durée '01h50mn', résumé.",ta:"Fiche premium avec CTA généreux. Pas de cadenas visible à ce niveau (la série est marquée comme offerte).",c:"bonus"},
+  {f:"12-bonus-fiche-royaume-cadenas-episode.png",ph:"Bonus · Fiche offerte",t:"Fiche Royaume scroll · cadenas sur épisode 1",d:"Scroll de la même fiche : section '≡ Épisodes disponibles', Épisode 1 'La surprise de Myrtille' avec un cadenas en vignette. Tags 'Confiance / Chenille / Estime de soi'.",ta:"Ambiguïté forte. La série est dans 'offertes' mais l'épisode 1 affiche un cadenas. Le user comprend mal ce qui est gratuit. Friction subtile (ou bug d'affichage).",c:"bonus"},
+  {f:"13-bonus-paywall-7j-gratuits.png",ph:"Bonus · Paywall",t:"Paywall 'Allumez l'imaginaire'",d:"Modal au-dessus du lecteur audio (en lecture à 00:03 / 01:51:56). 'Allumez l'imaginaire de votre enfant !' + 'recommandé par des milliers de familles'. Carte '5,99€/mois · Plus de 1100 histoires' + CTA '7 jours d'essai gratuit'. Carte 'Bientôt disponible !' (annuel).",ta:"Single-plan visible (mensuel), absence d'annuel = pas de comparaison de prix. Lecteur audio tourne en arrière-plan (sensation 'je suis déjà engagé').",c:"bonus"},
+  {f:"14-bonus-fiche-royaume-en-cours-lecture.png",ph:"Bonus · Post-tentative",t:"Fiche Royaume · état lecture en cours",d:"Retour sur la même fiche que 11, mais le gros bouton 'ÉCOUTER LA SÉRIE' a été remplacé par un petit bouton circulaire à icône d'ondes (= en cours de lecture). Pas de timer.",ta:"Changement d'état du bouton peu lisible. Le user perd le repère de l'action principale, l'icône d'ondes ne dit pas si la lecture est en pause ou active. Dette UX.",c:"bonus"},
+  {f:"15-bonus-fiche-elmer-verrouillee.png",ph:"Bonus · Fiche verrouillée",t:"Fiche Elmer et Clyde · verrouillée",d:"Fiche d'une série NON offerte. Illustration deux cow-boys, badge 8+, 'Grande série audio en 5 épisode(s)', 50 mn. Bouton 'ÉCOUTER LA SÉRIE' avec un cadenas violet à gauche.",ta:"Le bouton reste visible et invitant, le cadenas signale la friction. Le tap lance la lecture preview qui s'arrête à ~1 min puis bascule sur le paywall sans warning.",c:"bonus"},
+  {f:"16-bonus-validation-parentale-5x5.png",ph:"Bonus · Gate adulte",t:"Validation parentale 5×5",d:"Modal : 'Validation parentale · Afin d'éviter toute manipulation malencontreuse… qu'un enfant ne puisse pas accéder à cette zone'. Calcul '5 × 5 Résultat ? OK'. En fond flouté, verbatim 'Et je résilie quand j'en ai envie !'.",ta:"Challenge cognitif simple qui filtre les jeunes enfants tout en restant accessible aux parents. Intervient avant la souscription = trust parent. Verbatim transparence pricing visible en fond.",c:"bonus"},
+  {f:"17-bonus-mon-compte-preferences.png",ph:"Bonus · Compte différé",t:"Mon compte / Mes préférences",d:"'Mon compte' : 'Vous n'êtes pas identifié(e)' + email/password + VALIDER + Sign in with Apple. 'Mes préférences' : '1214 histoires disponibles dans votre poche !', toggles 3+/6+/8+, 'Divertissement ou dodo ?'. Liens support, tutoriel, CGU.",ta:"Compte purement optionnel, jamais demandé pendant l'onboarding (différé indéfini). Réaffirmation du chiffre '1214 histoires'. Empêche les relances email J7/J14.",c:"bonus"},
+  {f:"18-bonus-deep-paywall-1200-histoires.png",ph:"Bonus · Double paywall",t:"Deep paywall 1/4 · 1200 histoires",d:"Au tap 'Je profite des 7 jours', un 2e paywall s'intercale : carousel 'Les avantages de l'abonnement', slide 1 'Débloquez plus de 1200 histoires originales'. Bandeau fixe '7 jours d'essai puis 5,99€/mois', CTA 'Je démarre mon essai gratuit'.",ta:"2e couche de réassurance/conviction. Double paywall : le 1er ne mène pas directement à la carte.",c:"bonus"},
+  {f:"19-bonus-deep-paywall-970-textes.png",ph:"Bonus · Double paywall",t:"Deep paywall 2/4 · 970 textes (tapuscrit)",d:"Slide 2 : 'Lisez les textes de 970 histoires' · format texte (tapuscrit), 'aidez le héros de votre enfant en lui lisant l'histoire, ou en lui apprenant à lire tout en écoutant l'audio'.",ta:"Argument lecture/apprentissage de la lecture. Argument absent du 1er paywall : l'app sous-vend son offre au 1er écran.",c:"bonus"},
+  {f:"20-bonus-deep-paywall-140-versions-anglaises.png",ph:"Bonus · Double paywall",t:"Deep paywall 3/4 · 140 versions anglaises",d:"Slide 3 : 'Écoutez 140 versions anglaises · Apprendre l'anglais est devenu un jeu avec notre sélection d'histoires anglaises.'",ta:"Angle apprentissage de l'anglais (bilinguisme), forte valeur perçue parentale. Élargit la proposition au-delà de l'histoire du soir.",c:"bonus"},
+  {f:"21-bonus-deep-paywall-niko.png",ph:"Bonus · Double paywall",t:"Deep paywall 4/4 · collage réassurance",d:"Slide 4 : collage de visuels + extrait d'histoire ('Niko n'aime pas les boulés-boulés').",ta:"Preuve par l'exemple éditorial (qualité), maintien de l'attention avant la conversion.",c:"bonus"},
+  {f:"22-bonus-applepay-cb-essai-7j.png",ph:"Bonus · Souscription",t:"Modale Apple Pay (carte requise)",d:"Modale iOS Apple Pay : carte '•••1045', 'Abonnement Premium mensuel · Souffleur de Rêves · familial', 'Essai gratuit pendant 1 semaine, 5,99€/mois, à partir du 17 juin 2026', 'Sans engagement, résiliable dans Réglages'.",ta:"Reverse trial carte REQUISE (vérifié) : impossible de démarrer l'essai gratuit sans enregistrer une carte (renouvellement auto). Barrière d'entrée réelle.",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'store',t:'Acquisition store (pré-install)'},{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

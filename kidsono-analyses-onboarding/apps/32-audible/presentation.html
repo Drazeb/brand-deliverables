@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audible · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* FACE-A-FACE TABLE */
+  .faf { width:100%; border-collapse:collapse; margin-top:8px; font-size:12.5px; }
+  .faf th, .faf td { border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top; }
+  .faf thead th { background:var(--c-flow-soft); color:var(--c-flow); font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:.3px; }
+  .faf tbody th { background:#fcfcfa; font-weight:800; color:#444; }
+  .faf .col-aud { background:#fbf3ff; }
+  .faf .col-kid { background:var(--c-price-soft); }
+  .faf b { font-weight:800; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 32 · Secteur connexe (livres audio) · Référence mondiale du modèle crédit</div>
+    <h1>Audible</h1>
+    <div class="subtitle">Plateforme d'abonnement de livres audio et podcasts d'Amazon. L'app du corpus qui distingue le plus nettement la PROPRIÉTÉ (1 crédit/mois, possédé à vie) et le PRÊT (le streaming "inclus", perdu à la résiliation). Éditée par Audible Inc. (groupe Amazon, origine États-Unis).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">États-Unis (testée FR)</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">À venir / en cours de collecte (absente de la base vitalité-notoriété).</div>
+        <div class="src">Sera renseignée par la session data (App Store FR). Aucun chiffre fabriqué.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">À venir / en cours de collecte. Indicatif store (non classé officiellement) : note ~4,7 / 5 sur ~74k notes, n°4 Livres.</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval"><b>Achat à l'unité / crédit</b> + <b>Reverse trial</b></div><div class="knote">hybride : crédit-propriété (primaire) + essai 1 mois puis abonnement</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Accès direct</div><div class="knote">splash + compte Amazon + home qui est elle-même le paywall</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium teaser</div><div class="knote">catalogue vitrine, seul l'Aperçu (extrait) est jouable</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Requise ✅</div><div class="knote">compte Amazon + CB derrière (≥2 validations)</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">1 mois</div><div class="knote">puis 10,99 €/mois, renouvellement automatique</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div><div class="knote">caution Amazon + abondance + transparence pricing</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Crédit-propriété : 1 titre/mois possédé à vie, gardé même après résiliation</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Le reste ("milliers de titres inclus") est un PRÊT, perdu à la résiliation</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Home = paywall : le 1er bloc de l'accueil est la bannière d'essai gratuit</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash + accueil "Raconte-moi une histoire"</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~88%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Choix de la boutique (pays FR)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~78%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Compte Amazon (skippable "Essayer l'appli")</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Cookies (RGPD)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~62%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">HOME = paywall ("1 mois gratuit", 10,99 €)</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~52%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">"Ce que vous obtenez" : crédit / inclus / réductions</div><span class="fbadge">Argumentaire</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~45%</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Catalogue vitrine · seul l'Aperçu jouable</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">5-8%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Essai activé ~10-15% · Payé ~5-8%</div><span class="fbadge">Achat</span></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Position du compte</div><div class="v">Étape 3, skippable</div><div class="note">Compte Amazon poussé en défaut, mais "Essayer l'application" permet de sauter.</div></div>
+      <div class="fr"><div class="lab">Position du paywall</div><div class="v">La HOME elle-même (étape 5)</div><div class="note">Le mur n'est pas un écran séparé : le 1er bloc de l'accueil EST la bannière d'essai.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">6 écrans d'onboarding strict + 8 bonus (catalogue, fiches, Aperçu, boucle) + 2 store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 16</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Accès direct</div>
+        <div class="note">Splash + compte Amazon + home qui est elle-même le paywall. Aucun carrousel, aucun quiz de profil.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Hybride</div>
+        <div class="note"><b>Achat à l'unité / crédit</b> (primaire : le crédit-propriété) <b>+ Reverse trial</b> (essai 1 mois puis abonnement récurrent auto).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">10,99 €/mois <span class="pill amber">Médian</span></div>
+        <div class="note">Offre Premium Plus unique. Essai 1 mois gratuit, puis renouvellement automatique. Prix FR (#08/#11).</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-price)">
+        <div class="lab">Ce qu'on POSSÈDE</div>
+        <div class="val">1 titre / mois <span class="pill green">À vie</span></div>
+        <div class="note">Le crédit : "il vous appartient définitivement" (#10). Gardé même après résiliation. Limité à 1 titre/mois.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Le reste ("inclus")</div>
+        <div class="val">Prêt <span class="pill red">Location</span></div>
+        <div class="note">"Des milliers de titres inclus" = streaming illimité, mais PERDU à la résiliation (même les titres téléchargés).</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Requise <span class="pill red">Barrière</span></div>
+        <div class="note">Compte Amazon + CB derrière (≥2 validations) pour déclencher l'essai Premium Plus.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Teaser <span class="pill red">Avare</span></div>
+        <div class="note">Catalogue + fiches visibles, mais seul l'Aperçu (extrait, "5min restants") est jouable. Freemium teaser.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Non <span class="pill red">Absente</span></div>
+        <div class="note">Aha-moment absent : aucune œuvre complète gratuite. Pas de pont fiche→écoute (juste "Aperçu" + "Liste d'envies").</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> freemium teaser (catalogue vitrine, seul l'Aperçu jouable) débloqué par une offre <b>hybride</b> : un <b>crédit-propriété</b> (1 titre/mois possédé à vie) <b>+</b> un <b>accès-prêt</b> au reste du catalogue ("inclus", perdu à la résiliation), le tout via un <b>reverse trial</b> (essai 1 mois gratuit, CB requise, puis 10,99 €/mois auto-renew).</div>
+    <ul class="blist">
+      <li><b>PROPRIÉTÉ vs PRÊT, le cœur</b> : on POSSÈDE 1 titre/mois (le crédit, à vie), on LOUE le reste (les "milliers de titres inclus", perdu si on résilie). NON, tout n'est pas en propriété.</li>
+      <li><b>Illimité trompeur</b> : l'offre vend "des milliers de titres inclus, écoutez à volonté" (= illimité), alors que cet illimité est un prêt. Volontairement un peu ambigu.</li>
+      <li><b>Aha-moment absent</b> : la home EST le paywall, sans qu'aucune œuvre complète n'ait été vécue. Pari tenable car marque Amazon très connue.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Étape 3, skippable <span class="pill amber">Friction</span></div>
+        <div class="note">Compte Amazon poussé en défaut, mais "Essayer l'application" permet de sauter.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">La HOME (étape 5) <span class="pill amber">Précoce</span></div>
+        <div class="note">Le 1er bloc de l'accueil EST la bannière-paywall. Mur dès l'entrée, déguisé en accueil.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Absente <span class="dots"><span class="off">○○○○○</span></span></div>
+        <div class="note">Choix de boutique (pays) uniquement. Aucun profil ni quiz construit.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">6 + 8 + 2</div>
+        <div class="note">6 onboarding strict + 8 bonus (catalogue, fiches, Aperçu, boucle) + 2 store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+        <div class="note">Caution Amazon + autorité éditoriale + abondance + transparence pricing. Pas de cautions experts ni awards.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Transparence pricing</div>
+        <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">"1 mois gratuit", "renouvellement automatique à 10,99 €/mois. Résiliez à tout moment." sous chaque CTA.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Caution Amazon (écosystème)</b> · Fort</span>
+      <span class="chip present"><b>Autorité éditoriale (Originals, auteurs)</b> · Fort</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Transparence pricing</b> · Fort</span>
+      <span class="chip present"><b>Social proof (notes/avis fiches)</b> · Moyen</span>
+      <span class="chip present"><b>Stats / chiffres</b> · Faible</span>
+      <span class="chip absent">Contrôle parental</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Caution Amazon en hero</b> : "une société amazon" sous le logo dès l'accueil, compte Amazon obligatoire. Le trust vient de la marque-mère.</li>
+      <li><b>Crédit-propriété comme ancre émotionnelle</b> : "1 livre/mois qui vous appartient définitivement" transforme un abonnement en patrimoine (anti-churn).</li>
+      <li><b>Transparence pricing forte</b> : compense la CB requise ("résiliez à tout moment", renouvellement auto affiché sous le CTA).</li>
+      <li><b>Illimité trompeur (dark pattern doux)</b> : "des milliers de titres inclus, écoutez à volonté" alors que c'est un prêt perdu à la résiliation.</li>
+      <li><b>Aucun pont livre→contenu</b> : la fiche promet (visuel, note, "Aperçu") mais ne propose jamais l'écoute complète, seulement "Ajouter à la liste d'envies". Conversion par frustration.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Crédit-propriété puissant : 1 titre/mois possédé à vie (ancre émotionnelle rare, anti-churn).</li><li>Transparence pricing exemplaire sous chaque CTA.</li><li>Caution Amazon + onboarding court (~90 s).</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Aha-moment absent : la home EST le paywall, aucune œuvre complète vécue.</li><li>Illimité trompeur : "inclus = illimité" alors que c'est un prêt (risque réputationnel parental).</li><li>Aucun pont fiche→écoute : frustration pure, drop-off probable.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>Standard sur le reverse trial CB + transparence pricing.</li><li>Référence sur le crédit-propriété (1 titre à vie).</li><li>Contrarian (limite) sur l'honnêteté, assumé par la force Amazon.</li></ul></div>
+  </div>
+
+  <!-- FACE-A-FACE 3 MODELES -->
+  <h2 class="section">Face-à-face des trois modèles <span style="font-size:12px;font-weight:600;color:var(--muted);">(la décision produit centrale pour Kidsono)</span></h2>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <table class="faf">
+      <thead>
+        <tr><th>Critère</th><th class="col-aud">Audible (app 32)</th><th>Storytel (app 31)</th><th class="col-kid">Kidsono (à définir)</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Structure</th><td class="col-aud">1 crédit/mois + streaming "inclus"</td><td>Quota d'heures (15/30/45 h/mois)</td><td class="col-kid">À trancher</td></tr>
+        <tr><th>Ce qu'on possède</th><td class="col-aud"><b>1 titre/mois, à vie</b> (crédit)</td><td><b>Rien</b></td><td class="col-kid"><b>À trancher</b> : propriété ou non ?</td></tr>
+        <tr><th>Le reste du catalogue</th><td class="col-aud"><b>Prêt</b> (perdu à la résiliation)</td><td><b>Prêt</b> (perdu à la résiliation)</td><td class="col-kid">À trancher</td></tr>
+        <tr><th>À la résiliation</th><td class="col-aud">Garde les titres-crédits ; perd le streaming "inclus" + crédits non utilisés</td><td>Perd <b>tout</b></td><td class="col-kid">À trancher</td></tr>
+        <tr><th>Logique de fidélisation</th><td class="col-aud"><b>Patrimoine</b> (on accumule sa bibliothèque)</td><td><b>Usage</b> (on consomme son temps mensuel)</td><td class="col-kid">À trancher</td></tr>
+      </tbody>
+    </table>
+    <div class="deal" style="margin-top:12px;"><b>La question à trancher pour Kidsono :</b> le crédit Kidsono est-il de la <b>PROPRIÉTÉ</b> (façon Audible, gardé à vie : crée du patrimoine familial, anti-churn, mais cannibalise l'abonnement) ou un <b>QUOTA qui se renouvelle</b> (façon Storytel, remis à zéro : fidélise par l'usage, argument contrôle du temps d'écran, mais ne laisse rien) ? Une 3ᵉ voie : l'hybride honnête (façon Audible, sans l'ambiguïté du wording), avantage de challenger sur un public parental.</div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono <span style="font-size:12px;font-weight:600;color:var(--muted);">(référence mondiale du modèle crédit)</span></h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Crédit-propriété comme ancre émotionnelle ("une histoire qui vous appartient chaque mois").</li><li>Transparence pricing sous le CTA.</li><li>Caution écosystème (Amazon → éditeurs, studios, devices Lunii/Yoto/Tonies).</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Illimité trompeur (vendre "inclus = illimité" alors que c'est un prêt) : risque réputationnel parental.</li><li>Onboarding zéro-aha (home-paywall sans œuvre complète vécue).</li><li>Aucun pont fiche→écoute (frustration pure).</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Crédit propriété (façon Audible) vs quota renouvelable (façon Storytel) : la décision de fond.</li><li>Hybride honnête : 1 histoire "possédée"/mois + catalogue "inclus" en prêt clairement annoncé.</li><li>L'honnêteté du wording propriété/prêt comme avantage de challenger.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"03-capture.png",ph:"Phase 1 · Accueil",t:"Splash Audible",d:"Logo Audible (orange) sur fond dégradé.",ta:"Identité minimale, marque connue (Amazon).",c:"strict"},
+  {f:"04-capture.png",ph:"Phase 1 · Accueil",t:"Raconte-moi une histoire",d:"Logo 'audible · une société amazon'. Grille de couvertures (Sapiens, Marvel Wastelanders Star-Lord...). 'Raconte-moi une histoire · Livres Audio. Podcasts. Audible Original.' Continuer + sélecteur Boutique 🇫🇷.",ta:"Abondance + caution Amazon dès l'entrée, aucun argumentaire produit.",c:"strict"},
+  {f:"05-capture.png",ph:"Phase 1 · Accueil",t:"Splash (relance)",d:"Splash logo relancé après le choix de la boutique (pays).",ta:"Transition après sélection du store FR.",c:"strict"},
+  {f:"06-capture.png",ph:"Phase 2 · Compte",t:"Bienvenue (compte Amazon)",d:"'Créer un compte (Nouveau chez Amazon ?)' OU 'S'identifier sur Audible avec un compte Amazon' (pré-sélectionné), champ n° mobile / e-mail. Lien 'Essayer l'application' en haut à droite.",ta:"Compte Amazon poussé en défaut (friction d'achat réduite par compte existant), mais skippable.",c:"strict"},
+  {f:"07-capture.png",ph:"Phase 2 · Compte",t:"Paramétrage des cookies",d:"Pavé RGPD. 'Accepter tous les cookies' / 'Continuer sans accepter les cookies facultatifs'.",ta:"Friction réglementaire, choix réel offert.",c:"strict"},
+  {f:"08-capture.png",ph:"Phase 3 · Paywall",t:"HOME = paywall",d:"Le 1er bloc de la home est une bannière-paywall : 'Audible, raconte-moi encore plus d'histoires.' CTA '1 mois gratuit' + 'renouvellement automatique à 10,99 €/mois. Résiliez à tout moment.' Nav : Accueil / Bibliothèque / Parcourir / Profil.",ta:"Le mur EST l'accueil. Transparence pricing nette sous le CTA.",c:"strict"},
+  {f:"09-capture.png",ph:"Bonus · Catalogue",t:"Écoutez les tendances",d:"'Appuyez simplement sur lecture pour écouter.' Vignettes avec bouton play (= lance un Aperçu/extrait, pas l'œuvre). 'Ce que vous obtenez' commence.",ta:"Le play promet l'écoute mais ne lance qu'un extrait. Catalogue = vitrine.",c:"bonus"},
+  {f:"10-capture.png",ph:"Bonus · Argumentaire",t:"Ce que vous obtenez",d:"3 blocs : (1) 'Choisissez 1 livre audio par mois... il vous appartient définitivement' (crédit-PROPRIÉTÉ) ; (2) 'Des milliers de titres inclus, écoutez à volonté' (streaming-PRÊT, mot 'inclus') ; (3) 'Offres et réductions'.",ta:"ÉCRAN CLÉ. Établit la distinction propriété (le crédit) vs prêt (le streaming 'inclus').",c:"bonus"},
+  {f:"11-capture.png",ph:"Bonus · Argumentaire",t:"Continuer vers l'essai",d:"CTA 'Continuer vers l'essai gratuit · 10,99 €/mois. Se renouvelle automatiquement.' + section Top ventes (L'Intruse, L'Autre moi...) et Nouveautés.",ta:"Reverse trial confirmé : essai puis abonnement récurrent auto.",c:"bonus"},
+  {f:"12-capture.png",ph:"Bonus · Fiche",t:"Fiche Game changer",d:"Badge 'LE PLUS POPULAIRE', 'Livre audio · 12h 5min', note 4,6 (23 avis). Boutons 'Aperçu' + 'Ajouter à la liste d'envies'. AUCUN bouton Écouter/Lire.",ta:"Pas de pont livre→contenu complet : la fiche ne permet que l'extrait ou la liste d'envies.",c:"bonus"},
+  {f:"13-capture.png",ph:"Bonus · Fiche",t:"Fiche Bien dormir",d:"'Bien dormir, c'est possible' (Fabien Olicard). 'Aperçu' + note 4,9 (20 avis) + résumé. Même schéma : pas d'écoute complète.",ta:"Social proof présent (note/avis), mais toujours aucune écoute complète gratuite.",c:"bonus"},
+  {f:"14-capture.png",ph:"Bonus · Aperçu",t:"Aperçu en lecture",d:"Player 'Aperçu : Bien dormir, c'est possible... · 5min restants'. Seul contenu réellement consommable gratuitement = l'extrait.",ta:"L'Aperçu (extrait tronqué) est le maximum de valeur gratuite. Freemium teaser confirmé.",c:"bonus"},
+  {f:"15-capture.png",ph:"Bonus · Boucle",t:"Accueil (bis)",d:"Accueil 'Raconte-moi une histoire' : retour en boucle vers l'entrée.",ta:"Sans compte + CB, on retombe vers le mur.",c:"bonus"},
+  {f:"16-capture.png",ph:"Bonus · Boucle",t:"Compte Amazon (bis)",d:"'Bienvenue / s'identifier' (bis). Compte Amazon de nouveau demandé.",ta:"Confirme la boucle : pas d'accès complet sans compte + CB.",c:"bonus"},
+  {f:"01-capture.png",ph:"Store · App Store",t:"Fiche App Store",d:"'Audible : Livres et podcasts', 4,7 / 5 sur ~74k notes, 12+, n°4 Livres, Audible Inc. Screenshot '900k+ livres audio, podcasts et titres Audible Original'.",ta:"Notoriété Amazon + note élevée = brand pull qui rend le teaser sec tenable.",c:"store"},
+  {f:"02-capture.png",ph:"Store · App Store",t:"Screenshots store",d:"'Votre escapade quotidienne · Détendez-vous avec des titres que vous allez adorer.'",ta:"Promesse d'escapade + abondance en argument store.",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mangas.io · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 30 · Cercle 4 (secteur connexe, référence onboarding)</div>
+    <h1>Mangas.io</h1>
+    <div class="subtitle">Plateforme française de lecture de mangas en illimité sur abonnement ("Netflix du manga"), catalogue d'éditeurs sous licence (Kana, Ki-oon, Glénat). Hors kids : analysée pour TRANSPOSER ses patterns de paywall/onboarding à Kidsono.</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">France</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">À venir / en cours de collecte. (App absente de la base vitalité-notoriété au moment de l'analyse.)</div>
+        <div class="src">Signaux de l'algo : récence des mises à jour + activité d'avis récente (App Store FR). À compléter.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">À venir / en cours de collecte. (Aucun chiffre fabriqué : note + volume d'avis à renseigner.)</div>
+        <div class="src">Volume d'avis = proxy d'adoption (App Store FR). Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Reverse trial</div><div class="knote">essai 7 j, CB à l'activation, prélèvement auto</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Présentation classique</div><div class="knote">carrousel de slides bénéfices puis plateforme</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium teaser</div><div class="knote">1er chapitre entier gratuit, jamais l'oeuvre complète</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Sans carte ❌</div><div class="knote">1er chapitre lisible sans CB ; CB seulement à l'essai</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">7 jours</div><div class="knote">puis abonnement, prélèvement auto</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div><div class="knote">logos médias + éditeurs (Kana, Ki-oon, Glénat)</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Teaser cross-catalogue : 1er chapitre entier gratuit sur N'IMPORTE quel titre</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Mur au pic d'engagement (fin du chapitre 1, "suite incluse dans l'abonnement")</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Abonnement ILLIMITÉ (pas de crédit) : contre-point au modèle Kidsono</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash logo M.io</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~90%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">3 slides bénéfices (abondance, zéro pub, médias)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Paywall offres précoce (skip "Découvrir l'app")</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Plateforme · exploration libre du catalogue</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~50%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Lecture du 1er chapitre ENTIER (gratuit, sans CB)</div><span class="fbadge">Teaser</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~30%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">MUR au chapitre 2 ("inclus dans l'abonnement")</div><span class="fbadge">Mur</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">&nbsp;</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Compte (email + tél) + quiz 3 catégories</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">&nbsp;</div><div class="fnode"><div class="fn-i">Étape 8</div><div class="fn-t">Paywall détaillé + Apple Pay (CB)</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">4-7%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Essai CB ~10-15% · Payé ~4-7%</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Placement du compte</div><div class="v">Différé (position ~4)</div><div class="note">Demandé seulement à l'activation de l'essai, après le mur. On explore et lit avant de donner son email.</div></div>
+      <div class="fr"><div class="lab">Placement du paywall</div><div class="v">Double : précoce (skip) + mur au chapitre 2</div><div class="note">Offres montrées tôt mais skippables ("Découvrir l'app d'abord") ; le vrai mur tombe à la fin du 1er chapitre.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">6 écrans d'onboarding strict + 19 bonus (exploration, lecture, mur, activation) + 1 écran store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 26</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Présentation classique</div>
+        <div class="note">Carrousel de slides bénéfices (abondance, zéro pub, logos médias) puis plateforme. Pas d'animation premium (pas Persuasion avancée).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Reverse trial</div>
+        <div class="note">Essai 7 jours, CB à l'activation, prélèvement auto. Abonnement ILLIMITÉ, PAS un modèle au crédit.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Accès au contenu (dose)</div>
+        <div class="val">Freemium teaser <span class="pill amber">Généreux</span></div>
+        <div class="note">1er chapitre ENTIER gratuit sur n'importe quel titre, mais jamais l'oeuvre/série complète. Teaser cross-catalogue.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">6,99 à 15,99 €/mois</div>
+        <div class="note">Basic 6,99 €/mois (69,99 €/an = 5,84 €/mois), Premium 8,99 €, Family 15,99 € (4 utilisateurs).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">7 jours</div>
+        <div class="note">Sur les plans annuel et mensuel. Mentions de résiliation présentes.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Sans carte <span class="pill green">Favorable</span></div>
+        <div class="note">Le 1er chapitre se lit sans aucune CB. La carte (Apple Pay) n'arrive qu'à l'activation de l'essai.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui (nuancé) <span class="pill amber">Partiel</span></div>
+        <div class="note">1er chapitre entier = vraie lecture, mais pas une oeuvre complète (la série). Aha présent au sens unité narrative, pas au sens contenu fini.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Format de contenu</div>
+        <div class="val">Manga (lecture)</div>
+        <div class="note">Lecture horizontale/verticale, pages HD (premium), traductions officielles. Secteur connexe, pas audio kids.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> freemium teaser généreux (1er chapitre entier offert sur N'IMPORTE quel titre, sans carte) débloqué par un <b>reverse trial</b> (essai 7 jours, CB à l'activation) à partir de 6,99 €/mois pour un accès <b>illimité</b> au catalogue.</div>
+    <ul class="blist">
+      <li><b>Teaser cross-catalogue</b> : l'user trouve forcément un manga qui lui plaît avant de payer, la valeur est démontrée sur SON goût.</li>
+      <li><b>Mur au pic d'engagement</b> : la friction tombe à la fin du chapitre 1, quand le désir de suite est maximal.</li>
+      <li><b>Abonnement illimité</b> (pas de crédit) : contraste direct avec le pari crédit/temps de Kidsono.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Différé <span class="pill green">Favorable</span></div>
+        <div class="note">Demandé seulement à l'activation de l'essai. On explore et lit un chapitre avant.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Précoce + mur au chap. 2 <span class="pill amber">Double</span></div>
+        <div class="note">Offres montrées tôt mais skippables ; le vrai mur tombe à la fin du 1er chapitre.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Simple <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">1 écran "3 catégories préférées" (post-mur) pour les recommandations. Pas un quiz long.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">6 + 19 + 1</div>
+        <div class="note">6 onboarding strict + 19 bonus (exploration/lecture/mur/activation) + 1 écran store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+        <div class="note">Logos médias (15+), logos éditeurs (Kana, Ki-oon, Glénat), abondance, transparence pricing.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Différenciation</div>
+        <div class="val">Zéro pub / officiel / HD</div>
+        <div class="note">Positionnement premium vs scans pirates gratuits. "Traductions officielles, sans pub et en HD".</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Logos médias presse</b> · Massif</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Autorité éditeurs</b> · Fort</span>
+      <span class="chip present"><b>Transparence pricing</b> · Fort</span>
+      <span class="chip present"><b>Écosystème / partenariats</b> · Moyen</span>
+      <span class="chip present"><b>Social proof (note store)</b> · Faible</span>
+      <span class="chip absent">Contrôle parental</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Teaser cross-catalogue</b> : 1er chapitre entier sur n'importe quel titre, l'user valide son goût avant de payer.</li>
+      <li><b>Mur au pic d'engagement</b> : "Chapitre suivant inclus dans l'abonnement illimité" à la fin du chapitre 1.</li>
+      <li><b>Trust presse massif</b> : un écran entier de logos médias (GQ, Les Echos, Le Figaro, BFM TV, franceinfo...).</li>
+      <li><b>Ancrage "prix d'un manga par mois"</b> + "économise 20%" sur l'annuel : banalisation du coût.</li>
+      <li><b>Pas de dark pattern dur</b> : newsletter non pré-cochée, mentions de résiliation claires, paywall skippable.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Teaser cross-catalogue : valeur démontrée sur le goût de l'user.</li><li>Mur au pic d'engagement (fin chapitre 1).</li><li>Trust presse + éditeurs dense, cohérent anti-piratage.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Paywall offres précoce (peut faire fuir malgré le skip).</li><li>Formulaire compte avec téléphone à un moment chaud.</li><li>"Chapitre" ambigu : pas le sentiment d'une oeuvre complète offerte.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>Standard sur le reverse trial CB.</li><li>Au-dessus du standard sur le teaser généreux (chapitre entier vs extrait 10 s).</li><li>Contrarian vs Kidsono : illimité vs crédit.</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono <span style="font-size:12px;color:var(--muted);font-weight:600;">(en transposition · secteur connexe)</span></h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Teaser cross-catalogue : "1er épisode de n'importe quelle histoire gratuit".</li><li>Mur contextuel au pic d'engagement (fin de l'unité gratuite).</li><li>Combo trust logos éditeurs (Gallimard, EdL, Bayard) + logos médias.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Paywall offres trop précoce avant exploration (rejet possible avant démonstration de valeur).</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>"1er épisode de n'importe quelle histoire gratuit" vs dose actuelle.</li><li>Illimité vs crédit selon usage binge / rationné du contenu Kidsono.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"02-splash-logo.png",ph:"Phase 1 · Accueil",t:"Splash logo M.io",d:"Splash noir minimal, logo 'M.io'.",ta:"Sobriété, pas de hook particulier.",c:"strict"},
+  {f:"03-onboarding-abondance-tomes.png",ph:"Phase 2 · Slides",t:"Slide abondance",d:"'Des milliers de tomes enfin dispos à l'abonnement !' sur une mosaïque de couvertures.",ta:"Trust d'abondance catalogue dès le 1er slide.",c:"strict"},
+  {f:"04-onboarding-zero-pub-hd.png",ph:"Phase 2 · Slides",t:"Slide zéro pub / HD",d:"'L'app ultime de lecture pour les fans de mangas !', badges ZÉRO PUB / HD, mockups.",ta:"Différenciation premium vs scans pirates.",c:"strict"},
+  {f:"05-onboarding-logos-medias.png",ph:"Phase 2 · Slides",t:"Slide logos médias",d:"'La pépite manga dont tout le monde parle' + mur de logos : GQ, Les Echos, Le Figaro, BFM TV, franceinfo, Challenge...",ta:"Trust presse massif (15+ médias) comme autorité externe.",c:"strict"},
+  {f:"06-paywall-offres-basic-premium-family.png",ph:"Phase 3 · Paywall précoce",t:"Paywall offres (Basic/Premium/Family)",d:"'Tout ça, au prix d'un manga par mois ! 7 jours gratuits puis', BASIC 6,99€ / PREMIUM 8,99€ / FAMILY 15,99€.",ta:"Ancrage prix dès l'onboarding. CTA 'Activer mon essai' + 'Découvrir l'app d'abord'.",c:"strict"},
+  {f:"07-paywall-offres-decouvrir-app-dabord.png",ph:"Phase 3 · Paywall précoce",t:"Échappatoire 'Découvrir l'app'",d:"Même écran : l'option 'Découvrir l'app d'abord' est le chemin choisi.",ta:"Skip explicite qui évite le rejet immédiat du paywall.",c:"strict"},
+  {f:"08-plateforme-nouveautes-kana.png",ph:"Bonus · Plateforme",t:"Arrivée plateforme (Kana)",d:"Bandeau éditorial Kana 'Nouveaux bangers', carrousel hero, 'Sorties mangas (17)'. Bandeau 'Activer mon essai' persistant.",ta:"Arrivée directe et exploitable. Relance abonnement en pied.",c:"bonus"},
+  {f:"09-fiche-darwins-game-lire.png",ph:"Bonus · Plateforme",t:"Hero Darwin's Game · Lire",d:"Hero Darwin's Game (Ki-oon), bouton 'Lire' accessible sans payer.",ta:"Accès direct à la lecture, gratuit, sans CB.",c:"bonus"},
+  {f:"10-catalogue-recherche-genres.png",ph:"Bonus · Catalogue",t:"Catalogue · recherche + genres",d:"Recherche, filtres genres (Shojo, Seinen, SF, Aventure, Shonen, Webtoon...), grille (Naruto, TODAG...).",ta:"Exploration totalement libre du catalogue.",c:"bonus"},
+  {f:"11-fiche-darwins-game-commencer-lecture.png",ph:"Bonus · Fiche",t:"Fiche · Commencer la lecture",d:"'Sortie de 2 tomes par semaine', tags, CTA 'Commencer la lecture'.",ta:"Vocabulaire d'abondance (rythme de sortie) + appel à lire.",c:"bonus"},
+  {f:"12-fiche-darwins-game-chapitres-resume.png",ph:"Bonus · Fiche",t:"Fiche · Chapitres + résumé",d:"Onglets Informations / Chapitres (10), résumé. Liste des chapitres visible.",ta:"Transparence du catalogue : on voit ce qu'on débloque.",c:"bonus"},
+  {f:"13-avertissement-contenu-sensible.png",ph:"Bonus · Lecture",t:"Avertissement contenu sensible",d:"'Cette série contient des images sensibles', Continuer / Retour, 'Ne plus m'avertir'.",ta:"Modération éditoriale = signal de sérieux et de cadre.",c:"bonus"},
+  {f:"14-lecture-chapitre1-couverture.png",ph:"Bonus · Lecture",t:"Lecture chapitre 1 · couverture",d:"Couverture du tome 1 dans le lecteur.",ta:"Lecture lancée, gratuite, sans compte.",c:"bonus"},
+  {f:"15-lecture-chapitre1-page-titre.png",ph:"Bonus · Lecture",t:"Lecture chapitre 1 · page-titre",d:"Page-titre 'Darwin's Game · 1'.",ta:"Vraie expérience de lecture, pas un extrait de 10 s.",c:"bonus"},
+  {f:"16-lecture-chapitre1-planches.png",ph:"Bonus · Lecture",t:"Lecture chapitre 1 · planches",d:"Planches de manga lues normalement. Chapitre 1 lu EN ENTIER, sans carte.",ta:"L'unité gratuite : un chapitre complet (teaser généreux).",c:"bonus"},
+  {f:"17-mur-chapitre2-essai-gratuit.png",ph:"Bonus · Le mur",t:"Mur au chapitre 2 · essai gratuit",d:"Fin du chapitre 1. 'Chapitre suivant · Game 02 · inclus dans l'abonnement illimité', CTA 'Activer mon essai gratuit'.",ta:"Le mur tombe au pic d'engagement (on veut la suite).",c:"bonus"},
+  {f:"18-mur-chapitre2-fermer-lecteur.png",ph:"Bonus · Le mur",t:"Mur au chapitre 2 · fermer",d:"Même écran : 'Activer mon essai gratuit' / 'Fermer le lecteur'.",ta:"Choix binaire : payer ou sortir.",c:"bonus"},
+  {f:"19-exploration-libre-adabana.png",ph:"Bonus · Cross-catalogue",t:"Autre titre (Adabana)",d:"Adabana en lecture verticale, CTA 'Je découvre'.",ta:"On peut tester le 1er chapitre d'un AUTRE manga librement.",c:"bonus"},
+  {f:"20-fiche-death-note-kana.png",ph:"Bonus · Cross-catalogue",t:"Fiche Death Note (Kana)",d:"'Sortie d'un tome par semaine', Chapitres (9).",ta:"1er chapitre offert ici aussi : la règle vaut pour tout titre.",c:"bonus"},
+  {f:"21-fiche-kagurabachi-kana.png",ph:"Bonus · Cross-catalogue",t:"Fiche Kagurabachi (Kana)",d:"Chapitres (9), tags action/vengeance.",ta:"Teaser cross-catalogue confirmé : forcément un titre qui plaît.",c:"bonus"},
+  {f:"22-creation-compte-email-tel.png",ph:"Bonus · Activation",t:"Création de compte",d:"Email + confirmation, téléphone, mot de passe. CGU cochée par défaut, newsletter NON cochée.",ta:"Compte demandé à la conversion. Friction téléphone.",c:"bonus"},
+  {f:"23-perso-categories-preferees.png",ph:"Bonus · Activation",t:"Quiz 3 catégories préférées",d:"'Sélectionne tes 3 catégories préférées pour nos meilleures recommandations'.",ta:"Personnalisation simple, post-mur, pour les recommandations.",c:"bonus"},
+  {f:"24-plateforme-connecte-nouveautes.png",ph:"Bonus · Activation",t:"Plateforme (connecté)",d:"Retour à la plateforme, connecté (avatar en bas à droite).",ta:"Continuité d'usage après création de compte.",c:"bonus"},
+  {f:"25-paywall-detaille-avantages.png",ph:"Bonus · Paywall détaillé",t:"Paywall détaillé + avantages",d:"'Sélectionne ton abonnement', Basic/Premium/Family, Annuel 69,99€ (5,84€/mois, 'économise 20%') / Mensuel 6,99€, avantages comparés.",ta:"Comparaison de paliers + ancrage annuel. 'Je valide'.",c:"bonus"},
+  {f:"26-applepay-cb-essai-7j.png",ph:"Bonus · Souscription",t:"Apple Pay (CB requise pour l'essai)",d:"'Essai gratuit 1 semaine, 6,99€/mois', carte ••••1045, 'sans engagement', prélèvement à partir du 18 juin 2026.",ta:"Reverse trial CB requise pour ACTIVER l'essai (renouvellement auto).",c:"bonus"},
+  {f:"01-store-fiche-appstore.png",ph:"Acquisition store",t:"Fiche App Store",d:"'Mangas.io · 100% manga, 0% pub', 'Par des fans, pour des fans', 476 avis, screenshots (milliers de tomes, sorties chaque jour, sans pub HD).",ta:"Positionnement abondance + zéro pub + qualité officielle.",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

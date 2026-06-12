@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LILI · Présentation d'analyse (proposition de format)</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 06 · Cercle 1 (concurrent direct FR)</div>
+    <h1>LILI</h1>
+    <div class="subtitle">Audio pédagogique (philosophie, méditation, émotions, développement personnel) pour les 3-15 ans · lili.cool</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 1 store + 10 strict + 12 bonus = 23</span>
+      <span><b>Note store :</b> 4★ (79 avis), Éducation</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">Multi-format : podcast, texte, images, + version adaptée (accessibilité)</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Segmentation B2C / B2B / B2G (parents, profs, animateurs)</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Caution pédagogie + neurosciences (coin des super-parents)</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Freemium honnête, paywall passif</div>
+      <div class="note">Contenus libres complets, le reste verrouillé par une étoile discrète. Paywall déclenché uniquement à la tentative.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Freemium (abonnement, sans engagement)</div>
+      <div class="note">Dose de gratuit réelle, premium "Lili à la maison" pour l'intégralité des 400 activités.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">4,99 €/mois ou 35,99 €/an (-39%) <span class="pill green">Lisible</span></div>
+      <div class="note">2 plans, annuel mis en avant (économie 39%). "Sans engagement, résiliable à tout moment."</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">Aucun</div>
+      <div class="note">Pas de trial : on teste directement via les contenus libres complets (freemium).</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+      <div class="note">Freemium : contenus libres complets, testable sans carte.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du compte</div>
+      <div class="val">Tôt (juste après le splash)</div>
+      <div class="note">Compte demandé avant le catalogue, avec segmentation prof / animateur / parent. "Annuler" possible.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">Passif, à la demande (étoile = verrou)</div>
+      <div class="note">Déclenché uniquement au tap sur un contenu étoilé ou "Souscrire". Pas de pop-up interruptif.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Présente <span class="pill green">Généreuse</span></div>
+      <div class="note">Plusieurs contenus libres complets (ex Thomas Pesquet, podcast + tapuscrit entiers).</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Moyen-fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+      <div class="note">Contrôle parental, transparence pricing et caution experts (neurosciences) en Fort ; role models réels.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Coin des super-parents <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+      <div class="note">Mode sans écran, espace parent dédié, conseils d'experts, choix du niveau. Intensité Fort.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Moyenne (niveau) <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Choix Maternelle / Élémentaire / Collège qui filtre tout le catalogue.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui <span class="pill green">Présent</span></div>
+      <div class="note">Contenus libres consommables en entier (multi-format : podcast, tapuscrit, images-clés).</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">3 formats</div>
+      <div class="note">Podcast (audio), Tapuscrit (texte), Images-clés (visuel) + version originale vs adaptée.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">1 + 10 + 12</div>
+      <div class="note">1 store + 10 onboarding strict + 12 bonus = 23 écrans uniques.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 23</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash animé → Compte (profil prof/anim/parent) → Cookies + ATT iOS → Choix niveau (Mat/Élém/Collège) → Catalogue activités (★ = verrou) → Contenu libre complet (Pesquet)
+   100%            ~80%                            ~74%               ~70%                          ~60%                            ~40% (aha)
+                     │                                                                                                                │
+                 Annuler ?                                                                                       Tap contenu ★ → Paywall passif → Abonné : 3-6%   [Estimation]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Contrôle parental</b> · Fort</span>
+      <span class="chip present"><b>Transparence pricing</b> · Fort</span>
+      <span class="chip present"><b>Cautions experts (neurosciences)</b> · Fort</span>
+      <span class="chip present"><b>Autorité éditoriale (role models)</b> · Moyen</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Moyen</span>
+      <span class="chip present"><b>Écosystème / multi-canal</b> · Moyen</span>
+      <span class="chip present"><b>Social proof</b> · Faible</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Freemium honnête, paywall passif</b> : contenus libres complets (Pesquet), reste verrouillé par étoile discrète, paywall uniquement à la tentative. Aucune pression intrusive.</li>
+      <li><b>Segmentation multi-canal à l'inscription</b> : Super-Profs (scolaire) / Super-Anims (périscolaire) / Super-Parents (maison). B2B/B2G/B2C dès le sign-up.</li>
+      <li><b>Consommation multi-format</b> : Podcast / Tapuscrit / Images-clés, + version originale vs adaptée (accessibilité, dys). Inédit dans le corpus.</li>
+      <li><b>Catalogue par intention/émotion</b> (Je m'inspire / Je me pose / Je m'exprime / Je grandis) et caution experts pédagogie + neurosciences (coin des super-parents).</li>
+      <li><b>Compte demandé tôt</b> avec opt-in vendu comme bénéfice ("7 conseils d'experts") et "sans écran" comme argument parental.</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Freemium honnête, trust-riche (neurosciences, transparence, espace parents).</li><li>Multi-format + version adaptée = accessibilité différenciante.</li><li>Segmentation multi-canal (scolaire/périscolaire/maison) = revenus diversifiés.</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Compte demandé tôt : friction d'entrée avant la valeur.</li><li>Paywall passif : faible pression, le parent peut ne jamais voir le mur.</li><li>Positionnement "développement personnel" pointu, excluant pour le divertissement large.</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>En avance sur la profondeur pédagogique et le multi-format/version adaptée.</li><li>Exemplaire sur l'honnêteté du freemium et la transparence pricing.</li><li>Contrarian sur le paywall passif (coûteux en conversion).</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Multi-format (audio/texte/images) + version adaptée (accessibilité, dys).</li><li>Catalogue par intention/émotion plutôt que par genre.</li><li>Transparence pricing ("sans engagement") + caution experts via partenaires.</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Compte demandé trop tôt (avant toute valeur).</li><li>Paywall 100% passif (risque de sous-conversion).</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Segmentation multi-canal B2C parents + B2B scolaire / B2G périscolaire.</li><li>Version adaptée des contenus comme axe d'accessibilité et de trust.</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"00-app-store-fiche.png",ph:"Acquisition · Store",t:"Fiche App Store",d:"'Lili Podcasts & jeux éducatifs · Confiance en soi et bien-être', LILI SAS, 4★ sur 79 avis, catégorie Éducation. App homonyme 'Lili - Business Banking' dessous (vigilance nom).",ta:"Positionnement éducatif et bien-être, ciblage du développement de l'enfant.",c:"store"},
+  {f:"01-splash-logo-lili.png",ph:"Phase 1 · Splash",t:"Splash logo LILI",d:"Fond cyan, logo orange (visage mascotte + www.lili.cool).",ta:"Identité de marque douce et mémorable.",c:"strict"},
+  {f:"02-splash-mascotte-anim.png",ph:"Phase 1 · Splash",t:"Splash, frame d'animation",d:"Frame intermédiaire de l'animation d'ouverture (visage blanc seul).",ta:"Splash animé (micro-soin de marque). Conservé pour témoigner de l'animation.",c:"strict"},
+  {f:"03-auth-connexion-inscription.png",ph:"Phase 2 · Compte",t:"Auth : inscription / connexion",d:"'Faire grandir la confiance des 3-15 ans', onglets Je m'inscris / Je me connecte (email + mot de passe 6 car. min, 'C'est parti !', 'Mot de passe oublié ?').",ta:"Compte demandé tôt (juste après le splash). Le claim 'faire grandir la confiance' porte la promesse pédagogique.",c:"strict"},
+  {f:"04-inscription-profils-prof-anim-parent.png",ph:"Phase 2 · Compte",t:"Inscription : choix du profil",d:"Onglet Je m'inscris : Super-Profs (Lili à l'école) / Super-Anims (Lili en périscolaire) / Super-Parents (Lili à la maison).",ta:"Segmentation B2B/B2G/B2C dès l'inscription. LILI adresse aussi le scolaire et le périscolaire. Insight go-to-market majeur.",c:"strict"},
+  {f:"05-inscription-formulaire-champs.png",ph:"Phase 2 · Compte",t:"Inscription : formulaire (Super-Parents)",d:"'Lili à la maison · Libérer les super-pouvoirs de votre enfant', champs Prénom / Nom / E-mail / Mot de passe, checkbox '7 conseils d'experts pour les super-parents et de rares messages'.",ta:"Opt-in vendu comme bénéfice ('7 conseils d'experts') plutôt que consentement marketing brut. 'De rares messages' = respect de la boîte mail.",c:"strict"},
+  {f:"06-inscription-formulaire-cgu-reassurance.png",ph:"Phase 2 · Compte",t:"Inscription : CGU + réassurance",d:"Bas du formulaire : 'C'est parti !', 'L'inscription vaut pour acceptation des CGU', 'Annuler'. Bandeau : '400 activités sans écran à diffuser sur mobile/tablette/ordinateur', 'activités audio ET papier'.",ta:"Réassurance au sign-up (volume + 'sans écran' + multi-support + multi-format). 'Sans écran' = argument parental fort.",c:"strict"},
+  {f:"07-bienvenue-super-parents.png",ph:"Phase 2 · Compte",t:"Bienvenue parmi les Super-Parents",d:"'Bienvenue parmi les Super-Parents ! Découvrez nos conseils pour vous lancer' : '8 étapes pour vous lancer' (badge GRATUIT), 'Le coin des super-parents', CTA 'Découvrir Lili'.",ta:"Onboarding parent guidé post-inscription. Le badge GRATUIT et le coin des super-parents installent la confiance.",c:"strict"},
+  {f:"08-consentement-cookies.png",ph:"Phase 3 · Conformité",t:"Consentement cookies",d:"'Lili respecte votre vie privée' · cookies pour améliorer l'expérience, 'Politique de cookies', Refuser / Autoriser.",ta:"Conformité RGPD avec choix réel (Refuser proposé en premier, à égalité visuelle). Sérieux.",c:"strict"},
+  {f:"09-att-ios-suivi.png",ph:"Phase 3 · Conformité",t:"ATT iOS (suivi)",d:"Pop-up système iOS App Tracking Transparency 'Autoriser LILI à suivre vos activités…'.",ta:"Demande de suivi standard iOS, posée pendant l'onboarding.",c:"strict"},
+  {f:"10-choisir-niveau.png",ph:"Phase 3 · Personnalisation",t:"Choisir le niveau",d:"'Choisir le niveau' : Maternelle / Élémentaire / Collège + Valider.",ta:"Personnalisation structurante : le niveau filtre tout le catalogue (et la version adaptée). Adapté au spectre 3-15 ans.",c:"strict"},
+  {f:"11-bonus-home-activites.png",ph:"Bonus · Catalogue",t:"Home · Les activités",d:"'Les activités · maternelle' : Je m'inspire (Histoires audio) / Je me pose (Relaxation et sommeil) / Je m'exprime (Art et jeux d'impro) / Je grandis (Podcasts philo) + 'à la une'. Profils enfants en bas.",ta:"Catalogue organisé par intention/émotion plutôt que par genre. Codage couleur fort, très lisible pour un parent.",c:"bonus"},
+  {f:"12-bonus-super-programmes.png",ph:"Bonus · Catalogue",t:"Les super-programmes",d:"'Les super-programmes · maternelle' en disposition radiale : Croire en moi / Apprivoiser mes émotions / Réfléchir sur la vie / Muscler ma concentration / La jouer collectif / Dompter l'erreur / Oser à l'oral.",ta:"Parcours thématiques de compétences psycho-sociales. Positionnement neurosciences/pédagogie incarné.",c:"bonus"},
+  {f:"13-bonus-coin-super-parents.png",ph:"Bonus · Espace parent",t:"Le coin des super-parents",d:"'Conseils d'experts en pédagogie et neurosciences pour aider son enfant à gérer ses émotions, trouver le sommeil, se concentrer et grandir en confiance. 7 super-programmes, activités et rituels audio, un programme bien-être des parents.'",ta:"Caution experts (pédagogie + neurosciences) explicite. Espace parent dédié = trust fort. Inclut un programme bien-être des parents.",c:"bonus"},
+  {f:"14-bonus-mon-profil-decouverte.png",ph:"Bonus · Compte",t:"Mon profil (tier Découverte)",d:"'Mon profil' : formule 'Lili à la maison Découverte' (gratuit), 'Souscrire à Lili Premium' / 'Activer mon code Premium', Mon niveau Maternelle, Mes favoris, Mes téléchargements.",ta:"Tier gratuit nommé 'Découverte' (cadrage positif). 'Activer un code Premium' = canal e-carte/cadeau (B2B2C, écoles).",c:"bonus"},
+  {f:"15-bonus-je-minspire-themes.png",ph:"Bonus · Navigation",t:"Je m'inspire · thèmes",d:"'Je m'inspire · maternelle' : grille de thèmes (Nature et espace / Écriture et éducation / Cinéma et musique / Militantisme et politique / Science et innovation / Arts créatifs).",ta:"Entrée par centres d'intérêt, contenus organisés autour de modèles inspirants (role models).",c:"bonus"},
+  {f:"16-bonus-nature-espace-liste.png",ph:"Bonus · Liste",t:"La nature et l'espace (modèles)",d:"'La nature et l'espace · maternelle' : Thomas Pesquet (sans étoile = libre), Temple Grandin (★), Carl Sagan (★).",ta:"Contenus incarnés par des personnalités réelles. L'étoile signale discrètement le verrouillage (semi-transparente, peu agressive).",c:"bonus"},
+  {f:"17-bonus-fiche-pesquet-3-formats.png",ph:"Bonus · Multi-format",t:"Fiche Pesquet (3 formats, libre)",d:"'Thomas Pesquet, 19 min', compétences listées, 'Contexte du récit', 3 formats : Podcast (écoute) / Tapuscrit (texte) / Images-clés (visuel).",ta:"Multi-format : un même contenu consommable de 3 façons (lecteur/écoute/visuel), élargit l'accessibilité et le contexte d'usage.",c:"bonus"},
+  {f:"18-bonus-popup-version-originale-adaptee.png",ph:"Bonus · Accessibilité",t:"Pop-up VO / version adaptée",d:"Au lancement du podcast : 'Écoutez ce podcast · EN VERSION ORIGINALE / EN VERSION ADAPTÉE'.",ta:"Double version d'un même contenu. La version adaptée (plus simple, plus jeunes / dys) = signal d'accessibilité et d'inclusion fort. Inédit dans le corpus.",c:"bonus"},
+  {f:"19-bonus-player-chapitres-pesquet.png",ph:"Bonus · Lecture",t:"Player + chapitres (libre)",d:"Player audio (Chapitre 1 'L'enfance de Thomas' en lecture), liste de 5 chapitres, chacun avec icônes texte/images.",ta:"Contenu libre consommable en entier (Pesquet sans étoile). Lecture par chapitres + accès aux formats texte/images par chapitre.",c:"bonus"},
+  {f:"20-bonus-tapuscrit-pesquet.png",ph:"Bonus · Format texte",t:"Tapuscrit (format texte)",d:"'Thomas Pesquet - Tapuscrit original' : le texte intégral du récit, par chapitres.",ta:"Le tapuscrit est le format texte (lecture autonome, type grand PDF). Complète le podcast pour qui préfère lire ou un usage sans audio.",c:"bonus"},
+  {f:"21-bonus-fiche-grandin-verrouillee-etoile.png",ph:"Bonus · Contenu Premium",t:"Fiche Grandin (verrouillée, ★)",d:"'Temple Grandin, 16 min', compétences listées, grande étoile orange (= verrouillé Premium).",ta:"Contenu Premium. L'étoile remplace le bouton de lecture : au tap, le paywall s'ouvre.",c:"bonus"},
+  {f:"22-bonus-paywall-premium.png",ph:"Bonus · Paywall",t:"Paywall Premium",d:"'Abonnez votre enfant à Lili à la maison pour profiter des super-programmes en illimité ! Libérez pleinement les super-pouvoirs en lui offrant l'intégralité des 400 activités.' Annuel 35,99€ (-39%) ou Mensuel 4,99€. 'Sans engagement. Résiliable à tout moment.'",ta:"2 plans, annuel mis en avant, transparence forte ('sans engagement, résiliable'). Vocabulaire super-héros cohérent. Paywall passif (déclenché à la demande).",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'store',t:'Acquisition store (pré-install)'},{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

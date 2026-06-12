@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libro.fm · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés (compactes, avec mini-explication du jargon) */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue (volontairement plus discret) */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable (derrière un bouton) */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 33 · Secteur connexe (livres audio)</div>
+    <h1>Libro.fm</h1>
+    <div class="subtitle">Livres audio sur abonnement à crédits (1 crédit = 1 livre possédé à vie, DRM-free). Alternative indépendante à Audible : une part de chaque achat revient à une librairie indépendante locale choisie par l'utilisateur. Éditée par Libro.fm (Seattle, US).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">États-Unis</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">Données non encore collectées (app absente du CSV vitalité/notoriété à la date de l'analyse).</div>
+        <div class="src">À compléter par la session data (App Store US/FR).</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">Note et nombre d'avis à venir. Aucun chiffre fabriqué.</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Achat à l'unité / crédit</div><div class="knote">crédit pur, SANS essai gratuit</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Accès direct</div><div class="knote">exploration possible sans compte</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium teaser</div><div class="knote">extrait ~5 min, rien de complet</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Requise ✅</div><div class="knote">pour devenir membre (mais achat hors-app)</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">Aucun</div><div class="knote">à la place : un livre bonus offert</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Moyen <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div><div class="knote">mission libraires indé, avis libraires, abondance</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Mission : soutien aux librairies indépendantes locales (choix de la librairie)</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Checkout HORS-APP : l'app ne vend pas, l'achat se fait sur le web (pattern reader app)</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Crédit-achat PUR sans essai : livre possédé à vie, crédits non expirables</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au paiement (qui sort de l'app vers le web). Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash · Create account / Start exploring</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~90%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Explore · catalogue SANS compte</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Fiche livre + avis libraire</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~55%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Extrait ~4:58 (sample)</div><span class="fbadge">Teaser</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~40%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Choose a bookstore (soutien)</div><span class="fbadge">Mission</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~30%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">"Out of credits" · l'app ne vend pas</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~15%</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Page WEB externe · pricing 9,99 / 17,99 €</div><span class="fbadge">Paywall web</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~5-10%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Membre (achat sur le web)</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Placement du compte</div><div class="v">Différé</div><div class="note">Exploration libre sans compte. Compte demandé pour obtenir des crédits / acheter.</div></div>
+      <div class="fr"><div class="lab">Placement du paywall</div><div class="v">Différé ET hors-app</div><div class="note">Pas de paywall in-app : l'achat se fait sur la page web libro.fm (Safari). L'app affiche "doesn't support purchasing".</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée. La rupture franche est la sortie vers le web pour payer.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">4 écrans d'onboarding strict + 8 bonus + 1 fiche store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 13</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Accès direct</div>
+        <div class="note">Splash 2 boutons, exploration sans compte, catalogue direct. Aucun argumentaire, aucune perso.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Achat à l'unité / crédit</div>
+        <div class="note">Crédit PUR, sans essai gratuit. 1 crédit = 1 livre acheté. Différent d'Audible (hybride avec reverse trial).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">9,99 à 17,99 €/mois</div>
+        <div class="note">1 crédit/mois = 9,99 € ("Most popular"), 2 crédits/mois = 17,99 € [capture web]. US = 14,99 $/mois [web].</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">Aucun</div>
+        <div class="note">Pas d'essai temporel. Incitation = un livre audio bonus offert à l'inscription (2 avec code promo) [web].</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Requise <span class="pill red">Barrière</span></div>
+        <div class="note">CB requise pour devenir membre, mais l'achat se fait HORS-APP (page web).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Checkout</div>
+        <div class="val">Hors-app <span class="pill amber">Friction</span></div>
+        <div class="note">L'app "doesn't support purchasing". Achat sur libro.fm en Safari (pattern reader app, contourne la commission Apple).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Propriété du crédit</div>
+        <div class="val">À vie <span class="pill green">Possédé</span></div>
+        <div class="note">1 crédit = 1 livre DRM-free, possédé à vie, gardé après résiliation. Crédits non expirables [web].</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Non <span class="pill red">Absent</span></div>
+        <div class="note">Extraits ~5 min seulement (plus longs qu'Audible/Storytel mais jamais l'œuvre complète). Aha-moment absent.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> freemium teaser (extrait ~5 min sur les fiches) débloqué non par un essai mais par l'<b>achat d'un crédit</b> (1 crédit = 1 livre possédé à vie). Abonnement 1 ou 2 crédits/mois (9,99 / 17,99 €), <b>checkout hors-app</b> sur le web, une part de chaque achat reversée à une <b>librairie indépendante</b> choisie par l'utilisateur.</div>
+    <ul class="blist">
+      <li><b>Crédit PUR, sans reverse trial</b> : pas d'essai gratuit temporel à conversion automatique (différence nette avec Audible). L'attrait d'entrée est un livre bonus offert.</li>
+      <li><b>Propriété à vie</b> (comme Audible, contrairement à Storytel quota-heures) : crédit = achat, pas prêt.</li>
+      <li><b>Checkout hors-app</b> : arbitrage business (économie commission Apple) au prix d'une friction de conversion. Le prix n'est même pas dans l'app.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Différé <span class="pill green">Favorable</span></div>
+        <div class="note">Exploration libre sans compte. Compte demandé seulement pour obtenir des crédits.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Différé + hors-app <span class="pill amber">Friction</span></div>
+        <div class="note">Pas de paywall in-app : renvoi vers le web (Safari) pour l'achat. Friction notable.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Absente <span class="dots"><span class="off">○○○○○</span></span></div>
+        <div class="note">Aucun quiz/profil. "Choose a bookstore" = choix de soutien, pas de la perso produit.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">4 + 8 + 1</div>
+        <div class="note">4 onboarding strict + 8 bonus + 1 fiche store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Moyen <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Trust monothématique "mission" : soutien aux librairies indé. Le reste est moyen ou absent.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Mission / souveraineté</div>
+        <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">Choix de la librairie à soutenir, "support local bookstores" répété. Registre éthique/local.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Mission / souveraineté indé</b> · Fort</span>
+      <span class="chip present"><b>Social proof (avis libraires)</b> · Moyen</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Moyen</span>
+      <span class="chip present"><b>Transparence pricing</b> · Moyen</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Contrôle parental</span>
+      <span class="chip absent">Écosystème / device</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Mission comme levier</b> : soutien aux librairies indépendantes (store, splash, explore, "Choose a bookstore"). Différenciation directe vs Audible/Amazon.</li>
+      <li><b>Social proof par les libraires</b> (pas par les utilisateurs) : "Bookseller pick", recommandations nominatives signées de libraires.</li>
+      <li><b>Réassurance modèle</b> : propriété à vie, crédits non expirables, 30% de remise sur les achats supplémentaires, annulation libre.</li>
+      <li><b>Extrait long (~5 min)</b> : preview plus généreuse qu'Audible/Storytel, pour donner envie sans donner l'œuvre.</li>
+      <li><b>Friction notable</b> : checkout hors-app (sortie vers Safari) + prix absent de l'app. Pas de dark pattern (le modèle est honnête), mais l'UX de paiement est rugueuse.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Positionnement à mission clair et incarné (choix de la librairie).</li><li>Modèle crédit lisible : propriété à vie, crédits non expirables.</li><li>Découverte sans friction : explo sans compte + extrait long.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Checkout hors-app = perte de conversion au paiement.</li><li>Prix absent de l'app (opacité in-app).</li><li>Onboarding rudimentaire : repose sur le brand pull / conviction militante.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>Contrarian sur le checkout (reader pattern assumé) et l'absence d'essai.</li><li>Standard sur la nature du crédit (propriété à vie, comme Audible).</li><li>En avance sur la mission, en retard sur la production d'onboarding.</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Positionnement à mission (Kidsono : partenaires éditeurs/culturels mobilisables).</li><li>Exploration sans compte + extrait long avant tout mur.</li><li>Crédit lisible : possédé à vie, non expirable.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Prix absent de l'app (opacité).</li><li>Onboarding qui ne convainc personne hors brand pull.</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Crédit SANS essai (incitation par contenu bonus) vs reverse trial : éviter le churn post-essai ?</li><li>Checkout hors-app (économie commission Apple) si le volume le justifie.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"01-splash-create-account-start-exploring.png",ph:"Phase 1 · Accueil",t:"Splash",d:"Fond bibliothèque, logo Libro.fm, claim 'Libro.fm lets you buy audiobooks from local bookstores.' Boutons : Create an account / Start exploring + Sign in.",ta:"Accès direct : exploration sans compte autorisée d'emblée, mission posée dès le hero.",c:"strict"},
+  {f:"02-explore-create-free-account-card.png",ph:"Phase 2 · Catalogue",t:"Explore + carte compte",d:"Recherche, carte 'Create your free account · choose the bookstore you'd like to support'. Encart discret : 'get credits at https://libro.fm'.",ta:"Compte invité mais pas forcé. Le lien web (pas un CTA) renvoie déjà l'achat hors-app.",c:"strict"},
+  {f:"06-book-detail-yesteryear-sample-player.png",ph:"Phase 3 · Fiche livre",t:"Fiche livre · extrait ~4:58",d:"Couverture, 'Bookseller pick', autrice, narratrice, durée 13h47, bouton 'Create an account', lecteur audio à -4:58 (extrait).",ta:"Extrait gratuit plus long qu'Audible/Storytel, mais reste un extrait. CTA d'inscription collé à la fiche.",c:"strict"},
+  {f:"10-out-of-credits-no-purchase-in-app.png",ph:"Phase 5 · Mur de crédit",t:"Out of credits (l'app ne vend pas)",d:"'You are out of credits. While this app doesn't support purchasing, audiobooks bought from Libro.fm can be listened to in this app.'",ta:"Pattern reader app : l'app ne vend pas (contourne la commission Apple). Le mur est un constat, pas un paywall design.",c:"strict"},
+  {f:"03-explore-bestsellers-bookseller-picks.png",ph:"Bonus · Catalogue",t:"Bestsellers / Bookseller picks",d:"Grille de couvertures avec badges 'Bookseller pick'.",ta:"Social proof par les libraires.",c:"bonus"},
+  {f:"04-explore-playlists-recommendations.png",ph:"Bonus · Catalogue",t:"Playlists + recommandations",d:"'New This Week through your local bookshop', playlists, reco 'Uglies' signée '-Amy, Rosemary's Romance Books'.",ta:"Curation éditoriale par des libraires nommés.",c:"bonus"},
+  {f:"05-explore-recommendations-new-releases-genres.png",ph:"Bonus · Catalogue",t:"Recommandations / nouveautés / genres",d:"'Audiobook details', 'New releases', 'Genres'.",ta:"Profondeur de catalogue, navigation classique.",c:"bonus"},
+  {f:"07-book-detail-bookseller-review.png",ph:"Bonus · Fiche livre",t:"Fiche livre + avis libraire",d:"Fiche scrollée, verbatim 'A delightful peek...' signé '-Stevan, Grass Roots Books'.",ta:"Réassurance par recommandation de libraire.",c:"bonus"},
+  {f:"08-choose-a-bookstore-to-support.png",ph:"Bonus · Mission",t:"Choose a bookstore",d:"Liste de librairies (Librairie L'Aurore, REELBOOKS...) + modale 'set the bookstore you support to Librairie L'Aurore · Cancel / Confirm'.",ta:"Mission incarnée : l'utilisateur choisit la librairie qu'il soutient. Trait de positionnement distinctif.",c:"bonus"},
+  {f:"09-notif-opt-in-preorders.png",ph:"Bonus · Notif",t:"Notif opt-in",d:"'Push notifications · Get alerts when your pre-orders become available' + Allow / Don't allow.",ta:"Pre-prompt custom, justifié par les pré-commandes.",c:"bonus"},
+  {f:"11-web-paywall-greater-impact.png",ph:"Bonus · Paywall web",t:"Page web externe (Safari)",d:"URL 'libro.fm'. 'Great audiobooks, greater impact · Become a member and support local bookstores · credits that never expire, 30% discount, exclusive sales' + 'Explore memberships'.",ta:"Argumentaire d'abonnement déporté sur le web (hors-app).",c:"bonus"},
+  {f:"12-web-paywall-pricing-1-2-credits.png",ph:"Bonus · Paywall web",t:"Page web · pricing",d:"'Start your membership'. Monthly 1 credit/month = 9,99 € ('Most popular') · Monthly 2 credits/month = 17,99 €.",ta:"Le prix n'apparaît QUE sur le web. Structure 1 vs 2 crédits.",c:"bonus"},
+  {f:"00-store-libro-fm-listing.png",ph:"Acquisition store",t:"Fiche App Store",d:"'Libro.fm Audiobooks', screenshots 'Buy audiobooks through your local bookstore', 'Over 600,000 DRM-free audiobooks', 'Use credits to get audiobooks in the app'.",ta:"Positionnement mission + abondance + clarté du modèle crédit dès le store.",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

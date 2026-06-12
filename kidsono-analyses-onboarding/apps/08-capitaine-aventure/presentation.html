@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capitaine Aventure · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 08 · Cercle 1 (audio kids francophones)</div>
+    <h1>Capitaine Aventure</h1>
+    <div class="subtitle">Stephanie Giron (développeuse indépendante) · histoires interactives où l'enfant devient le héros (prénom dans le récit), accessibilité DYS/TDAH</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 1 store + 3 strict + 18 bonus</span>
+      <span><b>Note store :</b> 5★ (1 avis, négligeable), Éducation</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">L'enfant devient le héros : son prénom est injecté dans l'histoire, choix interactifs qui changent le récit</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Accessibilité DYS et TDAH : modes dédiés, vraie voix humaine, lecture en duo</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Freemium sans carte (2 histoires offertes), paywall sans essai, développeuse indépendante (Fondateur)</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Freemium authentique (2 histoires offertes) + hard paywall sans essai</div>
+      <div class="note">2 histoires interactives complètes offertes, puis catalogue payant sans période d'essai.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Freemium + abonnement</div>
+      <div class="note">Pas d'essai, pas d'achat à l'unité observé.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">3,99 €/mois <span class="pill green">Bas</span></div>
+      <div class="note">Premium (barré 5,90€), badge Fondateur, jusqu'à 8 profils.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">Aucun</div>
+      <div class="note">Hard paywall direct. Compte Découverte gratuit en alternative.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+      <div class="note">Découverte gratuit + test d'une histoire sans inscription. CB seulement à l'abonnement.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">Différé</div>
+      <div class="note">On teste une histoire offerte sans inscription.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">À la tentative</div>
+      <div class="note">Carte paywall intégrée aux fiches + 'S'inscrire pour accéder au catalogue'.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">2 histoires complètes <span class="pill green">Généreuse</span></div>
+      <div class="note">Offertes en hero, interactives, personnalisées au prénom.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Transparence pricing forte, vraie voix humaine, indie/privacy (hébergé en France). Pas de marque éditeur ni awards.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Faible <span class="dots"><span class="on">●</span><span class="off">○○○○</span></span></div>
+      <div class="note">Lecture en duo, niveau de frisson. Pas de gate adulte ni chrono.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Forte <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+      <div class="note">Âge + modes DYS/TDAH/duo + prénom de l'enfant injecté dans le récit. La plus poussée du corpus.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui <span class="pill green">Présent</span></div>
+      <div class="note">2 histoires interactives complètes offertes, personnalisées au prénom : aha-moment fort.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">Histoires interactives</div>
+      <div class="note">Récit à choix (branché), audio vraie voix, modes DYS/TDAH. Atelier de création (UGC) en Premium.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">1 + 3 + 18</div>
+      <div class="note">1 store + 3 strict + 18 bonus = 22 captures.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 22</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash (entrée rapide) → Home (2 CTA + 2 offertes en hero) → Tap histoire offerte → Âge + modes + prénom (héros) → Histoire interactive (aha) → Catalogue payant (hard paywall)
+   100%                    ~92%                                 ~75%                    ~70%                            ~55% (aha)                  ~30%
+                                                                                                                       → Compte Découverte (sans CB) ou Premium 3,99€ · Abonné : 3-6%   [Estimation]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Transparence pricing</b> · Fort</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Moyen</span>
+      <span class="chip present"><b>Social proof</b> · Faible</span>
+      <span class="chip present"><b>Contrôle parental</b> · Faible</span>
+      <span class="chip present"><b>Souveraineté / vie privée / indie</b> · candidate</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Écosystème / partenariats</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:6px;">Dimension candidate hors typologie : <b>souveraineté / vie privée / authenticité indie</b> (sans pub, hébergé en France, développeuse indépendante badge 'Fondateur'), couplée à l'accessibilité (DYS/TDAH, vraie voix humaine) comme signal de qualité.</p>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Personnalisation par le prénom</b> : l'enfant devient le héros, son prénom est injecté dans le texte du récit. Engagement émotionnel maximal, inédit dans le corpus.</li>
+      <li><b>Histoires interactives à embranchements</b> : chaque choix change réellement le cours du récit (pas de faux choix). Agentivité forte.</li>
+      <li><b>2 histoires offertes complètes</b> poussées en hero + <b>test sans inscription</b> ni carte : aha-moment fort, barrière d'entrée minimale.</li>
+      <li><b>Garantie 'histoires à vie après résiliation'</b> : argument anti-anxiété de résiliation, rare et malin.</li>
+      <li><b>Accessibilité DYS & TDAH</b> (modes dédiés, vraie voix humaine, lecture en duo) et <b>Atelier de Création (UGC)</b> en Premium.</li>
+      <li><b>Parrainage</b> intégré à l'inscription (acquisition virale) + positionnement privacy (sans pub, hébergé en France).</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Prénom + interactivité = engagement émotionnel maximal.</li><li>Accessibilité DYS/TDAH + vraie voix humaine.</li><li>Transparence pricing (garantie post-résiliation), freemium sans CB.</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Hard paywall sans essai : peut freiner les indécis.</li><li>Trust externe quasi nul (dev solo, pas de marque ni cautions).</li><li>Flow non linéaire, un peu confus. Pérennité (créateur indépendant).</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>En avance sur la personnalisation (prénom) et l'interactivité.</li><li>Exemplaire sur la transparence et la garantie post-résiliation.</li><li>Atypique par son statut indie (qualité surprenante, sans cautions d'éditeur).</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Personnalisation au prénom (l'enfant devient le héros) + histoires interactives à choix.</li><li>Garantie 'contenus à vie après résiliation' + transparence pricing.</li><li>Accessibilité DYS/TDAH + vraie voix humaine. Parrainage. Freemium sans CB.</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Flow non linéaire confus (clarifier l'ordre onboarding/perso).</li><li>Hard paywall sans aucun essai si la cible parentale est hésitante.</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Atelier de Création (UGC) en premium comme feature d'engagement/rétention.</li><li>Indicateur 'niveau de frisson' sur les fiches (réassurance parentale).</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"00-app-store-fiche.png",ph:"Acquisition · Store",t:"Fiche App Store",d:"'Capitaine Aventure - Histoires', Stephanie Giron, Éducation, 5★ (1 avis). 'Des aventures à lire', 'Tu choisis la suite', 'Nouvelles histoires chaque semaine'.",ta:"Promesse claire d'histoires interactives à choix. App d'auteur indépendant.",c:"store"},
+  {f:"01-transition-degrade.png",ph:"Phase 1 · Entrée",t:"Transition (dégradé)",d:"Frame de transition au lancement (capture estompée, chat Yuki + demande de notif iOS). Conservée pour la complétude.",ta:"Demande de notification iOS très précoce.",c:"strict"},
+  {f:"02-splash-logo.png",ph:"Phase 1 · Entrée",t:"Splash logo",d:"Logo 'Capitaine Aventure' + enfant héros + chat blanc Yuki, fond doux.",ta:"Identité de marque chaleureuse, le duo enfant + Yuki est le fil conducteur.",c:"strict"},
+  {f:"03-home-landing-cta.png",ph:"Phase 1 · Accueil",t:"Home, landing (2 CTA)",d:"'Ton aventure commence ici', 'Tester Capitaine Aventure' (gradient) et 'Débloquer toute la magie'. Section 'Histoires offertes à découvrir'.",ta:"Double porte d'entrée (tester gratuit vs s'abonner). 'Tester' minimise l'engagement.",c:"strict"},
+  {f:"04-bonus-home-scroll-offerte-reine-neiges.png",ph:"Bonus · Accueil",t:"Offerte (Reine des Neiges)",d:"Carte 'La Quête du Cœur Gelé de la Reine des Neiges' (histoire offerte, visuel premium).",ta:"Mise en hero des histoires offertes, qualité perçue élevée.",c:"bonus"},
+  {f:"05-bonus-home-scroll-offerte-chaperon-rouge.png",ph:"Bonus · Accueil",t:"Offerte (Chaperon Rouge) + Premium",d:"Carte 'Le Mystère du Chaperon Rouge' (2e offerte) + 'Explorer le catalogue Premium' + 'Pourquoi Capitaine Aventure ?'.",ta:"2 offertes identifiées (frustration positive), passerelle vers le payant.",c:"bonus"},
+  {f:"06-bonus-home-scroll-pourquoi.png",ph:"Bonus · Accueil",t:"Pourquoi Capitaine Aventure (8 atouts)",d:"Interactives, vraie voix humaine, DYS & TDAH, autonomie ou partagée, prénom affiché, Yuki, sans pub & vie privée, nouveautés chaque semaine.",ta:"Argumentaire de valeur dense, orienté parent (accessibilité, sécurité).",c:"bonus"},
+  {f:"07-bonus-test-sans-inscription-age.png",ph:"Bonus · Personnalisation",t:"Test sans inscription + âge",d:"'Testez une histoire sans inscription. Votre enfant est le héros. Chaque choix change l'histoire.' Badges Audio / Dyslexie / Sans pub. Âge 4-6 / 7-9 / 10-12.",ta:"'Sans inscription' lève la barrière. Réaffirme le pitch (héros, choix).",c:"bonus"},
+  {f:"08-bonus-age-modes-dys-tdah-duo.png",ph:"Bonus · Personnalisation",t:"Âge + modes (DYS / TDAH / duo)",d:"Âge (4-6 sélectionné) + 'Personnalisez la lecture' : lecture en duo, mode Dyslexie (DYS), mode TDAH (animations & effets).",ta:"Personnalisation riche et inclusive. Accessibilité au même niveau que l'âge. Différenciant fort.",c:"bonus"},
+  {f:"09-bonus-fiche-histoire-offerte-foret.png",ph:"Bonus · Fiche gratuite",t:"Fiche offerte (Forêt, Gratuit)",d:"'La Grande Aventure dans la Forêt', 4-6 ans, 10-15 min, badge vert 'Gratuit', play. 'Une forêt magique t'attend !'.",ta:"Fiche offerte, visuel immersif, durée annoncée (rassure le parent).",c:"bonus"},
+  {f:"10-bonus-fiche-paywall-debut.png",ph:"Bonus · Paywall",t:"Fiche + début paywall intégré",d:"'Lire l'histoire offerte' + début 'Découvrez l'expérience Premium' (3,99€/mois, illimité, 8 profils, Mode Auteur, Grand Voyage).",ta:"Paywall intégré à la fiche de l'histoire gratuite (upsell contextuel).",c:"bonus"},
+  {f:"11-bonus-paywall-premium-complet.png",ph:"Bonus · Paywall",t:"Paywall Premium (complet)",d:"5,90€ barré → 3,99€/mois, illimité, 8 profils, Atelier de Création, Mode Grand Voyage, 0 pub, sans engagement. 'Vos histoires restent disponibles à vie, même après résiliation.'",ta:"Garantie 'histoires à vie après résiliation' = anti-anxiété rare. Prix bas. Atelier = UGC.",c:"bonus"},
+  {f:"12-bonus-modal-prenom.png",ph:"Bonus · Personnalisation",t:"Modal prénom (l'enfant devient le héros)",d:"'Quel est ton prénom, jeune aventurier ? Le prénom apparaîtra dans l'histoire.' C'est parti / Annuler.",ta:"Personnalisation par le prénom. Engagement émotionnel fort. Inédit dans le corpus.",c:"bonus"},
+  {f:"13-bonus-lecture-interactive-chaperon.png",ph:"Bonus · Aha-moment",t:"Lecture interactive (Chaperon + Yuki)",d:"Lecteur : illustration (enfant chaperon + Yuki), texte, barre d'outils (menu, profils, DYS, audio). 'Ta maman t'a confié une mission… reste sur le chemin… Yuki…'.",ta:"Récit immersif, Yuki compagnon récurrent, audio (vraie voix) + texte (lecture DYS).",c:"bonus"},
+  {f:"14-bonus-choix-interactif-prenom-thelma.png",ph:"Bonus · Aha-moment",t:"Choix interactif personnalisé (Thelma)",d:"'Par où vas-tu commencer, Thelma ?' 2 choix : 'chemin habituel vers grand-mère' / 'couper par le sous-bois pour enquêter'.",ta:"Embranchement narratif + prénom dans le texte. Cœur de la proposition. Engagement maximal.",c:"bonus"},
+  {f:"15-bonus-suite-recit-loup.png",ph:"Bonus · Aha-moment",t:"Suite du récit selon le choix (le loup)",d:"Le récit suit le choix 'chemin habituel' : apparition d'un grand loup gris.",ta:"Conséquence narrative réelle du choix (pas un faux choix). Renforce l'agentivité.",c:"bonus"},
+  {f:"16-bonus-catalogue-premium-filtres.png",ph:"Bonus · Catalogue",t:"Catalogue Premium (filtres)",d:"'Découvrir le catalogue Premium', filtres Thème / Savoirs / Code. Cartes 'Premium'.",ta:"Catalogue riche, filtres par thème et savoir (angle éducatif). 'Code' = initiation au code.",c:"bonus"},
+  {f:"17-bonus-catalogue-scroll.png",ph:"Bonus · Catalogue",t:"Catalogue scroll",d:"'Le Vœu Interdit d'Aladdin', 'Les Trois Petits Cochons et le Secret du Loup' (badges Premium).",ta:"Revisites de contes classiques en interactif. Catalogue qui s'enrichit chaque semaine.",c:"bonus"},
+  {f:"18-bonus-fiche-premium-gated.png",ph:"Bonus · Catalogue",t:"Fiche Premium (gated)",d:"Fiche 'Les Trois Petits Cochons et le Secret du Loup' (Premium), 'S'inscrire pour accéder au catalogue'.",ta:"Le payant est consultable (fiche, visuel) mais l'accès demande l'inscription/abonnement.",c:"bonus"},
+  {f:"19-bonus-fiche-premium-a-propos.png",ph:"Bonus · Catalogue",t:"Fiche Premium (à propos)",d:"'À propos de cette histoire', 'Durée estimée 10-15 min', 'Niveau de frisson : Doux', 'Thèmes abordés…'.",ta:"Métadonnées rassurantes (durée, niveau de frisson, thèmes). Indicateur parental malin.",c:"bonus"},
+  {f:"20-bonus-creer-compte-decouverte-premium.png",ph:"Bonus · Compte",t:"Créer un compte (Découverte / Premium)",d:"Découverte Gratuit (1 profil, les 2 offertes, sans carte bancaire) et Premium (5,90€ → 3,99€/mois, badge 'Fondateur', illimité, 8 profils, atelier, sans pub, pré-sélectionné). Prénom parent, Email, Mot de passe.",ta:"2 tiers clairs. Gratuit sans CB lève la barrière ; Premium pré-sélectionné (nudge). Badge 'Fondateur' = indie + early-adopter.",c:"bonus"},
+  {f:"21-bonus-creer-compte-scroll.png",ph:"Bonus · Compte",t:"Créer un compte (scroll)",d:"Checkbox marketing ('désinscription à tout moment'), 'Code de parrainage (optionnel)', 'Créer mon compte Premium', 'Renouvellement auto 3,99€/mois, résiliable', 'aucune inscription requise', 'Sans pub, hébergé en France'.",ta:"Transparence (renouvellement auto, résiliable), parrainage (viral), privacy (hébergé en France).",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'store',t:'Acquisition store (pré-install)'},{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>(s.c||'strict')===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

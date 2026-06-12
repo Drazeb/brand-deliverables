@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Eggs · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés (compactes, avec mini-explication du jargon) */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue (volontairement plus discret) */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable (derrière un bouton) */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 22 · Cercle 3 (mastodonte / référence internationale)</div>
+    <h1>Reading Eggs</h1>
+    <div class="subtitle">Programme d'apprentissage de la lecture (et des maths) gamifié, primé et adossé aux écoles, pour les 2-13 ans. Édité par Blake eLearning (3P Learning, Australie).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">Australie</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data"><b>À venir</b> : app encore absente du CSV <code>_data/vitalite-notoriete.csv</code> (collecte sur store dominant en attente).</div>
+        <div class="src">Vitalité = récence des mises à jour + activité d'avis récente sur le store dominant. À compléter par la session data.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data"><b>À venir</b> : notoriété à mesurer sur le store dominant (US/AU), pas FR (37 avis FR = sous-estimation massive vu l'adoption mondiale revendiquée de 20 M d'enfants).</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Échelle log par décades, voir 00-typologie. À compléter par la session data.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Reverse trial</div><div class="knote">essai 30 j puis prélèvement auto, CB d'emblée</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval"><b>Persuasion avancée</b> + <b>Trust-building</b></div><div class="knote">hybride : vidéo explainer dominante + bloc awards/certifs réel</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Hard paywall</div><div class="knote">rien de complet sans payer, aucune leçon avant la CB</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Requise ✅</div><div class="knote">Apple Pay obligatoire, aucun skip sur le paywall</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">30 jours</div><div class="knote">sur le mensuel ; l'annuel est facturé immédiatement</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div><div class="knote">awards, kidSAFE COPPA, 20 M enfants, 16 000 écoles</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Vidéo explainer auto-play skippable en ouverture (persuasion poussée)</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Bloc trust massif : certifications tierces réelles (COPPA, awards) + 20 M d'enfants / 193 pays / 16 000 écoles</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Hard paywall sec : zéro valeur vécue gratuitement avant la carte bleue</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de la vidéo d'intro au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Vidéo explainer auto-play (Skip OK)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-trust)"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Carrousel 7 slides (slide awards #12)</div><span class="fbadge">Trust</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~45%</div><div class="fnode"><div class="fn-i">Étape 3 · 1/4</div><div class="fn-t">Création de compte (email + mdp)</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~30%</div><div class="fnode"><div class="fn-i">Étape 4 · 2/4</div><div class="fn-t">Paywall « Choose your plan »</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~15%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Apple Pay · CB REQUISE</div><span class="fbadge">CB</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-flow)"><div class="pct">~12%</div><div class="fnode"><div class="fn-i">Étape 6 · 4/4</div><div class="fn-t">Add child (perso, POST-paiement)</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~12%</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Trial started + profils + leçons + placement test</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">5-9%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Essai CB ~12% · Payé ~5-9%</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Position du compte</div><div class="v">Précoce, étape 1/4, juste avant le paywall</div><div class="note">Exigé AVANT toute valeur produit (aucune leçon jouée).</div></div>
+      <div class="fr"><div class="lab">Position du paywall</div><div class="v">Étape 2/4, immédiatement après le compte</div><div class="note">Mur sec : pas de skip, Apple Pay obligatoire. Perso enfant seulement APRÈS paiement.</div></div>
+    </div>
+    <div class="flow-est">Jalons (vidéo, compte, mur Apple Pay) : [Solide]. Pourcentages : [Estimation] directionnelle, non mesurée.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">18 écrans d'onboarding strict + 6 bonus post-paiement + 1 fiche store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 25</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Persuasion avancée + Trust-building</div>
+        <div class="note">Hybride : vidéo explainer dominante (persuasion poussée) + bloc awards/certifications tierces réel (composante trust).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Reverse trial</div>
+        <div class="note">Essai 30 j (mensuel), CB requise d'emblée, prélèvement auto ensuite.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">14,99 €/mois <span class="pill amber">Élevé</span></div>
+        <div class="note">Ou annuel 89,99 € (179 € barré, Save 50%, renouvelle à 119,99 €). Accès jusqu'à 4 enfants.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">30 jours</div>
+        <div class="note">Mis en avant sur le mensuel uniquement. L'annuel est facturé immédiatement.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Requise <span class="pill red">Barrière</span></div>
+        <div class="note">Apple Pay obligatoire pour démarrer l'essai (carte ...1045 vérifiée). Aucun skip.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Hard paywall <span class="pill red">Avare</span></div>
+        <div class="note">Rien de complet sans payer : vidéo + carrousel = marketing, leçons seulement après la CB.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Non <span class="pill red">Absent</span></div>
+        <div class="note">Aha niveau 1 = Non (aucune leçon avant la CB). Niveau 2 = Non (rien d'imposé avant le mur).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Programmes couverts</div>
+        <div class="val">6 programmes</div>
+        <div class="note">Reading Eggs Junior, Reading Eggs, Fast Phonics, Reading Eggspress, Mathseeds, Mathseeds Prime.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> <b>hard paywall</b> (aucun contenu complet sans payer) débloqué par un <b>reverse trial</b> (30 j gratuits sur le mensuel, carte bleue requise) à 14,99 €/mois ou 89,99 €/an. La conviction passe par une <b>vidéo explainer</b> + un <b>carrousel de 7 slides</b> et un <b>bloc trust massif</b> (awards, COPPA, 20 M d'enfants), pas par un essai produit gratuit.</div>
+    <ul class="blist">
+      <li><b>Valeur vécue gratuitement : non.</b> Le parent doit s'inscrire ET payer (CB) avant d'avoir vu une seule leçon. Le risque de drop au mur est compensé par la notoriété mondiale et la caution écoles.</li>
+      <li><b>Trial asymétrique :</b> 30 jours mis en avant sur le mensuel ; l'annuel (mieux margé) est facturé immédiatement avec ancrage prix barré (179 € → 89,99 €). Dark pattern d'orientation.</li>
+      <li><b>Persuasion + trust en substitut d'aha :</b> vidéo animée + 7 slides + slide awards dédiée remplacent l'expérience produit gratuite.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Précoce <span class="pill red">Avant valeur</span></div>
+        <div class="note">Étape 1/4, juste avant le paywall. Exigé sans qu'aucune leçon n'ait été jouée.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Étape 2/4 <span class="pill red">Précoce</span></div>
+        <div class="note">Immédiatement après le compte. Mur sec, pas de skip.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Simple <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Prénom + année de naissance, mais APRÈS le paiement (#20). Placement test post-paiement.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">18 + 6 + 1</div>
+        <div class="note">18 onboarding strict + 6 bonus post-paiement + 1 fiche store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">Awards multiples + kidSAFE COPPA + 20 M enfants / 193 pays / 16 000 écoles. Certifications tierces réelles.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Persuasion</div>
+        <div class="val">Forte <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+        <div class="note">Vidéo explainer auto-play + carrousel 7 slides bénéfices + double CTA persistant.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent · 10 dimensions)</div>
+    <div class="chips">
+      <span class="chip present"><b>Awards / récompenses</b> · Massif</span>
+      <span class="chip present"><b>Stats adoption</b> · Massif</span>
+      <span class="chip present"><b>Cautions experts / écoles</b> · Fort</span>
+      <span class="chip present"><b>Protection enfant (COPPA)</b> · Fort</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Écosystème / partenariats</b> · Moyen</span>
+      <span class="chip present"><b>Transparence pricing</b> · Moyen</span>
+      <span class="chip present"><b>Social proof affectif</b> · Faible</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Logos presse</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Persuasion vidéo skippable</b> : montage promo animé (logo, awards, globe, 91 %, sujets, échelle d'âges, phonics) en ouverture, avec « Skip video » pour l'utilisateur pressé.</li>
+      <li><b>Trust par certifications tierces réelles</b> : kidSAFE COPPA, Mom's Choice, Smart Media, Brain Toy, TCA, Junior Design Awards. Pas de la simple preuve sociale, des labels tiers vérifiables.</li>
+      <li><b>Social proof chiffré massif</b> : « 20 millions d'enfants », « 193 pays », « 16 000 écoles », « 91 % ». Slide #12 entièrement dédiée.</li>
+      <li><b>Argument de rétention vendu tôt</b> : « Grows with your child, ages 2-13 » répété (vidéo + 2 slides). On vend la durée de vie de l'abonnement avant de payer.</li>
+      <li><b>Sceau de confiance contextuel</b> : kidSAFE COPPA réaffiché pile au moment de saisir les données de l'enfant (#20).</li>
+      <li><b>Frictions / dark patterns légers</b> : trial asymétrique (mensuel seul), opt-out marketing inversé à double négation, CB requise d'emblée, aucun skip sur le paywall.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Machine de persuasion + réassurance complète (vidéo + carrousel + trust).</li><li>Bloc trust massif : awards + COPPA + 20 M enfants + écoles.</li><li>Le trust compense intelligemment l'absence d'essai produit.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Hard paywall sec : zéro valeur vécue avant la CB.</li><li>Pari risqué pour une marque peu installée en France.</li><li>Trial asymétrique + opt-out inversé : défiance, churn.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>Standard du segment (Epic!, Pickatale, Vooks aussi en hard paywall CB).</li><li>En avance sur l'intensité du bloc trust.</li><li>Contrarian sur l'absence totale d'aha gratuit.</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Slide trust dédiée (awards + cautions), mais en version éditoriale FR (Gallimard, EdL, Bayard) plus crédible.</li><li>Sceau RGPD/sécurité réaffiché au moment de saisir les données enfant.</li><li>Argument « grandit avec l'enfant » pour vendre la rétention tôt.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Hard paywall sec sans aucune valeur vécue gratuitement (drop au mur pour un nouvel entrant).</li><li>Trial caché sur un seul plan + annuel facturé immédiatement.</li><li>Opt-out marketing à double négation.</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Vidéo explainer skippable vs carrousel statique (prod vs conversion).</li><li>Une écoute complète offerte avant le mur (modèle crédit) vs hard paywall.</li><li>Perso enfant après paiement vs avant (friction vs engagement).</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"02-video-intro-logo.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : logo animé + Skip",d:"Vidéo auto-play letterboxée. Logo Reading Eggs animé + mascotte-oeuf qui salue, ciel et nuages. Bouton « Skip video » persistant.",ta:"Persuasion poussée dès la 1re seconde, sortie laissée (skip) pour l'utilisateur pressé.",c:"strict"},
+  {f:"03-video-awards-badges.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : awards / badges",d:"Grille de sceaux : kidSAFE+ COPPA, Smart Media, Brain Toy, Mom's Choice, Junior Design Awards, TCA…",ta:"Trust-building intégré dans la vidéo : certifications tierces réelles, pas de la simple preuve sociale.",c:"strict"},
+  {f:"04-video-globe-monde.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : globe mondial",d:"Un globe entouré d'enfants du monde entier, fond étoilé.",ta:"Signal d'adoption mondiale (préfigure « 193 pays »).",c:"strict"},
+  {f:"05-video-stat-91pct.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : stat 91 %",d:"Jauge circulaire « 91 % » entourée d'enfants.",ta:"Social proof chiffré (taux d'efficacité / satisfaction mis en scène).",c:"strict"},
+  {f:"06-video-grille-sujets.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : grille de sujets",d:"Grille d'icônes colorées des matières / domaines couverts.",ta:"Preuve d'abondance et de largeur du programme.",c:"strict"},
+  {f:"07-video-map-jeu.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : carte de jeu (Map)",d:"Frame de gameplay : « map » de progression gamifiée. Image de qualité moyenne, légèrement floue.",ta:"Montrer l'expérience produit gamifiée pour créer l'envie. Production edtech, pas premium narrative.",c:"strict"},
+  {f:"08-video-echelle-ages.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : échelle d'âges 2-13",d:"Rangée d'enfants de tailles croissantes, « Ages 2-13 ».",ta:"Argument « grandit avec l'enfant » : durée de vie longue de l'abonnement (rétention vendue tôt).",c:"strict"},
+  {f:"09-video-train-phonics.png",ph:"Phase 1 · Vidéo explainer",t:"Vidéo : train phonics",d:"Frame de gameplay : train de wagons portant des lettres (o, n, i). Frames floues.",ta:"Illustrer la méthode pédagogique (phonics) de façon ludique.",c:"strict"},
+  {f:"10-carrousel-1-learn-30-jours.png",ph:"Phase 2 · Carrousel",t:"Slide 1/7 · Learn in 30 days for FREE",d:"Bandeau magenta. « The multi-award winning reading and maths program. Backed by science and designed by experts. » Double CTA persistant.",ta:"Accroche « gratuit 30 jours » + trust (« multi-award », « backed by science »).",c:"strict"},
+  {f:"11-carrousel-2-phonics-fun.png",ph:"Phase 2 · Carrousel",t:"Slide 2/7 · Easy and fun",d:"Bandeau bleu. « Children love the interactive phonics games, fun characters and motivating rewards. » Petite fille en joie + captures de jeux.",ta:"Émotion enfant + promesse de plaisir d'apprentissage.",c:"strict"},
+  {f:"12-carrousel-3-awards-trust.png",ph:"Phase 2 · Carrousel",t:"Slide 3/7 · Awards + stats (slide trust)",d:"« Trusted by teachers and loved by children. Used by more than 16,000 school and 20 million children worldwide. » Grille de sceaux (kidSAFE COPPA, Smart Media, Brain Toy, Mom's Choice, TCA, Junior Design Awards) + panneau « 20 MILLION children in 193 COUNTRIES » + trophée.",ta:"Trust-building massif et concentré : certifications tierces réelles + stats d'adoption + caution écoles. Point distinctif de l'app.",c:"strict"},
+  {f:"13-carrousel-4-curriculum.png",ph:"Phase 2 · Carrousel",t:"Slide 4/7 · Complete reading curriculum",d:"Bandeau bleu. « Thousands of learning activities, lessons and e-books for children ages 2-13. » Enfant dans une bibliothèque.",ta:"Preuve d'abondance (milliers d'activités) + couverture d'âge large.",c:"strict"},
+  {f:"14-carrousel-5-grows-with-child.png",ph:"Phase 2 · Carrousel",t:"Slide 5/7 · Grows with your child",d:"Bandeau magenta. « Programs are tailored for children aged 2-13. » Enfants d'âges croissants alignés.",ta:"Argument de progression / rétention longue (reprend l'échelle d'âges de la vidéo).",c:"strict"},
+  {f:"15-carrousel-6-proven-results.png",ph:"Phase 2 · Carrousel",t:"Slide 6/7 · Proven results",d:"Bandeau bleu. « It only takes 15 minutes a day to improve your child's reading and mathematics skills. » Enfant souriant + tableau de progression (Map 10).",ta:"Preuve de résultat + faible coût d'effort (15 min/jour) : rassure le parent sur la faisabilité.",c:"strict"},
+  {f:"16-carrousel-7-programmes-ages.png",ph:"Phase 2 · Carrousel",t:"Slide 7/7 · A whole world of learning",d:"Bandeau magenta. « Access all premium reading and mathematics learning programs, for up to four children. » Grille de 6 programmes par âge.",ta:"Preuve d'abondance de l'offre + valeur famille (« up to 4 children ») juste avant le mur.",c:"strict"},
+  {f:"17-compte-creation.png",ph:"Phase 3 · Le mur",t:"Création de compte (1/4)",d:"Barre 1/4. « Create your account. Free for 30 days and only 14,99 € per month after. » Email + Password. Case marketing opt-out inversé. « Create Account ».",ta:"Compte exigé AVANT toute valeur produit. Double négation de la case marketing = dark pattern léger.",c:"strict"},
+  {f:"18-paywall-choose-plan.png",ph:"Phase 3 · Le mur",t:"Paywall · Choose your plan (2/4)",d:"Barre 2/4. Monthly 14,99 €/mois avec badge « 30-day free trial » (par défaut). Yearly 89,99 € (179 € barré, « Sale », « Save 50% », renouvelle 119,99 €). « Subscribe ». « No commitment. Cancel anytime. »",ta:"Trial badgé sur le mensuel uniquement ; l'annuel facturé immédiatement avec ancrage prix barré. Dark pattern d'orientation.",c:"strict"},
+  {f:"19-applepay-cb-requise.png",ph:"Phase 3 · Le mur",t:"Apple Pay · CB requise",d:"Feuille Apple Pay native. Carte « ...1045 », « Reading Eggs+Mathseeds Monthly », « Essai gratuit pendant 1 mois », « 14,99 € par mois ». « Confirmez avec le bouton latéral ».",ta:"Carte bleue OBLIGATOIRE pour démarrer l'essai (reverse trial). Aucun skip. Mur dur de l'onboarding.",c:"strict"},
+  {f:"20-add-child-perso.png",ph:"Bonus · Post-paiement",t:"Add your child (perso, post-paywall)",d:"Barre 4/4. « Add your child. » Prénom de l'enfant + année de naissance. Sceau kidSAFE+ COPPA réaffiché sous le formulaire. « Finish Setup ».",ta:"Personnalisation enfant APRÈS le paiement (réduit la friction pré-CB). Sceau COPPA réaffiché pile au moment de saisir les données de l'enfant.",c:"bonus"},
+  {f:"21-trial-started.png",ph:"Bonus · Post-paiement",t:"Trial started",d:"Écran festif (confettis, mascotte-oeuf qui célèbre). « Your 30-day FREE trial has started! » Bouton « Let's Get Started! ».",ta:"Récompense émotionnelle / soulagement après la friction du paiement.",c:"bonus"},
+  {f:"22-whos-learning-profils.png",ph:"Bonus · Post-paiement",t:"Who's learning ? (profils)",d:"Fond jaune. « Who's learning? » Avatar « Thelma » (poussin) + « + Add a Child ».",ta:"Sélecteur multi-profils (jusqu'à 4 enfants). Valeur famille concrétisée.",c:"bonus"},
+  {f:"23-home-launch-lessons.png",ph:"Bonus · Post-paiement",t:"Home + Launch Lessons",d:"Home du profil. Vidéo de présentation + « Welcome to Reading Eggs. This program is suitable for children aged 3-7 years. Try a lesson today. » « Launch Lessons » + « Child QR Code Login ».",ta:"La vraie valeur produit (les leçons) n'est accessible qu'ICI, après le trial déclenché avec CB.",c:"bonus"},
+  {f:"24-placement-test-choix.png",ph:"Bonus · Post-paiement",t:"Placement Test (choix niveau)",d:"« Placement Test. This will assess what your child knows about reading. » Deux choix : « Some reading skills » (Start Placement Test) ou « No reading skills » (Start At Lesson 1).",ta:"Adaptation du parcours au niveau réel de l'enfant (perso pédagogique post-paiement).",c:"bonus"},
+  {f:"25-placement-test-reggie.png",ph:"Bonus · Post-paiement",t:"Placement Test intro (Reggie)",d:"Intro du test de placement avec la mascotte (Reggie).",ta:"Guidage gamifié par mascotte pour démarrer l'évaluation.",c:"bonus"},
+  {f:"01-store-listing.png",ph:"Acquisition store",t:"Fiche App Store",d:"Recherche « reading eggs ». « Reading Eggs - Learn to Read », Blake eLearning, catégorie Éducation, 37 avis (store FR). Screenshots : « Learn to read the FUN way », « Grows with your child AGES 2-13 ».",ta:"Positionnement vendu : programme complet qui grandit avec l'enfant. Epic! juste en dessous (concurrent du segment).",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

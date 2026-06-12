@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gulli · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip.alert { background:var(--c-barrier-soft); border-color:#f3b9b5; color:var(--c-barrier); font-weight:700; text-decoration:none; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 09 · Cercle 1 (audio kids francophones)</div>
+    <h1>Gulli</h1>
+    <div class="subtitle">Plateforme jeunesse : vidéos (dessins animés), audio (podcasts, contes, comptines, musiques) et jeux, gratuit financé par la pub</div>
+    <div class="hero-meta">
+      <span><b>Éditeur :</b> Gulli (groupe M6 / TF1)</span>
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 1 store + 4 strict + 11 bonus</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">Tout gratuit, financé par la publicité (modèle TV / AVOD), pas de paywall</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Accès direct au catalogue grâce à la marque Gulli (M6/TF1), gate parental à l'entrée</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">3 univers en 1 : Vidéo (dessins animés), Audio (podcasts/contes/comptines/musiques), Jeux</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Accès direct, tout gratuit (financé par la pub)</div>
+      <div class="note">Brand pull (marque Gulli M6/TF1), pas de paywall.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Publicité (AVOD)</div>
+      <div class="note">Pub pré-roll + tracking. Pas d'abonnement observé.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">Gratuit <span class="pill green">Gratuit</span></div>
+      <div class="note">Financé par la pub. Offre premium GulliMax non observée.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">Sans objet</div>
+      <div class="note">Pas de tier payant observé.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+      <div class="note">Tout gratuit, aucune CB.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">Optionnel</div>
+      <div class="note">'Découvrir sans s'identifier' mène direct au catalogue.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du paywall</div>
+      <div class="val">Aucun <span class="pill green">Pas de paywall</span></div>
+      <div class="note">Monétisation pub + tracking, pas de mur payant.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Tout le catalogue <span class="pill green">Total</span></div>
+      <div class="note">Vidéo + audio + jeux, intégralité gratuite.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Marque Gulli M6/TF1 forte, licences connues, gate parental. Mais pub + tracking dans une app enfants.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Gate parental (saisie de nombres). Pas de chrono.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Légère <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+      <div class="note">Compte optionnel (favoris), sélection d'âge.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui <span class="pill green">Présent</span></div>
+      <div class="note">Tout le catalogue accessible gratuitement (pas de conversion payante : modèle pub).</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">3 univers</div>
+      <div class="note">Vidéo (dessins animés), Audio (podcasts/contes/comptines/musiques), Jeux.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">1 + 4 + 11</div>
+      <div class="note">1 store + 4 strict + 11 bonus = 16.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 16</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash logo → Gate parental (nombres) + ATT → Identify (optionnel, skippable) → Catalogue Vidéo / Audio / Jeux → Lecture + PUB pré-roll
+   100%          ~90%                              ~85%                            ~80%                            consommation
+                                                    │                                                             (gratuite, ad-funded)
+                                              Découvrir sans s'identifier
+
+Pas de funnel de conversion payante. Le seul "filtre" est le gate parental + la demande de tracking (ATT).
+La valeur est immédiate et totale (tout gratuit). Le modèle repose sur le volume d'audience et la pub.   [Estimation pour les %]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Autorité éditoriale / marques</b> · Fort</span>
+      <span class="chip present"><b>Preuve d'abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Contrôle parental</b> · Moyen</span>
+      <span class="chip absent">Transparence pricing (sans objet)</span>
+      <span class="chip absent">Social proof</span>
+      <span class="chip absent">Écosystème / partenariats</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+      <span class="chip alert">Signal anti-trust : pub + tracking dans une app enfants</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Modèle AVOD (gratuit financé par la pub)</b> : tout le catalogue est gratuit, monétisation par pub pré-roll + tracking. Pas de paywall.</li>
+      <li><b>Brand pull</b> : marque Gulli (M6/TF1) + licences connues (Totally Spies, Les Sisters, Marsupilamis, Underdog) = accès direct, pas besoin d'argumentaire.</li>
+      <li><b>3 univers en 1</b> : Vidéo (dessins animés) + Audio (podcasts, contes, comptines, musiques) + Jeux. Le "3 en 1" est l'argument store.</li>
+      <li><b>Compte 100% optionnel</b> : "Découvrir sans s'identifier" assumé. Le compte ne sert qu'à la perso (favoris).</li>
+      <li><b>Cross-format des licences</b> : les mêmes héros déclinés en vidéo ET en audio (Les Sisters, Totally Spies).</li>
+      <li><b>Abondance chiffrée</b> : 399 histoires, 500 musiques, 80 comptines, 60 émissions (côté audio seul).</li>
+      <li><b>Tracking publicitaire (ATT) demandé tôt</b> : monétisation data.</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Gratuit total, accès immédiat.</li><li>Marque et licences fortes.</li><li>3 univers (vidéo + audio + jeux), catalogue très abondant.</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Pub + tracking dans une app enfants : repoussoir parents premium, risque réglementaire.</li><li>Pas de modèle d'abonnement (peu transposable pour Kidsono).</li><li>Note store moyenne (3★).</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>Modèle distinct (AVOD gratuit) vs le reste du corpus (abonnement/freemium).</li><li>Borne basse "gratuit + pub".</li><li>Standard du modèle TV jeunesse porté en app.</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:6px;">Gulli est avant tout un <b>contre-modèle de positionnement</b> : il incarne l'option "gratuite mais avec pub et tracking" que les familles ont déjà. Kidsono se situe naturellement à l'opposé (premium, sans pub, respect des données).</p>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Cross-format : un même univers/héros décliné vidéo ET audio.</li><li>Abondance chiffrée par catégorie (X histoires, Y musiques, Z comptines).</li><li>Compte optionnel (faible friction d'entrée, skip assumé).</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Publicité dans une app enfants (repoussoir du public premium).</li><li>Tracking publicitaire / collecte de données sur les enfants.</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Argumentaire "pourquoi payer Kidsono alors que Gulli est gratuit" : qualité, sans pub, sécurité des données, encadrement (temps d'écran).</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"00-app-store-fiche.png",ph:"Acquisition · Store",t:"Fiche App Store",d:"'gulli VIDEOS, AUDIOS & JEUX', Jeunesse TV / Divertissement, 3★ (63 avis). Screenshots '3 offres en 1', vidéo, audio/podcasts/comptines. Concurrent Okoo visible en dessous.",ta:"Promesse '3 en 1' (vidéo + audio + jeux), marque TV connue (brand pull).",c:"store"},
+  {f:"01-splash-logo.png",ph:"Phase 1 · Accueil",t:"Splash logo",d:"Logo gulli (blob vert) sur dégradé cyan.",ta:"Marque TV jeunesse instantanément reconnaissable (brand pull).",c:"strict"},
+  {f:"02-appelle-un-adulte.png",ph:"Phase 1 · Gate adulte",t:"Appelle un adulte",d:"Mascotte (raton masqué) + icône cadenas : 'Pour retrouver tes héros, appelle un adulte !', bouton Suivant.",ta:"Intro du gate parental, formulée pour l'enfant. Sécurité enfant mise en avant.",c:"strict"},
+  {f:"03-gate-parental-att.png",ph:"Phase 1 · Gate adulte",t:"Gate parental + ATT iOS",d:"'Sécurité enfant : entre en chiffres les nombres suivants : Sept - Six - Sept' + pavé numérique. Pop-up ATT iOS par-dessus ('Autoriser Gulli à suivre vos activités…').",ta:"Gate parental (filtre enfant) qui protège la zone compte. La demande de tracking publicitaire (ATT) apparaît ici : monétisation data assumée.",c:"strict"},
+  {f:"04-identifiez-vous-decouvrir-sans-compte.png",ph:"Phase 1 · Compte",t:"Identifiez-vous (compte optionnel)",d:"'Identifiez-vous : profitez d'une expérience personnalisée et sécurisée'. Email/pseudo + mot de passe + Connexion + Créer un compte. Panneau 'Accéder à l'application rapidement… Découvrir sans s'identifier'.",ta:"Compte 100% optionnel. Le skip ('Découvrir sans s'identifier') est explicite et assumé. Le compte ne sert qu'à la perso (favoris).",c:"strict"},
+  {f:"05-bonus-home-video-lana.png",ph:"Bonus · Catalogue vidéo",t:"Home Vidéo (hero Lana)",d:"Catalogue vidéo : badge âge '6 ans', hero 'Lana Longuebarbe', barre de nav basse Vidéo / Audio / Jeux / Profil.",ta:"Entrée par l'univers Vidéo (dessins animés), navigation par grands univers.",c:"bonus"},
+  {f:"06-bonus-home-scroll-top-heros.png",ph:"Bonus · Catalogue vidéo",t:"Home scroll : Top Heros / C'est nouveau",d:"'Top Heros' (classement 1-2-3) + 'C'est nouveau !' (Le Dino Train, Underdog).",ta:"Éditorialisation par héros populaires + fraîcheur (nouveautés).",c:"bonus"},
+  {f:"07-bonus-home-scroll-pepites-dessins-animes.png",ph:"Bonus · Catalogue vidéo",t:"Home scroll : pépites / dessins animés",d:"'Des pépites rien que pour toi !' + rangée 'Dessins animés'.",ta:"Recommandation + catégorie principale (dessins animés).",c:"bonus"},
+  {f:"08-bonus-audio-les-sisters.png",ph:"Bonus · Catalogue audio",t:"Univers Audio (hero Les Sisters)",d:"Onglet Audio : hero 'Les Sisters - Les histoires de Wendy', 'Le meilleur de Gulli'.",ta:"L'audio est un univers à part entière, pas un sous-produit. Pertinent pour le benchmark Kidsono.",c:"bonus"},
+  {f:"09-bonus-audio-meilleur-heros-ecouter.png",ph:"Bonus · Catalogue audio",t:"Audio : le meilleur / héros à écouter",d:"'Le meilleur de Gulli' (Les Sisters, Totally Spies la série audio) + 'Toujours plus de héros à écouter' (Monde des Titounis, contes/histoires).",ta:"Déclinaison audio des licences vidéo (cross-format des mêmes héros).",c:"bonus"},
+  {f:"10-bonus-coachmark-favoris.png",ph:"Bonus · Home guidée",t:"Coachmark favoris",d:"Bulle 'Ajoute en favoris : retrouve tous tes dessins animés et séries préférés dans son espace profil', 'J'ai compris'.",ta:"Incite à créer un compte/profil pour les favoris (capture douce du compte optionnel).",c:"bonus"},
+  {f:"11-bonus-player-audio-totally-spies.png",ph:"Bonus · Consommation",t:"Player audio (Totally Spies)",d:"Player audio 'Totally Spies - La série audio, Episode 12', 00:00 / 08:49.",ta:"Lecteur audio simple. Contenu = adaptation audio d'une licence TV.",c:"bonus"},
+  {f:"12-bonus-categories-audio.png",ph:"Bonus · Catalogue audio",t:"Catégories audio",d:"'Catégories' : Émission (60 titres), Comptines (80 titres), Histoires (399 titres), Musiques (500 titres).",ta:"Preuve d'abondance audio chiffrée (1000+ titres). Comptines + musiques = couvre le très jeune public.",c:"bonus"},
+  {f:"13-bonus-home-video-marsupilamis.png",ph:"Bonus · Catalogue vidéo",t:"Home Vidéo (hero Marsupilamis)",d:"Univers vidéo, hero 'Les Marsupilamis - Toujours plus haut'.",ta:"Licences fortes en hero rotatif.",c:"bonus"},
+  {f:"14-bonus-fiche-serie-video-lana.png",ph:"Bonus · Catalogue vidéo",t:"Fiche série vidéo (Lana)",d:"Fiche série 'Lana Longuebarbe', 'Lire un épisode', Saison 1, Ep.01 à 03 (11 min chacun).",ta:"Structure série/épisodes, durée annoncée (11 min = format court adapté).",c:"bonus"},
+  {f:"15-bonus-player-video-pub.png",ph:"Bonus · Consommation",t:"Player vidéo + publicité (pré-roll)",d:"Lecteur vidéo (paysage) avec publicité en cours (pré-roll Toy Story), 'Publicité en cours - Gulli revient dans 00:15 sec'.",ta:"Monétisation par pub vidéo pré-roll. Cœur du modèle économique. Pub dans une app enfants = irritant parental + question réglementaire.",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'store',t:'Acquisition store (pré-install)'},{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

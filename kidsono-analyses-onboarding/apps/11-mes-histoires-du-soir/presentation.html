@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mes Histoires du Soir · Présentation d'analyse (proposition de format)</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip.alert { background:var(--c-barrier-soft); border-color:#f3c0bc; color:#8a1f1a; font-weight:700; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 11 · Cercle 1 (audio kids francophone)</div>
+    <h1>Mes Histoires du Soir <span style="font-size:16px; font-weight:600; color:var(--muted);">(alias OhMyTales)</span></h1>
+    <div class="subtitle">Éditeur Des Clics Nomades · Histoires à lire et à écouter + génération IA (l'enfant est le héros), gratuit financé par la publicité</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 1 store + 1 strict + 16 bonus</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">Gratuit saturé de pub : interstitiels trompeurs (façon dialogue système) + gate "visionnez une annonce pour continuer à lire"</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Contenu en partie généré par IA : voix de synthèse, images IA, création d'une histoire où l'enfant est le héros</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Accès direct : à lire, à écouter, mode dyslexie, sans compte</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Accès direct, tout gratuit (financé par la pub)</div>
+      <div class="note">Borne basse en qualité/trust. Pub agressive.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Publicité agressive</div>
+      <div class="note">Interstitiels (souvent trompeurs) + gate de pub récompensée pour continuer à lire.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">Gratuit <span class="pill green">Gratuit</span></div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">Sans objet</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">Aucun compte requis</div>
+      <div class="note">Lecture/écoute sans inscription.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">Aucun paywall (gate pub)</div>
+      <div class="note">Gate de pub récompensée pour continuer à lire (5 jours).</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Tout le catalogue <span class="pill green">Total</span></div>
+      <div class="note">4021 audios, mais volume en partie gonflé par génération IA.</div>
+    </div>
+
+    <div class="tile cat-barrier">
+      <div class="lab">Trust</div>
+      <div class="val">Faible <span class="dots"><span class="on">●</span><span class="off">○○○○</span></span></div>
+      <div class="note">Éditeur peu connu (Des Clics Nomades), pubs trompeuses, contenu IA. Aucune caution.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Quasi absent <span class="dots"><span class="off">○○○○○</span></span></div>
+      <div class="note">Tri par âge, mode dyslexie. Pas de gate adulte ni chrono.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Moyenne <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Sélecteur âge/genre/thématique/personnage + génération IA (l'enfant héros).</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui <span class="pill green">Présent</span></div>
+      <div class="note">Tout le catalogue gratuit (pas de conversion).</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">Lire + Écouter + Créer (IA)</div>
+      <div class="note">Texte, audio (voix IA), génération IA, mode dyslexie, MP3.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">1 + 1 + 16</div>
+      <div class="note">1 store + 1 strict + 16 bonus = 18.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 18</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash → Home (écouter / lire) → Choix / catalogue (+ pubs) → Lecture texte ou audio → Gate PUB "visionnez une annonce" / 5 jours
+  100%        ~92%                  ~85%                        consommation gratuite        interruptions publicitaires
+
+Pas de conversion payante. La "monétisation" est l'interruption publicitaire (interstitiels + gate récompensé).
+L'expérience est gratuite mais hachée par la pub.   [Estimation pour les %]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Abondance catalogue</b> · Moyen (gonflé)</span>
+      <span class="chip present"><b>Social proof</b> · Faible</span>
+      <span class="chip present"><b>Contrôle parental</b> · Faible</span>
+      <span class="chip alert">⚠ Pubs interstitielles trompeuses (façon dialogue système)</span>
+      <span class="chip alert">⚠ Pubs hors cible (monte-escalier) dans une app enfants</span>
+      <span class="chip alert">⚠ Contenu IA non assumé</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Transparence pricing (sans objet)</span>
+      <span class="chip absent">Écosystème / partenariats</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Gratuit financé par la pub agressive</b> : interstitiels + gate de pub récompensée.</li>
+      <li><b>Interstitiels publicitaires déguisés</b> en dialogues système ("Verify to install", "Obtenir fichier") : dark pattern qui peut tromper un parent vers un téléchargement tiers.</li>
+      <li><b>Gate de pub récompensée</b> : "visionnez une annonce pour continuer à lire gratuitement" (tous les 5 jours).</li>
+      <li><b>Contenu généré par IA</b> : voix de synthèse (VocarAi), images IA ("signaler un problème avec cette image"), synopsis génériques, onglet "Créer" (histoire où l'enfant est le héros).</li>
+      <li><b>Abondance gonflée</b> : 4021 audios, 2604 derniers, "milliers d'histoires" (en partie IA).</li>
+      <li><b>Accès direct, sans compte</b> + multi-format (lire / écouter / créer) + accessibilité (taille texte, mode dyslexie, MP3).</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Gratuit, accès immédiat, multi-format (lire / écouter / créer).</li><li>Accessibilité (mode dyslexie, taille texte, MP3).</li><li>Génération IA personnalisée (l'enfant héros), à coût marginal nul.</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Pubs trompeuses dans une app enfants : problème de confiance et de sécurité.</li><li>Contenu IA de qualité variable, voix de synthèse.</li><li>Trust quasi nul (éditeur inconnu, pas de caution).</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>Borne basse du corpus en qualité/trust.</li><li>Gratuit "à tout prix", monétisé par une pub intrusive et trompeuse.</li><li>Contre-modèle low-trust assumé.</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Accessibilité (mode dyslexie, taille texte) et multi-format (lire + écouter + MP3). Rien d'autre.</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter absolument</div><ul><li>Interstitiels publicitaires déguisés (tromperie, danger enfant).</li><li>Contenu IA non assumé / voix de synthèse.</li><li>Pubs non filtrées pour le jeune public.</li></ul></div>
+      <div class="card tester"><div class="ttl">Lecture stratégique</div><ul><li>Contre-modèle low-trust : Kidsono se différencie par la qualité humaine (vraies voix, auteurs), la curation, l'absence de pub et la sécurité de l'enfant.</li><li>Génération IA : à n'envisager que curée/contrôlée, jamais en masse.</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"00-app-store-fiche.png",ph:"Acquisition store",t:"Fiche App Store",d:"'Mes Histoires du Soir, À lire et Audio, de 1 à 12 ans', Des Clics Nomades, ~107 avis. Screenshots abondance + gratuit + génération IA ('votre enfant est le héros').",ta:"Promesse d'abondance + gratuit + génération IA personnalisée.",c:"store"},
+  {f:"01-splash-logo.png",ph:"Phase 1 · Splash",t:"Splash logo",d:"Logo (livre vert + château + baguette magique étoilée).",ta:"Identité 'histoires magiques du soir'. Onboarding minimal, pas de compte.",c:"strict"},
+  {f:"02-bonus-home-ecouter-lire.png",ph:"Bonus · Accueil",t:"Home : écouter / lire",d:"Header + toggle jour/nuit. 'On écoute quoi ce soir ? 4021 histoires audio gratuites.' 'On lit quoi ce soir ?' (Âge, Genre, Thématique). Nav : Accueil / Compte / Audio / Lire / Créer / Recherche.",ta:"Deux entrées (écouter / lire) + sélecteurs. Onglet 'Créer' = génération IA. Abondance chiffrée (4021).",c:"bonus"},
+  {f:"03-bonus-pub-interstitielle-verify-install.png",ph:"Bonus · Publicité",t:"Pub interstitielle (déguisée)",d:"Pleine page 'Verify to install / Download Your File / Macrora / Ouvrir' (bouton bleu façon iOS).",ta:"Dark pattern : interstitiel imitant un dialogue d'installation système. Peut tromper un parent. Cœur du problème de cette app.",c:"bonus"},
+  {f:"04-bonus-home-lire-banniere-pub.png",ph:"Bonus · Accueil",t:"Home (lire) + bannière pub",d:"Bloc 'On lit quoi ce soir ?' avec bannière pub 'Download… OUVRIR' en haut.",ta:"Bannière pub persistante au-dessus du contenu.",c:"bonus"},
+  {f:"05-bonus-lire-configurateur.png",ph:"Bonus · Catalogue",t:"Configurateur de lecture",d:"'On lit quoi ce soir ?' : Âge, Genre, Thématique, Personnage principal, 'Lire une histoire →'.",ta:"Sélection guidée (ou génération) selon des critères : âge / genre / thématique / personnage.",c:"bonus"},
+  {f:"06-bonus-catalogue-a-la-une-genres.png",ph:"Bonus · Catalogue",t:"Catalogue : à la une + genres",d:"Bannière pub + 'À la une : Les Aventuriers du Temps des Dinosaures (5 min, 5★ 56, 5-6 ans)' + 'Parcourez par genres'.",ta:"Éditorialisation + navigation par genre. Notes / avis affichés (social proof léger).",c:"bonus"},
+  {f:"07-bonus-catalogue-par-ages.png",ph:"Bonus · Catalogue",t:"Catalogue : par âges",d:"Bannière pub + 'Parcourez les histoires par âges' (tuiles 1-2 / 3-4 / 5-6 / 7-8 ans).",ta:"Navigation par tranche d'âge.",c:"bonus"},
+  {f:"08-bonus-gate-pub-recompensee-continuer-lecture.png",ph:"Bonus · Gate pub",t:"Gate de pub récompensée",d:"'Continuez à lire gratuitement (et soutenez-nous !) : visualisez une courte annonce… Cette fenêtre ne s'affichera à nouveau qu'au bout de 5 jours. → Accès pendant 5 jours.'",ta:"Dark pattern modéré : gate de pub récompensée. Formulé honnêtement mais conditionne l'accès au visionnage publicitaire.",c:"bonus"},
+  {f:"09-bonus-pub-interstitielle-comparateur.png",ph:"Bonus · Publicité",t:"Pub interstitielle (comparateur)",d:"'Portail de Comparaison : Combien coûte un monte-escalier ? Découvrez-le ici →'.",ta:"Dark pattern : pub hors cible (monte-escalier = senior). Réseau publicitaire non filtré dans une app enfants.",c:"bonus"},
+  {f:"10-bonus-fiche-histoire-tresors.png",ph:"Bonus · Consommation",t:"Fiche histoire (Les Trésors)",d:"'Histoire de petits enquêteurs, 5-6 ans, Lecture 6 min, dispo audio, 5★ 41.' 'Les Trésors de la Vieille Maison', synopsis aventure.",ta:"Fiche avec métadonnées (durée, âge, audio, note). Contenu plausiblement éditorial ou IA.",c:"bonus"},
+  {f:"11-bonus-fiche-options-audio-mp3-dyslexie.png",ph:"Bonus · Consommation",t:"Fiche : audio / MP3 / dyslexie",d:"Illustration + 'signaler un problème avec cette image' (indice IA). 'Version audio gratuite, 05:31, Télécharger MP3. Taille texte, Lecture optimisée dyslexie (toggle).'",ta:"Options d'accessibilité (taille texte, dyslexie), audio gratuit, MP3. Le lien 'signaler' trahit la génération IA des illustrations.",c:"bonus"},
+  {f:"12-bonus-lecture-texte.png",ph:"Bonus · Consommation",t:"Lecture du texte",d:"'CHAPITRE 1 : LA SORTIE SCOLAIRE', texte narratif complet, 'ajouter aux favoris / Partager'.",ta:"Lecture texte classique (l'enfant ou le parent lit).",c:"bonus"},
+  {f:"13-bonus-player-audio-tresors.png",ph:"Bonus · Consommation",t:"Player audio (chapitres)",d:"Lecteur 'Les Trésors… - Chapitre 1', chapitres 1-5, 00:01, 'Télécharger les fichiers MP3'.",ta:"Audio par chapitres, téléchargement MP3.",c:"bonus"},
+  {f:"14-bonus-catalogue-audio.png",ph:"Bonus · Catalogue",t:"Catalogue audio",d:"'Histoires audio pour enfants… Par genre, par âge (1-2 à 11-12 ans). Les dernières histoires audio (2604).'",ta:"Abondance audio chiffrée (2604), navigation genre / âge. Volume gonflé par génération IA.",c:"bonus"},
+  {f:"15-bonus-fiche-audio-ia-cascade.png",ph:"Bonus · Consommation",t:"Fiche audio IA (cascade de brume)",d:"'Nouvelle histoire audio : La cascade de brume et le cœur du rêveur' (10:16, 5★, 'Histoire zen pour dormir', 9-10 ans), synopsis générique.",ta:"Contenu plausiblement généré par IA : synopsis générique, ton 'zen pour dormir', production en masse.",c:"bonus"},
+  {f:"16-bonus-pub-interstitielle-vocarai.png",ph:"Bonus · Publicité",t:"Pub interstitielle (VocarAi)",d:"'Obtenir fichier / VocarAi / Fichier prêt / Ouvrir'.",ta:"Dark pattern : interstitiel déguisé en téléchargement. VocarAi = service de voix IA (cohérent avec l'audio synthétique de l'app).",c:"bonus"},
+  {f:"17-bonus-player-audio-cascade.png",ph:"Bonus · Consommation",t:"Player audio (cascade)",d:"Lecteur 'La cascade de brume et le cœur du rêveur', chapitres 1-6, 02:12, 'Télécharger MP3'.",ta:"Même lecteur audio, voix IA.",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'store',t:'Acquisition store (pré-install)'},{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

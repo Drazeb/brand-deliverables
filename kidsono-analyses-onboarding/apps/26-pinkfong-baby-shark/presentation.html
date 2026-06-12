@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pinkfong Baby Shark · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés (compactes, avec mini-explication du jargon) */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue (volontairement plus discret) */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 230px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:19.5/9; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb.portrait { flex:0 0 128px; }
+  .thumb.portrait .img { aspect-ratio:9/19.5; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable (derrière un bouton) */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:460px; max-width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:16px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 26 · Cercle 6 (6B Musique / comptines enfant)</div>
+    <h1>Pinkfong Baby Shark</h1>
+    <div class="subtitle">App de berceuses et chansons du coucher de la marque mondiale Pinkfong / Baby Shark (tout-petits 0-5 ans). Testée sur "Pinkfong Baby Bedtime Songs", mode paysage. Éditée par The Pinkfong Company, Inc. (Corée du Sud).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">Corée du Sud</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">À venir / en cours de collecte (absente de <b>_data/vitalite-notoriete.csv</b>).</div>
+        <div class="src">Signaux de l'algo : récence des mises à jour + activité d'avis récente (App Store). Non encore collectés pour cette app.</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">À venir / en cours de collecte. Marque Baby Shark / Pinkfong mondialement connue, mais cette app de berceuses est de niche.</div>
+        <div class="src">Volume d'avis = proxy d'adoption (App Store). Échelle log par décades, voir 00-typologie. Non encore renseigné.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Hard paywall</div><div class="knote">mur payant sans essai gratuit</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Accès direct</div><div class="knote">consentement léger, puis catalogue (&lt; 30 s)</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium</div><div class="knote">berceuses complètes gratuites + reste verrouillé</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Non requise ❌</div><div class="knote">freemium sans carte, abonnement seulement pour débloquer</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">Aucun</div><div class="knote">abonnement direct (ou achat unique)</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div><div class="knote">gate parental + kids-lock ; rien d'autre in-app</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Kids Lock : verrou d'écran enfant (appui long 3 s pour déverrouiller). Inédit dans le corpus.</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Paywall à double porte : abonnement 30+ applis VS achat unique de l'app.</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Hard paywall sans essai, freemium testable sans carte.</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash Pinkfong</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~90%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Consentement CGU + ToS + Privacy (3 cases)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~85%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Intro animée + titre Bedtime</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Hub / catalogue (cadenas sur le verrouillé)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Player berceuse GRATUITE complète + Kids Lock</div><span class="fbadge">Aha + Feature</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~40%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Tentative contenu verrouillé → Gate parental (calcul)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">&nbsp;</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Paywall : abonnement 30+ applis VS achat unique</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">2-5%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Payé direct ~2-5% (pas d'essai)</div></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Position du compte</div><div class="v">Absent</div><div class="note">Aucune création de compte observée dans le parcours.</div></div>
+      <div class="fr"><div class="lab">Position du paywall</div><div class="v">Différé (sur tentative)</div><div class="note">Se déclenche quand on ouvre un contenu verrouillé, précédé d'un gate parental de calcul.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">5 écrans d'onboarding strict + 8 bonus (mode paysage) + 1 fiche store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 14</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Accès direct</div>
+        <div class="note">Splash + consentement (3 cases) + intro, puis hub/catalogue. Aucun argumentaire ni quiz.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Hard paywall</div>
+        <div class="note">Mur payant sans essai gratuit (vérifié). Abonnement direct OU achat unique.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">5,25 à 9,49 €/mois <span class="pill amber">Moyen-haut</span></div>
+        <div class="note">Pinkfong Plus : 62,99 €/an (SALE 47%, 5,25 €/mois équiv.) ou 9,49 €/mois. Achat unique possible (Bedtime Full Set).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">Aucun</div>
+        <div class="note">Aucun "free trial" sur le paywall. On s'abonne directement pour débloquer.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+        <div class="note">Le freemium (berceuses gratuites) est accessible sans carte ni compte. Vérifié.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Freemium <span class="pill green">Du complet</span></div>
+        <div class="note">Berceuses complètes gratuites + features (timer, kids-lock). Reste du catalogue verrouillé (cadenas).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui <span class="pill green">Présent</span></div>
+        <div class="note">Berceuse complète jouable gratuitement (aha-moment présent). Pas "aha-moment first" : exploration libre, rien d'imposé.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-model)">
+        <div class="lab">Structure du paywall</div>
+        <div class="val">Double porte</div>
+        <div class="note">Abonnement Pinkfong Plus (TOUTES les 30+ applis) VS Achat unique (cette app seule, accès permanent). Cross-sell galaxie.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> freemium (berceuses complètes gratuites + features de coucher) débloquant le reste par un <b>hard paywall sans essai</b>, à <b>double porte</b> : soit l'abonnement <b>Pinkfong Plus</b> (62,99 €/an, accès aux 30+ applis de l'éditeur), soit l'<b>achat unique</b> de cette app (accès permanent). Gate parental de calcul avant paiement.</div>
+    <ul class="blist">
+      <li><b>Valeur vécue gratuitement : oui</b> (berceuses complètes jouables, avec timer, kids-lock et sleep mode), mais pas un onboarding "aha-moment first" : aucune consommation guidée imposée.</li>
+      <li><b>Pas d'essai gratuit</b> : conversion par paiement direct (volume de payeurs probablement plus faible qu'un reverse trial, mais revenu par payeur plus net).</li>
+      <li><b>Paywall multi-apps</b> : le bundle monétise tout le portefeuille de l'éditeur, pas une app isolée. Astuce de galaxie d'apps.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW (paramètres) -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Absent <span class="pill green">Favorable</span></div>
+        <div class="note">Aucune création de compte observée. On écoute sans s'inscrire.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Différé <span class="pill green">Tardif</span></div>
+        <div class="note">Sur tentative de contenu verrouillé, précédé d'un gate parental (calcul 8/7/6).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Absente <span class="dots"><span class="off">○○○○○</span></span></div>
+        <div class="note">Aucun profil enfant, aucun quiz. On entre directement dans le hub.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">5 + 8 + 1 store</div>
+        <div class="note">5 onboarding strict + 8 bonus + 1 fiche store. Mode paysage.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Quasi tout repose sur la notoriété Baby Shark (force externe). In-app : seulement contrôle parental.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Contrôle parental</div>
+        <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+        <div class="note">Gate parental de calcul (8/7/6) avant le paiement + <b>Kids Lock</b> (verrou d'écran enfant, appui long 3 s).</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Contrôle parental</b> · Moyen</span>
+      <span class="chip present"><b>Transparence pricing</b> · Moyen</span>
+      <span class="chip present"><b>Écosystème / partenariats</b> · Moyen</span>
+      <span class="chip present"><b>Abondance</b> · Faible</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Social proof</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Kids Lock (verrou d'écran enfant)</b> : une fois activé, l'enfant ne peut plus pianoter, changer de piste, arrêter la chanson ni sortir. Déverrouillage par appui long 3 secondes (barrière motrice pour un tout-petit). Feature inédite dans le corpus.</li>
+      <li><b>Gate parental de calcul</b> : "huit, sept, six" à saisir avant le paiement. Anti-achat involontaire par l'enfant. Signal de sérieux.</li>
+      <li><b>Brand pull</b> : la marque Baby Shark / Pinkfong porte l'accroche, l'onboarding n'a pas à persuader.</li>
+      <li><b>Aha-moment libre</b> : berceuse complète gratuite jouable avec toutes les features. Valeur prouvée sans friction.</li>
+      <li><b>Ancrage prix</b> : prix barré 119,99 € → 62,99 €, badge SALE 47%. "You can cancel anytime". Pas de dark pattern dur (pas d'essai à annuler, pas de CB requise pour tester).</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Onboarding sans friction : on entre, on écoute, valeur immédiate gratuite.</li><li>Kids Lock : contrôle parental d'usage élégant, inédit.</li><li>Paywall double porte (abonnement multi-apps / achat unique) : capte deux profils de payeurs.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Aucun trust in-app : tout repose sur la notoriété Baby Shark.</li><li>Catalogue très verrouillé + pas d'essai : peut faire fuir l'indécis.</li><li>Prix annuel cher (62,99 €) vs concurrents avec essai.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>Standard sur l'accès direct + freemium + brand pull (profil CoComelon).</li><li>En avance sur le contrôle parental d'usage (Kids Lock).</li><li>Contrarian sur la monétisation (hard paywall sans essai + bundle multi-apps).</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li><b>Kids Lock</b> : verrou d'écran enfant (appui long 3 s). Pile dans le cas d'usage audio enfant.</li><li>Berceuses complètes gratuites sans carte ni compte (prouve la valeur).</li><li>Gate parental de calcul avant le paiement.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Catalogue majoritairement verrouillé dès l'entrée.</li><li>Aucun trust signal in-app (intenable sans la notoriété Baby Shark).</li><li>Prix barré / SALE 47% (défiance parentale possible).</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Hard paywall sans essai vs reverse trial (revenu/payeur vs volume).</li><li>Bundle multi-apps vs achat unique (si Kidsono multiplie les apps thématiques).</li><li>Timer de sommeil + sleep mode comme features de confort monetisables.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"02-splash-pinkfong.png",ph:"Phase 1 · Accueil",t:"Splash Pinkfong",d:"Logo Pinkfong (renard rose à couronne) plein écran sur fond blanc.",ta:"Brand pull : la marque fait le travail d'accroche, pas l'onboarding.",c:"strict"},
+  {f:"03-consentement-cgu-privacy.png",ph:"Phase 1 · Consentement",t:"Consentement CGU + ToS + Privacy",d:"Modale 'Terms of Service and Privacy Policy', 3 cases à cocher (Terms of Pinkfong Interactive Apps, Terms of Service, Privacy Policy), 'Read More', bouton OK grisé tant que non coché.",ta:"Tout l'onboarding 'argumentatif' : de la conformité, pas de la persuasion.",c:"strict"},
+  {f:"04-intro-animation-pinkfong-vol.png",ph:"Phase 1 · Intro",t:"Intro animée",d:"Pinkfong vole avec un parapluie au-dessus de nuages, ciel nocturne, lune.",ta:"Hook visuel doux, mise en ambiance 'coucher'.",c:"strict"},
+  {f:"05-titre-pinkfong-bedtime.png",ph:"Phase 1 · Titre",t:"Titre Pinkfong Bedtime",d:"Carte-titre 'PINKFONG BEDTIME · Lullabies and bedtime activities'.",ta:"Annonce la promesse produit (berceuses + activités du coucher).",c:"strict"},
+  {f:"06-home-hub-tv.png",ph:"Phase 2 · Hub",t:"Home / hub TV",d:"Écran-hub façon télé magique sur un nuage. En périphérie : MORE APPS (haut gauche), panier (haut droite), réglages (roue dentée).",ta:"Le bouton MORE APPS pose dès la home la logique multi-apps de l'éditeur.",c:"bonus"},
+  {f:"07-catalogue-berceuses-telechargement.png",ph:"Phase 2 · Catalogue",t:"Catalogue de berceuses",d:"Berceuses suspendues comme des mobiles (Mozart's Lullaby, Twinkle Twinkle, Schubert's…), toast 'Le téléchargement a démarré'.",ta:"Navigation enfant ludique (objets suspendus), pré-téléchargement du contenu.",c:"bonus"},
+  {f:"08-player-mozart-controles-timer-kidslock-sleep.png",ph:"Phase 3 · Player & features",t:"Player Mozart's Lullaby + contrôles",d:"Player en cours, barre de contrôle avec 3 features annotées : Timer (étoile 5mins), Kids Lock (cadenas rose), Sleep Mode (ampoule zZ).",ta:"Triptyque de features de coucher : minuteur + verrou enfant + mode sommeil. Cœur différenciant.",c:"bonus"},
+  {f:"09-player-berceuse-lapin-controles.png",ph:"Phase 3 · Player",t:"Player berceuse (gratuit, complet)",d:"Autre berceuse en cours (personnage lapin), même barre de contrôle (rewind, pause, forward, timer, cadenas, sleep). Player gratuit et complet.",ta:"Confirme : la valeur (une berceuse entière) se vit sans payer = aha-moment présent.",c:"bonus"},
+  {f:"10-kids-lock-actif-maintenir-3-secondes.png",ph:"Phase 3 · Feature ★",t:"Kids Lock actif (maintenir 3 s)",d:"Verrou activé : 'MAINTENEZ APPUYÉ PENDANT TROIS SECONDES !', cadenas rose fermé, compte à rebours '3'. L'enfant ne peut plus pianoter, changer d'écran, arrêter la chanson ni sortir.",ta:"Verrou d'écran enfant : déverrouillage par appui long 3 s (geste qu'un tout-petit ne reproduit pas). Anti-mésusage. Inédit dans le corpus.",c:"bonus"},
+  {f:"11-paywall-choix-abonnement-vs-achat-unique.png",ph:"Phase 4 · Paywall",t:"Paywall à double porte",d:"Modale 'Débloquez Tout le Contenu' : à gauche Abonnement Pinkfong Plus ('TOUTES les 30+ Applis', 'Résiliable à tout moment') ; à droite Achat Unique ('Cette Appli Uniquement', 'Accès permanent'). Bouton 'Commencer Maintenant'.",ta:"Double porte : abonnement multi-apps mis à parité avec l'achat one-shot. Capte deux profils de payeurs.",c:"bonus"},
+  {f:"12-paywall-pinkfong-plus-sans-essai.png",ph:"Phase 4 · Paywall",t:"Paywall Pinkfong Plus (sans essai)",d:"Annual 62,99 € (barré 119,99 €, SALE 47%, '5,249/1mo'), 'You can cancel anytime' ; Monthly 9,49 € ; Single Purchase Bedtime Full Set. Aucun 'free trial' visible.",ta:"Hard paywall confirmé : pas d'essai à annuler, ancrage par prix barré + remise 47%.",c:"bonus"},
+  {f:"13-gate-parental-numeros.png",ph:"Phase 4 · Gate parental",t:"Gate parental (numéros)",d:"Modale 'PARENTS UNIQUEMENT ! · Veuillez inscrire les numéros : huit, sept, six', champ de saisie + pavé numérique.",ta:"Gate de calcul/lecture (8,7,6) protégeant l'accès au paiement et aux réglages. Anti-achat enfant.",c:"bonus"},
+  {f:"14-catalogue-berceuses-cadenas.png",ph:"Phase 2 · Catalogue",t:"Catalogue avec cadenas",d:"Berceuses suspendues (Schubert's, Hush Little Baby, Brahms', The Night's, Hush a by Baby Bye) avec cadenas roses sur la majorité ; une ou deux semblent libres.",ta:"Confirme le freemium : du complet gratuit existe, mais la majorité est verrouillée → conversion par frustration ciblée.",c:"bonus"},
+  {f:"01-store-fiche-app-store.png",ph:"Acquisition store",t:"Fiche App Store",d:"Recherche 'pinkfong baby bedtime songs'. 'Pinkfong Baby Bedtime Songs · Musique de berceuse pour bébé', The Pinkfong Company, Inc., catégorie Éducation, mention Achats intégrés. Bandeau 'Lullabies and bedtime activities'.",ta:"Positionnement clair 'berceuse pour bébé'. Volume d'avis faible sur cette app de niche (≠ la notoriété Baby Shark globale).",c:"store"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'+(g.k==='store'?' portrait':''); d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

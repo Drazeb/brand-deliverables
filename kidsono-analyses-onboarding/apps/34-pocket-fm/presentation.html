@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pocket FM · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés (compactes, avec mini-explication du jargon) */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue (volontairement plus discret) */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable (derrière un bouton) */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 34 · Secteur connexe (séries audio)</div>
+    <h1>Pocket FM</h1>
+    <div class="subtitle">Séries de fiction audio feuilletonnées, par épisodes (drame, romance, fantasy), pour un public adulte. Déblocage des épisodes par crédits one-shot, avec un énorme catalogue gratuit et une mécanique "attendre ou payer" empruntée aux webtoons. Éditée par Pocket FM Corp (Inde / États-Unis).</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">International</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">Données non encore collectées (app absente du CSV vitalité/notoriété à la date de l'analyse).</div>
+        <div class="src">À compléter par la session data (App Store FR/US).</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">Note et nombre d'avis à venir. Aucun chiffre fabriqué.</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Achat à l'unité / crédit</div><div class="knote">packs de crédits one-shot, SANS abonnement</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Personnalisation simple</div><div class="knote">setup léger : langue, genre, 3 séries</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium</div><div class="knote">épisodes COMPLETS gratuits, pas des extraits</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Sans carte ❌</div><div class="knote">des heures de gratuit sans CB</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">Aucun</div><div class="knote">à la place : gros gratuit + wait-to-unlock</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div><div class="knote">abondance (75 000) + social proof par série</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Crédit ONE-SHOT pur : pack acheté quand on veut, aucun abonnement récurrent</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Wait-to-unlock (webtoon) : l'épisode payant se débloque gratuitement le lendemain ou contre crédits</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Énorme gratuit COMPLET + plongeon direct dans une série (anti paradoxe du choix)</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'accueil au déblocage par crédits. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Splash + Accueil (Commencer / Invité)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-flow)"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Signup Google / Apple / Mail (75 000 séries)</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Perso : prénom, âge, genre, langue, 3 séries</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~67%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Notif opt-in (épisodes gratuits)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~65%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Plongeon DIRECT dans une série (E1)</div><span class="fbadge">Aha</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~55%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Épisodes COMPLETS gratuits (E1, E2…)</div><span class="fbadge">Gratuit</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~25%</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Épisode payant : "9 crédits OU gratuit demain"</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~3-6%</div><div class="fnode"><div class="fn-i">Étape 8</div><div class="fn-t">Achat pack crédits one-shot (0,99 à 29,99 €)</div><span class="fbadge">Achat</span></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Placement du compte</div><div class="v">Tôt (étape 2)</div><div class="note">Signup social/mail demandé juste après l'accueil, avant la perso. Option "Continuer en tant qu'invité" visible mais non poussée.</div></div>
+      <div class="fr"><div class="lab">Placement du paywall</div><div class="v">Différé, optionnel</div><div class="note">Aucun mur à l'entrée. Le crédit n'apparaît qu'aux épisodes payants tardifs, et reste contournable (attendre le lendemain = gratuit).</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée. Le point clé : il n'y a PAS de mur, la consommation gratuite est massive.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">9 écrans d'onboarding strict + 7 bonus + 1 fiche store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 17</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Personnalisation simple</div>
+        <div class="note">Setup léger réel : prénom + âge, genre, langue audio, choix d'au moins 3 séries. Pas un quiz long type Noom, pas de l'accès direct.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Achat à l'unité / crédit</div>
+        <div class="note">Packs de crédits ONE-SHOT (capture 16). 1 épisode = 9 crédits. AUCUN abonnement récurrent ni reverse trial dans ce parcours.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">0,99 à 29,99 €</div>
+        <div class="note">Packs one-shot avec gros bonus de crédits gratuits. Pack Découverte à 0,99 € (199% bonus) comme première marche. Pas de prix mensuel.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">Aucun (pas nécessaire)</div>
+        <div class="note">À la place : énorme catalogue gratuit + wait-to-unlock (1 épisode débloqué gratuitement par jour environ).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Sans carte <span class="pill green">Ouvert</span></div>
+        <div class="note">On consomme des heures de contenu complet sans CB. La CB ne sert qu'à acheter un pack de crédits (optionnel).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Massive <span class="pill green">Généreuse</span></div>
+        <div class="note">Épisodes COMPLETS gratuits en série (la moitié environ). Du vrai Freemium, pas des extraits comme Storytel/Audible/Libro.fm.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui <span class="pill green">Présent</span></div>
+        <div class="note">Épisodes complets joués gratuitement (E1 ~13 min, E2 de Code Vampire). Aha-moment présent. Pas "aha-first" imposé : pas d'archétype C.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Mécanique wait-to-unlock</div>
+        <div class="val">Attendre ou payer</div>
+        <div class="note">Chaque épisode payant : "9 crédits maintenant OU gratuit demain" (capture 15). Levier de rétention quotidienne + conversion par impatience. Pattern webtoon.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> énorme catalogue <b>gratuit complet</b> (la moitié des épisodes d'une série, des heures d'écoute) pour accrocher, puis déblocage des épisodes suivants par <b>crédits achetés à l'unité (one-shot)</b> ou en attendant le lendemain (gratuit). <b>Aucun abonnement, aucune carte bleue requise.</b></div>
+    <ul class="blist">
+      <li><b>Le crédit le plus pur du corpus :</b> on achète un pack de crédits quand on veut, on ne paie pas tous les mois. À distinguer d'Audible/Libro.fm (crédit via abonnement mensuel) et de Storytel (quota-heures via abonnement).</li>
+      <li><b>Vrai Freemium</b> (épisodes complets gratuits), pas du Freemium teaser : contraste net avec le cluster audio connexe qui ne donne que des extraits.</li>
+      <li><b>Wait-to-unlock</b> : la machine à rétention quotidienne (revenir chaque jour) ET à conversion (impatience une fois accroché), sans paraître agressive (on peut toujours attendre gratuitement).</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW (paramètres) -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Tôt <span class="pill amber">Étape 2</span></div>
+        <div class="note">Signup social/mail demandé juste après l'accueil, avant la perso. Option invité visible mais non poussée.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Différé, optionnel <span class="pill green">Tardif</span></div>
+        <div class="note">Aucun mur à l'entrée. Le crédit n'apparaît qu'aux épisodes payants tardifs, et reste contournable (attendre = gratuit).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Simple <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+        <div class="note">Prénom + âge + genre + langue audio + choix de 3 séries. Alimente les recommandations. Setup léger réel.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">9 + 7 + 1</div>
+        <div class="note">9 onboarding strict + 7 bonus (consommation) + 1 fiche store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Trust de masse : abondance (75 000 séries) + social proof par série. Pas de caution éditoriale, experte ni parentale.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Levier de conversion</div>
+        <div class="val">Attachement + impatience</div>
+        <div class="note">L'utilisateur s'attache à une série de 615 épisodes (gratuit), puis le wait-to-unlock convertit l'impatient.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Social proof (lectures + notes par série)</b> · Moyen</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Contrôle parental</span>
+      <span class="chip absent">Transparence pricing</span>
+      <span class="chip absent">Écosystème / device</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs globales</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Plongeon direct dans une série</b> : l'app dépose l'utilisateur en lecture d'une série choisie pendant le setup, pas dans un catalogue de 75 000 titres. Anti paradoxe du choix, time-to-value quasi nul.</li>
+      <li><b>Énorme gratuit complet</b> : la moitié des épisodes en entier, pour s'attacher avant tout verrou. Conversion par attachement, pas par frustration.</li>
+      <li><b>Wait-to-unlock</b> : "9 crédits maintenant OU gratuit demain". Rétention quotidienne + conversion par impatience, sans agressivité.</li>
+      <li><b>Abondance + social proof chiffrée</b> : "75 000 séries audio" + compteurs de lectures (6,8M, 116K) et notes par série.</li>
+      <li><b>Pack d'amorçage à 0,99 €</b> (199% bonus) pour franchir la première barrière d'achat à bas coût.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Crédit one-shot le plus pur du corpus, friction d'entrée quasi nulle (sans CB).</li><li>Énorme gratuit complet : attachement réel avant tout verrou.</li><li>Wait-to-unlock = rétention quotidienne + conversion sans agressivité.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Taillé pour du très sériel (615 épisodes) : perd de sa force sur un catalogue moins feuilletonnant.</li><li>Crédit one-shot sous-monétise les gros consommateurs (pas de revenu récurrent).</li><li>Registre adulte + trust de masse non transposables au public kids.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>En avance : import du modèle webtoon (wait-to-unlock) dans l'audio.</li><li>Contrarian vs le cluster audio connexe (tout en abonnement).</li><li>Standard sur la perso simple et l'abondance affichée.</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Mix "beaucoup de gratuit pour accrocher + déblocage crédit/temps sur la suite" sur les histoires en épisodes.</li><li>Plongeon direct dans une histoire après un setup léger (time-to-value nul).</li><li>Perso légère (langue, préférences) pour des recommandations.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Le genre (sexe) demandé : inutile/délicat pour un public enfant.</li><li>Le trust de masse (millions de lectures) : ne rassure pas le parent payeur kids.</li><li>Le registre éditorial adulte (sans objet).</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Crédit one-shot vs crédit-abonnement vs quota-heures pour Kidsono (barrière d'entrée vs revenu récurrent).</li><li>Wait-to-unlock adapté au rythme familial (rituel du soir, sans frustrer en plein milieu).</li><li>Pack d'amorçage à 0,99 € comme première marche d'achat.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"01-store-fiche-app-store.png",ph:"Phase 0 · Acquisition store",t:"Fiche App Store",d:"'Pocket FM : séries audio', note 1,1k avis. Screenshots : 'Écoutez les meilleures séries audio au monde', 'Chaque instant raconte une histoire'.",ta:"Positionnement abondance + universalité. Catégorie Divertissement.",c:"store"},
+  {f:"02-splash-logo.png",ph:"Phase 1 · Accueil",t:"Splash logo",d:"Logo (radio rouge dans une bulle) sur fond noir.",ta:"Identité minimale.",c:"strict"},
+  {f:"03-accueil-commencer-invite.png",ph:"Phase 1 · Accueil",t:"Accueil · Commencer",d:"Halo de particules animé. CTA 'Commencer' (dégradé) + 'Continuer en tant qu'invité' + acceptation CGU.",ta:"Option invité visible mais le CTA principal pousse l'inscription.",c:"strict"},
+  {f:"04-cest-parti-signup-social.png",ph:"Phase 2 · Compte",t:"C'est parti · Signup",d:"'Drame, romance, fantasy et bien plus. Inscrivez-vous pour accéder à plus de 75 000 séries audio.' Google / Apple / Adresse mail.",ta:"Abondance massive (75 000) juste avant le signup pour justifier l'inscription.",c:"strict"},
+  {f:"05-compte-cree-prenom-age.png",ph:"Phase 3 · Personnalisation",t:"Compte créé · Prénom + âge",d:"'Woohoo ! Compte créé. Personnalisons votre expérience et nos recommandations.' Champs prénom + âge.",ta:"Début du setup léger. Le prénom personnalise les écrans suivants.",c:"strict"},
+  {f:"06-genre-masculin-feminin.png",ph:"Phase 3 · Personnalisation",t:"Genre",d:"'Charles est un super prénom. Choisissez le genre qui vous correspond le mieux.' Masculin / Féminin.",ta:"Signal pour orienter drame vs romance. (À éviter pour un public enfant.)",c:"strict"},
+  {f:"07-langue-audio-fr-en-de.png",ph:"Phase 3 · Personnalisation",t:"Langue audio",d:"'Sélectionnez la langue audio.' Français / English / Deutsch. 'Vous pourrez la changer plus tard.'",ta:"Perso de la langue de recommandation.",c:"strict"},
+  {f:"08-choisir-3-series-mini.png",ph:"Phase 3 · Personnalisation",t:"Choisir 3 séries (1/2)",d:"'Choisissez au moins 3 séries. Selon vos choix, nous personnaliserons vos recommandations.' Grille de vignettes avec compteur de lectures + note.",ta:"Cœur de la perso : choix actif qui alimente les recommandations.",c:"strict"},
+  {f:"09-choisir-3-series-selection.png",ph:"Phase 3 · Personnalisation",t:"Choisir 3 séries (2/2)",d:"Sélection en cours (coches sur Beauté Masquée, Destinée Royale…). CTA 'Terminer la configuration'.",ta:"Validation du profil de goûts.",c:"strict"},
+  {f:"10-notif-opt-in-episodes-gratuits.png",ph:"Phase 4 · Notif",t:"Notif opt-in",d:"'Ne manquez rien. Activez les notifications pour ne rater aucun épisode et découvrir les nouveautés en avant-première.' 'Notify me about free episodes'.",ta:"Notif vendue comme service : savoir quand l'épisode gratuit du jour est dispo (aligné sur le wait-to-unlock).",c:"strict"},
+  {f:"11-player-code-vampire-e1-direct.png",ph:"Phase 5 · Plongeon série",t:"Plongeon direct (Code Vampire E1)",d:"Player 'Code Vampire', 'E1. Juste Un Vieux Livre', 'EPISODES 01 / 615'. L'app dépose l'utilisateur directement en lecture.",ta:"Tactique majeure : éviter d'être perdu dans 75 000 séries en imposant un point de départ concret. Anti paradoxe du choix.",c:"bonus"},
+  {f:"12-promo-widget-accueil.png",ph:"Phase 5 · Engagement",t:"Promo widget",d:"'Voici comment ajouter le widget Pocket FM à votre écran d'accueil.'",ta:"Croissance d'engagement / rappel hors-app.",c:"bonus"},
+  {f:"13-fiche-serie-code-vampire.png",ph:"Phase 6 · Consommation",t:"Fiche série Code Vampire",d:"'Nouveaux épisodes quotidiennement', '6.8M lectures · 4.6 · 2.1K', Fantasy. '+ Ma liste'. Nav : Accueil / Bibliothèque / Profil / Boutique.",ta:"Social proof par série + nav 'Boutique' (crédits). 'Quotidiennement' annonce le rythme wait-to-unlock.",c:"bonus"},
+  {f:"14-fiche-serie-ecouter-e1.png",ph:"Phase 6 · Consommation",t:"Fiche série · Écouter E1",d:"Même fiche, 'Écouter · E1', '13M 45 restant' (durée de l'épisode).",ta:"Confirme : l'épisode complet fait ~13-14 min, pas un extrait.",c:"bonus"},
+  {f:"15-player-e2-episode-complet.png",ph:"Phase 6 · Consommation",t:"Player E2 (épisode complet)",d:"'E2. Le Premier Pas De Sam Dans Le Système', 'EPISODES 02 / 615', visuels façon vidéo. Épisode complet joué gratuitement.",ta:"Vrai Freemium : on consomme des épisodes COMPLETS, pas des extraits.",c:"bonus"},
+  {f:"16-liste-episodes-credits-ou-gratuit-demain.png",ph:"Phase 7 · Crédit / wait",t:"Wait-to-unlock + débloquer",d:"Épisodes '9 crédits pour déverrouiller maintenant ou gratuit dem[ain]', puis cadenas. Bottom sheet : 7 épisodes = 63 crédits, 1 = 9 crédits, 'Solde : 0', 'Obtenez plus de crédits'.",ta:"Cœur de la mécanique : attendre le lendemain (gratuit) OU payer 9 crédits. Levier rétention + conversion.",c:"bonus"},
+  {f:"17-acheter-credits-packs-one-shot.png",ph:"Phase 7 · Achat",t:"Acheter des crédits (one-shot)",d:"Pack Découverte 0,99 € (55+55 gratuits, 199% bonus), puis 1,99 / 4,99 / 9,99 / 14,99 / 19,99 / 29,99 €. Tous one-shot avec bonus. Aucun plan mensuel.",ta:"Monétisation PURE one-shot. Pack d'amorçage 0,99 € comme première marche d'achat.",c:"bonus"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

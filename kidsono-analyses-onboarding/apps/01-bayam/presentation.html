@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayam · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 01 · Cercle 1 (concurrent direct FR)</div>
+    <h1>Bayam</h1>
+    <div class="subtitle">La plateforme des enfants de Bayard Jeunesse / Milan · écouter, lire, regarder, jouer, créer (3-9+ ans)</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-09 (manuelle)</span>
+      <span><b>Écrans :</b> 18 strict + 4 bonus</span>
+      <span><b>Note store :</b> non relevée, Éducation / Divertissement</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">Trust éditorial massif (Bayard, Milan, Gallimard)</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Reverse trial 7 jours, carte bleue requise</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Détail UX « Ferme les yeux pour mieux écouter »</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Trust-building + personnalisation légère</div>
+      <div class="note">Autorité éditoriale au cœur du flow, plus un profil enfant (avatar, prénom, tranche d'âge).</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Reverse trial</div>
+      <div class="note">Essai 7 jours sur le plan Découverte, puis abonnement. Pas de freemium pur.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">6,99–9,99 €/mois</div>
+      <div class="note">Découverte 6,99€/mois ou 54,99€/an. Premium 9,99€/mois ou 89,99€/an. Prix moyen-haut du corpus.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">7 jours</div>
+      <div class="note">Sur le plan Découverte (annuel et mensuel). Le Premium n'a pas de trial annoncé.</div>
+    </div>
+
+    <div class="tile cat-barrier">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Requise <span class="pill red">Barrière</span></div>
+      <div class="note">Apple Pay obligatoire pour démarrer l'essai (renouvellement auto). Vérifié.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">Tôt <span class="pill amber">Position 3</span></div>
+      <div class="note">Sign-up imposé tôt, juste après le landing. Peu d'exploration libre avant.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">Position 7 <span class="pill amber">Central</span></div>
+      <div class="note">Splash → compte → profil → pitch chrono → paywall, présenté plusieurs fois (7-15).</div>
+    </div>
+
+    <div class="tile cat-barrier">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Aucune avant paiement <span class="pill red">Avare</span></div>
+      <div class="note">Reverse trial : aucune écoute gratuite avant l'ask payment. Il faut payer pour découvrir.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+      <div class="note">Bayard, Milan, Gallimard en signature directe + témoignage 5 étoiles « Kath » dans le paywall.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+      <div class="note">Chrono temps d'écran par profil, espace parent anti-bypass (nombre écrit en lettres), catalogue tronqué par âge.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Moyenne <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Profil enfant (avatar + prénom + tranche d'âge) qui tronque le catalogue accessible.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Non <span class="pill red">Absent</span></div>
+      <div class="note">Reverse trial : pas de contenu complet gratuit avant le paiement.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">6 types</div>
+      <div class="note">Écouter, lire, regarder, jouer, créer, favoris. Livres audio, podcasts, films, jeux, ateliers.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">18 + 4</div>
+      <div class="note">18 onboarding strict + 4 bonus post-onboarding. Pas d'écran store capturé.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 22</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Splash+Landing → Compte (sign-up pos.3) → Profil enfant (avatar, prénom, âge) → Trust (pitch chrono + marques éditeurs) → Paywall Premium / Découverte + Apple Pay → Bienvenue + upsell annuel
+   100%             ~80%                      ~70%                                   ~65%                                   ~25%                                          ~22%
+                                                                                                                          Trial activé : ~22% · Payé J7 : 5-8%   [Estimation]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Autorité éditoriale / marques</b> · Massif</span>
+      <span class="chip present"><b>Témoignages / social proof</b> · Fort</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Contrôle parental</b> · Fort</span>
+      <span class="chip present"><b>Transparence pricing</b> · Moyen (imposé Apple)</span>
+      <span class="chip present"><b>Écosystème / partenariats</b> · Faible</span>
+      <span class="chip absent">Logos médias presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards / récompenses</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Trust via marques éditeurs</b> (Bayard Jeunesse, Milan, Gallimard) : court-circuite l'évaluation du parent FR sensible à ces marques.</li>
+      <li><b>Social proof poussée</b> : témoignage « Kath » 5 étoiles intégré au paywall, en grand après scroll, dots de pagination (plusieurs avis).</li>
+      <li><b>Reverse trial carte bleue requise</b> via Apple Pay : transparence imposée (prix et date de bascule affichés d'office).</li>
+      <li><b>Pricing à 2 niveaux</b> : Découverte (avec trial) vs Premium (sans trial mais plus complet). Vrai choix produit, pas un dark pattern de présentation.</li>
+      <li><b>Re-prompt trial + upsell post-achat</b> : bandeau jaune persistant après dismiss, puis upsell immédiat Mensuel → Annuel juste après le paiement (agressif).</li>
+      <li><b>Contrôle parental anti-bypass</b> : nombre écrit en lettres françaises à taper, infaisable pour un 3-5 ans. Catalogue tronqué par tranche d'âge.</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Autorité éditoriale massive (Bayard, Milan, Gallimard).</li><li>Détail UX « Ferme les yeux » rare et précieux.</li><li>Identité visuelle forte et cohérente (bleu nuit, jaune, mascotte).</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Pas d'aha-moment : conversion limitée aux parents déjà convaincus par les marques.</li><li>Upsell post-paiement vexant : risque d'annulation en cours de trial.</li><li>Onboarding long et exigeant ; contrôle parental anti-enfant contredit le ton « pour enfant ».</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>Standard sur le marché FR (trust-building + reverse trial CB).</li><li>En avance sur le détail UX « Ferme les yeux ».</li><li>En retard sur l'absence d'aha-moment avant paywall.</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Trust signals via marques éditeurs (Gallimard est partenaire Kidsono).</li><li>Choix tranche d'âge à l'inscription (réduit le choice overload).</li><li>Identité visuelle forte + mascotte, détail UX « Ferme les yeux ».</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Long flow sans aha-moment avant paywall.</li><li>Upsell immédiat post-achat.</li><li>Re-prompt trial agressif.</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Aha-moment court avant paywall (1ère écoute curée selon l'âge).</li><li>Contrôle parental anti-bypass enfant.</li><li>Pricing à 2 niveaux (Découverte + Premium) si catalogue différenciable.</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"01-splash.png",ph:"Phase 1 · Accueil",t:"Splash logo BayaM",d:"Fond bleu nuit, logo « B » jaune avec yeux noirs + déclinaison rainbow, texte « BayaM » blanc. Identité forte et enfantine.",ta:"Splash classique. Marque les codes visuels (jaune + bleu nuit + mascotte).",c:"strict"},
+  {f:"02-landing.png",ph:"Phase 1 · Accueil",t:"Landing principale",d:"Logo + claim « La plateforme des enfants ! ». 3 CTAs : « S'inscrire gratuitement », « Se connecter », « Scanner mon cube à histoires ». Lien « Continuer sans compte ». Fond couvertures de livres flouées.",ta:"Le wording « gratuitement » rassure. « Continuer sans compte » est rare en trust-building, ouverture exploratoire. Le bouton cube trahit un partenariat physique.",c:"strict"},
+  {f:"03-create-account.png",ph:"Phase 2 · Compte",t:"Créer un compte",d:"« Créez votre compte pour démarrer l'aventure ». CTA « Créer un compte » + bouton secondaire « Abonnés Bayard Jeunesse & Milan ». Lien « Connexion » en bas.",ta:"Pas de social login, pas de magic link. Entrée préférentielle pour les abonnés des marques éditeurs (carte de fidélité écosystème Bayard).",c:"strict"},
+  {f:"04-profil-enfant-prenom.png",ph:"Phase 3 · Personnalisation",t:"Profil enfant · Avatar + Prénom",d:"Carrousel d'avatars (3 visibles), champ « Prénom de l'enfant », clavier ouvert.",ta:"Personnalisation immédiate : l'utilisateur s'investit dans le profil (IKEA effect léger).",c:"strict"},
+  {f:"05-choix-catalogue-age.png",ph:"Phase 3 · Personnalisation",t:"Choix tranche d'âge / catalogue",d:"« Choisissez le catalogue auquel Thelma pourra accéder ». 3-5 ans coché. Description du sous-catalogue.",ta:"Tronque le catalogue par âge : réduit le choice overload, rassure le parent. Frustre les fratries multi-âges.",c:"strict"},
+  {f:"06-pitch-chronometre-temps-ecran.png",ph:"Phase 4 · Trust / Pitch features",t:"Pitch chronomètre temps d'écran",d:"« Limitez le temps d'écran quotidien grâce au chronomètre ». 3 features + bandeau « réservée aux abonnés ». CTAs « Non, merci » / « En savoir plus ».",ta:"Argument de vente déguisé en pitch produit. Associe le contrôle parental à l'abonnement, prépare le paywall.",c:"strict"},
+  {f:"07-paywall-premium.png",ph:"Phase 5 · Paywall",t:"Paywall · onglet Premium",d:"Toggle Découverte/Premium (Premium actif). « Tout l'univers du livre audio ». 5 features + 100 livres audios. Annuel 89,99€/an (-25%) ou Mensuel 9,99€/mois. Pas de trial annoncé.",ta:"Pricing à 2 niveaux : Premium = formule complète sans trial. Le toggle est un vrai choix produit (livres audio en plus côté Premium).",c:"strict"},
+  {f:"08-paywall-decouverte-annuel.png",ph:"Phase 5 · Paywall",t:"Paywall · onglet Découverte (Annuel)",d:"« Essayez BayaM Découverte gratuitement ». 4 features. Témoignage Kath 5 étoiles. Annuel 7j gratuits puis 54,99€/an (-34%) ou Mensuel 7j gratuits puis 6,99€/mois.",ta:"Reverse trial 7j sur Découverte. Social proof intégrée au paywall. -34% sur l'annuel pousse vers ce plan.",c:"strict"},
+  {f:"09-paywall-decouverte-scroll-temoignage.png",ph:"Phase 5 · Paywall",t:"Paywall · scroll (témoignage en grand)",d:"Suite du paywall après scroll. Témoignage Kath en grand + 5 étoiles + « Waouh ! Bravo pour cette super application... ». Dots de pagination. Mentions CGU newsletter.",ta:"Social proof poussée au maximum. Mention CGU newsletter (opt-in via abonnement, à la limite du soft dark pattern).",c:"strict"},
+  {f:"10-bienvenue-profil.png",ph:"Phase 6 · Sortie paywall",t:"Bienvenue + profil",d:"« Bienvenue ! » + profil Thelma + tags âges + Nouveau profil + Paramètres. Bandeau jaune « On vous offre 7 jours d'essai gratuit » + CTA « Je découvre ! ».",ta:"Re-prompt trial après dismiss du paywall. L'app pousse plusieurs fois la conversion, bandeau jaune persistant.",c:"strict"},
+  {f:"11-controle-parental-instance-1.png",ph:"Phase 6 · Espace parent",t:"Contrôle parental (instance 1)",d:"Popup « Espace parent / Saisissez le nombre ci-dessous : Quatre mille trois cent soixante-deux ». Pavé numérique.",ta:"Mécanisme anti-bypass enfant : nombre écrit en lettres françaises, impossible pour un 3-5 ans. Friction parentale assumée.",c:"strict"},
+  {f:"12-espace-parent-menu.png",ph:"Phase 6 · Espace parent",t:"Espace parent · Menu admin",d:"Profils + bandeau trial + menu BayaM (Mon compte, Téléchargements, FAQ, Confidentialité, Noter l'app, Notifications).",ta:"Back-office adulte. Tout ce qui touche aux contenus payants est ici, séparé de l'expérience enfant.",c:"strict"},
+  {f:"13-controle-parental-instance-2.png",ph:"Phase 6 · Espace parent",t:"Contrôle parental (instance 2, autre nombre)",d:"Même popup que #11 mais nombre différent : « Mille six cent soixante-douze ».",ta:"L'app ré-demande le contrôle à chaque sortie/entrée de l'espace parent. Sécurité forte mais friction répétée.",c:"strict"},
+  {f:"14-paywall-decouverte-mensuel.png",ph:"Phase 7 · Paywall (état Mensuel)",t:"Paywall · Découverte (Mensuel sélectionné)",d:"Même paywall Découverte mais cette fois la carte Mensuel est en surbrillance jaune (état après changement de sélection).",ta:"Sélection visuelle claire (jaune sur la carte choisie). Bascule vers Mensuel avant achat.",c:"strict"},
+  {f:"15-apple-pay-sheet.png",ph:"Phase 7 · Paiement",t:"Apple Pay sheet",d:"Modal système iOS Apple Pay. Carte CCOOP. Section BayaM « Essai gratuit 1 semaine puis 6,99€/mois à partir du 16 juin 2026 ». Mention CGU complète. « Confirmez avec le bouton latéral ».",ta:"Transparence imposée par Apple : prix et date de bascule visibles d'office. Désamorce la peur du piège.",c:"strict"},
+  {f:"16-confirmation-achat.png",ph:"Phase 7 · Paiement",t:"Confirmation achat",d:"Popup système « Tout est prêt / Votre achat a bien été effectué » + OK.",ta:"Confirmation native iOS. Standard Apple.",c:"strict"},
+  {f:"17-bienvenue-post-achat-upsell-annuel.png",ph:"Phase 8 · Sortie d'onboarding",t:"Bienvenue post-achat + upsell annuel",d:"Retour sur l'écran « Bienvenue ! » + bandeau jaune : mascotte + « Profitez d'une remise de 34% avec l'abonnement annuel ! » + CTA « J'en profite ! ».",ta:"Upsell immédiat Mensuel → Annuel post-paiement. Agressif : on vient de payer, on veut accéder au contenu, mais re-pitch persistant.",c:"strict"},
+  {f:"18-re-pitch-annuel-final.png",ph:"Phase 8 · Fin onboarding",t:"Re-pitch annuel final (modal)",d:"Modal plein écran cochon-tirelire € jaune, « Économisez 28,89€/an en passant à l'abonnement annuel », CTA « Activer ».",ta:"Dernier saut avant accès au contenu. Pression annuel encore une fois.",c:"strict"},
+  {f:"19-bonus-home.png",ph:"Bonus · Post-onboarding",t:"Home BayaM",d:"« Bonjour Thelma » + recherche. Hero Pompon Tome 3. 6 boutons catégories colorés ronds : Écouter, Lire, Regarder, Jouer, Créer, Favoris. Section Héros et univers.",ta:"Navigation par grandes cibles tactiles, codes couleurs forts, UX enfantine.",c:"bonus"},
+  {f:"20-bonus-lecteur-audio.png",ph:"Bonus · Post-onboarding",t:"Lecteur audio Petit Gruffalo",d:"Cover Gallimard Jeunesse Petit Gruffalo. Contrôles audio standards (play/pause/rewind/forward). Progress bar. Tabs À propos / Chapitres.",ta:"Lecteur clean. Marque éditeur Gallimard mise en avant.",c:"bonus"},
+  {f:"21-bonus-ferme-les-yeux.png",ph:"Bonus · Post-onboarding",t:"Écran d'écoute « Ferme les yeux pour mieux écouter »",d:"Fond entièrement noir. Texte centré bas « Ferme les yeux pour mieux écouter. ». Trois dots animés en filigrane.",ta:"Détail UX exceptionnel : invite l'enfant à se concentrer sur le son. Anti-screen-time positif. Inspiration directe pour Kidsono.",c:"bonus"},
+  {f:"22-bonus-animation-ecoute.png",ph:"Bonus · Post-onboarding",t:"Animation d'écoute",d:"Fond noir avec 3 dots verticaux bleus animés au centre. Équaliseur visuel minimaliste.",ta:"Continuité de l'esprit « Ferme les yeux ». Présence minimale à l'écran.",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>

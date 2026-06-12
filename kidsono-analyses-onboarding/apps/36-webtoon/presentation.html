@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEBTOON · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  .player-note { background:#1c1c1c; color:#f2f2f2; border-radius:12px; padding:11px 15px; font-size:12.5px; line-height:1.45; margin-bottom:12px; display:flex; gap:10px; align-items:flex-start; }
+  .player-note .ic { font-size:16px; line-height:1; }
+  .player-note b { color:#fff; }
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .aha-badge { position:absolute; bottom:5px; left:5px; right:5px; background:rgba(31,157,85,.92); color:#fff; font-size:8.5px; font-weight:800; text-transform:uppercase; letter-spacing:.3px; padding:2px 5px; border-radius:5px; text-align:center; line-height:1.2; }
+  .thumb .ad-badge { position:absolute; bottom:5px; left:5px; right:5px; background:rgba(216,54,47,.9); color:#fff; font-size:8.5px; font-weight:800; text-transform:uppercase; letter-spacing:.3px; padding:2px 5px; border-radius:5px; text-align:center; line-height:1.2; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 36 · Cercle 5 (modèle crédit · webtoon)</div>
+    <h1>WEBTOON</h1>
+    <div class="subtitle">Plateforme mondiale de webtoons (Naver). Les premiers chapitres sont offerts sur tout le catalogue ; la suite se débloque par des « coins » (crédits one-shot) OU en regardant une publicité (rewarded ad). Même base qu'ONO (app 35), mais le déblocage gratuit n'est pas un wait-to-unlock (attendre 48h) : c'est une pub à regarder. Pattern fort : la lecture d'un épisode est poussée AVANT la création de compte.</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">International (store FR)</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">Données non encore collectées (app absente du CSV vitalité/notoriété à la date de l'analyse).</div>
+        <div class="src">À compléter par la session data. WEBTOON = leader mondial du segment (Naver).</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">Note et nombre d'avis à venir. Aucun chiffre fabriqué (pas de fiche store capturée dans le lot).</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Échelle log par décades, voir 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Achat à l'unité / crédit</div><div class="knote">« coins » one-shot (3 coins / épisode), sans abonnement obligatoire</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Personnalisation simple</div><div class="knote">genre express + thèmes + sexe (skippables)</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium</div><div class="knote">5 à 15 premiers chapitres COMPLETS offerts, pas des extraits</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Sans carte ❌</div><div class="knote">chapitres gratuits + rewarded ad sans CB</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">Aucun</div><div class="knote">à la place : gratuit massif + déblocage par pub</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div><div class="knote">social proof par épisode + abondance</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Aha-moment poussé EN PRÉ-COMPTE : un webtoon complet est lu AVANT toute inscription, puis le compte est demandé par-dessus</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Rewarded ad : l'épisode suivant se débloque gratuitement en regardant une pub, OU contre 3 coins (vs wait-to-unlock chez ONO)</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Premiers chapitres offerts cross-catalogue + perso légère (genre / thèmes) → plongeon direct dans le player</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, du mur de connexion au déblocage par pub ou coins. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Mur de connexion + permission notifications</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~88%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Genre poussé express (Romance / Action)</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">LECTURE d'un webtoon complet · PRÉ-COMPTE</div><span class="fbadge">Aha pré-compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~60%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Création de compte (Apple) + surnom · APRÈS l'aha</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~55%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Perso : thèmes + sexe (skippables) + sync historique</div><span class="fbadge">Perso</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~40%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Home + lecture gratuite (pub en fin d'épisode + relance abo)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~25%</div><div class="fnode"><div class="fn-i">Étape 7</div><div class="fn-t">Épisode verrouillé : « Regarder une pub OU 3 coins »</div><span class="fbadge">Déblocage</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~3-6%</div><div class="fnode"><div class="fn-i">Étape 8</div><div class="fn-t">Coin Shop (pack 1,99 €) / Premium sans pub</div><span class="fbadge">Achat</span></div></div>
+      </div>
+    </div>
+    <div class="flow-read">
+      <div class="fr"><div class="lab">Placement du compte</div><div class="v">Précoce, mais APRÈS l'aha</div><div class="note">Le compte (Apple) est créé tôt, MAIS après la lecture pré-compte. Séquencement remarquable : l'utilisateur vit la valeur avant la friction d'inscription.</div></div>
+      <div class="fr"><div class="lab">Placement du paywall</div><div class="v">Différé, contournable</div><div class="note">Aucun mur à l'entrée. Le verrou apparaît sur les épisodes avancés et reste contournable : regarder une pub = déblocage gratuit (rewarded ad), sinon 3 coins.</div></div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée. Le point clé : pas de mur, consommation gratuite réelle (chapitre complet) AVANT même la création de compte.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">12 écrans d'onboarding strict + 14 bonus (home + lecture + paywall coins/pub + coin shop). Aucune fiche store dans le lot. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+
+  <div class="player-note">
+    <span class="ic">⭐</span>
+    <span><b>Deux singularités à repérer dans les vignettes.</b> 1/ <b>L'aha-moment est poussé EN PRÉ-COMPTE</b> (vignettes vertes 04-06) : un webtoon complet est lu AVANT toute inscription ; la création de compte n'arrive qu'ensuite. 2/ <b>La pub (rewarded ad) est un vrai levier de déblocage</b> (vignettes rouges) : regarder une publicité = un épisode débloqué gratuitement, en alternative aux 3 coins. C'est le mécanisme central, et le levier le moins transposable au public enfant.</span>
+  </div>
+
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 26</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Personnalisation simple</div>
+        <div class="note">Setup léger : genre express (Romance / Action), puis thèmes (10 tuiles) et sexe, tous deux skippables. Pas un quiz long type Noom.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Achat à l'unité / crédit</div>
+        <div class="note">Déblocage par « coins » : 1 épisode = 3 coins (capture 26), série entière = 99 coins (réduction 44%). Label dominant.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-barrier)">
+        <div class="lab">Déblocage gratuit : rewarded ad</div>
+        <div class="val">Regarder une pub <span class="pill amber">Nuance forte</span></div>
+        <div class="note">Vrai 2e levier : « Regarder une pub · 15 restantes » = épisode débloqué gratuitement, en alternative aux 3 coins (captures 25-26). Stock quotidien de pubs.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix (coins)</div>
+        <div class="val">Coins (one-shot)</div>
+        <div class="note">3 coins / épisode. Coin Shop : Pack débutant 100+8 à 1,99 EUR (offre -80%) [capture 27]. Solde de départ 0 coin.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Abonnement WEBTOON Premium</div>
+        <div class="val">Optionnel <span class="pill amber">Note</span></div>
+        <div class="note">5,19 €/mois (30+3) à 17,49 €/mois (150+15) : coins bonus mensuels + « navigation et lecture sans pub » + coupon [capture 27]. Pas le label dominant.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Sans carte <span class="pill green">Ouvert</span></div>
+        <div class="note">On lit les chapitres gratuits + on débloque par rewarded ad sans CB. La CB ne sert qu'à acheter des coins ou s'abonner (optionnel).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Généreuse <span class="pill green">Freemium</span></div>
+        <div class="note">5 à 15 premiers chapitres COMPLETS offerts cross-catalogue (« 10+ ép. gratuits », « épisodes 28 à 35 gratuits », captures 17, 23). Vrai Freemium.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui <span class="pill green">Présent</span></div>
+        <div class="note">Webtoon lu en entier EN PRÉ-COMPTE (captures 04-06) : aha-moment présent (niveau 1). Pas « aha-first » imposé : l'archétype reste Personnalisation simple, pas C.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> les <b>premiers chapitres complets</b> sont offerts cross-catalogue (5 à 15), puis chaque chapitre suivant se débloque par <b>coins achetés à l'unité (one-shot)</b> OU en <b>regardant une publicité (rewarded ad)</b>. <b>Aucun abonnement obligatoire, aucune carte bleue requise.</b> L'abonnement Premium (sans pub) est une option de bascule.</div>
+    <ul class="blist">
+      <li><b>Même base qu'ONO</b> (app 35) : webtoon + coins one-shot. Mais le déblocage gratuit diffère : ONO = <b>wait-to-unlock</b> (attendre 48h) · WEBTOON = <b>rewarded ad</b> (regarder une pub).</li>
+      <li><b>Aha-moment EN PRÉ-COMPTE</b> : la lecture d'un webtoon complet précède la création de compte. Friction d'inscription quasi annulée à l'entrée.</li>
+      <li><b>La pub assumée</b> : bannières en fin d'épisode (capture 20) + rewarded ad. L'abonnement Premium se vend précisément sur le « sans pub ». Levier le moins transposable au public enfant.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW (paramètres) -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Précoce, après l'aha <span class="pill amber">À signaler</span></div>
+        <div class="note">Compte (Apple) créé tôt, MAIS après la lecture pré-compte. Séquencement remarquable : valeur vécue avant la friction d'inscription.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Différé, contournable <span class="pill green">Tardif</span></div>
+        <div class="note">Pas de mur à l'entrée. Le verrou apparaît sur les épisodes avancés, et reste contournable (rewarded ad : regarder une pub = déblocage gratuit).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Simple <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+        <div class="note">Genre express (Romance/Action) + thèmes (10 tuiles) + sexe, ces deux derniers skippables. Setup léger, alimente la reco.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">12 + 14 + 0</div>
+        <div class="note">12 onboarding strict + 14 bonus (home, lecture, pub, relance abo, fiche mature, paywall, coin shop). Aucune fiche store dans le lot (26 écrans, captures 02-27).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Faible <span class="dots"><span class="on">●●</span><span class="off">○○○</span></span></div>
+        <div class="note">Trust de masse : compteurs de vues (« 74,4M »), commentaires « TOP » par épisode. Pas de caution éditoriale, experte ni parentale en hero.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Levier de conversion</div>
+        <div class="val">Attachement + double déblocage</div>
+        <div class="note">L'utilisateur s'attache (premiers épisodes offerts), puis convertit en coins OU regarde une pub. Relances d'abonnement contextuelles (« Vous ne pouvez pas vous arrêter ? »).</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Social proof (vues + commentaires Top)</b> · Moyen</span>
+      <span class="chip present"><b>Transparence pricing</b> · Moyen</span>
+      <span class="chip present"><b>Stats vues par série</b> · Moyen</span>
+      <span class="chip present"><b>Autorité éditoriale (Naver / crédits)</b> · Faible</span>
+      <span class="chip absent">Contrôle parental</span>
+      <span class="chip absent">Écosystème / device</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de réassurance</div>
+    <ul class="tlist">
+      <li><b>Aha-moment en pré-compte</b> : lecture d'un webtoon complet avant toute inscription (captures 03-06). Friction d'entrée quasi nulle.</li>
+      <li><b>Rewarded ad</b> : « Regarder une pub · 15 restantes » = épisode débloqué gratuitement, en alternative aux 3 coins (capture 26). Monétise le non-payeur.</li>
+      <li><b>Premiers chapitres offerts cross-catalogue</b> : « 10+ ép. gratuits », « épisodes 28 à 35 gratuits » (captures 17, 23). Conversion par attachement.</li>
+      <li><b>Fenêtres gratuites limitées</b> : « épisodes 28 à 35 gratuits · 4J 09:09:04 » (capture 23) → FOMO sur la disponibilité du gratuit.</li>
+      <li><b>Relances d'abonnement contextuelles</b> : « Vous ne pouvez pas vous arrêter ? Abonnez-vous ! » au pic d'engagement (capture 21) + nudges « + S'abonner ».</li>
+      <li><b>Cross-promo partenaire</b> : « Lisez Duo Leveling et gagnez 1 mois de Super Duolingo » (captures 14, 17).</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Aha poussé en pré-compte : webtoon complet lu avant toute inscription, time-to-value immédiat.</li><li>Genre binaire (Romance/Action) : une décision pour démarrer, anti paradoxe du choix.</li><li>Double levier de déblocage (coins one-shot OU rewarded ad) : capte le payeur ET le non-payeur, sans CB.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>La pub dans l'app (rewarded ad + bannières) : dégrade l'expérience, frontalement incompatible avec un public parent premium.</li><li>Contenu ado-adulte explicite (avertissement « viol et suicide », Boy's Love) : non transposable au public enfant.</li><li>Coins one-shot : sous-monétise les gros consommateurs (revenu non récurrent, sauf bascule Premium).</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>En avance : exécution mondiale très rôdée (Naver), double monétisation coins + rewarded ad.</li><li>Contrarian vs ONO sur le déblocage gratuit : attendre 48h (ONO) vs regarder une pub (WEBTOON).</li><li>Standard sur la perso simple et le plongeon direct (partagé avec ONO / Pocket FM).</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li><b>L'aha-moment en pré-compte</b> : faire consommer un épisode complet AVANT toute friction d'inscription, puis demander le compte. Insight Kidsono « à tester ».</li><li>Genre binaire express pour démarrer la perso sans paralyser le choix.</li><li>Premiers épisodes offerts cross-catalogue pour l'attachement avant tout verrou.</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li><b>La pub (rewarded ad + bannières)</b> : levier le MOINS transposable au public enfant. Une pub dans une app enfant repousse le parent premium (cf. Gulli / Whisperies). Le déblocage gratuit doit passer par autre chose.</li><li>Le registre éditorial ado-adulte (avertissement contenu mature, Boy's Love) : sans objet pour les enfants. Intérêt structurel, pas éditorial.</li><li>L'absence totale de couche trust parentale (à reconstruire pour un public parent).</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Coins one-shot (ONO/WEBTOON/Pocket FM) vs abonnement illimité (Mangas.io) vs quota-heures sur le même catalogue.</li><li>Le séquencement aha → compte (lecture d'abord, inscription ensuite) vs compte d'abord.</li><li>Une « fenêtre gratuite limitée » comme déclencheur de retour, SANS recourir à la pub.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"02-capture.png",ph:"Phase 1 · Accueil",t:"Mur connexion + notification",d:"Derrière un carrousel de fiches webtoon, prompt de permission notifications iOS par-dessus « Continuer avec Google / Apple / Facebook ».",ta:"Capture de la permission + amorce de connexion, avant même la perso.",c:"strict"},
+  {f:"03-capture.png",ph:"Phase 2 · Genre poussé (pré-compte)",t:"Genre express",d:"« CHOISIS TON GENRE PRÉFÉRÉ ! » Deux gros boutons « ROMANCE > » / « ACTION > ». Avant toute création de compte.",ta:"Choix binaire ultra-rapide : orienter immédiatement vers du contenu, friction minimale.",c:"strict"},
+  {f:"04-capture.png",ph:"Phase 3 · Lecture PRÉ-COMPTE",t:"Plongeon lecture (aha)",d:"« Ep. 1 · AN 2167, LE 16 MAI. » + bulle « Scrollez vers le haut ». L'app dépose l'utilisateur DANS le player d'un webtoon d'action, SANS inscription.",ta:"Aha-moment poussé en pré-compte : la valeur est vécue avant toute friction.",c:"strict"},
+  {f:"05-capture.png",ph:"Phase 3 · Lecture PRÉ-COMPTE",t:"Lecture (suite)",d:"Pleine page de webtoon (scroll vertical), onomatopée « FRR », bulles « HAN… ». Lecture immersive, pas un teaser.",ta:"Consommation réelle d'un épisode complet, toujours sans compte.",c:"strict"},
+  {f:"06-capture.png",ph:"Phase 3 · Lecture PRÉ-COMPTE",t:"Lecture + relance compte",d:"Suite de la planche (« Roi Démon Voraline »), avec sheet « Se connecter avec Apple · Créez un compte WEBTOON ». « Votre prochaine série préférée vous attend ».",ta:"L'aha a été vécu : la création de compte est sollicitée APRÈS, par-dessus le contenu.",c:"strict"},
+  {f:"07-capture.png",ph:"Phase 4 · Compte (après l'aha)",t:"Création compte (Apple)",d:"Sheet native Apple « Créez un compte WEBTOON : Comics avec votre compte Apple ».",ta:"Compte créé tôt, mais après la lecture pré-compte. Séquencement à signaler.",c:"strict"},
+  {f:"08-capture.png",ph:"Phase 4 · Compte (après l'aha)",t:"Surnom",d:"« Créer votre surnom » (pré-rempli), opt-in newsletter décoché par défaut, CTA « Accepter et s'inscrire ».",ta:"Opt-in non coché par défaut : friction réduite, conformité.",c:"strict"},
+  {f:"09-capture.png",ph:"Phase 5 · Personnalisation",t:"Thèmes (skippable)",d:"« Quelles histoires aimez-vous ? » 10 tuiles (Drama, Fantastique, Comédie, Action, Tranche de vie, Romance, Thriller, Sport, SF, Horreur, LOCAL). Lien « Sauter », CTA gris.",ta:"Setup léger optionnel : affine la reco sans bloquer.",c:"strict"},
+  {f:"10-capture.png",ph:"Phase 5 · Personnalisation",t:"Sexe (skippable)",d:"« Quel est votre sexe ? » Homme / Femme / Autre / Ne souhaite pas préciser. « Sauter » disponible.",ta:"Donnée de reco supplémentaire, contournable.",c:"strict"},
+  {f:"11-capture.png",ph:"Phase 5 · Personnalisation",t:"Transition favoris",d:"« Classement de vos favoris » + mascotte (soucoupe). Écran de chargement.",ta:"Récompense de progression, crée l'attente d'une reco personnalisée.",c:"strict"},
+  {f:"12-capture.png",ph:"Phase 6 · Synchronisation",t:"Sync historique (prompt)",d:"« Synchronisez votre historique et reprenez la lecture où vous l'avez laissée ! » CTA vert « Synchroniser ».",ta:"Sécurise l'historique au compte (rétention cross-device).",c:"strict"},
+  {f:"13-capture.png",ph:"Phase 6 · Synchronisation",t:"Sync OK → home",d:"« Synchronisation terminée. Votre historique sera ajouté au serveur. » CTA « Aller lire les webtoons ».",ta:"Bascule vers le home, fin de l'onboarding strict.",c:"strict"},
+  {f:"14-capture.png",ph:"Phase 7 · Home",t:"Home + promo Duolingo",d:"Pop-up « Lisez Duo Leveling et gagnez 1 mois de Super Duolingo ! · Événement à durée limitée ». Nav : Accueil / Watch / Recherche / Canvas / Mes séries.",ta:"Cross-promo partenaire dès l'arrivée sur le home.",c:"bonus"},
+  {f:"15-capture.png",ph:"Phase 7 · Home",t:"Home (hero + catégories)",d:"Hero « Monster Eater · Super pouvoirs, Jeu de la mort, Survie » · « Aller lire » / « + S'abonner ». « Séries populaires par catégorie ». Compteur « 74,4M vues ».",ta:"Abondance + social proof de masse mis en avant.",c:"bonus"},
+  {f:"16-capture.png",ph:"Phase 7 · Home",t:"Home (Coins Gratuits)",d:"Bandeau « Coins Gratuits » + coffre. Collections (Nouvelles Sorties, Hebdo, Classement Originals), « Séries lancées récemment », « Tendances & Populaires ».",ta:"Coins gratuits = appât d'engagement quotidien.",c:"bonus"},
+  {f:"17-capture.png",ph:"Phase 7 · Home",t:"Home (ép. gratuits)",d:"« Continuer à lire » (The Glutton · « 10+ ép. gratuits · non lu »), bloc « Promotions » (Duolingo).",ta:"Mise en avant du gratuit massif pour relancer la lecture.",c:"bonus"},
+  {f:"18-capture.png",ph:"Phase 8 · Lecture gratuite",t:"Lecture épisode (gratuit)",d:"« Ep.1 · VOICI L'HISTOIRE… » sur fond rouge. Player d'un autre webtoon, lecture gratuite. ❤ 5K · 140 commentaires.",ta:"Le gratuit complet crée l'attachement avant tout verrou.",c:"bonus"},
+  {f:"19-capture.png",ph:"Phase 8 · Lecture gratuite",t:"Lecture (suite)",d:"Onomatopées « OM NOM · GRUMPF · GLOUP · SCRONTCH ». Lecture immersive (scroll vertical).",ta:"Consommation réelle, pas un teaser.",c:"bonus"},
+  {f:"20-capture.png",ph:"Phase 8 · Lecture gratuite",t:"Fin d'épisode + PUBLICITÉ",d:"Crédits, puis bannière « Advertisement » (jeu « Fun Merge · FREE »), « Prochain épisode Ep.3 », « + S'abonner », « Meilleurs Commentaires » (TOP, likes/dislikes).",ta:"La PUB s'affiche en fin d'épisode gratuit : modèle ad-supported assumé. Levier le moins transposable au public enfant.",c:"bonus"},
+  {f:"21-capture.png",ph:"Phase 8 · Lecture gratuite",t:"Relance abonnement mid-read",d:"Pop-up « Vous ne pouvez pas vous arrêter ? Abonnez-vous ! » · « Non, merci » / « Bien sûr ».",ta:"Nudge d'abonnement au pic d'engagement (sunk cost).",c:"bonus"},
+  {f:"22-capture.png",ph:"Phase 8 · Lecture gratuite",t:"Fin d'épisode (crédits + comm.)",d:"Crédits détaillés (Œuvre originale, Design, Production…), « Prochain épisode Ep.5 », « + S'abonner », commentaires « TOP » (1069 likes…).",ta:"Social proof par commentaires + nudge abonnement répété.",c:"bonus"},
+  {f:"23-capture.png",ph:"Phase 8 · Lecture gratuite",t:"Home (lots d'ép. gratuits)",d:"« Continuer à lire » (The Glutton, Monster Eater · « 10+ ép. gratuits »), bandeau « Les épisodes 28 à 35 gratuits ! · 4J 09:09:04 ».",ta:"Fenêtre gratuite limitée : FOMO sur la disponibilité du gratuit.",c:"bonus"},
+  {f:"24-capture.png",ph:"Phase 9 · Fiche + modèle",t:"Fiche Sierra (contenu mature)",d:"Fiche « Sierra · Studio woridle », tags (Terminé, Drama, Girl Crush). Avertissement : « CET ÉPISODE ABORDE DES SUJETS TELS QUE LE VIOL ET LE SUICIDE… ». CTA « Lire l'épisode 1 ».",ta:"Registre ado-adulte explicite : intérêt structurel pour Kidsono (modèle), pas éditorial.",c:"bonus"},
+  {f:"25-capture.png",ph:"Phase 9 · Fiche + modèle",t:"Liste épisodes (Pubs 15 / coins)",d:"Onglet « Épisodes », bandeau « Pubs disponibles 15 », « Série entière pour 99 coins · Débloquer », « 66 épisodes ». Épisodes récents marqués « 3 Coins ou pub ».",ta:"Stock quotidien de pubs visionnables : preuve du modèle pub OU coins.",c:"bonus"},
+  {f:"26-capture.png",ph:"Phase 9 · Fiche + modèle (clé)",t:"Déblocage : pub OU coins",d:"Sheet « Sierra · Ep.8 » : « Regarder une pub · 15 restantes » (rewarded ad) OU « Un épisode · 3 coins » OU « Série entière · 99 coins » (« Réduction de 44% »). CTA « Débloquer gratuitement ».",ta:"Le CŒUR du modèle : pub OU coins. Le déblocage gratuit = regarder une pub (vs attendre 48h chez ONO).",c:"bonus"},
+  {f:"27-capture.png",ph:"Phase 9 · Fiche + modèle (clé)",t:"Coin Shop + Premium",d:"« Coin Shop · besoin de 5 coins ». Solde 0. « Pack débutant 100+8 · 1,99 EUR (-80%) ». Puis WEBTOON Premium : 30+3 à 5,19 €/mois, 150+15 à 17,49 €/mois · « coins bonus + sans pub + coupon ».",ta:"Pack one-shot pas cher en tête, puis Premium (sans pub) en bascule récurrente.",c:"bonus"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+const isAha=s=>/^0[456]-capture/.test(s.f);
+const isAd=s=>/^(20|25|26)-capture/.test(s.f);
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    let badge='';
+    if(isAha(s)) badge=`<span class="aha-badge">Aha pré-compte · lecture avant inscription</span>`;
+    else if(isAd(s)) badge=`<span class="ad-badge">Pub / rewarded ad · déblocage par publicité</span>`;
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>${badge}</div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DramaBox · Présentation d'analyse</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2;   --c-model-soft:#f3edff;
+    --c-flow:#c4761a;    --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9;   --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55;   --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-neutral:#777;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ============ HEADER ============ */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; max-width:760px; }
+
+  .ident { display:flex; flex-wrap:wrap; align-items:stretch; gap:12px; margin-top:16px; }
+  .ident-card { border:1px solid var(--border); border-radius:12px; padding:11px 15px; background:#fcfcfa; min-width:150px; }
+  .ident-card .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .ident-card .v { font-size:16px; font-weight:800; margin-top:3px; display:flex; align-items:center; gap:7px; }
+  .vit-dot { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .vit-green{background:#27a544;} .vit-amber{background:#e0a200;} .vit-red{background:#d8362f;} .vit-grey{background:#bbb;} .vit-blue{background:#2563c9;} .vit-violet{background:#7e3ff2;} .vit-gold{background:#d4a929;}
+  .vit-scale .vit-data { font-size:12.5px; color:#333; line-height:1.45; }
+  .vit-scale .vit-data b { font-weight:800; }
+  .vit-scale { flex:1; min-width:280px; border:1px dashed var(--border); border-radius:12px; padding:10px 14px; background:#fcfcfa; }
+  .vit-scale .lab { font-size:11px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .vit-scale .legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11.5px; color:#444; }
+  .vit-scale .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .vit-scale .src { font-size:10.5px; color:var(--muted); margin-top:5px; }
+
+  /* Pastilles clés (compactes, avec mini-explication du jargon) */
+  .keypills { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:14px; }
+  .kpill { border:1px solid var(--kc-bd); background:var(--kc-bg); border-radius:11px; padding:9px 12px; }
+  .kpill .klab { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:var(--kc); }
+  .kpill .kval { font-size:13.5px; font-weight:700; margin-top:2px; color:var(--text); line-height:1.2; }
+  .kpill .knote { font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3; }
+  .kp-model   { --kc:var(--c-model);   --kc-bg:var(--c-model-soft);   --kc-bd:#ddccfb; }
+  .kp-price   { --kc:var(--c-price);    --kc-bg:var(--c-price-soft);   --kc-bd:#bce6cd; }
+  .kp-barrier { --kc:var(--c-barrier);  --kc-bg:var(--c-barrier-soft); --kc-bd:#f6cfcc; }
+  .kp-trust   { --kc:var(--c-trust);    --kc-bg:var(--c-trust-soft);   --kc-bd:#cfe0fb; }
+
+  /* Ce qui la distingue (volontairement plus discret) */
+  .distingue-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:18px 0 7px; }
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+  .sig { background:#fbfbf8; border:1px solid var(--border); border-left:3px solid var(--sc); border-radius:10px; padding:9px 12px; }
+  .sig .k { font-size:9.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; color:var(--muted); }
+  .sig .v { font-size:12.5px; font-weight:600; margin-top:2px; line-height:1.25; color:#444; }
+  .sig.s1 { --sc:#9db4cf; } .sig.s2 { --sc:#d0aaa6; } .sig.s3 { --sc:#d4bd8e; }
+
+  h2.section { font-size:17px; margin:32px 0 6px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+  .section-sub { font-size:13px; color:var(--muted); margin:0 0 14px 16px; }
+
+  /* ============ ÉCRANS DU PARCOURS (vignettes) ============ */
+  .strip { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
+  .strip.bonus { border-left:4px solid var(--accent-dark); }
+  .strip.store { border-left:4px solid var(--c-model); }
+  .strip-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .strip-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .strip-count { font-size:12px; font-weight:700; color:var(--muted); }
+  .thumbs { display:flex; gap:11px; overflow-x:auto; padding-bottom:6px; }
+  .thumb { flex:0 0 128px; cursor:zoom-in; }
+  .thumb .img { aspect-ratio:9/19.5; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#eee; position:relative; box-shadow:0 3px 12px rgba(0,0,0,.08); }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb .n { position:absolute; top:5px; left:5px; background:rgba(0,0,0,.66); color:#fff; font-size:10px; padding:1px 6px; border-radius:5px; font-weight:700; }
+  .thumb .cap { font-size:10.5px; color:var(--muted); margin-top:5px; line-height:1.25; }
+
+  .toggle-btn { display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 16px; font-size:13px; font-weight:700; color:var(--text); cursor:pointer; }
+  .toggle-btn:hover { background:#fafaf6; }
+  .toggle-btn .chev { transition:transform .2s; }
+  .toggle-btn.open .chev { transform:rotate(90deg); }
+
+  /* Viewer navigable (derrière un bouton) */
+  .viewer-block { display:none; margin-top:12px; }
+  .viewer-block.open { display:block; }
+  .viewer-grid { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:12px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { width:300px; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:20px; box-shadow:0 6px 22px rgba(0,0,0,.14); display:block; }
+  .nav-buttons { margin-top:14px; display:flex; gap:9px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:10.5px; color:var(--muted); margin-top:10px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:8px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  .phase-pill.store { background:var(--c-model); color:#fff; }
+  aside.detail h3 { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:12px 0 4px; }
+  aside.detail .t { font-size:17px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:3px; }
+
+  /* ============ BLOCS CATÉGORIES ============ */
+  .cat-block { background:var(--surface); border:1px solid var(--border); border-left:5px solid var(--cat); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .cat-head { display:flex; align-items:center; gap:9px; font-size:14px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:12px; color:var(--cat); }
+  .cat-head .num { width:23px; height:23px; border-radius:6px; background:var(--cat); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; }
+  .cat-head .hint { font-weight:600; text-transform:none; letter-spacing:0; color:var(--muted); font-size:12px; }
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(205px,1fr)); gap:10px; }
+  .tile { background:#fcfcfa; border:1px solid var(--border); border-left:3px solid var(--cat,var(--c-neutral)); border-radius:10px; padding:10px 12px; }
+  .tile .lab { font-size:12.5px; font-weight:800; letter-spacing:.2px; color:var(--cat,#444); line-height:1.2; }
+  .tile .val { font-size:15px; font-weight:700; margin:4px 0 4px; color:var(--text); display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  .tile .note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .pill { display:inline-block; font-size:9.5px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .pill.green { background:var(--c-price-soft); color:var(--c-price); }
+  .pill.red   { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber { background:var(--c-flow-soft); color:var(--c-flow); }
+  .dots { letter-spacing:1px; font-size:13px; }
+  .dots .on { color:var(--c-trust); } .dots .off { color:#cfcfcf; }
+
+  .deal { border:1px solid #e3d8fb; border-left:4px solid var(--c-model); border-radius:10px; padding:11px 14px; background:var(--c-model-soft); font-size:13.5px; margin-top:11px; }
+  .deal b { font-weight:800; }
+  .blist { margin:9px 0 0 18px; } .blist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* SCHÉMA DE FLOW */
+  .flow-box { background:var(--c-flow-soft); border:1px solid #e7d3b3; border-radius:14px; padding:13px 14px 7px; }
+  .flow-box-head { display:flex; justify-content:space-between; align-items:center; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); margin-bottom:10px; }
+  .flow-box-head .scroll-hint { font-weight:600; text-transform:none; letter-spacing:0; font-size:11px; color:#b88a3e; }
+  .flow-rail { display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .fstep { flex:0 0 130px; display:flex; flex-direction:column; }
+  .fstep .pct { font-size:12px; font-weight:800; color:var(--c-flow); font-variant-numeric:tabular-nums; height:18px; }
+  .fnode { background:#fff; border:1px solid #e7d3b3; border-radius:10px; padding:9px 10px; min-height:70px; }
+  .fnode .fn-i { font-size:10px; font-weight:800; color:#b88a3e; }
+  .fnode .fn-t { font-size:12px; font-weight:700; line-height:1.25; margin-top:2px; }
+  .fstep.key .fnode { border-color:var(--kc); border-width:2px; background:#fff; }
+  .fbadge { display:inline-block; margin-top:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; padding:2px 7px; border-radius:999px; color:#fff; background:var(--kc); }
+  .farrow { flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#c9a96a; font-size:16px; align-self:center; }
+  .flow-read { margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+  .flow-read .fr { border:1px solid var(--border); border-radius:10px; padding:10px 13px; background:#fcfcfa; }
+  .flow-read .fr .lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-flow); }
+  .flow-read .fr .v { font-size:13px; font-weight:700; margin:2px 0; }
+  .flow-read .fr .note { font-size:11.5px; color:var(--muted); }
+  .flow-est { font-size:11px; color:var(--muted); margin:10px 0 0 2px; }
+
+  /* CONVICTION */
+  .sub-title { font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; color:var(--c-trust); margin:14px 0 8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .tlist { margin:6px 0 0 18px; } .tlist li { font-size:12.5px; margin-bottom:4px; }
+
+  /* AVIS / IMPACT */
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; background:var(--surface); }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-price); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-price);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-flow);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:92vw; max-height:82vh; border-radius:14px; }
+  .lb-cap { color:#fff; font-size:13px; text-align:center; max-width:80vw; }
+  .lb-cap .num { color:#bbb; }
+  .lb-close { position:absolute; top:18px; right:22px; color:#fff; font-size:26px; cursor:pointer; opacity:.8; }
+  .lb-hint { color:#999; font-size:11px; }
+
+  @media (max-width:860px){ .keypills{grid-template-columns:repeat(2,1fr);} .signature{grid-template-columns:1fr;} .three{grid-template-columns:1fr;} .flow-read{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 37 · Cercle 5 (secteur connexe · cluster crédit, micro-séries vidéo)</div>
+    <h1>DramaBox</h1>
+    <div class="subtitle">Micro-séries vidéo verticales (drama / sitcom court format), origine Chine / Singapour. Public adulte. Intérêt pour Kidsono strictement structurel (modèle, mécanique d'engagement), jamais éditorial. Éditée par STORYMATRIX PTE. LTD.</div>
+
+    <div class="ident">
+      <div class="ident-card"><div class="lab">Pays</div><div class="v">International (store FR)</div></div>
+      <div class="ident-card"><div class="lab">Vitalité</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="ident-card"><div class="lab">Notoriété</div><div class="v"><span class="vit-dot vit-grey"></span>À venir</div></div>
+      <div class="vit-scale">
+        <div class="lab">Données de vitalité</div>
+        <div class="vit-data">À venir : DramaBox n'est pas encore dans le CSV de vitalité. Aucun chiffre fabriqué.</div>
+        <div class="src">À compléter lors de la session data (date dernière maj + avis 3 mois, App Store FR).</div>
+      </div>
+      <div class="vit-scale">
+        <div class="lab">Données de notoriété</div>
+        <div class="vit-data">À venir : note et volume d'avis non renseignés (absente du CSV). Repère brut sur la fiche store : ★ 47k avis [Observé].</div>
+        <div class="src">Volume d'avis = proxy d'adoption. Verdict officiel à figer via l'échelle log de 00-typologie.</div>
+      </div>
+    </div>
+
+    <div class="keypills">
+      <div class="kpill kp-model"><div class="klab">Modèle de monétisation</div><div class="kval">Achat à l'unité / crédit</div><div class="knote">coins one-shot (rail dominant) + abonnement illimité optionnel, sans essai</div></div>
+      <div class="kpill kp-model"><div class="klab">Archétype d'onboarding</div><div class="kval">Accès direct</div><div class="knote">zéro onboarding, série auto-lancée</div></div>
+      <div class="kpill kp-model"><div class="klab">Accès au contenu</div><div class="kval">Freemium</div><div class="knote">premiers épisodes complets gratuits, puis verrou</div></div>
+      <div class="kpill kp-model"><div class="klab">Carte bleue pour tester</div><div class="kval">Sans carte ❌</div><div class="knote">épisodes gratuits + coins gratuits gamifiés</div></div>
+      <div class="kpill kp-model"><div class="klab">Essai gratuit</div><div class="kval">Aucun</div><div class="knote">pas de période gratuite (abo payé d'emblée)</div></div>
+      <div class="kpill kp-trust"><div class="klab">Trust</div><div class="kval">Faible <span class="dots"><span class="on">●</span><span class="off">○○○○</span></span></div><div class="knote">surtout compteurs de vues, aucune autorité</div></div>
+    </div>
+
+    <div class="distingue-label">Ce qui la distingue</div>
+    <div class="signature">
+      <div class="sig s1"><div class="k">①</div><div class="v">Zéro onboarding : une série se lance toute seule à l'ouverture</div></div>
+      <div class="sig s2"><div class="k">②</div><div class="v">Double rail : coins one-shot ET abonnement illimité (~10€/sem)</div></div>
+      <div class="sig s3"><div class="k">③</div><div class="v">Boîte cadeau : coins gratuits contre notif, Facebook, pub, compte</div></div>
+    </div>
+  </header>
+
+  <!-- ============ LE FLOW (schéma remonté sous le header) ============ -->
+  <h2 class="section">Le flow du parcours</h2>
+  <p class="section-sub">Comment s'enchaînent les écrans, de l'ouverture au paiement. Faites défiler le schéma vers la droite.</p>
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="flow-box">
+      <div class="flow-box-head">Schéma du flow <span class="scroll-hint">faire défiler vers la droite →</span></div>
+      <div class="flow-rail">
+        <div class="fstep"><div class="pct">100%</div><div class="fnode"><div class="fn-i">Étape 1</div><div class="fn-t">Ouverture → home catalogue (zéro friction) + opt-in notif</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~95%</div><div class="fnode"><div class="fn-i">Étape 2</div><div class="fn-t">Série auto-lancée (player vertical)</div><span class="fbadge">Aha</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">~70%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Retour catalogue + compte différé (150 pièces)</div><span class="fbadge">Compte</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~60%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Push « Alerte Populaire » (FOMO)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~55%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Épisodes 1-13 gratuits, puis cadenas (ep. 14+)</div></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~25%</div><div class="fnode"><div class="fn-i">Étape 6</div><div class="fn-t">Paywall : épisode 50 coins OU abo illimité</div><span class="fbadge">Paywall</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep key" style="--kc:var(--c-flow)"><div class="pct">transverse</div><div class="fnode"><div class="fn-i">Levier</div><div class="fn-t">Boîte cadeau : coins gratuits (notif, FB, pub, compte)</div><span class="fbadge">Growth</span></div></div>
+        <div class="farrow">→</div>
+        <div class="fstep"><div class="pct">~3-6%</div><div class="fnode"><div class="fn-i">Sortie</div><div class="fn-t">Coins achetés / abo souscrit</div></div></div>
+      </div>
+      <div class="flow-read">
+        <div class="fr"><div class="lab">Position du compte</div><div class="v">Différé</div><div class="note">Pas à l'entrée : proposé au retour catalogue, appâté par « Réclamez 150 pièces ».</div></div>
+        <div class="fr"><div class="lab">Position du paywall</div><div class="v">Différé (à l'épisode verrouillé)</div><div class="note">Aucun mur à l'entrée ; le coin/abo n'apparaît qu'à l'épisode 14+.</div></div>
+      </div>
+    </div>
+    <div class="flow-est">Pourcentages : [Estimation] directionnelle, non mesurée. La boîte cadeau est un levier transverse (accessible à tout moment), pas une étape linéaire.</div>
+  </div>
+
+  <!-- ============ ÉCRANS DU PARCOURS ============ -->
+  <h2 class="section">Les écrans du parcours</h2>
+  <p class="section-sub">0 écran d'onboarding strict (accès direct) + 8 écrans de parcours + 1 fiche store. Cliquez une vignette (ou le bouton) pour parcourir les écrans en grand.</p>
+  <div id="strips"></div>
+
+  <div style="margin:6px 0 0;">
+    <button class="toggle-btn" id="viewerToggle" onclick="toggleViewer()"><span class="chev">▸</span> Parcourir les écrans en grand (avec description)</button>
+  </div>
+  <div class="viewer-block" id="viewerBlock">
+    <div class="viewer-grid">
+      <div class="viewport">
+        <div class="nav-counter" id="vcounter">1 / 9</div>
+        <div class="screen-wrapper" onclick="openLightbox(idx)"><img class="screen-img" id="vscreen" src="" alt="Écran"></div>
+        <div class="nav-buttons"><button class="nav" id="vprev" onclick="vPrev()">← Précédent</button><button class="nav" id="vnext" onclick="vNext()">Suivant →</button></div>
+        <div class="kbd-hint">← → naviguer · clic sur l'écran = plein écran</div>
+      </div>
+      <aside class="detail">
+        <div class="phase-pill" id="vphase">Phase</div>
+        <div class="t" id="vtitle"></div>
+        <h3>Description</h3><p id="vdesc"></p>
+        <h3>Tactique</h3><p id="vtactic"></p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ============ CARTE D'IDENTITÉ / ANALYSE ============ -->
+  <h2 class="section">Carte d'identité &amp; analyse</h2>
+  <p class="section-sub">Organisée selon les 3 paramètres d'analyse : le modèle, le flow, la conviction.</p>
+
+  <!-- 1. LE MODÈLE & L'OFFRE -->
+  <div class="cat-block" style="--cat:var(--c-model)">
+    <div class="cat-head"><span class="num">1</span>Le modèle &amp; l'offre <span class="hint">quel deal l'app propose-t-elle, à quel prix, avec quelle friction ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Archétype d'onboarding</div>
+        <div class="val">Accès direct</div>
+        <div class="note">Zéro onboarding construit. On arrive direct au catalogue, une série se lance seule. Pas de perso, pas de carrousel.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Modèle de monétisation</div>
+        <div class="val">Achat à l'unité / crédit</div>
+        <div class="note">Double rail sur le même écran : coins one-shot (rail dominant, épisode = 50 coins) OU abonnement illimité optionnel (9,99 à 14,99€/sem ou 129,99€/an, sans essai). Label officiel = le crédit dominant ; l'abonnement reste une option, décrite ici.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Prix</div>
+        <div class="val">Coins 2,99 à 29,99 € · Abo ~10-15 €/sem <span class="pill amber">Élevé (abo)</span></div>
+        <div class="note">Packs coins 300/2,99 · 700+70/7,99 · 1300+300/14,99 · 2500+1000/29,99. Abo 9,99€/sem (promo) puis 14,99€/sem, ou 129,99€/an.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Essai gratuit</div>
+        <div class="val">Aucun</div>
+        <div class="note">Abo payé d'emblée (1ère sem. à tarif réduit, pas une période gratuite). L'incitation = gratuit + coins gamifiés.</div>
+      </div>
+      <div class="tile" style="--cat:var(--c-price)">
+        <div class="lab">Carte bleue pour tester</div>
+        <div class="val">Sans carte <span class="pill green">Favorable</span></div>
+        <div class="note">Épisodes complets gratuits + coins gratuits gamifiés. CB seulement pour acheter coins ou s'abonner (optionnel).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Dose de gratuit</div>
+        <div class="val">Généreuse (~13 ép.) <span class="pill green">Freemium</span></div>
+        <div class="note">Épisodes 1-13 complets et gratuits, puis cadenas. Format micro-série très court.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Valeur vécue gratuitement</div>
+        <div class="val">Oui <span class="pill green">Présent</span></div>
+        <div class="note">Série complète auto-lancée + épisodes gratuits (aha niveau 1). Mais PAS « aha-moment first » : aucun onboarding ne l'impose/guide (niveau 2 non).</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Gamification des coins</div>
+        <div class="val">Forte (growth)</div>
+        <div class="note">Boîte cadeau : check-in quotidien + coins contre compte, notif, pub, follow Facebook. Levier transverse.</div>
+      </div>
+    </div>
+    <div class="deal"><b>Le deal :</b> freemium vrai (≈13 épisodes courts complets gratuits) + une série <b>auto-lancée</b> à l'ouverture, puis verrou débloqué par un <b>double rail</b> : coins one-shot (50 coins/épisode, packs 2,99-29,99€) <b>ou</b> abonnement illimité (9,99€/sem promo puis 14,99€/sem, ou 129,99€/an). Aucune carte requise pour tester ; coins gratuits gagnés par gamification growth.</div>
+    <ul class="blist">
+      <li><b>Accès direct radical</b> : zéro onboarding, série auto-lancée en moins de 5 s (« comme à la télé »). Accroche maximale, consentement nul.</li>
+      <li><b>Double monétisation</b> coins + abonnement, côte à côte : capte l'impatient (micro-paiement) et le gros consommateur (forfait illimité).</li>
+      <li><b>Gamification growth</b> des coins gratuits : notif, Facebook, pub, compte récompensés. Levier puissant mais à proscrire sur un public enfant.</li>
+    </ul>
+  </div>
+
+  <!-- 2. LE FLOW (paramètres) -->
+  <div class="cat-block" style="--cat:var(--c-flow)">
+    <div class="cat-head"><span class="num">2</span>Le flow du parcours <span class="hint">les paramètres clés (schéma complet plus haut)</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Position du compte</div>
+        <div class="val">Différé <span class="pill green">Favorable</span></div>
+        <div class="note">Demandé au retour catalogue, après l'aha auto, appâté par « 150 pièces ». Pas à l'entrée.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Position du paywall</div>
+        <div class="val">Différé (épisode verrouillé) <span class="pill amber">Tardif</span></div>
+        <div class="note">Aucun mur à l'entrée. Le coin/abo apparaît à l'épisode 14+ une fois accroché.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Personnalisation</div>
+        <div class="val">Absente <span class="dots"><span class="off">○○○○○</span></span></div>
+        <div class="note">Aucun profil ni quiz. Onglet « Pour Vous » algorithmique, hors onboarding.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Volume d'écrans</div>
+        <div class="val">0 + 8 + 1</div>
+        <div class="note">0 onboarding strict (accès direct) + 8 parcours + 1 fiche store.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA CONVICTION -->
+  <div class="cat-block" style="--cat:var(--c-trust)">
+    <div class="cat-head"><span class="num">3</span>La conviction <span class="hint">qu'est-ce qui rassure et pousse à convertir ?</span></div>
+    <div class="dash">
+      <div class="tile">
+        <div class="lab">Trust</div>
+        <div class="val">Faible <span class="dots"><span class="on">●</span><span class="off">○○○○</span></span></div>
+        <div class="note">DramaBox ne rassure pas, elle accroche : social proof (compteurs de vues) + abondance, rien d'autre.</div>
+      </div>
+      <div class="tile">
+        <div class="lab">Leviers de conversion</div>
+        <div class="val">Impulsion + urgence</div>
+        <div class="note">Auto-play, FOMO (« 13.4K la regardent »), compte à rebours « Durée limitée », bonus de coins décroissants.</div>
+      </div>
+    </div>
+
+    <div class="sub-title">Cartographie trust (présent / absent)</div>
+    <div class="chips">
+      <span class="chip present"><b>Social proof (compteurs de vues)</b> · Moyen</span>
+      <span class="chip present"><b>Abondance catalogue</b> · Moyen</span>
+      <span class="chip absent">Autorité éditoriale</span>
+      <span class="chip absent">Contrôle parental</span>
+      <span class="chip absent">Transparence pricing</span>
+      <span class="chip absent">Écosystème / device</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Cautions experts</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Stats utilisateurs globales</span>
+    </div>
+
+    <div class="sub-title">Tactiques &amp; éléments de conversion</div>
+    <ul class="tlist">
+      <li><b>Aha auto-lancé « comme à la télé »</b> : contenu imposé dès l'ouverture, zéro friction, zéro choix. Accroche maximale.</li>
+      <li><b>FOMO + social proof temps réel</b> : « 13.4K utilisateurs la regardent », compteurs de vues (1.5M, 1.7M) partout.</li>
+      <li><b>Urgence artificielle</b> : compte à rebours « Durée limitée 23:59:57 » sur l'offre d'abonnement.</li>
+      <li><b>Gamification growth des coins</b> : coins contre compte / notif / pub / follow Facebook. Dark pattern de rétention-acquisition.</li>
+      <li><b>Bonus de coins décroissants</b> : plus le pack est gros, plus le bonus % est avantageux, pour pousser au gros panier.</li>
+      <li><b>Demande de notif à la 1ère seconde</b>, sans pré-prompt de valeur.</li>
+    </ul>
+  </div>
+
+  <!-- ============ AVIS + IMPACT ============ -->
+  <h2 class="section">L'avis</h2>
+  <div class="three">
+    <div class="card force"><div class="ttl">Force</div><ul><li>Accroche maximale : aha auto-lancé, valeur montrée en moins de 5 s.</li><li>Double rail : capte l'impatient (coins) et le gros consommateur (abo).</li><li>Gamification coins : rétention quotidienne + acquisition à coût marginal nul.</li></ul></div>
+    <div class="card risk"><div class="ttl">Risques</div><ul><li>Brutalité du consentement (notif d'emblée, auto-play imposé, push intrusifs).</li><li>Gamification growth = dark pattern (FB, pub, notif récompensés).</li><li>Aucun trust : modèle pur churn-and-burn si le contenu déçoit.</li></ul></div>
+    <div class="card pos"><div class="ttl">Position marché</div><ul><li>En avance / agressif sur la monétisation (double rail + gamification).</li><li>Contrarian sur l'onboarding (zéro onboarding, auto-play).</li><li>Sous le standard sur trust et consentement (volontairement).</li></ul></div>
+  </div>
+
+  <h2 class="section">Impact / reproductibilité pour Kidsono</h2>
+  <div class="three">
+    <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Valeur d'abord : contenu complet gratuit dès l'ouverture (activation immédiate).</li><li>Compte différé et incentivé (présenté comme un gain).</li><li>Double rail crédit one-shot + forfait illimité (couvre toute la willingness-to-pay).</li></ul></div>
+    <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Auto-play imposé sans consentement (inacceptable sur enfant).</li><li>Gamification growth (notif / Facebook / pub contre coins) : à proscrire.</li><li>Notif à la 1ère seconde, push intrusifs, urgence artificielle.</li><li>Registre / catalogue (à l'opposé éditorial).</li></ul></div>
+    <div class="card tester"><div class="ttl">À tester</div><ul><li>Dose gratuite optimale avant verrou (nb d'histoires / minutes).</li><li>Crédit one-shot vs abonnement illimité sur le parent FR.</li><li>Check-in quotidien « propre » (récompense d'usage non growth) pour la rétention.</li></ul></div>
+  </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="">
+  <div class="lb-cap" id="lb-cap"></div>
+  <div class="lb-hint">← → naviguer · Échap fermer</div>
+</div>
+
+<script>
+const screens = [
+  {f:"00-store-listing-dramabox.png",ph:"Phase 0 · Acquisition store",t:"Fiche App Store",d:"'DramaBox · Film et Drame C...', 'Regarder les drames en vogue', ★ 47k avis, éditeur STORYMATRIX PTE. LTD. Concurrent ReelShort juste en dessous.",ta:"Positionnement pur divertissement, social proof par volume d'avis.",c:"store"},
+  {f:"01-home-catalogue-notif-optin.png",ph:"Phase 1 · Accès direct",t:"Home catalogue + opt-in notif",d:"À l'ouverture : grille dense de séries (badges Doublée / Tendance), compteurs de vues, boîte cadeau dorée (+10). Dialog notif système immédiate, sans pré-prompt.",ta:"Accès direct au catalogue. Demande de notif dès la 1ère seconde, agressive.",c:"bonus"},
+  {f:"02-home-catalogue-tendances.png",ph:"Phase 1 · Accès direct",t:"Home catalogue (tendances)",d:"Même grille sans dialog. Séries à registre sensationnaliste adulte ('Mafia', 'Identité Cachée', 'Ta Mariée', 'Éducation Sexuelle Par Mon Playboy').",ta:"Abondance + accroches racoleuses, algorithme de tendance.",c:"bonus"},
+  {f:"03-aha-serie-auto-lancee-player.png",ph:"Phase 2 · Aha-moment auto-lancé",t:"Série auto-lancée (player vertical)",d:"Player vidéo plein écran vertical, 'Détrompez-vous ! Je Suis La Vraie', Épisode 1, qui démarre tout seul. CTA 'Devenir Adhésion' + 'Télécharger'.",ta:"Aha-moment IMPOSÉ d'emblée, zéro friction. Très efficace en accroche, brutal sur le consentement. PAS un aha-first (aucun onboarding ne le guide).",c:"bonus"},
+  {f:"04-compte-differe-bottomsheet-150pieces.png",ph:"Phase 3 · Compte différé",t:"Compte différé (150 pièces)",d:"Bottom-sheet 'Enregistrez votre liste' (Facebook / Google / Apple) appâté par un badge 'Réclamez 150 pièces !'.",ta:"Compte différé monétisé par l'incentive coins. Le compte est vendu comme un gain.",c:"bonus"},
+  {f:"05-alerte-populaire-push-serie.png",ph:"Phase 3 · Compte différé",t:"Push « Alerte Populaire »",d:"Popup intrusive poussant une série tendance ('Hors-jeu de Cœur', '13.4K utilisateurs la regardent', DramaBox Exclusif), CTA 'Regarder'.",ta:"FOMO + social proof temps réel, relance d'engagement.",c:"bonus"},
+  {f:"06-episodes-gratuits-puis-verrouilles.png",ph:"Phase 4 · Freemium puis verrou",t:"Épisodes gratuits puis verrouillés",d:"Grille d'épisodes (1.7M vues), onglets 1-30 / 31-59. Épisodes 1-13 déverrouillés, cadenas à partir de l'épisode 14.",ta:"Dose gratuite généreuse au début (freemium vrai), verrou une fois l'utilisateur accroché.",c:"bonus"},
+  {f:"07-paywall-coins-packs-et-abonnement.png",ph:"Phase 5 · Paywall double rail",t:"Paywall coins + abonnement",d:"'Cet épisode : 50 / Solde : 0'. Packs coins one-shot (300/2,99 · 700+70/7,99 · 1300+300/14,99 · 2500+1000/29,99). Abo 'Adhésion' 9,99€/sem puis 14,99€/sem, ou 129,99€/an. Bandeau 'Durée limitée 23:59:57'.",ta:"Double rail sur le même écran (micro-paiement OU forfait illimité), urgence par compte à rebours, bonus de coins décroissants.",c:"bonus"},
+  {f:"08-boite-cadeau-gamification-growth.png",ph:"Phase 6 · Gamification growth",t:"Boîte cadeau « Récompense de pièces »",d:"Check-in quotidien (Jour 1-7 : +10/+20/+10/+10/+25/+40 coins). 'Gagner des récompenses' : Connexion à un compte +150, Activer les notifications +150, Gagnez des pièces (0/15) +20 (pubs), Suivez-nous sur FB +50.",ta:"Gamification growth/rétention. Chaque action monétisable (compte, notif, pub, follow Facebook) récompensée en coins.",c:"bonus"}
+];
+
+const $=id=>document.getElementById(id);
+const lb=$('lightbox'), lbi=$('lightbox-img'), lbc=$('lb-cap');
+let idx=0;
+
+const GROUPS=[{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Parcours (post-accès direct)'},{k:'store',t:'Acquisition store'}];
+const stripsEl=$('strips');
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const strip=document.createElement('div'); strip.className='strip '+g.k;
+  strip.innerHTML=`<div class="strip-head"><span class="strip-title">${g.t}</span><span class="strip-count">${items.length} écrans</span></div><div class="thumbs"></div>`;
+  const th=strip.querySelector('.thumbs');
+  items.forEach(({s,i})=>{
+    const d=document.createElement('div'); d.className='thumb'; d.onclick=()=>openViewerAt(i);
+    d.innerHTML=`<div class="img"><img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span></div><div class="cap">${s.t}</div>`;
+    th.appendChild(d);
+  });
+  stripsEl.appendChild(strip);
+});
+
+function vRender(){ const s=screens[idx];
+  const im=$('vscreen'); if(im) im.src='captures/'+s.f;
+  const c=$('vcounter'); if(c) c.textContent=`${idx+1} / ${screens.length}`;
+  const p=$('vphase'); if(p){ p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':(s.c==='store'?' store':'')); }
+  const t=$('vtitle'); if(t) t.textContent=s.t;
+  const d=$('vdesc'); if(d) d.textContent=s.d;
+  const ta=$('vtactic'); if(ta) ta.textContent=s.ta;
+  const pv=$('vprev'), nx=$('vnext'); if(pv) pv.disabled=idx===0; if(nx) nx.disabled=idx===screens.length-1;
+  if(lb.classList.contains('active')) paintLb();
+}
+function vPrev(){ if(idx>0){idx--;vRender();} }
+function vNext(){ if(idx<screens.length-1){idx++;vRender();} }
+function setViewerLabel(open){ const b=$('viewerToggle'); b.querySelector('.chev').nextSibling.textContent = open ? ' Masquer les écrans en grand' : ' Parcourir les écrans en grand (avec description)'; }
+function openViewerAt(i){ idx=i; const b=$('viewerBlock'); b.classList.add('open'); $('viewerToggle').classList.add('open'); setViewerLabel(true); vRender(); b.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function toggleViewer(){ const b=$('viewerBlock'); const open=b.classList.toggle('open'); $('viewerToggle').classList.toggle('open',open); setViewerLabel(open); if(open) vRender(); }
+
+function openLightbox(i){ idx=i; paintLb(); lb.classList.add('active'); }
+function paintLb(){ const s=screens[idx]; lbi.src='captures/'+s.f; lbc.innerHTML=`<span class="num">${idx+1} / ${screens.length}</span> · ${s.ph} · <b>${s.t}</b>`; }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{
+  const lightOpen=lb.classList.contains('active');
+  const viewerOpen=$('viewerBlock').classList.contains('open');
+  if(lightOpen){ if(e.key==='Escape')closeLightbox(); if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); return; }
+  if(viewerOpen){ if(e.key==='ArrowLeft')vPrev(); if(e.key==='ArrowRight')vNext(); }
+});
+</script>
+</body>
+</html>

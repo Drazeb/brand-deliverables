@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quelle Histoire · Présentation d'analyse (proposition de format)</title>
+<style>
+  :root {
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f5c842; --accent-dark:#d4a929;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-money:#1f9d55; --c-money-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+    --c-warn:#e08a00; --c-warn-soft:#fff4e0;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-content:#0e9b9b; --c-content-soft:#e3f6f6;
+    --c-neutral:#777; --c-neutral-soft:#f0f0ec;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* HEADER */
+  header.hero { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:26px 30px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  h1 { font-size:30px; margin:4px 0 2px; }
+  .subtitle { color:var(--muted); font-size:15px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:14px; font-size:13px; color:var(--muted); }
+  .hero-meta b { color:var(--text); }
+
+  /* SIGNATURE BADGES */
+  .signature { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+  .sig { border-radius:14px; padding:16px 18px; color:#fff; position:relative; overflow:hidden; }
+  .sig .k { font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; opacity:.85; }
+  .sig .v { font-size:17px; font-weight:800; margin-top:3px; line-height:1.25; }
+  .sig.s1 { background:linear-gradient(135deg,#2563c9,#1e3a8a); }
+  .sig.s2 { background:linear-gradient(135deg,#d8362f,#8a1f1a); }
+  .sig.s3 { background:linear-gradient(135deg,#e08a00,#a85d00); }
+
+  h2.section { font-size:17px; margin:34px 0 14px; display:flex; align-items:center; gap:10px; }
+  h2.section::before { content:""; width:6px; height:18px; border-radius:3px; background:var(--accent-dark); display:inline-block; }
+
+  /* DASHBOARD */
+  .dash { display:grid; grid-template-columns:repeat(auto-fill,minmax(225px,1fr)); gap:12px; }
+  .tile { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--c-neutral); border-radius:11px; padding:12px 14px; }
+  .tile .lab { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); }
+  .tile .val { font-size:17px; font-weight:800; margin:2px 0 4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .tile .note { font-size:12px; color:var(--muted); }
+  .pill { display:inline-block; font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; text-transform:uppercase; letter-spacing:.4px; }
+  .code-int { font-size:10px; font-weight:600; color:#b0b0b0; background:#f3f3ef; border:1px solid #e6e6e0; padding:1px 6px; border-radius:5px; letter-spacing:.3px; font-variant:normal; }
+  .dots { letter-spacing:1px; font-size:13px; }
+  /* category accents */
+  .cat-model   { border-left-color:var(--c-model); }   .cat-model .lab{color:var(--c-model);}
+  .cat-money   { border-left-color:var(--c-money); }   .cat-money .lab{color:var(--c-money);}
+  .cat-barrier { border-left-color:var(--c-barrier); } .cat-barrier .lab{color:var(--c-barrier);}
+  .cat-warn    { border-left-color:var(--c-warn); }    .cat-warn .lab{color:var(--c-warn);}
+  .cat-trust   { border-left-color:var(--c-trust); }   .cat-trust .lab{color:var(--c-trust);}
+  .cat-content { border-left-color:var(--c-content); } .cat-content .lab{color:var(--c-content);}
+  .cat-neutral { border-left-color:var(--c-neutral); }
+  .pill.green  { background:var(--c-money-soft); color:var(--c-money); }
+  .pill.red    { background:var(--c-barrier-soft); color:var(--c-barrier); }
+  .pill.amber  { background:var(--c-warn-soft); color:var(--c-warn); }
+  .pill.blue   { background:var(--c-trust-soft); color:var(--c-trust); }
+  .dots .on { color:var(--c-trust); }
+  .dots .off { color:#cfcfcf; }
+
+  /* VIEWER */
+  .viewer-grid { display:grid; grid-template-columns:1fr 330px; gap:22px; }
+  .viewport { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; display:flex; flex-direction:column; align-items:center; }
+  .nav-counter { font-size:13px; color:var(--muted); margin-bottom:14px; font-variant-numeric:tabular-nums; }
+  .screen-wrapper { position:relative; max-width:330px; width:100%; cursor:zoom-in; }
+  .screen-img { width:100%; height:auto; border-radius:22px; box-shadow:0 8px 30px rgba(0,0,0,.15); display:block; }
+  .nav-buttons { margin-top:18px; display:flex; gap:10px; }
+  button.nav { background:var(--accent); color:var(--text); border:none; padding:9px 18px; border-radius:999px; font-size:14px; font-weight:600; cursor:pointer; }
+  button.nav:hover { background:var(--accent-dark); }
+  button.nav:disabled { background:#eee; color:#aaa; cursor:not-allowed; }
+  .kbd-hint { font-size:11px; color:var(--muted); margin-top:12px; }
+  aside.detail { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; height:fit-content; position:sticky; top:16px; }
+  .phase-pill { display:inline-block; background:var(--accent); color:var(--text); padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; margin-bottom:10px; }
+  .phase-pill.bonus { background:var(--accent-dark); color:#fff; }
+  aside.detail h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 5px; }
+  aside.detail .t { font-size:16px; font-weight:700; }
+  aside.detail p { font-size:13.5px; margin-top:4px; }
+  .thumbs-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .thumbs-group { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 16px; }
+  .thumbs-group.bonus { border-left:4px solid var(--accent-dark); }
+  .tg-head { display:flex; justify-content:space-between; margin-bottom:10px; }
+  .tg-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+  .thumbs { display:flex; gap:10px; overflow-x:auto; }
+  .thumb { flex:0 0 78px; aspect-ratio:9/19.5; border-radius:7px; overflow:hidden; border:2px solid transparent; cursor:pointer; background:#eee; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .thumb.active { border-color:var(--accent-dark); }
+  .thumb .n { position:absolute; bottom:3px; right:3px; background:rgba(0,0,0,.7); color:#fff; font-size:9px; padding:1px 4px; border-radius:3px; font-weight:600; }
+
+  /* ANALYSIS BOTTOM */
+  .analysis { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px 26px; }
+  .analysis h3 { font-size:15px; margin:20px 0 8px; }
+  .analysis h3:first-child { margin-top:0; }
+  .analysis ul { margin:0 0 0 18px; }
+  .analysis li { font-size:13.5px; margin-bottom:5px; }
+  pre.funnel { background:#fbfbf8; border:1px solid var(--border); border-radius:10px; padding:14px; overflow-x:auto; font-size:11px; line-height:1.35; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin:6px 0 4px; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:999px; border:1px solid var(--border); }
+  .chip.present { background:var(--c-trust-soft); border-color:#cfe0fb; color:#173f7e; }
+  .chip.absent { background:#f3f3ef; color:#9a9a9a; text-decoration:line-through; }
+  .chip b { font-weight:800; }
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+  .card { border:1px solid var(--border); border-radius:11px; padding:14px; }
+  .card .ttl { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin-bottom:6px; }
+  .card.force .ttl { color:var(--c-money); } .card.risk .ttl { color:var(--c-barrier); } .card.pos .ttl { color:var(--c-trust); }
+  .card.repro .ttl{color:var(--c-money);} .card.eviter .ttl{color:var(--c-barrier);} .card.tester .ttl{color:var(--c-warn);}
+  .card ul { margin-left:16px; } .card li { font-size:12.5px; }
+
+  /* LIGHTBOX */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out; }
+  .lightbox.active { display:flex; }
+  .lightbox img { max-width:95vw; max-height:95vh; border-radius:14px; }
+
+  @media (max-width:860px){ .signature{grid-template-columns:1fr;} .viewer-grid{grid-template-columns:1fr;} aside.detail{position:static;} .three{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="eyebrow">Benchmark onboarding · App 04 · Concurrent direct FR (histoires audio enfants)</div>
+    <h1>Quelle Histoire</h1>
+    <div class="subtitle">Histoires audio éducatives sur l'Histoire · "l'application qui fait adorer l'Histoire" (Unique Heritage Média)</div>
+    <div class="hero-meta">
+      <span><b>Plateforme :</b> iOS</span>
+      <span><b>Capture :</b> 2026-06-10 (manuelle)</span>
+      <span><b>Écrans :</b> 1 store + 4 strict + 11 bonus</span>
+      <span><b>Note store :</b> 4★ (357 avis), Éducation</span>
+    </div>
+
+    <!-- SIGNATURE : ce qui distingue cette app -->
+    <div class="signature">
+      <div class="sig s1"><div class="k">Ce qui la distingue ①</div><div class="v">8 histoires complètes offertes (vrai freemium)</div></div>
+      <div class="sig s2"><div class="k">Ce qui la distingue ②</div><div class="v">Aha-moment via le hero : le 1er tap = la valeur</div></div>
+      <div class="sig s3"><div class="k">Ce qui la distingue ③</div><div class="v">Gate adulte pédagogique (calcul, on éduque l'enfant)</div></div>
+    </div>
+  </header>
+
+  <!-- ============ DASHBOARD ============ -->
+  <h2 class="section">Carte d'identité en un coup d'œil</h2>
+  <div class="dash">
+
+    <div class="tile cat-model">
+      <div class="lab">Archétype</div>
+      <div class="val">Freemium authentique, aha-moment via le hero</div>
+      <div class="note">Gratuité réelle de plusieurs histoires complètes, plus une orientation forte du 1er tap vers une histoire offerte écoutable en entier.</div>
+    </div>
+
+    <div class="tile cat-model">
+      <div class="lab">Monétisation</div>
+      <div class="val">Freemium (abonnement immédiat)</div>
+      <div class="note">Pas de reverse trial : on consomme la gratuité puis l'abonnement est payant immédiatement.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Prix</div>
+      <div class="val">4,99 €/mois ou 23,99 €/an (-20%) <span class="pill green">Promo</span></div>
+      <div class="note">Annuel à 23,99€ la 1ère année (prix barré 29,99€, -20% jusqu'au 30 juin 2026) ou mensuel 4,99€.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Essai gratuit</div>
+      <div class="val">Aucun</div>
+      <div class="note">Pas de période d'essai sur le paywall. La gratuité passe par les histoires offertes en amont.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Carte bleue pour tester</div>
+      <div class="val">Non requise <span class="pill green">Sans carte</span></div>
+      <div class="note">Freemium : 8 histoires complètes offertes, testable sans carte.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Position du compte</div>
+      <div class="val">4 (skippable via Passer) <span class="pill green">Favorable</span></div>
+      <div class="note">Création de compte en fin d'onboarding strict, contournable par le bouton "Passer". Pas un mur bloquant.</div>
+    </div>
+
+    <div class="tile cat-warn">
+      <div class="lab">Position du paywall</div>
+      <div class="val">À la tentative (post-exploration)</div>
+      <div class="note">Déclenché quand l'utilisateur tente d'ouvrir un contenu verrouillé, après exploration libre : tentative → gate adulte → paywall.</div>
+    </div>
+
+    <div class="tile cat-money">
+      <div class="lab">Dose de gratuit</div>
+      <div class="val">Généreuse <span class="pill green">Authentique</span></div>
+      <div class="note">8 histoires complètes offertes (dont 2 épisodes Métronome + 1 quiz).</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Trust</div>
+      <div class="val">Moyen <span class="dots"><span class="on">●●●</span><span class="off">○○</span></span></div>
+      <div class="note">Abondance catalogue et contrôle parental forts ; marque et caution culturelle moyennes ; pas de presse, awards ni témoignages.</div>
+    </div>
+
+    <div class="tile cat-trust">
+      <div class="lab">Contrôle parental</div>
+      <div class="val">Fort <span class="dots"><span class="on">●●●●</span><span class="off">○</span></span></div>
+      <div class="note">Gate adulte pédagogique (calcul 50÷2), mode nuit sans écran, toggles "cacher les histoires bloquées" et "mode sans écran uniquement".</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Personnalisation</div>
+      <div class="val">Absente <span class="dots"><span class="off">○○○○○</span></span></div>
+      <div class="note">Aucune question sur l'enfant, l'âge ou les goûts dans l'onboarding. Pas d'adaptation des recommandations.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Valeur vécue gratuitement (aha-moment)</div>
+      <div class="val">Oui <span class="pill green">Présent</span></div>
+      <div class="note">Le hero pousse une histoire complète gratuite (Ep.2 Métronome, écoutable en entier). Forte proba de consommation.</div>
+    </div>
+
+    <div class="tile cat-content">
+      <div class="lab">Formats de contenu</div>
+      <div class="val">Audio (2 modes)</div>
+      <div class="note">Histoires audio, écoutables en mode jour (animé, paysage) ou mode nuit (audio-only, anti screen-time). Plus un grand quiz famille.</div>
+    </div>
+
+    <div class="tile cat-neutral">
+      <div class="lab">Volume d'écrans</div>
+      <div class="val">1 + 4 + 11</div>
+      <div class="note">1 store + 4 onboarding strict + 11 bonus = 16 écrans capturés.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ VIEWER ============ -->
+  <h2 class="section">Storyboard navigable</h2>
+  <div class="viewer-grid">
+    <div class="viewport">
+      <div class="nav-counter" id="counter">1 / 16</div>
+      <div class="screen-wrapper" onclick="openLightbox()"><img class="screen-img" id="screen" src="" alt="Écran"></div>
+      <div class="nav-buttons"><button class="nav" id="prev" onclick="prev()">← Précédent</button><button class="nav" id="next" onclick="next()">Suivant →</button></div>
+      <div class="kbd-hint">Navigation : ← → · Zoom : clic</div>
+    </div>
+    <aside class="detail">
+      <div class="phase-pill" id="phase">Phase</div>
+      <div class="t" id="title"></div>
+      <h3>Description</h3><p id="description"></p>
+      <h3>Tactique</h3><p id="tactic"></p>
+    </aside>
+    <div class="thumbs-stack" id="thumbs-stack"></div>
+  </div>
+
+  <!-- ============ ANALYSE DÉTAILLÉE ============ -->
+  <h2 class="section">Analyse détaillée</h2>
+  <div class="analysis">
+
+    <h3>Funnel</h3>
+    <pre class="funnel">Fiche store → Splash + Notif iOS → Bienvenue + Créa compte (Passer) → Home hero Métronome gratuit → Aha : Ep.2 Métronome 3:54 entier → Paywall sur le verrou (gate → €)
+   100%        ~92%                ~80%                              ~78%                          ~55% (aha)                       ~25%
+                                                                                                                       → Abonné (annuel -20%) : 3-6%   [Estimation]</pre>
+
+    <h3>Cartographie trust (présent / absent)</h3>
+    <div class="chips">
+      <span class="chip present"><b>Preuve d'abondance catalogue</b> · Fort</span>
+      <span class="chip present"><b>Contrôle parental</b> · Fort</span>
+      <span class="chip present"><b>Autorité éditoriale / marque</b> · Moyen</span>
+      <span class="chip present"><b>Transparence pricing</b> · Moyen</span>
+      <span class="chip present"><b>Caution personnalité (Lorànt Deutsch)</b> · Moyen</span>
+      <span class="chip absent">Témoignages / social proof</span>
+      <span class="chip absent">Logos presse</span>
+      <span class="chip absent">Awards</span>
+      <span class="chip absent">Partenariats écosystème</span>
+      <span class="chip absent">Stats utilisateurs</span>
+    </div>
+
+    <h3>Tactiques clés</h3>
+    <ul>
+      <li><b>Aha-moment via le hero</b> : la home oriente le 1er tap vers une histoire gratuite complète (Ep.2 Métronome, 3:54). Pas de parcours imposé, mais l'essai est quasi-inévitable.</li>
+      <li><b>Gratuité authentique multiple</b> : 8 histoires complètes + 2 épisodes de la série phare + 1 grand quiz, sans cadenas. Annoncée dès le sign-up ("on vous offre plusieurs histoires").</li>
+      <li><b>Gate adulte pédagogique 50÷2</b> : message qui éduque l'enfant sur le blocage + calcul qui filtre les jeunes enfants. Friction transformée en micro-apprentissage, on-brand.</li>
+      <li><b>Double mode jour/nuit</b> : mode jour animé immersif vs mode nuit audio-only (anti screen-time, argument parental). Verrouillable dans les préférences.</li>
+      <li><b>Caution culturelle Lorànt Deutsch</b> + ancrage prix barré et urgence datée (-20% jusqu'au 30 juin 2026) sur le paywall.</li>
+    </ul>
+
+    <h3>L'avis</h3>
+    <div class="three">
+      <div class="card force"><div class="ttl">Force</div><ul><li>Le freemium le plus propre et le plus honnête du corpus.</li><li>Aha-moment efficace via le hero, friction minimale.</li><li>Gate adulte pédagogique et contrôle parental riche.</li></ul></div>
+      <div class="card risk"><div class="ttl">Risques</div><ul><li>Pas de trial : peut limiter la conversion des parents hésitants.</li><li>Trust externe faible (pas de presse, awards, témoignages).</li><li>Positionnement monothématique Histoire, personnalisation absente.</li></ul></div>
+      <div class="card pos"><div class="ttl">Position marché</div><ul><li>Exemplaire sur la mécanique freemium (gratuité + aha-moment).</li><li>En retard sur le trial et le trust externe.</li><li>Contrarian-positif sur l'honnêteté : donne vraiment avant de demander.</li></ul></div>
+    </div>
+
+    <h3>Impact / reproductibilité pour Kidsono</h3>
+    <div class="three">
+      <div class="card repro"><div class="ttl">À reproduire</div><ul><li>Hero gratuit déclencheur d'aha-moment + gratuité multiple visible en priorité.</li><li>Gate adulte pédagogique (message à l'enfant + calcul).</li><li>Double mode jour/nuit, opt-in marketing décoché.</li></ul></div>
+      <div class="card eviter"><div class="ttl">À éviter</div><ul><li>Notif iOS prématurée (demander au moment de la valeur).</li><li>Paywall sans aucune période d'essai si la cible est hésitante.</li></ul></div>
+      <div class="card tester"><div class="ttl">À tester</div><ul><li>Gratuité authentique + trial sur le premium (best of both).</li><li>Ajouter une perso légère par âge (absente ici) pour recommandations et rétention.</li></ul></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src=""></div>
+
+<script>
+const screens = [
+  {f:"00-app-store-fiche.png",ph:"Acquisition · App Store",t:"Fiche App Store",d:"'Quelle Histoire · Histoires audio pour enfants', éditeur Unique Heritage Éditions, 4★ sur 357 avis, catégorie Éducation. Screenshots 'Des centaines d'audios pour découvrir l'Histoire'.",ta:"Positionnement éducatif monothématique (l'Histoire), appui sur l'abondance. Marque déjà connue en France (collection de livres jeunesse).",c:"store"},
+  {f:"01-splash-logo-mascottes.png",ph:"Phase 1 · Splash / Accueil",t:"Splash logo + mascottes historiques",d:"Fond bleu, cluster de personnages historiques (Napoléon au centre, drapeau français, mousquetaires), logo 'Quelle Histoire', mention 'Une marque du groupe' + badge 'Unique Heritage Média'.",ta:"Ancrage marque + signal éditorial (appartenance à un groupe média). Le casting de personnages annonce le périmètre (Histoire de France).",c:"strict"},
+  {f:"02-notif-ios-autorisation.png",ph:"Phase 1 · Splash / Accueil",t:"Notification iOS (autorisation)",d:"Pop-up système iOS 'Autorisez-vous Quelle Histoire à vous envoyer des notifications ?' (Refuser / Autoriser), juste après le splash, avant la création de compte et avant tout signal de valeur.",ta:"Demande de permission notif prématurée. Demander avant que l'utilisateur ait perçu la valeur réduit généralement le taux d'autorisation.",c:"strict"},
+  {f:"03-bienvenue-compte-cleopatre.png",ph:"Phase 2 · Compte",t:"Bienvenue (Cléopâtre) + créer un compte",d:"Cléopâtre pouce levé, 'Bienvenue · Connectez-vous ou créez gratuitement un compte pour écouter vos premières histoires, on vous les offre !'. CTA 'Créer un compte' + 'J'ai déjà un compte'. 'Passer' en haut à droite. Dots 1/2.",ta:"Compte demandé tôt mais skippable ('Passer'). L'argument est la gratuité ('on vous les offre'), pas l'engagement. Promesse de gratuité posée dès l'accueil.",c:"strict"},
+  {f:"04-creation-compte-formulaire.png",ph:"Phase 2 · Compte",t:"Créez votre compte (formulaire)",d:"Même hero Cléopâtre. 'Créez votre compte. C'est gratuit. … et on vous offre plusieurs histoires pour fêter ça !'. Champs E-mail + Mot de passe. Opt-in marketing décoché par défaut. Mention RGPD enfants <16 ans.",ta:"Le verbatim 'on vous offre plusieurs histoires' annonce explicitement la gratuité multiple, ce qui crédibilise le freemium dès le sign-up. Opt-in non pré-coché = conforme.",c:"strict"},
+  {f:"05-bonus-home-hero-place-italie.png",ph:"Bonus · Catalogue (aha-moment)",t:"Home · hero Ep.2 Métronome (gratuit)",d:"Direct-to-catalogue. Hero rouge 'Ep.2 Métronome · Place d'Italie' (personnage en toge), boutons 'Écouter / Info' sans cadenas. Rangée 'Collections' : Histoire, Mythes & Légendes, Littérature. Barre de nav basse.",ta:"Le hero pousse vers une histoire gratuite complète. Déclencheur de l'aha-moment : le 1er tap quasi-obligé tombe sur du contenu écoutable en entier.",c:"bonus"},
+  {f:"06-bonus-catalogue-libre-decouvre-metronome-quiz.png",ph:"Bonus · Catalogue (aha-moment)",t:"Catalogue libre (scroll de la home)",d:"Scroll de la home. Section 'Découvre Quelle Histoire' (Athéna, Cléopâtre, Les Mousquetaires…). Section 'Métronome' (Ep.2 sans cadenas = gratuit, Ep.3 avec cadenas). Carte 'Le Grand Quiz'.",ta:"Le contenu gratuit (8 histoires + quiz) est mis en avant en priorité dans le scroll, éparpillé en sections éditoriales. L'utilisateur voit d'abord ce qu'il peut consommer.",c:"bonus"},
+  {f:"07-bonus-choix-mode-jour-nuit.png",ph:"Bonus · Expérience d'écoute",t:"Choix Mode jour / Mode nuit",d:"Écran intermédiaire au lancement d'une écoute : 'Mode jour · J'écoute et je regarde' (mockup iPhone animé) vs 'Mode Nuit · J'écoute sans écran' (écran noir avec play).",ta:"Choix produit fort sur le rapport à l'écran. Mode nuit = écoute sans stimulation visuelle (anti screen-time). Contrôle parental positionné comme bénéfice.",c:"bonus"},
+  {f:"08-bonus-lecteur-mode-jour-paysage.png",ph:"Bonus · Expérience d'écoute",t:"Lecteur Mode jour (paysage animé)",d:"Lecteur en orientation paysage, animation type bande dessinée qui défile, 'Chapitre 1/6 · Place d'Italie', Ep.2 Métronome, contrôles (play, suivant, favoris).",ta:"Expérience riche immersive façon dessin animé pour le mode jour. L'app pivote en paysage pour ce mode.",c:"bonus"},
+  {f:"09-bonus-lecteur-mode-nuit-portrait.png",ph:"Bonus · Expérience d'écoute",t:"Lecteur Mode nuit (portrait, sans écran)",d:"Lecteur portrait épuré : grande carte rouge personnage, 'Ep.2 Métronome', 'Place d'Italie', 'Chapitre 1 / 6', timer 00:02 / 03:54, contrôles audio classiques.",ta:"Version sobre audio-only. La durée 03:54 confirme une unité de valeur courte et complète, consommable en entier gratuitement.",c:"bonus"},
+  {f:"10-bonus-categorie-histoire.png",ph:"Bonus · Navigation catalogue",t:"Catégorie Histoire",d:"Page catégorie 'Histoire' : hero illustré (Jules César, pirates, Louis XIV, Jeanne d'Arc), accroche 'Jules César était l'amoureux de Cléopâtre… Tu le savais, toi ? Découvre plein de super histoires sur l'Histoire !'. Rangée 'Dernières sorties'.",ta:"Éditorialisation ludique et tutoiement de l'enfant. Le ton intrigue et donne envie d'explorer (curiosité).",c:"bonus"},
+  {f:"11-bonus-fiche-metronome-integrale.png",ph:"Bonus · Contenu premium",t:"Fiche Métronome L'intégrale (verrouillée)",d:"'Métronome, L'intégrale', 'L'histoire de France au rythme du métro parisien', 91 min, 'Suis Lorànt Deutsch pour une grande aventure à travers le métro parisien… 22 stations…', 'Lire plus', CTA 'J'écoute'.",ta:"Montée en gamme (l'intégrale 91 min vs les épisodes gratuits courts). Caution Lorànt Deutsch. Le tap 'J'écoute' déclenche le gate adulte puis le paywall.",c:"bonus"},
+  {f:"12-bonus-gate-adulte-50-divise-2.png",ph:"Bonus · Gate adulte",t:"Gate adulte 50 ÷ 2 (adressé à l'enfant)",d:"'Tu veux écouter cette histoire ? 🎧 · Seul l'abonnement pourra la débloquer ainsi que des centaines d'autres ! Demande à un adulte de venir voir les offres d'abonnement par ici 👇', puis '50 ÷ 2 = ?' (15 / 25 / 30).",ta:"Double couche : message qui éduque l'enfant sur le blocage et le renvoie vers un adulte + calcul qui filtre les jeunes enfants. Friction transformée en mini-moment pédagogique, on-brand.",c:"bonus"},
+  {f:"13-bonus-paywall-moins-20-pourcent.png",ph:"Bonus · Paywall",t:"Paywall -20%",d:"'L'APPLICATION qui fait adorer l'Histoire', '-20% sur l'abonnement'. Bénéfices : 'Plus de 400 histoires audio débloquées', 'Un quiz géant · 600 questions', 'Écoutez partout, même hors ligne', 'L'activité parfaite sur le trajet des vacances'. Annuel -20% (29,99→23,99€/an) ou Mensuel 4,99€/mois. CTA 'Je profite de l'offre'.",ta:"2 plans (annuel discount mis en avant via ancrage prix barré + urgence date limite), bénéfices orientés usage familial (quiz famille, trajets vacances, hors ligne). Pas de trial gratuit.",c:"bonus"},
+  {f:"14-bonus-bibliotheque-vide.png",ph:"Bonus · Bibliothèque",t:"Ma bibliothèque (vide)",d:"Onglet 'Ma bibliothèque' : sous-onglets Préférées / Playlists / Débloquées / Téléchargées. État vide 'Tu n'as pas ajouté d'histoire préférée ? … clique sur l'icône cœur'.",ta:"Empty state pédagogique qui explique l'usage des favoris. L'onglet 'Débloquées' préfigure la valeur de l'abonnement (zone qui se remplira une fois payé).",c:"bonus"},
+  {f:"15-bonus-mon-compte-preferences.png",ph:"Bonus · Compte / Réglages",t:"Mon compte / Préférences",d:"'Mon compte' : onglets Informations / Abonnement / Courriers de l'Histoire. Email, mot de passe, 'Se déconnecter'. 'Mes préférences' : toggles 'Cacher les histoires bloquées', 'Utiliser le mode sans écran uniquement'. Notifications : toggles app + offres.",ta:"Contrôle parental fin. 'Cacher les histoires bloquées' = ne montrer à l'enfant que l'accessible (évite la frustration des cadenas). 'Mode sans écran uniquement' = verrouillage anti screen-time. 'Courriers de l'Histoire' = capillarité écosystème éditorial.",c:"bonus"}
+];
+
+let idx=0;
+const $=id=>document.getElementById(id);
+const stack=$('thumbs-stack'), lb=$('lightbox'), lbi=$('lightbox-img');
+const GROUPS=[{k:'store',t:'Acquisition store (pré-install)'},{k:'strict',t:'Onboarding strict'},{k:'bonus',t:'Bonus post-onboarding'}];
+GROUPS.forEach(g=>{
+  const items=screens.map((s,i)=>({s,i})).filter(({s})=>s.c===g.k);
+  if(!items.length)return;
+  const grp=document.createElement('div'); grp.className='thumbs-group '+g.k;
+  grp.innerHTML=`<div class="tg-head"><span class="tg-title">${g.t}</span><span class="tg-title">${items.length}</span></div><div class="thumbs"></div>`;
+  const th=grp.querySelector('.thumbs');
+  items.forEach(({s,i})=>{ const d=document.createElement('div'); d.className='thumb'+(i===0?' active':''); d.dataset.idx=i; d.onclick=()=>go(i); d.innerHTML=`<img src="captures/${s.f}"><span class="n">${String(i+1).padStart(2,'0')}</span>`; th.appendChild(d); });
+  stack.appendChild(grp);
+});
+function render(){ const s=screens[idx]; $('screen').src='captures/'+s.f; $('counter').textContent=`${idx+1} / ${screens.length}`; const p=$('phase'); p.textContent=s.ph; p.className='phase-pill'+(s.c==='bonus'?' bonus':''); $('title').textContent=s.t; $('description').textContent=s.d; $('tactic').textContent=s.ta; $('prev').disabled=idx===0; $('next').disabled=idx===screens.length-1; document.querySelectorAll('.thumb').forEach(t=>{ const a=Number(t.dataset.idx)===idx; t.classList.toggle('active',a); if(a)t.scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'}); }); }
+function prev(){ if(idx>0){idx--;render();} }
+function next(){ if(idx<screens.length-1){idx++;render();} }
+function go(i){ idx=i; render(); }
+function openLightbox(){ lbi.src='captures/'+screens[idx].f; lb.classList.add('active'); }
+function closeLightbox(){ lb.classList.remove('active'); }
+document.addEventListener('keydown',e=>{ if(lb.classList.contains('active')){ if(e.key==='Escape')closeLightbox(); return; } if(e.key==='ArrowLeft')prev(); if(e.key==='ArrowRight')next(); });
+render();
+</script>
+</body>
+</html>
