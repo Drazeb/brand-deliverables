@@ -37,6 +37,10 @@
   .t-blue{background:var(--c-trust-soft);color:var(--c-trust);}
   .t-grey{background:#f0f0ec;color:#777;}
   .t-gold{background:#fdf6dc;color:#9a7200;}
+  .app-chip{display:inline-block;font-size:11.5px;background:#f4f4ef;border:1px solid var(--border);border-radius:8px;padding:1px 7px;margin:1px 2px;white-space:nowrap;font-weight:700;}
+  a.app-chip{text-decoration:none;color:inherit;cursor:pointer;transition:border-color .12s, box-shadow .12s;}
+  a.app-chip:hover{border-color:var(--c-trust);box-shadow:0 1px 5px rgba(37,99,201,.18);}
+  .mex{margin-top:6px;font-size:11px;color:var(--muted);}
   .het{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;background:#fdecea;color:#a3261f;}
   .lesson{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--cat);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
   .lesson h3{font-size:15px;color:var(--cat);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
@@ -90,7 +94,6 @@
     <a href="#ch01"><span class="tn">01</span><span class="tt">La grille : les 8 paramètres et la méthode</span></a>
     <a href="#ch02"><span class="tn">02</span><span class="tt">La matrice : 10 familles × 8 paramètres</span></a>
     <a href="#ch03"><span class="tn">03</span><span class="tt">Les enseignements, paramètre par paramètre</span></a>
-    <a href="#ch04"><span class="tn">04</span><span class="tt">L'avis sur cette matrice</span></a>
   </nav>
 
   <!-- ============ CH 01 ============ -->
@@ -118,122 +121,122 @@
   <!-- ============ CH 02 ============ -->
   <div class="chapter" id="ch02">
     <div class="ch-band"><span class="ch-num">02</span><span class="ch-title">La matrice : 10 familles × 8 paramètres</span></div>
-    <p class="chapeau">Chaque case donne la valeur majoritaire de la famille. Le badge rouge signale les paramètres où la famille ne converge pas : il y en a quatre dans toute la matrice, et trois sont instructifs en eux-mêmes. Tableau large, scroll horizontal assumé.</p>
+    <p class="chapeau">Chaque case : la ou les pastilles de niveau, l'explication, puis un ou deux meilleurs exemples. Les pastilles grises d'applications sont cliquables : elles ouvrent la fiche de l'application, avec ses écrans. Le badge rouge signale les paramètres où la famille ne converge pas : il y en a quatre dans toute la matrice, et trois sont instructifs en eux-mêmes. Tableau large, scroll horizontal assumé.</p>
     <div class="tbl-wrap">
     <table style="min-width:2350px;">
       <thead><tr><th>Famille</th><th>1 · Trust : niveau + méthodes</th><th>2 · Personnalisation : niveau + méthodes</th><th>3 · Création de compte</th><th>4 · Logique d'aha-moment</th><th>5 · Paywall : position + nature</th><th>6 · Réassurance au paiement</th><th>7 · Longueur</th><th>8 · Registre de promesse</th></tr></thead>
       <tbody>
-        <tr>
-          <td class="fam">F1a · Histoires audio enfant : ceux qui tiennent <span class="tag t-gold">métier Kidsono</span></td>
-          <td style="white-space:normal;">Moyen à fort, TOUJOURS un pilier structurant. Méthode majoritaire : <b>autorité éditoriale en hero</b> (logos Bayard/Milan, École des Loisirs) ; variantes : social proof massif + production premium (Readmio). Maillon faible : Alma (promesses chiffrées seules)</td>
-          <td style="white-space:normal;">Simple à moyenne (4/4) : <b>profil enfant UTILITAIRE</b> (prénom + âge + avatar) qui adapte le catalogue et le chrono. Jamais un quiz de conviction</td>
-          <td style="white-space:normal;"><b>Avant le mur, intégré au flow</b> (Bayam écran 3, Readmio 7, Alma 11). Exception : KiLi (différé à la tentative)</td>
-          <td style="white-space:normal;">Pas d'aha gratuit structurel : <b>la conviction remplace la dégustation</b>. Au mieux un aha orchestré ponctuel (1-2 contenus en hero KiLi, démo dans l'intro Readmio)</td>
-          <td style="white-space:normal;"><b>Avant toute consommation</b>, dans le flow (écrans 7-9), répété (Bayam x4). Aucun amortisseur de refus</td>
-          <td style="white-space:normal;">Faible à moyenne : mentions "sans engagement / résiliable" standard. Seul Readmio a une vraie timeline d'essai (Day 7 + rappel)</td>
-          <td style="white-space:normal;"><b>Les plus longs du marché FR</b> : 12-18+ écrans, 70 à 200 s. Le parti pris de conviction prend de la place</td>
-          <td style="white-space:normal;"><b>La caution + le catalogue</b> ("les histoires des éditeurs que vous aimez") ; Alma : le bien-être sans écran</td>
-        </tr>
-        <tr>
-          <td class="fam">F1b · Histoires audio enfant : ceux qui meurent ou végètent</td>
-          <td style="white-space:normal;">Faible à moyen, <b>jamais structurant</b>. Méthodes éparses : abondance chiffrée (Souffleur "1200 histoires"), personnalité culturelle (Lorànt Deutsch chez Quelle Histoire)</td>
-          <td style="white-space:normal;"><span class="het">Hétérogène</span> Absente (Quelle Histoire) ↔ la plus poussée du C1 (Capitaine : prénom dans le récit + modes DYS/duo) ↔ moyenne IA (MHS). Aucune norme de famille</td>
-          <td style="white-space:normal;"><b>Différé, optionnel ou absent</b> (6/6). Le seul paramètre où la famille converge totalement</td>
-          <td style="white-space:normal;">Aha présent mais <b>LIBRE, non orchestré</b> : le gratuit existe, traîne en catalogue, et ne convertit pas. La signature des perdants</td>
-          <td style="white-space:normal;"><b>À la tentative</b> (cadenas) ou absent. Paywall mou, subi plutôt que conçu</td>
-          <td style="white-space:normal;">Faible : transparence pauvre (Souffleur : annuel "bientôt disponible", pas de récap de prélèvement)</td>
-          <td style="white-space:normal;">Très courts : 3-7 écrans, 12 à 60 s. Court par défaut, pas par design</td>
-          <td style="white-space:normal;">Le catalogue brut (abondance), ou rien du tout</td>
-        </tr>
-        <tr>
-          <td class="fam">F2 · Sommeil / calme / bien-être enfant</td>
-          <td style="white-space:normal;">Moyen. Méthode signature : <b>promesse de RÉSULTAT chiffrée</b> ("s'endort 28 min plus vite", "37 min de sommeil en plus") + caution science/experts revendiquée, jamais nominale + awards légers (Moshi)</td>
-          <td style="white-space:normal;">Simple STRUCTURANTE : <b>prénom + âge + OBJECTIF</b> (Sommeil / Calme), 4 écrans, qui alimente une promesse nominative ("pour Thelma"). Absente chez Cosmic Kids</td>
-          <td style="white-space:normal;"><span class="het">Hétérogène</span> Différé (Moshi, Cosmic) soit avant le mur en email + OTP (Aumio) soit tôt (LILI). Pas de norme</td>
-          <td style="white-space:normal;">Aucun aha pré-mur : <b>la promesse remplace la dégustation</b>, et l'aha vit sous essai ou dans l'AMORTISSEUR (3 jours sans CB à l'exit chez Moshi)</td>
-          <td style="white-space:normal;"><b>Très précoce, avant tout contenu</b> (écran 7-11), mais AMORTI : exit-intent sans CB (Moshi) ou skip vers freemium (Aumio)</td>
-          <td style="white-space:normal;">Forte chez les gagnants : timeline "How your trial works" J0/J5/J7 (Moshi), Apple Pay détaillé + code promo (Aumio)</td>
-          <td style="white-space:normal;">Courts : 11-12 écrans, ~60-90 s. La perso tient en 4 écrans</td>
-          <td style="white-space:normal;"><b>Le RÉSULTAT sur l'état de l'enfant</b>, chiffré et nominatif. On ne vend jamais le catalogue</td>
-        </tr>
-        <tr>
-          <td class="fam">F3 · Bibliothèques de livres enfants lus à voix haute</td>
-          <td style="white-space:normal;">Faible. Méthodes : <b>abondance chiffrée</b> ("40 000+ titres") + transparence du trial. Les cautions réelles (Oxford, Pete the Cat) existent et sont GÂCHÉES derrière le mur</td>
-          <td style="white-space:normal;"><b>Absente avant le mur</b> (3/4) : la perso (profil, avatar, âge) est renvoyée APRÈS le paiement. Skybrary simple (centres d'intérêt)</td>
-          <td style="white-space:normal;"><b>Précoce, avant le paywall</b> (4/4, écrans 2-5, SSO). Le paramètre le plus homogène de la famille</td>
-          <td style="white-space:normal;">Aucun gratuit : <b>l'aha est IMPOSÉ SOUS ESSAI</b> (read-along forcé d'Epic : âge → choix de livre → lecture). Il sert la rétention du trial, pas la conversion</td>
-          <td style="white-space:normal;"><b>Tôt, juste après le compte, BLOQUANT</b> (hard paywall). Au refus : hard gate de relance (Vooks) ou rien. Exception Skybrary (free plan parallèle)</td>
-          <td style="white-space:normal;"><b>La famille de la trial timeline</b> : J0 / J5 rappel / J7 prélèvement + "cancel at least one day before" + Restore (Epic). Le standard du genre</td>
-          <td style="white-space:normal;">Courts à moyens : 60-150 s (Skybrary 240 s, setup profils)</td>
-          <td style="white-space:normal;">L'abondance + l'amour de la lecture ("Inspire a lifelong love of reading")</td>
-        </tr>
-        <tr>
-          <td class="fam">F4a · Programmes d'apprentissage : l'essai proposé, jamais imposé</td>
-          <td style="white-space:normal;">Moyen à fort. Méthodes : <b>stats d'adoption massives</b> ("50M+ familles") + caution académique (Oxford University Press) + label kidSAFE</td>
-          <td style="white-space:normal;"><b>Opt-in minimal</b> : double voie explicite, "plonger directement" pré-coché vs perso 1 question d'âge. La perso est au choix du parent</td>
-          <td style="white-space:normal;"><b>Différé</b> : skippable (Lingokids) ou à la conversion (ABCmouse). Jamais un mur</td>
-          <td style="white-space:normal;">Aha gratuit <b>POUSSÉ en hero</b> (Daily Learning Quest gamifiée d'ABCmouse) + exploration libre du freemium : dégustation orchestrée légère</td>
-          <td style="white-space:normal;"><b>Tôt mais SKIPPABLE proprement</b> ("I'll stick with basic for now"), ré-offert en interne. Amortisseur = le freemium réel</td>
-          <td style="white-space:normal;">Moyenne : "Annulez à tout moment", "sans engagement". Pas de timeline détaillée. Vigilance : l'essai disparaît des paywalls internes chez Lingokids</td>
-          <td style="white-space:normal;">Courts : ~90 s jusqu'au catalogue freemium</td>
-          <td style="white-space:normal;">Le progrès LUDIQUE cautionné ("playlearning" + Oxford) : apprendre en jouant, sans culpabilité</td>
-        </tr>
-        <tr>
-          <td class="fam">F4b · Programmes d'apprentissage : la conviction avant le mur</td>
-          <td style="white-space:normal;"><b>Fort, le plus outillé du panel</b>. Méthodes : certifications tierces (kidSAFE, Mom's Choice), méthode scientifique revendiquée (Direct Instruction), certificat NOMINATIF au nom de l'enfant, social proof de masse (2,5M parents)</td>
-          <td style="white-space:normal;"><span class="het">Hétérogène</span> Deux écoles internes : quiz POUSSÉ diagnostique (Homer 10 questions, Reading.com ~10 questions + placement du niveau réel) soit absente pré-mur (Hooked, Reading Eggs : carrousel/vidéo). C'est la scission F4b déjà documentée</td>
-          <td style="white-space:normal;"><b>Avant le mur, et MONNAYÉ</b> : le compte/email est exigé "pour voir vos résultats" (Homer "See Results", Reading.com email seul à l'écran 31). Capture de lead garantie même sans conversion</td>
-          <td style="white-space:normal;">Aucun gratuit pré-mur (3/4) : <b>l'ENGAGEMENT remplace l'aha</b> (sunk cost du quiz + outcome reveal "Growing Learner"). Exception vertueuse : Reading.com (leçon gratuite CALIBRÉE au niveau, post-skip)</td>
-          <td style="white-space:normal;"><b>Après l'outcome reveal</b>, CB requise (3/4). Le mur arrive quand l'investissement émotionnel est maximal. Reading.com seul skippable</td>
-          <td style="white-space:normal;"><b>La plus poussée du panel</b> : timeline J0/J5/J7 + bloc "How can I cancel?" (Homer), "No payment required now" + rappel J-2 notifié (Reading.com). Contre-exemple : Reading Eggs (trial caché sur le seul mensuel, annuel facturé immédiatement)</td>
-          <td style="white-space:normal;"><span class="het">Hétérogène</span> <b>Les plus longs du panel</b> côté quiz : 150 à 330 s (Reading.com 5 min 30) ; courts côté carrousel (Hooked 55 s)</td>
-          <td style="white-space:normal;"><b>Le résultat scolaire DIAGNOSTIQUÉ</b> ("en 10 leçons, Thelma lira son premier livre") : promesse personnalisée, courbe de progression, diplôme</td>
-        </tr>
-        <tr>
-          <td class="fam">F5a · Vidéo / TV enfant gratuite</td>
-          <td style="white-space:normal;">La marque TV / le service public EST le trust (France Télévisions, M6/TF1). Rien à prouver à l'écran</td>
-          <td style="white-space:normal;">Légère (profil simple) ou absente</td>
-          <td style="white-space:normal;">Optionnel ou absent ("Découvrir sans s'identifier")</td>
-          <td style="white-space:normal;">Trivial : tout est gratuit, consommation immédiate. Aucune logique de conversion</td>
-          <td style="white-space:normal;">Absent (gate publicitaire chez Gulli, rien chez Okoo)</td>
-          <td style="white-space:normal;">Sans objet</td>
-          <td style="white-space:normal;">Les plus courts : 12-35 s</td>
-          <td style="white-space:normal;">La marque, gratuite ("vos héros, sans payer")</td>
-        </tr>
-        <tr>
-          <td class="fam">F5b · Dessins animés et comptines de licences mondiales</td>
-          <td style="white-space:normal;">Faible in-app : <b>la marque externe fait tout</b> (CoComelon, Baby Shark : la confiance est acquise sur YouTube avant l'install)</td>
-          <td style="white-space:normal;">Absente (2/3) ; Super Simple Songs : 2 écrans de besoins</td>
-          <td style="white-space:normal;"><b>ABSENT</b> (CoComelon, Pinkfong : aucune création de compte observée) ; différé chez SSS. Unique au panel</td>
-          <td style="white-space:normal;">Immédiat et libre sur la petite part gratuite (berceuses, coloriage). <b>L'aha a déjà eu lieu ailleurs</b> (YouTube) : l'app encaisse une demande existante</td>
-          <td style="white-space:normal;"><b>Sec, à la tentative</b> sur contenu verrouillé, SANS essai (2/3), gate parental devant. Re-déclenché à chaque cadenas</td>
-          <td style="white-space:normal;">Faible, voire trompeuse : prix d'appel 1er mois qui masque le tarif réel (CoComelon), "SALE 47%" (Pinkfong). "Cancel anytime" présent mais noyé</td>
-          <td style="white-space:normal;">Très courts : 30-75 s jusqu'au hub</td>
-          <td style="white-space:normal;">La marque que l'enfant réclame déjà. L'app ne vend pas, elle encaisse</td>
-        </tr>
-        <tr>
-          <td class="fam">F6 · Livre audio long adulte <span class="tag t-violet">cluster crédit</span></td>
-          <td style="white-space:normal;">Moyen. Méthodes : <b>abondance massive</b> ("900 000+ titres") + transparence pricing + caution d'écosystème (Amazon) ou de mission (libraires indépendants chez Libro)</td>
-          <td style="white-space:normal;">Absente : réglages utilitaires (langue, boutique), jamais un profil de goûts construit</td>
-          <td style="white-space:normal;"><b>Très tôt et OBLIGATOIRE</b> (compte Amazon écran 4, Storytel écran 2) ; Libro seul en différé ("Start exploring" sans compte)</td>
-          <td style="white-space:normal;"><b>Absent par design</b> : vitrine riche + extraits de ~5 min, jamais l'œuvre. Conversion par frustration de vitrine (les fiches Audible n'ont même pas de bouton Écouter)</td>
-          <td style="white-space:normal;"><b>La HOME est le paywall</b> : le 1er bloc après l'install est la bannière essai/crédit. Skippable vers la vitrine, ré-exposé partout</td>
-          <td style="white-space:normal;">Forte : "1 mois gratuit, renouvellement automatique à 10,99 €/mois, résiliez à tout moment" affiché sous le CTA (Audible), date de prélèvement explicite (Storytel). Opacité chez Libro (prix hors app)</td>
-          <td style="white-space:normal;">Courts : ~90 s jusqu'à la home-paywall</td>
-          <td style="white-space:normal;">L'abondance + la PROPRIÉTÉ ("il vous appartient définitivement") ou le quota par usage ("pour vos trajets quotidiens")</td>
-        </tr>
-        <tr>
-          <td class="fam">F7 · Feuilleton à l'épisode <span class="tag t-violet">cluster crédit</span></td>
-          <td style="white-space:normal;">Faible. Méthode unique : <b>social proof par compteurs PAR CONTENU</b> ("6,8M lectures · 4.6" sur chaque vignette) + abondance ("75 000 séries"). Zéro caution tierce</td>
-          <td style="white-space:normal;">Simple <b>par GOÛTS</b> : prénom + âge + 3 genres/séries préférés pour amorcer la recommandation (3/5) ; absente chez DramaBox (l'algorithme fait tout)</td>
-          <td style="white-space:normal;"><b>Différé et APPÂTÉ</b> ("Connexion : +150 pièces") ; variantes : tôt (Pocket FM), après l'aha (WEBTOON : lecture avant inscription)</td>
-          <td style="white-space:normal;"><b>MASSIF et immédiat</b>, parfois auto-lancé, parfois avant tout compte : l'aha EST le produit. 5 à 13 épisodes complets gratuits créent l'attachement à UNE série</td>
-          <td style="white-space:normal;"><b>Différé DANS le contenu</b> : le mur est le cliffhanger de l'épisode N+1. Amortisseur intégré : attendre 24-48 h débloque gratuitement (wait-to-unlock)</td>
-          <td style="white-space:normal;">Faible : coût en coins visible seulement au verrou, urgence "23:59:57" (DramaBox). Le one-shot dispense d'engagement, donc de réassurance</td>
-          <td style="white-space:normal;">Les plus courts du payant : 5 à 90 s jusqu'au contenu</td>
-          <td style="white-space:normal;"><b>Le contenu lui-même</b> : on ne promet pas, on MONTRE (série auto-lancée). Zéro argumentaire</td>
-        </tr>
-      </tbody>
+      <tr>
+        <td class="fam">F1a · Histoires audio enfant : ceux qui tiennent <span class="tag t-gold">métier Kidsono</span></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span> <span class="tag t-green">Fort</span><br>TOUJOURS un pilier structurant. Méthode majoritaire : autorité éditoriale en hero (logos Bayard/Milan, École des Loisirs) ; variante : social proof massif + production premium (Readmio). Maillon faible : Alma (promesses chiffrées seules)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Simple</span><br>Profil enfant UTILITAIRE (prénom + âge + avatar) qui adapte le catalogue et le chrono (4/4). Jamais un quiz de conviction<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Avant le mur</span><br>Intégré au parcours (Bayam écran 3, Readmio 7, Alma 11). Exception : KiLi (différé à la tentative)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Aucun avant le mur</span><br>La conviction remplace la dégustation. Au mieux un aha orchestré ponctuel (1-2 contenus en vitrine, démo dans l'intro)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Avant toute consommation</span><br>Dans le parcours (écrans 7-9), répété (Bayam x4). Aucun amortisseur de refus<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span> <span class="tag t-amber">Moyenne</span><br>Mentions "sans engagement / résiliable" standard. Seul Readmio affiche une vraie chronologie d'essai (jour 7 + rappel)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Longs : 70-200 s</span><br>12 à 18+ écrans : les plus longs du marché FR, le parti pris de conviction prend de la place<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">La caution + le catalogue</span><br>"Les histoires des éditeurs que vous aimez" ; Alma : le bien-être sans écran<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F1b · Histoires audio enfant : ceux qui meurent ou végètent</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span> <span class="tag t-amber">Moyen</span><br>Jamais structurant. Méthodes éparses : abondance chiffrée, personnalité culturelle (Lorànt Deutsch)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a> <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+        <td style="white-space:normal;"><span class="het">Hétérogène</span> <span class="tag t-grey">Absente</span> <span class="tag t-violet">Forte</span><br>Aucune norme de famille : de rien (Quelle Histoire) à la plus poussée du marché FR (Capitaine : prénom dans le récit + modes DYS/duo)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/08-capitaine-aventure/presentation.html">Capitaine</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Différé ou absent</span><br>(6/6). Le seul paramètre où la famille converge totalement<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Libre, non orchestré</span><br>Le gratuit existe, traîne en catalogue, et ne convertit pas. La signature des perdants<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/05-whisperies/presentation.html">Whisperies</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">À la tentative</span><br>Cadenas et mur payant mou, subi plutôt que conçu<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Transparence pauvre (annuel "bientôt disponible", pas de récapitulatif de prélèvement)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Très courts : 12-60 s</span><br>3 à 7 écrans. Court par défaut, pas par design<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/11-mes-histoires-du-soir/presentation.html">Mes Histoires du Soir</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le catalogue brut</span><br>L'abondance, ou rien du tout<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F2 · Sommeil / calme / bien-être enfant</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Méthode signature : promesse de RÉSULTAT chiffrée ("s'endort 28 min plus vite") + science et experts revendiqués, jamais nommés<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Simple</span><br>STRUCTURANTE : prénom + âge + OBJECTIF (4 écrans) qui alimente une promesse au nom de l'enfant. Absente chez Cosmic Kids<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="het">Hétérogène</span> <span class="tag t-green">Différé</span> <span class="tag t-red">Avant le mur</span><br>Différé (Moshi, Cosmic Kids) soit email + code avant le mur (Aumio) soit tôt (LILI). Pas de norme<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Aucun avant le mur</span><br>La promesse remplace la dégustation ; l'aha se vit sous essai ou dans l'AMORTISSEUR (3 jours sans carte à la fermeture du paywall)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Très précoce</span> <span class="tag t-green">Amorti</span><br>Avant tout contenu (écrans 7-11), mais rattrapé : 3 jours sans carte (Moshi) ou bascule vers le gratuit (Aumio)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Forte</span><br>Chronologie d'essai "aujourd'hui / jour 5 rappel / jour 7", paiement détaillé + code promo<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Courts : 60-90 s</span><br>11-12 écrans, la personnalisation tient en 4 écrans<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le RÉSULTAT sur l'enfant</span><br>Chiffré et au nom de l'enfant. On ne vend jamais le catalogue<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F3 · Bibliothèques de livres enfants lus à voix haute</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Abondance chiffrée ("40 000+ titres") + transparence d'essai. Les cautions réelles (Oxford, Pete the Cat) sont cachées derrière le mur<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/16-pickatale/presentation.html">Pickatale</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>Renvoyée APRÈS le paiement (3/4) ; Skybrary : simple (centres d'intérêt)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Précoce, avant le mur</span><br>(4/4, écrans 2-5, connexion Apple/Google). Le paramètre le plus homogène de la famille<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Aucun gratuit</span> <span class="tag t-amber">Imposé sous essai</span><br>La lecture guidée forcée d'Epic (âge → choix d'un livre → lecture lancée) sert la rétention de l'essai, pas la conversion<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Tôt et bloquant</span><br>Juste après le compte. Au refus : blocage (Vooks) ou rien. Exception : Skybrary (palier gratuit parallèle)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a> <a class="app-chip" href="apps/29-skybrary/presentation.html">Skybrary</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Forte</span><br>La famille de la chronologie d'essai : jour 0 / jour 5 rappel / jour 7 prélèvement + conditions d'annulation visibles<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Courts à moyens : 60-240 s</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">L'abondance + l'amour de la lecture</span><br>"Inspire a lifelong love of reading"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F4a · Programmes d'apprentissage : l'essai proposé, jamais imposé</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span> <span class="tag t-green">Fort</span><br>Statistiques d'adoption massives ("50M+ familles") + caution académique (Oxford University Press) + label kidSAFE<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Minimale, au choix</span><br>Double voie explicite : "plonger directement" pré-coché ou 1 question d'âge. La personnalisation est au choix du parent<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Différé</span><br>Passable ou à la conversion. Jamais un mur<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Poussé en vitrine</span><br>Aha gratuit mis en scène (Daily Learning Quest gamifiée) + exploration libre du gratuit<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Tôt mais passable</span><br>"I'll stick with basic for now", ré-offert en interne. L'amortisseur est le vrai palier gratuit<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyenne</span><br>"Annulez à tout moment". Vigilance : l'essai disparaît des murs payants internes (Lingokids)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Courts : ~90 s</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le progrès ludique cautionné</span><br>"Playlearning" + Oxford : apprendre en jouant, sans culpabilité<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F4b · Programmes d'apprentissage : la conviction avant le mur</td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Le plus outillé du panel : certifications tierces (kidSAFE, Mom's Choice), méthode revendiquée, diplôme AU NOM de l'enfant, preuve sociale de masse<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a> <a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a></div></td>
+        <td style="white-space:normal;"><span class="het">Hétérogène</span> <span class="tag t-violet">Poussée</span> <span class="tag t-grey">Absente</span><br>Deux écoles : quiz diagnostique de 10 questions (Homer, Reading.com) ou rien avant le mur (Hooked, Reading Eggs)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Avant le mur, monnayé</span><br>Le compte est exigé "pour voir vos résultats" : l'email est capturé même sans conversion<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Remplacé par l'engagement</span><br>Le quiz investi + le diagnostic révélé tiennent lieu de dégustation. Exception vertueuse : Reading.com (leçon gratuite calibrée au niveau)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Après le diagnostic</span><br>Le mur arrive quand l'investissement émotionnel est maximal. Carte requise (3/4)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Forte</span> <span class="tag t-red">1 contre-exemple</span><br>La plus poussée du panel (chronologie + "comment annuler ?" + rappel 2 jours avant) ; contre-exemple Reading Eggs (essai caché sur le seul mensuel)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a> <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a></div></td>
+        <td style="white-space:normal;"><span class="het">Hétérogène</span> <span class="tag t-blue">55 s</span> <span class="tag t-blue">330 s</span><br>Très longs côté quiz (5 min 30), courts côté carrousel<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a> <a class="app-chip" href="apps/28-hooked-on-phonics/presentation.html">Hooked on Phonics</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le résultat scolaire diagnostiqué</span><br>"En 10 leçons, votre enfant lira son premier livre" : promesse personnalisée + diplôme<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F5a · Vidéo / TV enfant gratuite</td>
+        <td style="white-space:normal;"><span class="tag t-blue">La marque suffit</span><br>France Télévisions, M6/TF1 : rien à prouver à l'écran<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Légère ou absente</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Optionnel ou absent</span><br>"Découvrir sans s'identifier"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/09-gulli/presentation.html">Gulli</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Tout gratuit</span><br>Consommation immédiate, aucune logique de conversion<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Absent</span><br>Barrière publicitaire chez Gulli, rien chez Okoo<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Sans objet</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Les plus courts : 12-35 s</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">La marque, gratuite</span><br>"Vos héros, sans payer"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a> <a class="app-chip" href="apps/09-gulli/presentation.html">Gulli</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F5b · Dessins animés et comptines de licences mondiales</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible en interne</span><br>La marque externe fait tout : la confiance est acquise sur YouTube avant l'installation<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>(2/3) ; Super Simple Songs : 2 écrans de besoins<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/25-super-simple-songs/presentation.html">Super Simple Songs</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Absent</span><br>Aucune création de compte observée (CoComelon, Pinkfong). Unique sur le panel<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Immédiat, sur une petite part</span><br>Berceuses et coloriage complets gratuits ; l'aha a déjà eu lieu ailleurs (YouTube)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Sec, sans essai</span><br>À la tentative sur contenu verrouillé, barrière parentale devant, relancé à chaque cadenas<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Faible, voire trompeuse</span><br>Prix d'appel qui masque le tarif réel, "SALE 47%"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Très courts : 30-75 s</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">La marque que l'enfant réclame</span><br>L'application ne vend pas, elle encaisse<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F6 · Livre audio long adulte <span class="tag t-violet">cluster crédit</span></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Abondance massive ("900 000+ titres") + transparence des prix + caution d'écosystème (Amazon) ou de mission (libraires indépendants)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/33-libro-fm/presentation.html">Libro.fm</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>Réglages utilitaires (langue, boutique), jamais un profil de goûts<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Très tôt, obligatoire</span><br>Compte Amazon à l'écran 4, Storytel à l'écran 2 ; Libro.fm seul en différé<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Absent par design</span><br>Vitrine riche + extraits ~5 min, jamais l'œuvre : conversion par frustration de vitrine<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">La home EST le mur</span><br>Le 1er bloc après l'installation est la bannière essai / crédit<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Forte</span><br>"1 mois gratuit, renouvellement automatique à 10,99 €/mois, résiliez à tout moment" affiché sous le bouton<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Courts : ~90 s</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">L'abondance + la PROPRIÉTÉ</span><br>"Il vous appartient définitivement", ou le quota par usage ("pour vos trajets quotidiens")<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F7 · Feuilleton à l'épisode <span class="tag t-violet">cluster crédit</span></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Preuve sociale par compteurs SUR CHAQUE CONTENU ("6,8M lectures · 4.6") + abondance ("75 000 séries"). Zéro caution tierce<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a> <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Simple, par goûts</span><br>Prénom + âge + 3 genres préférés pour amorcer la recommandation ; absente chez DramaBox (l'algorithme fait tout)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a> <a class="app-chip" href="apps/36-webtoon/presentation.html">WEBTOON</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Différé et récompensé</span><br>"Connexion : +150 pièces" ; variantes : tôt (Pocket FM), après la lecture (WEBTOON)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a> <a class="app-chip" href="apps/36-webtoon/presentation.html">WEBTOON</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Massif et immédiat</span><br>Parfois lancé tout seul, parfois avant tout compte : l'aha EST le produit. 5 à 13 épisodes complets gratuits<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a> <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Dans le contenu, amorti</span><br>Le mur est le suspense de l'épisode suivant ; attendre 24-48 h débloque gratuitement<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/35-ono/presentation.html">ONO</a> <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Coût en pièces visible seulement au verrou, urgence "23:59:57". Le paiement à l'unité dispense d'engagement, donc de réassurance<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">Les plus courts : 5-90 s</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le contenu lui-même</span><br>On ne promet pas, on MONTRE (série lancée toute seule). Zéro argumentaire<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+      </tr>
+    </tbody>
     </table>
     </div>
   </div>
@@ -246,7 +249,7 @@
     <div class="lesson" style="--cat:var(--c-trust)">
       <h3><span class="num">1</span>Trust : trois écoles de conviction, et un désert partagé</h3>
       <ul>
-        <li><span class="conf o">Observé</span> Trois méthodes dominent le panel, chacune attachée à des familles : l'<b>autorité tierce</b> (éditoriale en F1a, académique et certifiante en F4), la <b>promesse de résultat chiffrée</b> (F2, F4b), le <b>social proof par les chiffres</b> (compteurs F7, stats massives F4a, abondance F3/F6). Les marques mondiales (F5) n'ont besoin d'aucune des trois.</li>
+        <li><span class="conf o">Observé</span> Trois méthodes dominent le panel, chacune attachée à des familles : l'<b>autorité tierce</b> (éditoriale en F1a, académique et certifiante en F4), la <b>promesse de résultat chiffrée</b> (F2, F4b), le <b>social proof par les chiffres</b> (compteurs F7, stats massives F4a, abondance F3/F6). Les marques mondiales (F5) n'ont besoin d'aucune des trois. — exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></li>
         <li><span class="conf o">Observé</span> Convergence frappante : le niveau de trust suit le PRIX et l'ENGAGEMENT demandés. Les familles qui exigent CB + abonnement annuel (F4b, F1a) sont les plus outillées ; celles qui vendent du one-shot sans engagement (F7) ne s'embêtent pas.</li>
         <li><span class="conf o">Observé</span> Le désert partagé, déjà identifié plus tôt dans ce benchmark, reste le même : la caution experte NOMINALE (un pédopsy, un pédagogue avec un nom) n'existe nulle part, et deux familles gâchent leurs cautions réelles en les cachant derrière le mur (F3).</li>
       </ul>
@@ -264,18 +267,18 @@
     <div class="lesson" style="--cat:var(--c-flow)">
       <h3><span class="num">3</span>Création de compte : quatre positions, et une monnaie d'échange</h3>
       <ul>
-        <li><span class="conf o">Observé</span> Quatre positions observées : <b>précoce obligatoire</b> (F3, F6 : on capture avant de convaincre, soutenable avec du brand pull), <b>avant le mur intégré au flow</b> (F1a, F4b), <b>différé / à la conversion</b> (F4a, F1b, F7), <b>absent</b> (F5b, unique). </li>
+        <li><span class="conf o">Observé</span> Quatre positions observées : <b>précoce obligatoire</b> (F3, F6 : on capture avant de convaincre, soutenable avec du brand pull), <b>avant le mur intégré au flow</b> (F1a, F4b), <b>différé / à la conversion</b> (F4a, F1b, F7), <b>absent</b> (F5b, unique).  — exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></li>
         <li><span class="conf o">Observé</span> Le pattern le plus malin du panel : le compte CONTRE quelque chose. Monnayé contre les "résultats" du quiz (F4b : capture de lead garantie même sans conversion), ou appâté par une récompense ("+150 pièces", F7). Le compte-mur sec sans contrepartie est le propre des familles à forte notoriété.</li>
-        <li><span class="conf o">Observé</span> Hétérogénéité signalée : F2 ne converge pas (différé chez Moshi, email + OTP avant le mur chez Aumio, tôt chez LILI). C'est la seule famille gagnante sans norme sur ce paramètre.</li>
+        <li><span class="conf o">Observé</span> Hétérogénéité signalée : F2 ne converge pas (différé chez <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a>, email + OTP avant le mur chez <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a>, tôt chez <a class="app-chip" href="apps/06-lili/presentation.html">LILI</a>). C'est la seule famille gagnante sans norme sur ce paramètre.</li>
       </ul>
     </div>
 
     <div class="lesson" style="--cat:var(--c-price)">
       <h3><span class="num">4</span>Aha-moment : cinq logiques, déjà cartographiées, confirmées par famille</h3>
       <ul>
-        <li><span class="conf o">Observé</span> La lecture par famille confirme la typologie des pratiques d'aha-moment établie plus tôt dans ce benchmark, et la simplifie en cinq logiques de famille : <b>la conviction remplace l'aha</b> (F1a), <b>la promesse remplace l'aha + amortisseur de rattrapage</b> (F2), <b>l'aha sous essai comme outil de rétention</b> (F3), <b>l'engagement fabriqué remplace l'aha</b> (F4b), <b>l'aha massif immédiat comme produit</b> (F7, et en version légère orchestrée F4a).</li>
+        <li><span class="conf o">Observé</span> La lecture par famille confirme la typologie des pratiques d'aha-moment établie plus tôt dans ce benchmark, et la simplifie en cinq logiques de famille : <b>la conviction remplace l'aha</b> (F1a), <b>la promesse remplace l'aha + amortisseur de rattrapage</b> (F2), <b>l'aha sous essai comme outil de rétention</b> (F3), <b>l'engagement fabriqué remplace l'aha</b> (F4b), <b>l'aha massif immédiat comme produit</b> (F7, et en version légère orchestrée F4a). — exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></li>
         <li><span class="conf o">Observé</span> Le gratuit non orchestré (F1b) n'est la logique d'AUCUNE famille qui gagne : partout ailleurs, soit on ne donne rien, soit ce qu'on donne est mis en scène (hero, auto-lancement, quest quotidienne).</li>
-        <li><span class="conf o">Observé</span> Rappel de la case vide du marché, inchangée : aucune famille ne fait "personnalisation → on pousse LA bonne histoire gratuite, choisie pour l'enfant, AVANT le mur payant". Epic fait ce parcours mais sous essai déjà payé, Moshi fait la promesse personnalisée mais sans contenu.</li>
+        <li><span class="conf o">Observé</span> Rappel de la case vide du marché, inchangée : aucune famille ne fait "personnalisation → on pousse LA bonne histoire gratuite, choisie pour l'enfant, AVANT le mur payant". <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a> fait ce parcours mais sous essai déjà payé, <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> fait la promesse personnalisée mais sans contenu.</li>
       </ul>
     </div>
 
@@ -283,14 +286,14 @@
       <h3><span class="num">5</span>Paywall : la position suit la logique d'aha, presque mécaniquement</h3>
       <ul>
         <li><span class="conf o">Observé</span> Confirmation colonne par colonne de la lecture des fiches : trois régimes. Mur AVANT la valeur (F1a, F2, F3, F4b, F6), mur APRÈS la valeur, dans le contenu ou au cadenas (F4a, F5b, F7), pas de mur (F5a, F1b par défaut). La position du paywall se DÉDUIT de la logique d'aha choisie : ce sont les deux faces du même choix.</li>
-        <li><span class="conf o">Observé</span> Les amortisseurs de refus restent le territoire de 3 familles seulement : exit-intent sans CB (F2), skip vers freemium réel (F4a), wait-to-unlock intégré (F7). Chez les autres, le refus mène à un blocage (Vooks) ou n'est simplement pas géré.</li>
+        <li><span class="conf o">Observé</span> Les amortisseurs de refus restent le territoire de 3 familles seulement : exit-intent sans CB (F2), skip vers freemium réel (F4a), wait-to-unlock intégré (F7). Chez les autres, le refus mène à un blocage (<a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a>) ou n'est simplement pas géré.</li>
       </ul>
     </div>
 
     <div class="lesson" style="--cat:var(--c-trust)">
       <h3><span class="num">6</span>Réassurance au paiement : un standard international que le marché FR n'a pas</h3>
       <ul>
-        <li><span class="conf o">Observé</span> La trial timeline (J0 / J5 rappel / J7 prélèvement) + conditions d'annulation explicites est le standard des familles US à CB requise (F3, F4b, F6 : Epic, Homer, Reading.com, Audible). <b>Aucune app du marché FR ne le fait</b> (F1a/F1b : mentions légales minimales). C'est l'écart le plus facile à exploiter du panel.</li>
+        <li><span class="conf o">Observé</span> La trial timeline (J0 / J5 rappel / J7 prélèvement) + conditions d'annulation explicites est le standard des familles US à CB requise (F3, F4b, F6 : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a>, <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a>, <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a>, <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a>). <b>Aucune app du marché FR ne le fait</b> (F1a/F1b : mentions légales minimales). C'est l'écart le plus facile à exploiter du panel.</li>
         <li><span class="conf o">Observé</span> À l'autre bout, les familles à marque mondiale (F5b) se permettent des ancrages limite (prix d'appel masquant le tarif réel, SALE 47%) : leur notoriété absorbe la défiance. Sans notoriété, ces patterns coûtent cher en confiance.</li>
         <li><span class="conf o">Observé</span> Le modèle crédit one-shot (F7) dispense structurellement de réassurance : pas d'engagement, pas d'anxiété. Argument à retenir pour le crédit Kidsono.</li>
       </ul>
@@ -300,42 +303,21 @@
       <h3><span class="num">7</span>Longueur : il n'y a pas d'optimum unique, il y a une longueur par logique</h3>
       <ul>
         <li><span class="conf o">Observé</span> La longueur suit la logique de conversion, pas l'inverse : 5-90 s quand le contenu convertit (F7, F5), ~90 s quand la promesse convertit (F2, F4a, F6), 150-330 s quand l'engagement convertit (F4b quiz, F1a conviction). Demander "combien d'écrans maximum ?" sans avoir choisi la logique n'a pas de sens : c'est la logique qui fixe le budget d'écrans.</li>
-        <li><span class="conf e">Estim.</span> En revanche, une règle traverse tout le panel : chaque écran doit produire quelque chose (une donnée de perso, une conviction, une consommation). Les écrans qui ne produisent rien (tours de features de Souffleur, intro dense) appartiennent aux familles qui perdent.</li>
+        <li><span class="conf e">Estim.</span> En revanche, une règle traverse tout le panel : chaque écran doit produire quelque chose (une donnée de perso, une conviction, une consommation). Les écrans qui ne produisent rien (tours de features de <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a>, intro dense) appartiennent aux familles qui perdent.</li>
       </ul>
     </div>
 
     <div class="lesson" style="--cat:var(--c-model)">
       <h3><span class="num">8</span>Registre de promesse : quatre choses à vendre, une seule par famille</h3>
       <ul>
-        <li><span class="conf o">Observé</span> Chaque famille gagnante vend UNE chose, toujours la même : un résultat (F2 : l'état de l'enfant ; F4b : le niveau scolaire), un capital (F1a : la caution + le catalogue ; F6 : la propriété), une marque (F5), ou l'expérience elle-même (F7 : on montre au lieu de promettre). Aucun gagnant ne mélange les registres dans son onboarding.</li>
+        <li><span class="conf o">Observé</span> Chaque famille gagnante vend UNE chose, toujours la même : un résultat (F2 : l'état de l'enfant ; F4b : le niveau scolaire), un capital (F1a : la caution + le catalogue ; F6 : la propriété), une marque (F5), ou l'expérience elle-même (F7 : on montre au lieu de promettre). Aucun gagnant ne mélange les registres dans son onboarding. — exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></li>
         <li><span class="conf o">Observé</span> Le registre le plus proche du job Kidsono (le rituel du soir réussi) est celui de F2, le seul qui formule la promesse en résultat pour le FOYER et qui la rend nominative. Le registre catalogue (F1b) est celui des perdants quand il est seul.</li>
       </ul>
     </div>
   </div>
 
   <!-- ============ CH 04 ============ -->
-  <div class="chapter" id="ch04">
-    <div class="ch-band"><span class="ch-num">04</span><span class="ch-title">L'avis sur cette matrice</span></div>
-    <p class="chapeau">Ce qu'elle vaut, ce qu'elle ne dit pas, et comment s'en servir demain sans la sur-interpréter.</p>
-    <div class="avis">
-      <div class="acard f"><div class="ttl">Force</div><ul>
-        <li>8 paramètres × 10 familles, tous fondés sur les 37 analyses écran par écran (positions et méthodes relevées sur les captures réelles).</li>
-        <li>L'hypothèse d'homogénéité intra-famille tient : 36 cases sur 40 des 4 paramètres demandés convergent ; les 4 hétérogénéités sont signalées et 3 sont instructives (F1b et F4b ne convergent pas pour des raisons opposées : absence de choix vs deux écoles assumées).</li>
-        <li>Les colonnes se verrouillent entre elles (aha ↔ paywall ↔ longueur ↔ registre) : c'est la preuve que les familles sont des SYSTÈMES cohérents, pas des collections de features, et c'est exactement ce qu'il faut pour assembler un onboarding en piochant.</li>
-      </ul></div>
-      <div class="acard r"><div class="ttl">Risques</div><ul>
-        <li>Les "méthodes majoritaires" écrasent par construction les nuances : pour citer une application précise, repasser par sa fiche détaillée, pas par la matrice.</li>
-        <li>Le paramètre réassurance repose sur ce que les captures montrent du paywall ; des mécaniques de rappel hors app (emails J5) sont déduites des écrans, pas observées.</li>
-        <li>Piocher une pratique sans sa logique de famille est le contresens à éviter : la trial timeline d'Epic fonctionne ADOSSÉE à un hard paywall + brand pull ; le wait-to-unlock de F7 suppose du contenu sériel. Chaque emprunt doit être recontextualisé.</li>
-        <li>WEBTOON et DramaBox toujours en cours de finalisation côté analyses : les cases F7 peuvent bouger à la marge.</li>
-      </ul></div>
-      <div class="acard p"><div class="ttl">Position vs standard</div><ul>
-        <li>Ce niveau de lecture (paramètres de flow × familles de service) n'existe pas dans les benchmarks publics du secteur, qui comparent des apps une à une : c'est un actif de la mission.</li>
-        <li>La matrice est volontairement descriptive : elle dit ce que chaque famille FAIT, pas ce que Kidsono doit faire. L'assemblage (le parcours Kidsono recommandé) est l'étape suivante, présentée séparément.</li>
-      </ul></div>
-    </div>
-    <p class="legende" style="margin-top:18px;">Sources : les 37 analyses écran par écran du benchmark (captures réelles sur iPhone, juin 2026). Hétérogénéités signalées : F1b et F4b (personnalisation), F2 (création de compte), F4b (longueur). Dernière mise à jour : 12 juin 2026.</p>
-  </div>
+  <p class="legende" style="margin-top:34px;">Sources : les 37 analyses écran par écran du benchmark (captures réelles sur iPhone, juin 2026). Hétérogénéités signalées par badge rouge : F1b et F4b (personnalisation), F2 (création de compte), F4b (longueur). Dernière mise à jour : 12 juin 2026.</p>
 
 </div>
 </body>
