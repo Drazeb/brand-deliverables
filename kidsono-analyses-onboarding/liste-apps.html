@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les 37 applications analysées · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-flow:#c4761a; --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55; --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 24px 70px;}
+  .conf{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:#e8f6ee;color:#1f7d45;} .conf.o{background:#e9f0fc;color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+  .legende{font-size:12px;color:var(--muted);margin:8px 0 0;}
+  h2.section{font-size:18px;margin:30px 0 6px;display:flex;align-items:center;gap:10px;}
+  h2.section::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--accent-dark);display:inline-block;}
+  .section-sub{font-size:13px;color:var(--muted);margin:0 0 14px 16px;}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:980px;}
+  th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{background:#fbfbf8;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);}
+  tr:last-child td{border-bottom:none;}
+  td.fam{font-weight:800;min-width:140px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:1px 2px 1px 0;}
+  .t-green{background:var(--c-price-soft);color:var(--c-price);}
+  .t-red{background:var(--c-barrier-soft);color:var(--c-barrier);}
+  .t-amber{background:var(--c-flow-soft);color:var(--c-flow);}
+  .t-violet{background:var(--c-model-soft);color:var(--c-model);}
+  .t-blue{background:var(--c-trust-soft);color:var(--c-trust);}
+  .t-grey{background:#f0f0ec;color:#777;}
+  .t-gold{background:#fdf6dc;color:#9a7200;}
+  .app-chip{display:inline-block;font-size:11.5px;background:#f4f4ef;border:1px solid var(--border);border-radius:8px;padding:1px 7px;margin:1px 2px;white-space:nowrap;font-weight:700;}
+  a.app-chip{text-decoration:none;color:inherit;cursor:pointer;transition:border-color .12s, box-shadow .12s;}
+  a.app-chip:hover{border-color:var(--c-trust);box-shadow:0 1px 5px rgba(37,99,201,.18);}
+  .mex{margin-top:6px;font-size:11px;color:var(--muted);}
+  .het{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;background:#fdecea;color:#a3261f;}
+  .lesson{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--cat);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+  .lesson h3{font-size:15px;color:var(--cat);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .lesson h3 .num{min-width:22px;height:22px;border-radius:6px;background:var(--cat);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;padding:0 5px;}
+  .lesson ul{margin:0 0 0 18px;} .lesson li{font-size:13px;margin-bottom:5px;}
+  .avis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px;}
+  .acard{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface);}
+  .acard .ttl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+  .acard.f .ttl{color:var(--c-price);} .acard.r .ttl{color:var(--c-barrier);} .acard.p .ttl{color:var(--c-trust);}
+  .acard li{font-size:12.5px;margin-bottom:4px;margin-left:15px;}
+  /* ===== HABILLAGE ÉDITORIAL ===== */
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:46px 44px 34px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.18;font-weight:700;margin:14px 0 16px;max-width:880px;}
+  .standfirst{font-size:15.5px;color:#444;max-width:780px;line-height:1.65;}
+  .cover-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 30px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
+  .cover-meta b{color:#333;}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 26px;margin-top:18px;}
+  .toc .toc-t{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .toc a{display:flex;gap:14px;align-items:baseline;text-decoration:none;color:inherit;padding:6px 0;border-bottom:1px dashed #eee8d5;font-size:14px;}
+  .toc a:last-child{border-bottom:none;}
+  .toc a:hover .tt{color:var(--c-trust);}
+  .toc .tn{font-family:Georgia,serif;font-weight:700;color:var(--accent-dark);min-width:26px;}
+  .toc .tt{font-weight:600;}
+  .chapter{margin-top:52px;}
+  .ch-band{display:flex;align-items:baseline;gap:18px;border-bottom:3px solid var(--accent-dark);padding-bottom:10px;}
+  .ch-num{font-family:Georgia,serif;font-size:46px;font-weight:700;color:var(--accent-dark);line-height:1;}
+  .ch-title{font-family:Georgia,serif;font-size:25px;font-weight:700;line-height:1.2;}
+  .chapeau{font-size:14px;color:#555;max-width:840px;line-height:1.7;margin:14px 0 22px;border-left:3px solid var(--accent);padding-left:16px;font-style:italic;}
+  .report-foot{margin-top:50px;border-top:1px solid var(--border);padding-top:14px;}
+  @media(max-width:980px){.avis{grid-template-columns:1fr;}}
+.fam-head{display:flex;align-items:center;gap:13px;margin:34px 0 10px;}
+  .fcode{flex:none;background:var(--fc,var(--accent-dark));color:#fff;font-weight:800;font-size:15px;padding:5px 11px;border-radius:10px;letter-spacing:.5px;}
+  .ftitle{font-size:17px;font-weight:800;font-family:Georgia,serif;}
+  .fsub{font-size:12px;color:var(--muted);}
+  td.appn{font-weight:800;white-space:nowrap;}
+  td.appn a{color:inherit;text-decoration:none;border-bottom:2px solid var(--accent);}
+  td.appn a:hover{color:var(--c-trust);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Benchmark onboarding</div>
+    <h1>Les 37 applications analysées, classées par famille</h1>
+    <div class="standfirst">Chaque application a été analysée écran par écran (parcours réel sur iPhone). Cliquer sur un nom ouvre sa fiche complète : les écrans capturés, le parcours d'entrée, le modèle, et les enseignements. La notoriété est mesurée en nombre total d'avis App Store, sur le marché principal de chaque application ; la vitalité reflète l'activité récente (mises à jour, avis).</div>
+    <div class="cover-meta">
+      <span><b>Panel</b> · 37 applications, 10 familles et sous-familles</span>
+      <span><b>Date</b> · 12 juin 2026</span>
+    </div>
+  </header>
+  <div class="fam-head" style="--fc:var(--accent-dark)"><span class="fcode">F1a</span><div><div class="ftitle">Histoires audio enfant : ceux qui tiennent</div><div class="fsub">le métier de Kidsono</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/01-bayam/presentation.html">Bayam</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">6 837 avis</span></td><td style="white-space:normal;">App jeunesse de Bayard (3-10 ans) : histoires audio, magazines, jeux et vidéos. Catalogue Bayard + Gallimard</td></tr>
+      <tr><td class="appn"><a href="apps/07-kili/presentation.html">KiLi</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">2 456 avis</span></td><td style="white-space:normal;">App de l'École des Loisirs (3-10 ans) : récits audio, histoires filmées, jeux et activités</td></tr>
+      <tr><td class="appn"><a href="apps/02-alma-studio/presentation.html">Alma Studio</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">1 398 avis</span></td><td style="white-space:normal;">Histoires audio premium racontées par des voix connues (Louane, Gad Elmaleh...), écoute sans écran</td></tr>
+      <tr><td class="appn"><a href="apps/13-readmio/presentation.html">Readmio</a></td><td>Rép. tchèque</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">1 282 avis</span></td><td style="white-space:normal;">Histoires à lire à voix haute par le parent, avec effets sonores déclenchés en temps réel par la voix</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head" style="--fc:var(--accent-dark)"><span class="fcode">F1b</span><div><div class="ftitle">Histoires audio enfant : ceux qui meurent ou végètent</div><div class="fsub">le métier de Kidsono</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/03-souffleur-de-reves/presentation.html">Souffleur de Rêves</a></td><td>France</td><td><span class="tag t-amber">Faible</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">2 659 avis</span></td><td style="white-space:normal;">Bibliothèque d'histoires audio originales pour les 3-12 ans (~1 200 titres), avec mode coucher</td></tr>
+      <tr><td class="appn"><a href="apps/05-whisperies/presentation.html">Whisperies</a></td><td>France</td><td><span class="tag t-red">Zombie</span></td><td><span class="tag t-amber">Peu connue</span> <span style="color:var(--muted);font-size:11px;">749 avis</span></td><td style="white-space:normal;">Livres audio et histoires animées, dont une collection adaptée aux enfants dys</td></tr>
+      <tr><td class="appn"><a href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-amber">Peu connue</span> <span style="color:var(--muted);font-size:11px;">357 avis</span></td><td style="white-space:normal;">Histoires audio éducatives (histoire, sciences, mythologie), par l'éditeur Quelle Histoire</td></tr>
+      <tr><td class="appn"><a href="apps/11-mes-histoires-du-soir/presentation.html">Mes Histoires du Soir</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-amber">Peu connue</span> <span style="color:var(--muted);font-size:11px;">107 avis</span></td><td style="white-space:normal;">Histoires à lire et écouter (catalogue éditorial + génération par IA), financées par la publicité</td></tr>
+      <tr><td class="appn"><a href="apps/15-kidjo-stories/presentation.html">Kidjo Stories</a></td><td>International</td><td><span class="tag t-amber">Faible</span></td><td><span class="tag t-grey">Confidentielle</span> <span style="color:var(--muted);font-size:11px;">28 avis</span></td><td style="white-space:normal;">Livres audio pour enfants en plusieurs langues, organisés par licences (Barbie, Sam le Pompier...)</td></tr>
+      <tr><td class="appn"><a href="apps/08-capitaine-aventure/presentation.html">Capitaine Aventure</a></td><td>France</td><td><span class="tag t-amber">Faible</span></td><td><span class="tag t-grey">Confidentielle</span> <span style="color:var(--muted);font-size:11px;">1 avis</span></td><td style="white-space:normal;">Histoires interactives où l'enfant devient le héros (avec son prénom) ; modes DYS/TDAH et lecture en duo</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head"><span class="fcode">F2</span><div><div class="ftitle">Sommeil / calme / bien-être enfant</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/12-moshi-kids/presentation.html">Moshi Kids</a></td><td>Royaume-Uni</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">69 098 avis</span></td><td style="white-space:normal;">Histoires du soir, méditations et sons pour aider les enfants à dormir et se détendre</td></tr>
+      <tr><td class="appn"><a href="apps/14-aumio/presentation.html">Aumio</a></td><td>Allemagne</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">5 898 avis</span></td><td style="white-space:normal;">Sommeil et relaxation pour enfants : histoires du soir et méditations, remboursables par les assurances santé allemandes</td></tr>
+      <tr><td class="appn"><a href="apps/24-cosmic-kids-yoga/presentation.html">Cosmic Kids Yoga</a></td><td>Royaume-Uni</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-amber">Peu connue</span> <span style="color:var(--muted);font-size:11px;">408 avis</span></td><td style="white-space:normal;">Yoga et pleine conscience pour enfants en histoires animées ; très grosse audience vidéo</td></tr>
+      <tr><td class="appn"><a href="apps/06-lili/presentation.html">LILI</a></td><td>France</td><td><span class="tag t-amber">Faible</span></td><td><span class="tag t-grey">Confidentielle</span> <span style="color:var(--muted);font-size:11px;">79 avis</span></td><td style="white-space:normal;">Audio pédagogique : philosophie, méditation et émotions pour enfants ; présent aussi dans les écoles</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head"><span class="fcode">F3</span><div><div class="ftitle">Bibliothèques de livres enfants lus à voix haute</div><div class="fsub">cousine structurelle de F1</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/17-epic/presentation.html">Epic!</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-violet">Référence</span> <span style="color:var(--muted);font-size:11px;">518 168 avis</span></td><td style="white-space:normal;">Bibliothèque numérique pour enfants : 40 000+ livres, livres audio et vidéos éducatives. Le leader américain</td></tr>
+      <tr><td class="appn"><a href="apps/18-vooks/presentation.html">Vooks</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">9 304 avis</span></td><td style="white-space:normal;">Livres pour enfants animés et lus à voix haute, avec un mode audio seul sans écran</td></tr>
+      <tr><td class="appn"><a href="apps/29-skybrary/presentation.html">Skybrary</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">3 303 avis</span></td><td style="white-space:normal;">Bibliothèque de livres lus à voix haute (héritière de Reading Rainbow), avec un palier gratuit de 100 livres</td></tr>
+      <tr><td class="appn"><a href="apps/16-pickatale/presentation.html">Pickatale</a></td><td>Norvège</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">2 287 avis</span></td><td style="white-space:normal;">Bibliothèque de livres et livres audio avec lecture guidée par niveaux ; collections Oxford University Press</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head"><span class="fcode">F4a</span><div><div class="ftitle">Programmes d'apprentissage : l'essai proposé, jamais imposé</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/20-lingokids/presentation.html">Lingokids</a></td><td>Espagne</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-violet">Référence</span> <span style="color:var(--muted);font-size:11px;">592 982 avis</span></td><td style="white-space:normal;">Apprentissage de l'anglais en jouant pour les 2-8 ans (jeux, chansons, vidéos) ; contenus Oxford</td></tr>
+      <tr><td class="appn"><a href="apps/21-abcmouse/presentation.html">ABCmouse</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">87 705 avis</span></td><td style="white-space:normal;">Programme éducatif complet 2-8 ans (lecture, maths, sciences, art) ; 13 000+ activités</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head"><span class="fcode">F4b</span><div><div class="ftitle">Programmes d'apprentissage : la conviction avant le mur</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/27-reading-com/presentation.html">Reading.com</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">53 760 avis</span></td><td style="white-space:normal;">Méthode structurée pour apprendre à lire (en anglais) : le parent devient le professeur, quiz et plan personnalisé</td></tr>
+      <tr><td class="appn"><a href="apps/19-homer/presentation.html">HOMER</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">25 192 avis</span></td><td style="white-space:normal;">Apprentissage ludique de la lecture et des maths, avec quiz d'évaluation du niveau réel de l'enfant</td></tr>
+      <tr><td class="appn"><a href="apps/28-hooked-on-phonics/presentation.html">Hooked on Phonics</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">16 809 avis</span></td><td style="white-space:normal;">Méthode phonics iconique américaine pour apprendre à lire, portée en application</td></tr>
+      <tr><td class="appn"><a href="apps/22-reading-eggs/presentation.html">Reading Eggs</a></td><td>Australie</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">6 775 avis</span></td><td style="white-space:normal;">Apprentissage de la lecture gamifié, aligné sur les programmes scolaires, très primé</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head"><span class="fcode">F5a</span><div><div class="ftitle">Vidéo / TV enfant gratuite</div><div class="fsub">les contre-modèles</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/10-okoo/presentation.html">Okoo</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">35 482 avis</span></td><td style="white-space:normal;">Plateforme jeunesse gratuite de France Télévisions : dessins animés et vidéos, sans publicité ni pistage</td></tr>
+      <tr><td class="appn"><a href="apps/09-gulli/presentation.html">Gulli</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-grey">Confidentielle</span> <span style="color:var(--muted);font-size:11px;">63 avis</span></td><td style="white-space:normal;">Plateforme jeunesse de TF1/M6 : dessins animés, vidéos et audio, financée par la publicité</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head"><span class="fcode">F5b</span><div><div class="ftitle">Dessins animés et comptines de licences mondiales</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/23-cocomelon/presentation.html">CoComelon</a></td><td>International</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">12 928 avis</span></td><td style="white-space:normal;">L'application de la marque CoComelon : comptines, dessins animés et mini-jeux pour tout-petits</td></tr>
+      <tr><td class="appn"><a href="apps/25-super-simple-songs/presentation.html">Super Simple Songs</a></td><td>Canada</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">9 831 avis</span></td><td style="white-space:normal;">Comptines et chansons pour enfants ; l'une des plus grosses marques mondiales du genre</td></tr>
+      <tr><td class="appn"><a href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong Baby Shark</a></td><td>Corée du Sud</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-blue">Connue</span> <span style="color:var(--muted);font-size:11px;">2 992 avis</span></td><td style="white-space:normal;">Berceuses et chansons du coucher de la marque Baby Shark, avec verrou d'écran enfant et minuteur de sommeil</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head" style="--fc:var(--c-model)"><span class="fcode">F6</span><div><div class="ftitle">Livre audio long adulte</div><div class="fsub">cluster crédit</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/32-audible/presentation.html">Audible</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-gold">Mastodonte mondial</span> <span style="color:var(--muted);font-size:11px;">5 526 552 avis</span></td><td style="white-space:normal;">Livres audio à crédits : 1 crédit par mois = 1 livre possédé à vie. La référence mondiale (Amazon)</td></tr>
+      <tr><td class="appn"><a href="apps/31-storytel/presentation.html">Storytel</a></td><td>Suède</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-violet">Référence</span> <span style="color:var(--muted);font-size:11px;">196 859 avis</span></td><td style="white-space:normal;">Abonnement de livres audio et ebooks, plafonné en heures d'écoute mensuelles (15/30/45 h)</td></tr>
+      <tr><td class="appn"><a href="apps/33-libro-fm/presentation.html">Libro.fm</a></td><td>États-Unis</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-green">Très connue</span> <span style="color:var(--muted);font-size:11px;">35 057 avis</span></td><td style="white-space:normal;">Livres audio à crédits (1 crédit = 1 livre conservé à vie) ; une part des achats soutient une librairie indépendante</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="fam-head" style="--fc:var(--c-model)"><span class="fcode">F7</span><div><div class="ftitle">Feuilleton à l'épisode</div><div class="fsub">cluster crédit</div></div></div>
+  <div class="tbl-wrap">
+  <table style="min-width:900px;">
+    <thead><tr><th>Application</th><th>Pays</th><th>Vitalité</th><th>Notoriété</th><th>Ce que c'est</th></tr></thead>
+    <tbody>
+      <tr><td class="appn"><a href="apps/37-dramabox/presentation.html">DramaBox</a></td><td>International</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-violet">Référence</span> <span style="color:var(--muted);font-size:11px;">757 652 avis</span></td><td style="white-space:normal;">Courtes séries vidéo (épisodes de 1-2 min) débloquées à la pièce. Contenu adulte, étudié pour son modèle</td></tr>
+      <tr><td class="appn"><a href="apps/36-webtoon/presentation.html">WEBTOON</a></td><td>Corée du Sud</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-violet">Référence</span> <span style="color:var(--muted);font-size:11px;">488 743 avis</span></td><td style="white-space:normal;">Leader mondial du webtoon (BD numériques verticales) ; épisodes débloqués par pièces ou publicité</td></tr>
+      <tr><td class="appn"><a href="apps/34-pocket-fm/presentation.html">Pocket FM</a></td><td>International</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-violet">Référence</span> <span style="color:var(--muted);font-size:11px;">266 761 avis</span></td><td style="white-space:normal;">Séries audio feuilletonnées (fiction adulte) ; épisodes débloqués par crédits ou en attendant 24 h</td></tr>
+      <tr><td class="appn"><a href="apps/30-mangas-io/presentation.html">Mangas.io</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-amber">Peu connue</span> <span style="color:var(--muted);font-size:11px;">476 avis</span></td><td style="white-space:normal;">Lecture de mangas en illimité sur abonnement (le "Netflix du manga"), catalogue d'éditeurs français</td></tr>
+      <tr><td class="appn"><a href="apps/35-ono/presentation.html">ONO</a></td><td>France</td><td><span class="tag t-green">Vivante</span></td><td><span class="tag t-amber">Peu connue</span> <span style="color:var(--muted);font-size:11px;">468 avis</span></td><td style="white-space:normal;">Plateforme française de webtoons et mangas ; lecture des épisodes via des "coins" ou en attendant 48 h</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="legende" style="margin-top:30px;">Vitalité et notoriété relevées les 10-12 juin 2026, mises à jour au fil du benchmark. Deux analyses en cours de finalisation : WEBTOON et DramaBox.</p>
+</div>
+</body>
+</html>

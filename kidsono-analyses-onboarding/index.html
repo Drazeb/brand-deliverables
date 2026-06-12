@@ -8,8 +8,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;ba
 .wrap{max-width:680px;margin:0 auto;padding:40px 22px;}
 .eyebrow{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6e6e6e;}
 h1{font-family:Georgia,'Times New Roman',serif;font-size:28px;margin:6px 0 18px;}
-a.card{display:block;background:#fff;border:1px solid #e6e6e0;border-left:5px solid #e2492f;border-radius:14px;padding:18px 20px;margin-bottom:14px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+a.card{display:flex;gap:16px;align-items:baseline;background:#fff;border:1px solid #e6e6e0;border-left:5px solid #e2492f;border-radius:14px;padding:18px 20px;margin-bottom:14px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.04);}
 a.card:hover{border-color:#2563c9;}
+a.card .n{font-family:Georgia,serif;font-size:22px;font-weight:700;color:#e2492f;min-width:24px;}
 a.card .t{font-size:16px;font-weight:800;margin-bottom:4px;}
 a.card .d{font-size:13px;color:#6e6e6e;}
 .note{font-size:12px;color:#6e6e6e;margin-top:20px;}
@@ -18,21 +19,10 @@ a.card .d{font-size:13px;color:#6e6e6e;}
 <body><div class="wrap">
 <div class="eyebrow">Kidsono · Benchmark onboarding · 12 juin 2026</div>
 <h1>Analyses transversales</h1>
-<a class="card" href="cartographie-editorial.html">
-  <div class="t">Cartographie : 37 applications, 7 familles de services</div>
-  <div class="d">Les 37 onboardings analysés, classés en 7 familles de services : la carte complète, et pour chaque famille son modèle économique, son parcours d'onboarding type et ses éléments de conviction.</div>
-</a>
-<a class="card" href="parametres-onboarding-familles.html">
-  <div class="t">Les paramètres d'onboarding, famille par famille</div>
-  <div class="d">8 paramètres × 10 familles : confiance, personnalisation, création de compte, aha-moment, mur payant, réassurance au paiement, longueur, promesse. La matière première pour construire l'onboarding Kidsono.</div>
-</a>
-<a class="card" href="modeles-economiques-familles.html">
-  <div class="t">Les modèles économiques, famille par famille</div>
-  <div class="d">Monétisation, dose de gratuit, carte bleue pour tester, essai gratuit : la valeur majoritaire de chaque famille, avec les meilleurs exemples cliquables.</div>
-</a>
-<a class="card" href="securite-enfant-editorial.html">
-  <div class="t">Features de sécurité enfant : l'inventaire du marché</div>
-  <div class="d">10 familles de features, leur répartition par famille d'applications, et le panorama complet rangé par inquiétude parentale.</div>
-</a>
+<a class="card" href="liste-apps.html"><span class="n">1</span><span><span class="t">Les 37 applications analysées</span><br><span class="d">La liste complète, classée par famille : pays, vitalité, notoriété, et l'accès à chaque fiche détaillée avec les écrans.</span></span></a>
+<a class="card" href="cartographie-editorial.html"><span class="n">2</span><span><span class="t">Cartographie : 37 applications, 7 familles de services</span><br><span class="d">Les 37 onboardings classés en 7 familles : la carte, les fiches par famille (critères, parcours type, enseignements), et l'ouverture sur le positionnement.</span></span></a>
+<a class="card" href="modeles-economiques-familles.html"><span class="n">3</span><span><span class="t">Les modèles économiques, famille par famille</span><br><span class="d">Monétisation, dose de gratuit, carte bleue pour tester, essai gratuit : la valeur majoritaire de chaque famille, avec les meilleurs exemples cliquables.</span></span></a>
+<a class="card" href="parametres-onboarding-familles.html"><span class="n">4</span><span><span class="t">Les paramètres d'onboarding, famille par famille</span><br><span class="d">8 paramètres × 10 familles : confiance, personnalisation, création de compte, aha-moment, mur payant, réassurance, longueur, promesse.</span></span></a>
+<a class="card" href="securite-enfant-editorial.html"><span class="n">5</span><span><span class="t">Features de sécurité enfant : l'inventaire du marché</span><br><span class="d">10 familles de features, leur répartition par famille d'applications, et le panorama complet rangé par inquiétude parentale.</span></span></a>
 <p class="note">Documents de travail confidentiels, mission conseil Kidsono · juin 2026. Les pastilles d'applications sont cliquables : elles ouvrent la fiche détaillée de l'application, avec les écrans capturés.</p>
 </div></body></html>
