@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tactiques de conviction par famille · 37 applications · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+    --c-model:#7e3ff2; --c-model-soft:#f3edff;
+    --c-flow:#c4761a; --c-flow-soft:#fbeedd;
+    --c-trust:#2563c9; --c-trust-soft:#e9f0fc;
+    --c-price:#1f9d55; --c-price-soft:#e8f6ee;
+    --c-barrier:#d8362f; --c-barrier-soft:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 24px 70px;}
+  .conf{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:#e8f6ee;color:#1f7d45;} .conf.o{background:#e9f0fc;color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+  .legende{font-size:12px;color:var(--muted);margin:8px 0 0;}
+  h2.section{font-size:18px;margin:30px 0 6px;display:flex;align-items:center;gap:10px;}
+  h2.section::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--accent-dark);display:inline-block;}
+  .section-sub{font-size:13px;color:var(--muted);margin:0 0 14px 16px;}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:980px;}
+  th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{background:#fbfbf8;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);}
+  tr:last-child td{border-bottom:none;}
+  td.fam{font-weight:800;min-width:140px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:1px 2px 1px 0;}
+  .t-green{background:var(--c-price-soft);color:var(--c-price);}
+  .t-red{background:var(--c-barrier-soft);color:var(--c-barrier);}
+  .t-amber{background:var(--c-flow-soft);color:var(--c-flow);}
+  .t-violet{background:var(--c-model-soft);color:var(--c-model);}
+  .t-blue{background:var(--c-trust-soft);color:var(--c-trust);}
+  .t-grey{background:#f0f0ec;color:#777;}
+  .t-gold{background:#fdf6dc;color:#9a7200;}
+  .app-chip{display:inline-block;font-size:11.5px;background:#f4f4ef;border:1px solid var(--border);border-radius:8px;padding:1px 7px;margin:1px 2px;white-space:nowrap;font-weight:700;}
+  a.app-chip{text-decoration:none;color:inherit;cursor:pointer;transition:border-color .12s, box-shadow .12s;}
+  a.app-chip:hover{border-color:var(--c-trust);box-shadow:0 1px 5px rgba(37,99,201,.18);}
+  .mex{margin-top:6px;font-size:11px;color:var(--muted);}
+  .het{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;background:#fdecea;color:#a3261f;}
+  .lesson{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--cat);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+  .lesson h3{font-size:15px;color:var(--cat);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .lesson h3 .num{min-width:22px;height:22px;border-radius:6px;background:var(--cat);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;padding:0 5px;}
+  .lesson ul{margin:0 0 0 18px;} .lesson li{font-size:13px;margin-bottom:5px;}
+  .avis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px;}
+  .acard{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface);}
+  .acard .ttl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+  .acard.f .ttl{color:var(--c-price);} .acard.r .ttl{color:var(--c-barrier);} .acard.p .ttl{color:var(--c-trust);}
+  .acard li{font-size:12.5px;margin-bottom:4px;margin-left:15px;}
+  /* ===== HABILLAGE ÉDITORIAL ===== */
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:46px 44px 34px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1.18;font-weight:700;margin:14px 0 16px;max-width:880px;}
+  .standfirst{font-size:15.5px;color:#444;max-width:780px;line-height:1.65;}
+  .cover-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 30px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
+  .cover-meta b{color:#333;}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 26px;margin-top:18px;}
+  .toc .toc-t{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .toc a{display:flex;gap:14px;align-items:baseline;text-decoration:none;color:inherit;padding:6px 0;border-bottom:1px dashed #eee8d5;font-size:14px;}
+  .toc a:last-child{border-bottom:none;}
+  .toc a:hover .tt{color:var(--c-trust);}
+  .toc .tn{font-family:Georgia,serif;font-weight:700;color:var(--accent-dark);min-width:26px;}
+  .toc .tt{font-weight:600;}
+  .chapter{margin-top:52px;}
+  .ch-band{display:flex;align-items:baseline;gap:18px;border-bottom:3px solid var(--accent-dark);padding-bottom:10px;}
+  .ch-num{font-family:Georgia,serif;font-size:46px;font-weight:700;color:var(--accent-dark);line-height:1;}
+  .ch-title{font-family:Georgia,serif;font-size:25px;font-weight:700;line-height:1.2;}
+  .chapeau{font-size:14px;color:#555;max-width:840px;line-height:1.7;margin:14px 0 22px;border-left:3px solid var(--accent);padding-left:16px;font-style:italic;}
+  .report-foot{margin-top:50px;border-top:1px solid var(--border);padding-top:14px;}
+  @media(max-width:980px){.avis{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Benchmark onboarding · Analyse transversale</div>
+    <h1>Les tactiques de conviction, famille par famille</h1>
+    <div class="standfirst">Comment chaque famille d'applications convainc le parent de payer. Six paramètres : l'effort global de conviction, l'autorité tierce mobilisée, la preuve sociale, la promesse mise en avant, l'engagement fabriqué (quiz, personnalisation, attente mise en scène), et les tactiques de pression (ancrages de prix, urgence, frustration). Pour chaque case : la valeur majoritaire en pastille, l'explication, et un ou deux meilleurs exemples cliquables qui ouvrent la fiche de l'application, avec ses écrans.</div>
+    <div class="cover-meta">
+      <span><b>Panel</b> · 37 applications analysées écran par écran</span>
+      <span><b>Date</b> · 12 juin 2026</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-t">Sommaire</div>
+    <a href="#ch01"><span class="tn">01</span><span class="tt">La matrice : 10 familles × 6 tactiques de conviction</span></a>
+    <a href="#ch02"><span class="tn">02</span><span class="tt">Les enseignements, tactique par tactique</span></a>
+  </nav>
+
+  <div class="chapter" id="ch01">
+    <div class="ch-band"><span class="ch-num">01</span><span class="ch-title">La matrice : 10 familles × 6 tactiques de conviction</span></div>
+    <p class="chapeau">La valeur majoritaire de chaque famille, en pastille, avec ses meilleurs exemples. Tableau large, défilement horizontal assumé.</p>
+    <div class="tbl-wrap">
+    <table style="min-width:2300px;">
+      <thead><tr><th>Famille</th><th>Effort global de conviction</th><th>Autorité tierce</th><th>Preuve sociale</th><th>La promesse mise en avant</th><th>Engagement fabriqué</th><th>Pression et urgence</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="fam">F1a · Histoires audio enfant : ceux qui tiennent <span class="tag t-gold">métier Kidsono</span></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Tout l'onboarding est un appareil de conviction : c'est même ce qui distingue cette sous-famille de celle qui meurt<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>L'autorité ÉDITORIALE en vitrine : logos Bayard, Milan, Gallimard (Bayam), École des Loisirs + référence Arcom (KiLi). Absente chez Alma et Readmio, qui compensent autrement<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Témoignage 5 étoiles placé DANS le mur payant (Bayam), "1 million de parents heureux" + "Featured by App Store" (Readmio)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">La caution + le catalogue</span><br>"Les histoires des éditeurs que vous aimez" ; Alma : bénéfices bien-être chiffrés + écoute sans écran<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Profil enfant (avatar, prénom), et la PRODUCTION comme preuve : l'animation 3D premium de Readmio fait office d'argument de sérieux<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Présente</span><br>Mur payant répété x4 + montée en gamme poussée juste après l'achat (Bayam), prix barré (Alma), extraits de 9-30 secondes qui frustrent (KiLi)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F1b · Histoires audio enfant : ceux qui meurent ou végètent</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Le non-effort : on dépose l'utilisateur dans le catalogue et on espère<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Deux signaux isolés : la personnalité culturelle (Lorànt Deutsch chez Quelle Histoire) et la souveraineté indé ("hébergé en France, sans publicité", Capitaine)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/04-quelle-histoire/presentation.html">Quelle Histoire</a> <a class="app-chip" href="apps/08-capitaine-aventure/presentation.html">Capitaine</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>"Recommandé par des milliers de familles" : vague, non chiffré<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">L'abondance brute</span><br>"1 200 histoires" martelé, ou rien du tout<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Une exception remarquable : l'enfant devient le héros de l'histoire, avec son prénom (Capitaine). Forte, mais isolée et sans le reste<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/08-capitaine-aventure/presentation.html">Capitaine</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Subie</span><br>La frustration existe (cadenas, aperçu coupé à 1 minute) mais elle n'est pas orchestrée : elle agace plus qu'elle ne convertit<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F2 · Sommeil / calme / bien-être enfant</td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Chez les gagnants : la promesse fait tout le travail<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Science et experts REVENDIQUÉS, jamais nommés ("créé par des experts, soutenu par la science") ; awards (Moshi) ; et la caution la plus originale du panel : le remboursement par les assurances santé allemandes (Aumio)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a> <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>"90 000 avis 5 étoiles" sur le mur payant<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le résultat chiffré</span><br>"S'endort 28 minutes plus vite", "37 minutes de sommeil en plus", "temps d'écran sans culpabilité" : on vend l'état de l'enfant, jamais le catalogue<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>La promesse rendue NOMINATIVE par la perso ("des centaines d'heures pour Thelma"), l'attente mise en scène ("Crafting Thelma's magical experience"), les mascottes attachantes<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Présente</span><br>Ancrage 119,88 € barré → 49,99 €, compte à rebours permanent "3 jours gratuits restants"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F3 · Bibliothèques de livres enfants lus à voix haute</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Des carrousels efficaces mais peu outillés : la famille convainc moins qu'elle ne filtre<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Le gâchis du panel : les cautions réelles (Oxford University Press, Pete the Cat) ne sont visibles qu'APRÈS paiement. En onboarding : "Trusted by teachers and parents", générique<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/16-pickatale/presentation.html">Pickatale</a> <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Affirmations sans chiffres ni témoignages<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">L'abondance</span><br>"40 000+ livres" + l'amour de la lecture ("Inspire a lifelong love of reading")<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>La preuve par le vécu, mais sous essai déjà payé : le choix de livre imposé + la lecture lancée (Epic), la mascotte à faire éclore<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/17-epic/presentation.html">Epic</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyenne</span><br>Blocage à la relance au refus (Vooks), "Save 41%" avec annuel pré-sélectionné<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F4a · Programmes d'apprentissage : l'essai proposé, jamais imposé</td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>La démonstration plutôt que l'argumentaire : on laisse jouer, l'essai se vend ensuite<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Oxford University Press dès l'écran d'accueil + licences Disney/Marvel (Lingokids), label kidSAFE, Kidscreen Awards<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Les stats d'adoption massives : "Adoré par +5 millions de familles", "Chosen by 50M+ Families" en tête de mur payant<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a> <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le progrès ludique</span><br>"Playlearning" + abondance ("2 000+ activités", "13 000+")<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>La quête quotidienne gratuite et gamifiée comme preuve par l'usage : on s'attache avant de payer<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Ancrage -50% sur l'annuel, bandeau d'essai persistant ; pas de pression dure, le refus est respecté<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F4b · Programmes d'apprentissage : la conviction avant le mur</td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Le plus outillé du panel : tout l'onboarding est une machine à convaincre<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>Les certifications tierces EMPILÉES : kidSAFE, Mom's Choice, Smart Media, Brain Toy sur une slide dédiée (Reading Eggs), méthode scientifique revendiquée (Direct Instruction), caution écoles ("16 000 écoles")<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>"2,5 millions de parents · 4,7★" en tête de mur, "20M d'enfants, 193 pays"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a> <a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le résultat diagnostiqué</span><br>"En 10 leçons, votre enfant lira son premier livre", courbe de progression, et la projection émotionnelle : un diplôme au nom de l'enfant<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a> <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Très fort</span><br>LA signature de la famille : quiz de 10 questions (2,5 à 5 min investies) → "Personalizing..." (attente mise en scène) → diagnostic révélé et nommé ("Growing Learner"). Le parent a co-construit la conclusion, il y croit<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Présente, parfois limite</span><br>Ancrage "Save 48%", prix barré qui n'a jamais été un vrai prix (Hooked), conviction par l'inquiétude (l'école et ses "lobbies" chez Reading.com), case marketing à double négation (Reading Eggs)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/28-hooked-on-phonics/presentation.html">Hooked on Phonics</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F5a · Vidéo / TV enfant gratuite</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Nul</span><br>Rien à convaincre : tout est gratuit<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-blue">La marque publique</span><br>France Télévisions, M6/TF1 : l'institution fait la confiance<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">La marque, gratuite</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/10-okoo/presentation.html">Okoo</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>Une exception négative : la demande de pistage publicitaire (Gulli), qui joue CONTRE la confiance<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/09-gulli/presentation.html">Gulli</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F5b · Dessins animés et comptines de licences mondiales</td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>La marque a convaincu avant l'installation (YouTube) : l'app encaisse<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>Aucune caution tierce à l'écran : la licence EST la caution<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>Zéro preuve sociale, pas même la note du store reprise<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">La marque que l'enfant réclame</span><div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Les mascottes (la pastèque, le requin) portent l'attachement, rien d'autre<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Présente</span><br>Prix d'appel le 1er mois qui masque le tarif réel, "SALE 47%" barré, mur re-déclenché à chaque cadenas<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F6 · Livre audio long adulte <span class="tag t-violet">cluster crédit</span></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>La vitrine fait le travail : fiches riches, couvertures, extraits<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>La caution d'écosystème ("une société Amazon", compte Amazon obligatoire), la mission (soutenir les librairies indépendantes, Libro.fm), les licences du catalogue (Harry Potter, Marvel)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> <a class="app-chip" href="apps/33-libro-fm/presentation.html">Libro.fm</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyen</span><br>Notes et avis PAR LIVRE sur les fiches ; recommandations nominatives de libraires ("Bookseller pick, Amy, Rosemary's Romance Books")<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/33-libro-fm/presentation.html">Libro.fm</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">L'abondance + la propriété</span><br>"900 000+ titres" et "il vous appartient définitivement" : on achète un patrimoine, pas un accès<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>Pas d'engagement fabriqué : la frustration de vitrine suffit (les fiches n'ont même pas de bouton Écouter)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/32-audible/presentation.html">Audible</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Moyenne</span><br>Ancrage par étage (le palier 45 h présenté en premier, le 15 h pré-sélectionné, Storytel), pistage habillé en "You're in control"<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/31-storytel/presentation.html">Storytel</a></div></td>
+      </tr>
+      <tr>
+        <td class="fam">F7 · Feuilleton à l'épisode <span class="tag t-violet">cluster crédit</span></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Faible</span><br>L'argumentaire est remplacé par le contenu : on montre, on ne convainc pas<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-grey">Absente</span><br>Aucune caution tierce sur 5 applications<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>L'originalité de la famille : la preuve sociale PAR CONTENU ("6,8M lectures · 4.6" sur chaque vignette, "13,4K personnes la regardent") : on ne prouve pas l'app, on prouve chaque série<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a> <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-violet">Le contenu lui-même</span><br>Une série se lance toute seule : la promesse, c'est l'expérience. + abondance ("75 000 séries")<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-green">Fort</span><br>L'engagement est NARRATIF : le suspense de l'épisode suivant vaut tous les quiz. Recommandation par goûts pour accrocher à la bonne série<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Forte</span><br>Urgence "23:59:57", packs à bonus "+200%", solde affiché à zéro au moment du verrou. À regarder pour comprendre, pas pour copier sur un public parental<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a></div></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="chapter" id="ch02">
+    <div class="ch-band"><span class="ch-num">02</span><span class="ch-title">Les enseignements, tactique par tactique</span></div>
+    <p class="chapeau">Ce qui ressort quand on lit la matrice en colonnes : les écoles qui s'affrontent, les vides du marché, et les tactiques qui se paient en confiance.</p>
+
+    <div class="lesson" style="--cat:var(--c-trust)">
+      <h3><span class="num">1</span>L'autorité tierce : trois variantes, et deux vides remarquables</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> Trois variantes selon les marchés : l'autorité ÉDITORIALE en France (logos Bayard, Gallimard, École des Loisirs : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a>), l'autorité ACADÉMIQUE et CERTIFIANTE aux États-Unis (Oxford University Press, kidSAFE, Mom's Choice : <a class="app-chip" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="app-chip" href="apps/22-reading-eggs/presentation.html">Reading Eggs</a>), et des cautions ORIGINALES isolées : le remboursement par les assurances santé (<a class="app-chip" href="apps/14-aumio/presentation.html">Aumio</a>), la mission libraires indépendants (<a class="app-chip" href="apps/33-libro-fm/presentation.html">Libro.fm</a>).</li>
+        <li><span class="conf o">Observé</span> Premier vide : la caution d'un EXPERT NOMMÉ (pédopsychiatre, orthophoniste, pédagogue identifié) n'existe sur aucune des 37 applications. Tout le monde dit "recommandé par des experts", personne ne nomme l'expert.</li>
+        <li><span class="conf o">Observé</span> Second vide, par gâchis : deux applications possèdent des cautions de premier plan et les cachent APRÈS le paiement (<a class="app-chip" href="apps/16-pickatale/presentation.html">Pickatale</a> avec Oxford, <a class="app-chip" href="apps/18-vooks/presentation.html">Vooks</a> avec Pete the Cat). L'autorité qui ne sert pas la conversion ne sert à rien.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-model)">
+      <h3><span class="num">2</span>La preuve sociale : du chiffre global au compteur par contenu</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> Trois niveaux de sophistication : l'affirmation vague ("des milliers de familles", <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a>), la stat de masse en tête de mur payant ("50M+ Families", "2,5M parents · 4,7★" : <a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a>), et le plus fin du panel : la preuve PAR CONTENU, un compteur de lectures et une note sur chaque vignette (<a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a> <a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a>). On ne prouve plus l'application, on prouve chaque histoire.</li>
+        <li><span class="conf o">Observé</span> Le témoignage utilisateur placé DANS le mur payant, au moment de la décision, ne se voit que chez <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> : pattern simple, peu repris.</li>
+        <li><span class="conf o">Observé</span> Les marques mondiales n'affichent RIEN (<a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a>, <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html">Pinkfong</a>) : leur preuve sociale a eu lieu sur YouTube. Non transposable sans la marque.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-price)">
+      <h3><span class="num">3</span>L'engagement fabriqué : la tactique montante, du quiz au cliffhanger</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> La forme la plus aboutie : le triptyque quiz investi → attente mise en scène ("Personalizing...") → diagnostic révélé au nom de l'enfant (<a class="app-chip" href="apps/19-homer/presentation.html">Homer</a> <a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a>). Le parent a co-construit la conclusion : il y croit, et il a déjà donné 3 à 5 minutes de sa vie.</li>
+        <li><span class="conf o">Observé</span> Sa version douce : la promesse rendue NOMINATIVE par 3 écrans de perso ("des centaines d'heures pour Thelma", <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a>) ; sa version par l'usage : la quête quotidienne gratuite qui attache avant de vendre (<a class="app-chip" href="apps/21-abcmouse/presentation.html">ABCmouse</a>) ; sa version narrative, la plus puissante du panel : le suspense de l'épisode suivant (<a class="app-chip" href="apps/34-pocket-fm/presentation.html">Pocket FM</a>).</li>
+        <li><span class="conf o">Observé</span> Et une version matérielle unique : la PRODUCTION comme preuve, l'animation 3D premium qui fait office d'argument de sérieux (<a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a>).</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-barrier)">
+      <h3><span class="num">4</span>La pression : presque tout le monde en use, et certaines se paient cher</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> Le standard, peu coûteux en confiance : l'ancrage annuel (prix mensuel équivalent affiché, "Save 41-50%") et le compte à rebours d'essai. Présents partout chez les payants.</li>
+        <li><span class="conf o">Observé</span> Les pratiques limites, à connaître pour ne PAS les copier sur un public parental : le prix barré qui n'a jamais été un vrai prix (<a class="app-chip" href="apps/28-hooked-on-phonics/presentation.html">Hooked on Phonics</a> <a class="app-chip" href="apps/12-moshi-kids/presentation.html">Moshi</a>), le prix d'appel qui masque le tarif réel (<a class="app-chip" href="apps/23-cocomelon/presentation.html">CoComelon</a>), la conviction par l'inquiétude (<a class="app-chip" href="apps/27-reading-com/presentation.html">Reading.com</a> contre l'école et ses "lobbies"), l'urgence factice "23:59:57" (<a class="app-chip" href="apps/37-dramabox/presentation.html">DramaBox</a>).</li>
+        <li><span class="conf o">Observé</span> La frustration n'est efficace que mise en scène : les extraits courts de <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a> ou la vitrine sans bouton Écouter d'<a class="app-chip" href="apps/32-audible/presentation.html">Audible</a> sont des frustrations CONSTRUITES qui mènent à un acte d'achat clair. Les cadenas subis de <a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html">Souffleur</a> frustrent sans convertir.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" style="--cat:var(--c-flow)">
+      <h3><span class="num">5</span>La lecture d'ensemble : à chaque famille son levier dominant, et une place libre</h3>
+      <ul>
+        <li><span class="conf o">Observé</span> Chaque famille qui gagne a UN levier de conviction dominant, assumé : l'autorité éditoriale (histoires audio FR), le résultat chiffré (sommeil), les stats de masse + démonstration (programmes à entrée libre), l'engagement diagnostique (programmes à quiz), la preuve par contenu (feuilletons), la propriété (livres audio). Personne ne gagne en saupoudrant.</li>
+        <li><span class="conf e">Estim.</span> La combinaison qui n'existe nulle part sur les 37 : autorité éditoriale en vitrine + promesse de résultat sur le rituel + caution d'expert nommé. Chaque brique existe séparément, validée quelque part dans le panel ; leur somme est une place libre.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="legende" style="margin-top:34px;">Sources : les 37 analyses écran par écran du benchmark (captures réelles sur iPhone, juin 2026), sections tactiques et cartographies de confiance des fiches par application. Dernière mise à jour : 12 juin 2026.</p>
+
+</div>
+</body>
+</html>
