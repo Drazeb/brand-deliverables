@@ -32,12 +32,19 @@
   h2.section::before{content:"";width:6px;height:20px;border-radius:3px;background:var(--accent-dark);display:inline-block;}
   .section-sub{font-size:13px;color:var(--muted);margin:0 0 14px 16px;}
 
-  .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);}
+  .tbl-wrap{overflow:visible;width:max-content;max-width:none;border:1px solid var(--border);border-radius:14px;background:var(--surface);}
   table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:980px;}
-  th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+  th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;max-width:230px;}
   th{background:#fbfbf8;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);}
+  .tbl-wrap thead th{position:sticky;top:0;z-index:5;box-shadow:inset 0 -1px 0 var(--border);}
+  .tbl-wrap table{table-layout:fixed;width:max-content;min-width:0;}
+  .tbl-wrap th,.tbl-wrap td{width:400px;overflow-wrap:break-word;}
+  .tbl-wrap thead th:first-child{left:0;z-index:6;}
   tr:last-child td{border-bottom:none;}
-  td.fam{font-weight:800;min-width:150px;}
+  td.fam{font-weight:800;min-width:150px;position:sticky;left:0;z-index:4;background:var(--surface);border-right:1px solid var(--border);}
+  td.trait{background:#fdf6dc;min-width:178px;}
+  .trait-chip{display:inline-block;font-size:11px;font-weight:600;line-height:1.3;padding:2px 8px;margin:2px 3px 2px 0;border-radius:7px;background:#fffdf5;border:1px solid #e6d8a8;color:#6a5c34;}
+  .trait-title{font-weight:800;font-size:11.5px;line-height:1.25;color:#5a4e2e;margin:0 0 5px;}
   .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:1px 2px 1px 0;}
   .t-green{background:var(--c-price-soft);color:var(--c-price);}
   .t-red{background:var(--c-barrier-soft);color:var(--c-barrier);}
@@ -98,6 +105,18 @@
   .acard li{font-size:12.5px;margin-bottom:4px;margin-left:15px;}
   @media(max-width:980px){.three,.avis{grid-template-columns:1fr;}}
 
+  /* ===== ENCART SYNTHÈSE "POURQUOI CETTE APPROCHE" ===== */
+  .whyblock{background:#f8f7f2;border:1px solid #ece6d4;border-left:3px solid #e4ddc9;border-radius:12px;padding:11px 16px 13px;margin-top:14px;}
+  .whyblock h4{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:6px;}
+  .whyblock h4::before{content:"\1F4A1";font-size:13px;line-height:1;}
+  .whyblock p{font-size:12.5px;line-height:1.66;color:#3b3b3b;}
+  .src{display:inline-block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.2px;padding:0 5px;border-radius:4px;vertical-align:middle;white-space:nowrap;}
+  .src.d{background:#e8f6ee;color:#1f7d45;} .src.p{background:var(--c-model-soft);color:var(--c-model);} .src.e{background:#fff4e0;color:#9a6200;}
+  .refnum{font-size:9px;font-weight:800;color:var(--c-trust);vertical-align:super;}
+  .refnum a{color:inherit;text-decoration:none;}
+  .refbox{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 20px;margin-top:22px;}
+  .refbox h4{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:9px;}
+  .refbox ol{margin:0 0 0 20px;} .refbox li{font-size:11.5px;line-height:1.55;color:#555;margin-bottom:3px;}
   /* ===== HABILLAGE ÉDITORIAL ===== */
   .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:46px 44px 34px;}
   .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
@@ -213,7 +232,7 @@
         <td class="fam">F5b · Dessins animés et comptines de licences mondiales</td>
         <td><b>T1</b> occuper avec la marque que l'enfant réclame déjà · <b>T2</b> vidéo / comptine / mini-jeu · <b>T3</b> flux-zapping · <b>T4</b> enfant consomme, parent paie LA MARQUE</td>
         <td><a class="app-chip win" href="apps/23-cocomelon/presentation.html"><b>CoComelon</b> <span class="n">12 928</span></a> <a class="app-chip" href="apps/25-super-simple-songs/presentation.html"><b>Super Simple Songs</b> <span class="n">9 831</span></a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html"><b>Pinkfong</b> <span class="n">2 992</span></a></td>
-        <td>Accès direct + freemium réel + <b>paiement SEC sans essai</b> (CoComelon, Pinkfong : prix d'appel 1er mois, achat unique à vie, bundle 30+ apps) ; seul SSS propose un trial. Le brand pull remplace l'onboarding ET l'essai. Non transposable sans marque mondiale. [Observé]</td>
+        <td>Accès direct + freemium réel + <b>paiement au cadenas, sans essai</b> (CoComelon, Pinkfong : prix d'appel 1er mois, achat unique à vie, bundle 30+ apps) ; seul SSS propose un trial. Le brand pull remplace l'onboarding ET l'essai. Non transposable sans marque mondiale. [Observé]</td>
         <td style="white-space:normal;min-width:240px;">La plus inventive : triptyque player Timer + Kids Lock appui long 3 s + Sleep Mode (Pinkfong), gates calcul avant paywall (SSS, Pinkfong)</td>
       </tr>
       <tr>
@@ -243,7 +262,7 @@
 <div class="lesson" style="--cat:var(--c-trust)">
     <h3><span class="num">→</span>Le constat : le modèle économique qui gagne change d'une famille à l'autre</h3>
     <ul>
-      <li><span class="conf o">Observé</span> Il n'y a PAS de modèle gagnant universel. Le leader de chaque famille utilise un modèle différent, et ce modèle découle de <b>ce qu'on consomme dans la famille (le trait T3 de la grille)</b> : curriculum → reverse trial + freemium d'appel (Lingokids) · bibliothèque → hard paywall + trial (Epic) · livre long → crédit-propriété ou quota-temps (Audible, Storytel) · feuilleton → coins + wait-to-unlock (DramaBox) · vidéo de marque → paiement sec ou gratuit (CoComelon, Okoo) · état/sommeil → promesse de résultat + trial (Moshi).</li>
+      <li><span class="conf o">Observé</span> Il n'y a PAS de modèle gagnant universel. Le leader de chaque famille utilise un modèle différent, et ce modèle découle de <b>ce qu'on consomme dans la famille (le trait T3 de la grille)</b> : curriculum → reverse trial + freemium d'appel (Lingokids) · bibliothèque → hard paywall + trial (Epic) · livre long → crédit-propriété ou quota-temps (Audible, Storytel) · feuilleton → coins + wait-to-unlock (DramaBox) · vidéo de marque → paiement au cadenas ou gratuit (CoComelon, Okoo) · état/sommeil → promesse de résultat + trial (Moshi).</li>
       <li><span class="conf o">Observé</span> Nuance importante : offrir du vrai gratuit testable sans carte bleue n'est pas condamné. Les deux plus grosses applications enfants du panel (Lingokids 593 000 avis, ABCmouse 88 000) combinent un essai gratuit ET un palier gratuit réel, testable sans carte. Ce qui ne réussit à personne, en revanche : le gratuit sans aucun essai ni mur payant (Quelle Histoire, Whisperies, LILI), et le gratuit laissé en libre-service sans mise en scène.</li>
       <li><span class="conf e">Estim.</span> Conséquence méthodologique : comparer deux applications de familles différentes ("Epic fait payer d'emblée, donc Kidsono peut") est un raisonnement faux. La bonne question est toujours : que font les gagnants de MA famille, et qu'est-ce que les familles voisines m'apprennent qui se transpose ?</li>
     </ul>
@@ -283,10 +302,11 @@
   <div class="fiche-head"><span class="fcode">F1a</span><div><div class="ftitle">Histoires audio enfant : ceux qui tiennent</div><div class="fsub">le métier de Kidsono · 4 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
   <table style="min-width:3400px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Personnalisation</th><th>Création de compte</th><th>Aha-moment</th><th>Paywall : position</th><th>Réassurance au paiement</th><th>Longueur</th><th>Registre de promesse</th><th>Trust : niveau + méthodes</th><th>Features de sécurité enfant</th><th>Cas à part</th></tr></thead>
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Personnalisation</th><th>Création de compte</th><th>Aha-moment</th><th>Paywall : position</th><th>Réassurance au paiement</th><th>Longueur</th><th>Registre de promesse</th><th>Trust : niveau + méthodes</th><th>Features de sécurité enfant</th><th>Cas à part</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F1a · Histoires audio enfant : ceux qui tiennent <span class="tag t-gold">métier Kidsono</span></td>
+        <td class="trait"><div class="trait-title">Convaincre avant le mur</div><span class="trait-chip">Autorité éditoriale</span><span class="trait-chip">Mur avant la valeur</span><span class="trait-chip">Carte requise</span><span class="trait-chip">Reverse trial 7 jours</span><span class="trait-chip">Aucun amortisseur</span></td>
         <td><a class="app-chip win" href="apps/01-bayam/presentation.html"><b>Bayam</b> <span class="n">6 837</span></a> <a class="app-chip" href="apps/07-kili/presentation.html"><b>KiLi</b> <span class="n">2 456</span></a> <a class="app-chip" href="apps/02-alma-studio/presentation.html"><b>Alma</b> <span class="n">1 398</span></a> <a class="app-chip" href="apps/13-readmio/presentation.html"><b>Readmio</b> <span class="n">1 282</span></a></td>
         <td>Toujours un PARTI PRIS : <span class="tag t-blue">Trust-building</span> soit <span class="tag t-violet">Perso simple</span> soit <span class="tag t-violet">Persuasion avancée</span>. Jamais d'accès direct</td>
         <td><span class="tag t-amber">Freemium bande-annonce</span> soit <span class="tag t-red">Hard paywall</span> : pas d&#39;étage gratuit où vivre sans CB. Deux micro-exceptions orchestrées : 1-2 contenus complets en hero (KiLi), démo dans l&#39;intro (Readmio)</td>
@@ -295,8 +315,8 @@
         <td><span class="tag t-green">7 jours</span> (4/4)</td>
         <td style="white-space:normal;"><span class="tag t-amber">Simple</span><br>Profil enfant UTILITAIRE (prénom + âge + avatar) qui adapte le catalogue et le chrono (4/4). Jamais un quiz de conviction<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a></div></td>
         <td style="white-space:normal;"><span class="tag t-red">Avant le mur</span><br>Intégré au parcours (Bayam écran 3, Readmio 7, Alma 11). Exception : KiLi (différé à la tentative)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
-        <td style="white-space:normal;"><span class="tag t-red">Aucun avant le mur</span><br>La conviction remplace la dégustation. Au mieux un aha orchestré ponctuel (1-2 contenus en vitrine, démo dans l'intro)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
-        <td style="white-space:normal;"><span class="tag t-red">Avant toute consommation</span><br>Dans le parcours (écrans 7-9), répété (Bayam x4). Aucun amortisseur de refus<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-amber">Rare (2/4)</span><br>La conviction remplace la dégustation chez Bayam et Alma ; mais KiLi (1-2 contenus complets en vitrine) et Readmio (démo read-along) font vivre un vrai aha avant le mur<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/07-kili/presentation.html">KiLi</a> <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
+        <td style="white-space:normal;"><span class="tag t-red">Avant toute consommation</span> <span class="tag t-grey">3/4</span><br>Dans le parcours (écrans 7-9), répété (Bayam x4). Exception KiLi : mur différé à la tentative, après 1-2 contenus complets gratuits. Aucun amortisseur de refus<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
         <td style="white-space:normal;"><span class="tag t-grey">Faible</span> <span class="tag t-amber">Moyenne</span><br>Mentions "sans engagement / résiliable" standard. Seul Readmio affiche une vraie chronologie d'essai (jour 7 + rappel)<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/13-readmio/presentation.html">Readmio</a></div></td>
         <td style="white-space:normal;"><span class="tag t-blue">Longs : 70-200 s</span><br>12 à 18+ écrans : les plus longs du marché FR<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a></div></td>
         <td style="white-space:normal;"><span class="tag t-violet">La caution + le catalogue</span><br>"Les histoires des éditeurs que vous aimez" ; Alma : le bien-être sans écran<div class="mex">Meilleurs exemples : <a class="app-chip" href="apps/01-bayam/presentation.html">Bayam</a> <a class="app-chip" href="apps/02-alma-studio/presentation.html">Alma</a></div></td>
@@ -335,21 +355,25 @@
       <li><span class="conf e">Estim.</span> Pour Kidsono : le standard à dépasser à J1. Le ticket d'entrée est le parti pris (le trust éditorial est le plus fort de la famille) ; le dépassement = ajouter ce que personne n'y fait (valeur vécue orchestrée avant le mur, amortisseurs de friction CB).</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette sous-famille vend un capital culturel (« les histoires des éditeurs que vous aimez »), pas un résultat ni une expérience à goûter, et ce registre commande le reste. 1/ Acheter pour son enfant étant un achat à fort risque perçu, c'est l'autorité tierce, ici éditoriale, qui pèse le plus sur l'intention (la corrélation confiance-achat passe de r≈0,55 à r≈0,74) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">1</a></span>. 2/ Une caution forte autorisant à remplacer la dégustation par la conviction, le mur tombe avant toute consommation, et le modèle peut ne rien offrir de complet tout en exigeant la carte d'emblée, parce que payer tôt rapporte bien plus par installation (3,09 $ contre 0,38 $ à 60 jours) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>. 3/ L'essai 7 jours et le compte tôt suivent le réglage par défaut des stores plus qu'un optimum <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>. La cohérence est réelle, mais la faille aussi : la décision se joue dès le premier jour de l'essai <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>, or sans valeur vécue avant le mur, rien ne se vit ce jour-là, ce qui explique le plafond d'adoption à 6,8k et la place laissée à qui orchestrerait une vraie valeur avant de faire payer.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--accent-dark)">
   <div class="fiche-head"><span class="fcode">F1b</span><div><div class="ftitle">Histoires audio enfant : ceux qui meurent ou végètent</div><div class="fsub">le métier de Kidsono · 6 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F1b · Histoires audio enfant : ceux qui meurent ou végètent</td>
+        <td class="trait"><div class="trait-title">Gratuit sans conversion</div><span class="trait-chip">Gratuit non orchestré</span><span class="trait-chip">Sans carte</span><span class="trait-chip">Aucun essai</span><span class="trait-chip">Aucun moteur de conversion</span></td>
         <td><a class="app-chip" href="apps/03-souffleur-de-reves/presentation.html"><b>Souffleur</b> <span class="n">2 659</span></a> <a class="app-chip" href="apps/05-whisperies/presentation.html"><b>Whisperies</b> <span class="n">749</span></a> <a class="app-chip" href="apps/04-quelle-histoire/presentation.html"><b>Quelle Histoire</b> <span class="n">357</span></a> <a class="app-chip" href="apps/11-mes-histoires-du-soir/presentation.html"><b>MHS</b> <span class="n">107</span></a> <a class="app-chip" href="apps/15-kidjo-stories/presentation.html"><b>Kidjo</b> <span class="n">28</span></a> <a class="app-chip" href="apps/08-capitaine-aventure/presentation.html"><b>Capitaine</b> <span class="n">1</span></a></td>
         <td><span class="tag t-grey">Accès direct</span> (6/6) : le non-choix</td>
         <td>Gratuit NON orchestré : <span class="tag t-green">Freemium</span> libre (4/6), teaser ou tout gratuit</td>
+        <td><span class="tag t-green">Pas de mur d'entrée</span> entrée libre, mur au cadenas</td>
+        <td><span class="tag t-grey">Aucun</span></td>
         <td>Dispersé : freemium, hard paywall, publicité, reverse trial. Aucun choix net</td>
-        <td><span class="tag t-green">Sans carte</span> (5/6)</td>
+        <td><span class="tag t-green">Sans carte</span> (4/6) ; Souffleur et Kidjo exigent la carte</td>
         <td><span class="tag t-red">Aucun</span> (4/6)</td>
         <td>Faible à moyen, jamais structurant</td>
         <td><b>Souffleur</b> : seul en reverse trial CB, mais sans parti pris de forme, et il décline</td>
@@ -383,24 +407,28 @@
       <li><span class="conf e">Estim.</span> Pour Kidsono : la liste exacte de ce que le flow J1 ne doit pas être. Chaque trait de cette fiche est un test de non-régression.</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette sous-famille n'a pas convergé vers une approche mais vers l'absence d'approche, et les trois axes le disent d'une voix. 1/ Côté modèle, le gratuit permanent est traité comme une fin alors que la recherche le décrit comme un outil d'acquisition, jamais de monétisation : sans étage premium désirable ni moment de conversion mis en scène, l'utilisateur gratuit ne devient jamais payeur <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">3</a></span>. 2/ Côté flow, le compte est différé ou absent (6/6) et le gratuit traîne en catalogue sans guidage, donc ni événement de conversion à déclencher ni valeur orchestrée à faire vivre. 3/ Côté conviction, aucun levier dominant : la frustration des cadenas est subie. Le tout se referme sur lui-même, car demander à payer est ce qui crée le revenu (un mur rapporte environ huit fois plus par installation qu'un gratuit laissé seul) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>, et Souffleur le confirme à l'envers : copier la monétisation des gagnants sans le parti pris de conviction ne suffit pas. Cette fiche est la liste de ce qu'un flow de lancement ne doit pas être.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-trust)">
   <div class="fiche-head"><span class="fcode">F2</span><div><div class="ftitle">Sommeil / calme / bien-être enfant</div><div class="fsub">4 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F2 · Sommeil / calme / bien-être enfant</td>
+        <td class="trait"><div class="trait-title">Résultat vendu, refus amorti</div><span class="trait-chip">Vend un résultat sur l'enfant</span><span class="trait-chip">Reverse trial</span><span class="trait-chip">Prix ancrés à l'année</span><span class="trait-chip">Un amortisseur, sous une forme ou une autre</span></td>
         <td><a class="app-chip win" href="apps/12-moshi-kids/presentation.html"><b>Moshi</b> <span class="n">69 098</span></a> <a class="app-chip" href="apps/14-aumio/presentation.html"><b>Aumio</b> <span class="n">5 898</span></a> <a class="app-chip" href="apps/24-cosmic-kids-yoga/presentation.html"><b>Cosmic Kids</b> <span class="n">408</span></a> <a class="app-chip" href="apps/06-lili/presentation.html"><b>LILI</b> <span class="n">79</span></a></td>
         <td><span class="tag t-violet">Perso simple</span> chez les gagnants (prénom + âge + objectif)</td>
         <td><span class="tag t-red">Hard paywall</span> soit <span class="tag t-green">Freemium</span></td>
+        <td><span class="het">Hétérogène</span> mur avant tout + exit-intent 3j sans carte (Moshi) / skippable vers gratuit (Aumio) / à la tentative, rien de gratuit (Cosmic) / pas de mur, palier gratuit (LILI)</td>
+        <td><span class="tag t-green">Présent</span> (3/4) sous une forme ou une autre : exit-intent 3j sans carte (Moshi), palier gratuit permanent (Aumio, LILI) ; sauf Cosmic (aucun)</td>
         <td><span class="tag t-amber">Reverse trial</span> (3/4)</td>
         <td><span class="tag t-green">Sans carte</span> (3/4), grâce aux amortisseurs (exit-intent Moshi, skip Aumio)</td>
         <td><span class="tag t-green">7 à 14 jours</span></td>
         <td>Moyen : promesse de RÉSULTAT chiffrée ("28 min plus vite") + science/experts revendiqués, jamais nominaux</td>
-        <td><b>LILI</b> : freemium pur + segmentation B2B/B2G écoles, confidentielle</td>
+        <td><b>LILI</b> : freemium pur, vend plutôt le développement émotionnel et la philosophie que le sommeil, B2B/B2G écoles ; graine d'une future famille « développement de l'enfant » quand le panel grandira. <b>Cosmic Kids</b> : le seul sans amortisseur (hard paywall, tient sur la seule notoriété YouTube), le contre-exemple de la famille</td>
         <td style="white-space:normal;min-width:240px;">Étonnamment légère : profils par âge (Aumio), gate avant achat (Cosmic Kids), "guilt-free screentime" en promesse (Moshi). La famille vend l'apaisement mais outille peu</td>
       </tr>
     </tbody>
@@ -433,19 +461,23 @@
       <li><span class="conf e">Estim.</span> La famille la plus proche de Kidsono en mécanique de conviction : le rituel du soir est aussi son métier. La famille à explorer en priorité.</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette famille vend un état obtenu sur l'enfant (« s'endort 28 minutes plus vite »), pas un catalogue, et ce registre explique l'enchaînement des trois axes. 1/ On paie plus cher un résultat qu'un accès <span class="src p">Principe</span>, d'où des prix ancrés à l'année (49,99 à 89,99 €/an) ; l'annuel retient 2,5 à 3 fois mieux que le mensuel <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>, le mensuel affiché à côté servant d'ancre <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">4</a></span>. 2/ Le levier est la promesse de résultat chiffrée, rendue nominative par une perso simple (prénom, âge, objectif), jamais le catalogue. 3/ Le mur tombe tôt parce que c'est la promesse qui convertit, mais comme la décision se joue dès le premier jour <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>, ces apps ajoutent un amortisseur de refus, présent chez trois membres sur quatre sous des formes variables : exit-intent offrant 3 jours de premium sans carte (Moshi), palier gratuit permanent (Aumio, LILI), la seule exception étant Cosmic Kids (aucun). C'est la famille la plus proche du rituel du soir, et son amortisseur de refus est son pattern le plus directement transposable.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-trust)">
   <div class="fiche-head"><span class="fcode">F3</span><div><div class="ftitle">Bibliothèques de livres enfants lus à voix haute</div><div class="fsub">la bibliothèque se vend au mur · cousine structurelle de F1 · 4 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F3 · Bibliothèques de livres enfants lus à voix haute</td>
+        <td class="trait"><div class="trait-title">Mur et carte, portés par la marque</div><span class="trait-chip">Mur avant la valeur</span><span class="trait-chip">Carte requise</span><span class="trait-chip">Reverse trial</span><span class="trait-chip">Prix les plus hauts du segment</span><span class="trait-chip">Portée par la notoriété</span></td>
         <td><a class="app-chip win" href="apps/17-epic/presentation.html"><b>Epic!</b> <span class="n">518 168</span></a> <a class="app-chip" href="apps/18-vooks/presentation.html"><b>Vooks</b> <span class="n">9 304</span></a> <a class="app-chip" href="apps/29-skybrary/presentation.html"><b>Skybrary</b> <span class="n">3 303</span></a> <a class="app-chip" href="apps/16-pickatale/presentation.html"><b>Pickatale</b> <span class="n">2 287</span></a></td>
         <td><span class="tag t-violet">Présentation classique</span> (3/4) : carrousel de 3-5 slides bénéfices</td>
         <td><span class="tag t-red">Hard paywall</span> (3/4) : rien avant l'essai</td>
+        <td><span class="tag t-red">Mur avant tout contenu</span> rien avant l'essai (sauf Skybrary)</td>
+        <td><span class="tag t-grey">Aucun</span> sauf Skybrary</td>
         <td><span class="tag t-amber">Reverse trial</span> (3/4)</td>
         <td><span class="tag t-red">Requise</span> (3/4)</td>
         <td><span class="tag t-green">7 jours à 1 mois</span></td>
@@ -483,19 +515,23 @@
       <li><span class="conf e">Estim.</span> Pour Kidsono : prendre la trial timeline J0/J5/J7 et le read-along (pont audio-lecture sur les titres adaptés de livres d'éditeurs), pas le mur total.</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette famille vend de l'abondance de catalogue (« 40 000+ livres ») et l'amour de la lecture, et son profil le plus dur, carte obligatoire avec rien à consommer avant l'essai, ne tient que sur la notoriété. 1/ Demander la carte d'emblée maximise le revenu par installation (3,09 $ contre 0,38 $) et filtre les essayeurs peu sérieux <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">2</a></span>, mais ce filtre n'est soutenable que si la marque est déjà désirée, sans quoi le mur frontal effondre le volume <span class="src p">Principe</span> : seul Epic (518k avis) le porte, et Skybrary, sans cette traction, reste en freemium. 2/ Le levier de conviction est délégué à l'abondance plus qu'à une caution, ce qui se paie : Pickatale et Vooks cachent des cautions de premier plan (Oxford, Pete the Cat) derrière le mur. 3/ L'aha n'arrive que sous essai déjà payé (la lecture guidée forcée d'Epic) et sert la rétention de l'essai, mais la contrepartie est tenue : une chronologie d'essai transparente que les stores exigent <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">5</a></span>.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-trust)">
   <div class="fiche-head"><span class="fcode">F4a</span><div><div class="ftitle">Programmes d'apprentissage : l'essai proposé, jamais imposé</div><div class="fsub">les 2 leaders mondiaux du segment kids · 2 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F4a · Programmes d'apprentissage : l'essai proposé, jamais imposé</td>
+        <td class="trait"><div class="trait-title">Gratuit permanent, essai optionnel</div><span class="trait-chip">Palier gratuit permanent</span><span class="trait-chip">Mur d'entrée skippable</span><span class="trait-chip">Sans carte</span><span class="trait-chip">Valeur vécue avant le paiement</span></td>
         <td><a class="app-chip win" href="apps/20-lingokids/presentation.html"><b>Lingokids</b> <span class="n">592 982</span></a> <a class="app-chip win" href="apps/21-abcmouse/presentation.html"><b>ABCmouse</b> <span class="n">87 705</span></a></td>
         <td><span class="tag t-grey">Accès direct</span> à double voie ("plonger directement" pré-coché vs perso opt-in 1 question)</td>
         <td><span class="tag t-green">Freemium</span> réel : activités complètes gratuites + cadenas</td>
+        <td><span class="tag t-amber">Mur d'entrée skippable</span> refusable, puis vrai gratuit</td>
+        <td><span class="tag t-green">Palier gratuit permanent</span></td>
         <td><span class="tag t-amber">Reverse trial</span> (essai au paywall d'onboarding, skippable)</td>
         <td><span class="tag t-green">Sans carte</span> (2/2)</td>
         <td><span class="tag t-green">7 jours</span></td>
@@ -533,19 +569,23 @@
       <li><span class="conf e">Estim.</span> Le squelette de monétisation le plus transposable à Kidsono tel quel, en y greffant la pédagogie du crédit.</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Les deux plus grosses applications enfants du panel vendent un progrès scolaire et offrent un vrai palier gratuit permanent, et ce choix découle d'une logique économique précise. 1/ Le gratuit est le moteur d'acquisition de haut de funnel (chez Spotify, 60 % des abonnés payants ont commencé gratuits) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">3</a></span>, viable quand le coût marginal d'un utilisateur gratuit est faible et qu'une part nette de valeur reste au premium <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">3</a></span>. 2/ L'essai est proposé au mur d'entrée mais jamais imposé, skippable proprement, l'amortisseur étant le palier gratuit lui-même, d'où l'absence de carte exigée et une conversion au 2e ou 3e contact. 3/ On démontre au lieu d'argumenter : caution académique (Oxford) et stats d'adoption massives (« 50M+ familles ») rassurent pendant qu'on laisse jouer. C'est la preuve à grande échelle qu'un essai n'a pas besoin d'être imposé pour convertir.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-trust)">
   <div class="fiche-head"><span class="fcode">F4b</span><div><div class="ftitle">Programmes d'apprentissage : la conviction avant le mur</div><div class="fsub">quiz, outcome reveal, sunk cost · 4 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F4b · Programmes d'apprentissage : la conviction avant le mur</td>
+        <td class="trait"><div class="trait-title">Conviction avant le mur</div><span class="trait-chip">Quiz diagnostique (2/4)</span><span class="trait-chip">Mur après l'effort de conviction</span><span class="trait-chip">Carte requise</span><span class="trait-chip">Vend un résultat scolaire</span><span class="trait-chip">Paniers les plus élevés</span></td>
         <td><a class="app-chip win" href="apps/27-reading-com/presentation.html"><b>Reading.com</b> <span class="n">53 760</span></a> <a class="app-chip" href="apps/19-homer/presentation.html"><b>Homer</b> <span class="n">25 192</span></a> <a class="app-chip" href="apps/28-hooked-on-phonics/presentation.html"><b>Hooked on Phonics</b> <span class="n">16 809</span></a> <a class="app-chip" href="apps/22-reading-eggs/presentation.html"><b>Reading Eggs</b> <span class="n">6 775</span></a></td>
         <td><span class="tag t-violet">Perso poussée</span> (quiz Noom + outcome reveal : Homer, Reading.com) soit <span class="tag t-violet">Présentation / Persuasion</span> (Hooked, Reading Eggs)</td>
         <td><span class="tag t-red">Hard paywall</span> (3/4)</td>
+        <td><span class="tag t-red">Mur avant tout contenu</span> (3/4) après un effort de conviction (quiz : Homer, Reading.com ; persuasion et trust : Reading Eggs, Hooked). Sauf Reading.com</td>
+        <td><span class="tag t-grey">Aucun</span></td>
         <td><span class="tag t-amber">Reverse trial</span> (4/4)</td>
         <td><span class="tag t-red">Requise</span> (3/4)</td>
         <td><span class="tag t-green">7 à 30 jours</span></td>
@@ -583,19 +623,23 @@
       <li><span class="conf e">Estim.</span> Pour Kidsono : le quiz court + outcome reveal est testable, mais jamais suivi d'un mur total. Prendre la variante Reading.com, pas la variante Homer.</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette sous-famille vend un résultat scolaire diagnostiqué, et ce registre commande son arme : faire investir le parent avant le mur plutôt que lui faire goûter le produit. 1/ Le levier de conviction est le plus outillé du panel, un quiz de 10 questions où se cumulent l'effort déjà fourni (coût irrécupérable), une suite de micro-engagements (pied-dans-la-porte) et un résultat co-construit donc valorisé (effet IKEA) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">6</a></span>. 2/ Cet investissement commande la position du mur, placé APRÈS le diagnostic, là où l'investissement émotionnel est maximal <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">7</a></span> ; le compte est monnayé en route (« pour voir vos résultats »), capturant l'email même sans conversion. 3/ La carte exigée et les paniers les plus élevés du panel (jusqu'à 129,99 €/an) tiennent parce qu'on vend un résultat diagnostiqué. Condition limite : l'effet ne joue que si le quiz aboutit à un résultat visible <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">6</a></span> ; la variante à retenir est Reading.com (paywall skippable + gratuit calibré), pas le mur total de Homer.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-trust)">
   <div class="fiche-head"><span class="fcode">F5a</span><div><div class="ftitle">Vidéo / TV enfant gratuite</div><div class="fsub">les contre-modèles · 2 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F5a · Vidéo / TV enfant gratuite</td>
+        <td class="trait"><div class="trait-title">Gratuit total, sans conversion</div><span class="trait-chip">Tout gratuit</span><span class="trait-chip">Aucun mur</span><span class="trait-chip">Sans carte ni essai</span><span class="trait-chip">Aucune conversion à orchestrer</span></td>
         <td><a class="app-chip win" href="apps/10-okoo/presentation.html"><b>Okoo</b> <span class="n">35 482</span></a> <a class="app-chip" href="apps/09-gulli/presentation.html"><b>Gulli</b> <span class="n">63</span></a></td>
         <td><span class="tag t-grey">Accès direct</span> (2/2)</td>
         <td><span class="tag t-green">Tout gratuit</span> (2/2)</td>
+        <td><span class="tag t-grey">Pas de mur</span> tout gratuit</td>
+        <td><span class="tag t-grey">Sans objet</span></td>
         <td><span class="tag t-grey">Financement public</span> (Okoo) soit <span class="tag t-red">Publicité</span> + tracking (Gulli)</td>
         <td><span class="tag t-green">Sans carte</span></td>
         <td>Sans objet</td>
@@ -629,19 +673,23 @@
       <li><span class="conf e">Estim.</span> Rôle dans la mission : calibrer le traitement de l'objection "pourquoi payer ?" dès l'acquisition (curation, production audio, exclusivités, modèle crédit perçu comme juste).</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette famille occupe l'enfant gratuitement, et ce choix de modèle vide mécaniquement les deux autres axes. 1/ Tout est gratuit, financé soit par des fonds publics sans publicité (Okoo), soit par la publicité et le pistage (Gulli) : la valeur est totale et immédiate, le coût se paie en attention ou en données, donc la logique « offrir puis convertir » ne s'applique pas <span class="src p">Principe</span>. 2/ Le flow s'efface, accès direct sans compte ni mur, faute d'événement de conversion à placer. 3/ La conviction se réduit au brand pull institutionnel (la marque de service public fait seule la confiance). C'est le contre-modèle du payant : son existence pose au marché premium la question « pourquoi payer alors que c'est gratuit ailleurs ? », à laquelle on ne répond que par l'exclusivité, la curation, ou l'absence de publicité et de pistage <span class="src p">Principe</span>.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-trust)">
   <div class="fiche-head"><span class="fcode">F5b</span><div><div class="ftitle">Dessins animés et comptines de licences mondiales</div><div class="fsub">le brand pull remplace l'onboarding et l'essai · 3 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F5b · Dessins animés et comptines de licences mondiales</td>
+        <td class="trait"><div class="trait-title">Conviction acquise ailleurs</div><span class="trait-chip">Conviction acquise ailleurs</span><span class="trait-chip">Freemium, paiement au cadenas</span><span class="trait-chip">Sans carte</span><span class="trait-chip">Sans mur frontal</span></td>
         <td><a class="app-chip win" href="apps/23-cocomelon/presentation.html"><b>CoComelon</b> <span class="n">12 928</span></a> <a class="app-chip" href="apps/25-super-simple-songs/presentation.html"><b>Super Simple Songs</b> <span class="n">9 831</span></a> <a class="app-chip" href="apps/26-pinkfong-baby-shark/presentation.html"><b>Pinkfong</b> <span class="n">2 992</span></a></td>
         <td><span class="tag t-grey">Accès direct</span> (≤ 30 s) ; perso courte chez SSS</td>
         <td><span class="tag t-green">Freemium</span> réel mais MINORITAIRE (3/3) : quelques contenus complets gratuits, le reste verrouillé</td>
+        <td><span class="tag t-amber">Mur d'entrée skippable</span> (2/3) puis freemium (CoComelon, SSS). Sauf Pinkfong : pas de mur d'entrée, déblocage au cadenas</td>
+        <td><span class="tag t-green">Palier gratuit permanent</span> (3/3) : contenus complets gratuits accessibles au refus du mur</td>
         <td><span class="tag t-red">Hard paywall</span> SANS essai : prix d'appel 1er mois, achat unique à vie, bundle 30+ apps</td>
         <td><span class="tag t-green">Sans carte</span> (3/3)</td>
         <td><span class="tag t-red">Aucun</span> (2/3) : le brand pull remplace l'essai</td>
@@ -662,7 +710,7 @@
       <div class="farrow">→</div>
       <div class="fstep key" style="--kc:var(--c-price)"><div class="pct">~80%</div><div class="fnode"><div class="fn-i">Étape 3</div><div class="fn-t">Hub direct (&lt; 30 s) : une PETITE part du catalogue est gratuite et complète (quelques berceuses, un coloriage)</div><span class="fbadge">Gratuit</span></div></div>
       <div class="farrow">→</div>
-      <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~30%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Tout le RESTE est sous cadenas → PAYWALL SEC sans essai (gate parental avant)</div><span class="fbadge">Paywall</span></div></div>
+      <div class="fstep key" style="--kc:var(--c-barrier)"><div class="pct">~30%</div><div class="fnode"><div class="fn-i">Étape 4</div><div class="fn-t">Tout le RESTE est sous cadenas → PAYWALL sans essai, au cadenas (gate parental avant)</div><span class="fbadge">Paywall</span></div></div>
       <div class="farrow">→</div>
       <div class="fstep key" style="--kc:var(--c-model)"><div class="pct">2-5%</div><div class="fnode"><div class="fn-i">Étape 5</div><div class="fn-t">Paiement direct : prix d'appel 1er mois, achat unique à vie ou bundle 30+ apps</div><span class="fbadge">Achat</span></div></div>
     </div>
@@ -672,24 +720,28 @@
   <div class="lesson" style="--cat:var(--c-model)" >
     <h3><span class="num">→</span>Ce que la fiche F5b fait ressortir</h3>
     <ul>
-      <li><span class="conf o">Observé</span> Paiement sec sans essai, prix d'appel 1er mois, achat unique à vie, bundle multi-apps : des mécaniques de marque mondiale, où le brand pull fait tout le travail de conviction.</li>
+      <li><span class="conf o">Observé</span> Paiement au cadenas sans essai (freemium réel), prix d'appel 1er mois, achat unique à vie, bundle multi-apps : des mécaniques de marque mondiale, où le brand pull fait tout le travail de conviction.</li>
       <li><span class="conf o">Observé</span> La pépite de la famille est une feature, pas un flow : le Kids Lock de Pinkfong (verrou d'écran enfant, déverrouillage par appui long 3 secondes), première occurrence du panel.</li>
       <li><span class="conf e">Estim.</span> Famille non transposable en modèle ; à explorer pour ses features de réassurance parentale (Kids Lock, timer de sommeil, gate parental avant paywall).</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette famille vend une marque que l'enfant réclame déjà, et ce fait, la conviction acquise ailleurs (YouTube) avant l'installation, explique pourquoi les trois axes se réduisent à presque rien. 1/ Le levier est le brand pull de licence mondiale : aucune caution tierce, zéro preuve sociale, l'attachement passe par les mascottes, l'app encaisse. 2/ Le flow se contracte à un accès direct (≤ 30 s) sans compte (unique sur le panel), avec un vrai freemium (une part du catalogue complète et gratuite) ; le mur ne tombe qu'au cadenas, et chez Pinkfong il n'y a même aucun mur à l'entrée. 3/ Le modèle est un paiement sans essai au déblocage, cohérent avec la catégorie : l'acheteur arrive avec une intention forte, et lui imposer un essai ajoute de la friction <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">8</a></span>. La famille n'est d'ailleurs pas homogène : Super Simple Songs propose un vrai reverse trial de 7 jours.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-model)">
   <div class="fiche-head"><span class="fcode">F6</span><div><div class="ftitle">Livre audio long adulte</div><div class="fsub">cluster crédit · 3 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F6 · Livre audio long adulte <span class="tag t-violet">cluster crédit</span></td>
+        <td class="trait"><div class="trait-title">Paiement au temps d'écoute</div><span class="trait-chip">Payé à l'heure</span><span class="trait-chip">Crédit ou quota</span><span class="trait-chip">Carte requise</span><span class="trait-chip">Vitrine sans dégustation</span><span class="trait-chip">Position du mur variable</span></td>
         <td><a class="app-chip win" href="apps/32-audible/presentation.html"><b>Audible</b> <span class="n">5 526 552</span></a> <a class="app-chip" href="apps/31-storytel/presentation.html"><b>Storytel</b> <span class="n">196 859</span></a> <a class="app-chip" href="apps/33-libro-fm/presentation.html"><b>Libro.fm</b> <span class="n">35 057</span></a></td>
         <td><span class="tag t-grey">Accès direct</span> rudimentaire : la HOME est le paywall</td>
         <td><span class="tag t-amber">Freemium bande-annonce</span> strict : extraits ~5 min, jamais une œuvre</td>
+        <td><span class="tag t-red">Vitrine sans dégustation</span> rien de complet gratuit ; position variable : frontal (Audible), skippable (Storytel), au cadenas hors-app (Libro.fm)</td>
+        <td><span class="tag t-grey">Aucun</span></td>
         <td><span class="tag t-violet">Crédit-PROPRIÉTÉ</span> (1 crédit = 1 livre à vie : Audible, Libro) soit <span class="tag t-violet">quota-TEMPS</span> (15/30/45 h : Storytel)</td>
         <td><span class="tag t-red">Requise</span> (3/3) pour toute consommation complète</td>
         <td><span class="tag t-green">1 mois</span> soit livre bonus offert (Libro, sans essai)</td>
@@ -727,19 +779,23 @@
       <li><span class="conf e">Estim.</span> La décision produit Kidsono (crédit-propriété vs quota-temps) se calibre sur cette fiche croisée avec la F7, selon la part sérielle du catalogue.</li>
     </ul>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette famille vend une œuvre longue et chère consommée une seule fois, et cette économie commande les trois axes. 1/ Le contenu est payé à la consommation, un livre se produisant pour des milliers d'euros (300 à 600 $ l'heure) que les éditeurs facturent à l'heure écoutée <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">9</a></span>, d'où deux réponses : le crédit-propriété (Audible) qui rationne à un titre par mois et joue sur la dotation (« à vous pour toujours, même après résiliation ») <span class="src d">Documenté (théorie)</span><span class="src p">Principe (Audible)</span><span class="refnum"><a href="#ref-carto">10</a></span>, ou le quota d'heures (Storytel) qui borne un coût qui sinon exploserait (quatre livres dans le mois coûtent déjà près de 50 $ de droits) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">11</a></span>. 2/ Le flow découle de la rareté de l'unité : on ne brade pas l'œuvre, donc bande-annonce stricte, home qui EST le paywall, conversion par frustration de vitrine. 3/ La conviction se loge dans cette vitrine (fiches riches, abondance, propriété revendiquée) plus que dans un argumentaire.</p></div>
   </section>
 
   <section class="fiche" style="--fc:var(--c-model)">
   <div class="fiche-head"><span class="fcode">F7</span><div><div class="ftitle">Feuilleton à l'épisode</div><div class="fsub">cluster crédit · 5 apps</div></div></div>
   <div class="tbl-wrap" style="margin-bottom:12px;">
-  <table style="min-width:1800px;">
-    <thead><tr><th>Famille</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
+  <table style="min-width:2150px;">
+    <thead><tr><th>Famille</th><th>Trait commun</th><th>Apps</th><th>Archétype d'onboarding</th><th>Dose de gratuit</th><th>Type de mur avant l'expérience</th><th>Amortisseur de refus</th><th>Modèle de monétisation</th><th>Carte bleue pour tester</th><th>Essai gratuit</th><th>Trust signals</th><th>Cas à part</th><th>Features de sécurité enfant</th></tr></thead>
     <tbody>
       <tr>
         <td class="fam">F7 · Feuilleton à l'épisode <span class="tag t-violet">cluster crédit</span></td>
+        <td class="trait"><div class="trait-title">Freemium puis impatience payante</div><span class="trait-chip">Freemium massif d'abord</span><span class="trait-chip">Sans carte</span><span class="trait-chip">Wait-to-unlock</span><span class="trait-chip">Monétise l'impatience au cliffhanger</span></td>
         <td><a class="app-chip win" href="apps/37-dramabox/presentation.html"><b>DramaBox</b> <span class="n">757 652</span> ⏳</a> <a class="app-chip wip" href="apps/36-webtoon/presentation.html"><b>WEBTOON</b> <span class="n">488 743</span> ⏳</a> <a class="app-chip" href="apps/34-pocket-fm/presentation.html"><b>Pocket FM</b> <span class="n">266 761</span></a> <a class="app-chip" href="apps/30-mangas-io/presentation.html"><b>Mangas.io</b> <span class="n">476</span></a> <a class="app-chip" href="apps/35-ono/presentation.html"><b>ONO</b> <span class="n">468</span></a></td>
         <td><span class="tag t-violet">Perso simple</span> (3/5) soit <span class="tag t-grey">Accès direct</span> (DramaBox). Toujours ≤ 90 s, jamais d'argumentaire</td>
         <td><span class="tag t-green">Freemium</span> vrai et MASSIF : 5 à 13 épisodes complets gratuits</td>
+        <td><span class="tag t-green">Pas de mur d'entrée</span> (4/5) aha gratuit, mur = cliffhanger. Sauf Mangas.io (mur d'entrée skippable)</td>
+        <td><span class="tag t-blue">Wait-to-unlock</span> (4/5) ou autre moyen de continuer gratis : pub récompensée (WEBTOON), pièces gagnées (DramaBox). Mangas.io : reverse trial à la place</td>
         <td><span class="tag t-violet">Achat à l'unité / crédit</span> : coins one-shot + wait-to-unlock (payer OU attendre 24-48 h)</td>
         <td><span class="tag t-green">Sans carte</span> (5/5)</td>
         <td><span class="tag t-red">Aucun</span> (4/5)</td>
@@ -795,6 +851,7 @@
     </ul>
     <div class="impl"><b>La question concrète pour Kidsono.</b> Trois façons de faire vivre un crédit, et chacune exige un catalogue différent : <b>(a) le crédit-propriété</b> ("cette histoire appartient à Thelma, pour toujours") : valorise les histoires-doudou réécoutées et construit un patrimoine familial qui retient l'abonné ; <b>(b) le quota de temps</b> ("X heures d'écoute par mois, tout le catalogue") : lisible, et la maîtrise du temps d'écoute parle aux parents ; <b>(c) le crédit à l'épisode</b> (payer ou attendre pour débloquer la suite) : exige une part de SÉRIES à suspense dans le catalogue. La donnée à établir avant de trancher : <span class="conf e">Estim.</span> quelle part des ~400 titres Kidsono est sérielle (épisodes à suite) et quelle part est unitaire (histoires finies) ? </div>
   </div>
+    <div class="whyblock"><h4>Pourquoi cette approche a été choisie</h4><p>Cette famille vend une expérience sérielle compulsive où l'épisode isolé ne vaut presque rien, et cette structure commande un alignement inverse des familles à mur frontal. 1/ Le modèle monétise l'impatience au cliffhanger, payer des pièces ou attendre 24 à 48 heures : la mécanique des jeux mobiles (le minuteur qu'on paie pour supprimer), avec une abstraction du coût total qui le rend indolore (une série entière revient à 30-50 € par incréments de 0,15 €) <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">12</a></span>, branchée sur la récompense variable du « et après ? » narratif <span class="src d">Documenté</span><span class="refnum"><a href="#ref-carto">13</a></span>. 2/ Le levier n'est ni l'argumentaire ni la caution (absentes) mais le contenu lui-même et la preuve sociale par compteurs sur chaque série : on montre, on ne convainc pas. 3/ Le flow s'efface, son seul job est de mettre en consommation vite (5 à 13 épisodes gratuits, compte différé appâté par des crédits), exact inverse de F3/F4b. L'achat à l'unité dispense d'essai, de carte enregistrée et de réassurance. Transposable seulement si une part du catalogue est sérielle, et avec les ressorts d'urgence (« 23:59:57 », publicités récompensées) proscrits sur un public enfant <span class="src p">Principe</span>.</p></div>
   </section>
 
   <div class="lesson" style="--cat:var(--c-model)" >
@@ -810,7 +867,26 @@
   </div>
 
   
-  <div class="chapter" id="ch04">
+    <div class="refbox" id="ref-carto">
+    <h4>Références de l'ancrage expert (encarts « Pourquoi cette approche a été choisie »)</h4>
+    <ol>
+      <li>Handoyo (2024), méta-analyse <i>Heliyon</i> : confiance-achat r≈0,55, portée à r≈0,74 sous risque perçu.</li>
+      <li>RevenueCat, <i>State of Subscription Apps 2026</i> : revenu par installation 3,09 $ contre 0,38 $ ; 64 % des annulations d'essai à J0-J1 ; rétention annuel 2,5-3× le mensuel.</li>
+      <li>Music Business Worldwide (2025), Spotify : 60 % des abonnés Premium ont commencé gratuits ; Getmonetizely : économie du freemium (coût marginal faible, valeur réservée au premium).</li>
+      <li>Tversky &amp; Kahneman (1974), <i>Science</i> : effet d'ancrage.</li>
+      <li>Apple, <i>App Store Review Guidelines</i> 3.1.2 : transparence de l'essai (durée, contenu perdu, prélèvement).</li>
+      <li>Norton, Mochon &amp; Ariely (2012) : effet IKEA (+63 %, à condition que la tâche aboutisse).</li>
+      <li>RevenueCat, teardown du tunnel d'onboarding Noom : paywall placé après l'investissement émotionnel.</li>
+      <li>Adapty (2026) : l'acheteur direct est de plus haute intention.</li>
+      <li>Ingram Content : coûts de production d'un livre audio (300 à 600 $ l'heure finie).</li>
+      <li>Thaler (1980) et Kahneman, Knetsch &amp; Thaler (1990) : endowment effect (prix de cession ~2× le prix d'achat).</li>
+      <li>MIDiA Research : économie du quota d'heures (le contenu audio payé à la consommation).</li>
+      <li>Spyro-Soft, <i>Microdrama monetisation</i> ; Sensor Tower : monétisation de l'impatience (feuilleton).</li>
+      <li>Nir Eyal, <i>Hooked</i> (2014) : la récompense variable comme moteur d'engagement.</li>
+    </ol>
+  </div>
+
+<div class="chapter" id="ch04">
     <div class="ch-band"><span class="ch-num">04</span><span class="ch-title">Ouverture : au-delà de l'onboarding, le positionnement</span></div>
     <p class="chapeau">Cette cartographie optimise le parcours d'entrée. Mais la carte dit aussi autre chose : dans la famille de Kidsono, personne n'a encore gagné, et le parcours d'entrée seul n'expliquera pas qui gagnera.</p>
 
@@ -827,7 +903,7 @@
       <h3><span class="num">→</span>Ce que cela implique : le parcours d'entrée est nécessaire, il ne sera pas suffisant</h3>
       <ul>
         <li><span class="conf e">Estim.</span> Les paramètres travaillés dans ce document (parcours, conviction, modèle) évitent de perdre au mur payant ce que l'acquisition a coûté. Mais dans une famille sans référent installé, la différence se jouera aussi, et peut-être d'abord, sur un <b>positionnement net et fort</b> : une raison d'installer l'application avant même d'en avoir vu le premier écran.</li>
-        <li><span class="conf o">Observé</span> Cette analyse doit donc aussi servir à faire émerger des éléments de renforcement du positionnement. Une piste ressort déjà du panel : <b>la sécurité de l'enfant</b>. Le besoin est adressé par tout le marché (barrières parentales, temps d'écran maîtrisé, écran qui s'efface au profit du son, certifications de données), souvent par de petites features à très fort impact, mais aucune des 37 applications n'en a fait un axe central. L'inventaire complet de ces features, et la question qu'il ouvre, sont dans le document dédié : <a href="securite-enfant-editorial.html"><b>Features de sécurité enfant : l'inventaire complet du marché</b></a>.</li>
+        <li><span class="conf o">Observé</span> Cette analyse doit donc aussi servir à faire émerger des éléments de renforcement du positionnement. Une piste ressort déjà du panel : <b>la sécurité de l'enfant</b>. Le besoin est adressé par tout le marché (barrières parentales, temps d'écran maîtrisé, écran qui s'efface au profit du son, certifications de données), souvent par de petites features à très fort impact, mais aucune des 37 applications n'en a fait un axe central. L'inventaire complet de ces features, et la question qu'il ouvre, sont dans le document dédié : <a href="analyse-transversale-securite-enfant-editorial-TEST.html"><b>Features de sécurité enfant : l'inventaire complet du marché</b></a>.</li>
         <li><span class="conf o">Observé</span> D'autres leviers distinctifs apparaissent au fil des fiches et pourront nourrir la même réflexion : l'écoute sans écran comme marqueur d'identité, la promesse de résultat sur le rituel du soir, la lisibilité d'un modèle au crédit.</li>
       </ul>
     </div>
