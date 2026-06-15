@@ -31,15 +31,15 @@
 
   .flowbox{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 20px 14px;margin-top:14px;overflow:hidden;}
   .flow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:5px;overflow-x:auto;padding-bottom:12px;}
-  .step{display:inline-flex;flex-direction:column;gap:4px;width:128px;min-height:86px;font-size:11px;font-weight:700;padding:9px 10px;border-radius:11px;line-height:1.28;border:1px solid transparent;flex:none;white-space:normal;}
+  .step{display:inline-flex;flex-direction:column;gap:4px;width:130px;min-height:86px;font-size:11px;font-weight:700;padding:9px 10px;border-radius:11px;line-height:1.28;border:1px solid transparent;flex:none;white-space:normal;}
   .step .sn{font-size:8.5px;font-weight:800;opacity:.72;letter-spacing:.3px;text-transform:uppercase;}
+  .step .det{font-size:9.5px;font-weight:600;opacity:.85;line-height:1.25;}
   .arrow{color:#bdbdb4;font-weight:800;font-size:15px;padding:0 1px;flex:none;align-self:center;}
 
   .f-launch{background:#eef1f5;color:#475569;border-color:#d4dbe4;}
   .f-value{background:#f1e7ff;color:#7c3aed;border-color:#ddc9fb;}
   .f-trust{background:#e3edfe;color:#2563eb;border-color:#c5d9fb;}
-  .f-profile{background:#dbf2f8;color:#0891b2;border-color:#b6e3ef;}
-  .f-perso{background:#fce0ef;color:#db2777;border-color:#f6c2dd;}
+  .f-pp{background:#fce0ef;color:#db2777;border-color:#f6c2dd;}
   .f-free{background:#f1f8db;color:#5f8b08;border-color:#dcedb0;}
   .f-account{background:#fdece0;color:#ea580c;border-color:#f8cdb0;}
   .f-nav{background:#d6f3f0;color:#0d9488;border-color:#b0e6e0;}
@@ -61,8 +61,8 @@
 
   .confirm{background:#fff7e6;border:1px solid #f0dcae;border-left:6px solid #d99b1c;border-radius:14px;padding:16px 20px;margin-top:18px;}
   .confirm .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#9a6200;margin-bottom:9px;}
-  .confirm ol{margin:0 0 0 18px;} .confirm li{font-size:12.5px;line-height:1.6;margin-bottom:7px;color:#5c4a1e;}
-  .confirm li b{color:#7a4e00;}
+  .confirm p{font-size:12.5px;line-height:1.6;color:#5c4a1e;}
+  .confirm b{color:#7a4e00;}
   .note{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.6;max-width:1180px;}
   .ftnote{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1180px;}
 </style>
@@ -74,12 +74,12 @@
   <header class="cover">
     <div class="kicker">Mission Kidsono · Onboarding · Schéma final, écran par écran</div>
     <h1>L'onboarding final Kidsono, écran par écran</h1>
-    <div class="standfirst">Le parcours arrêté en réunion, déroulé écran par écran (défilement horizontal), avec les familles d'écrans par couleur. Document de calage : il sert à confirmer qu'on est tous alignés sur l'enchaînement avant la mise en production. L'aha (la consommation gratuite) est mis en valeur ; au paywall, le parcours bifurque, s'abonner mène à l'accès complet, refuser ou fermer mène à un accès limité aux extraits.</div>
+    <div class="standfirst">Le parcours arrêté en réunion, déroulé écran par écran (défilement horizontal), avec les familles d'écrans par couleur. Ce document sert à confirmer l'alignement de tous sur l'enchaînement avant la mise en production. La consommation gratuite (l'aha) est mise en valeur ; au paywall, le parcours bifurque : s'abonner mène à l'accès complet, refuser ou fermer mène à un accès limité aux extraits.</div>
   </header>
 
   <div class="summary">
     <div class="lt">Le modèle retenu</div>
-    <p><b>« La preuve, paiement direct »</b> : on fait écouter gratuitement (plusieurs histoires, soit ~30 min, sans carte), puis on demande l'abonnement, <b>sans période d'essai</b> (le gratuit a déjà été donné). Le compte se crée au moment où l'on débloque le gratuit. C'était l'une de nos 3 options finales (l'option 3) ; la dose gratuite a été ramenée d'1h à 30 min (1h est longue sur des histoires de ~5 min : risque de ne pas aller au bout, donc de ne jamais arriver à l'abonnement).</p>
+    <p><b>« La preuve, paiement direct »</b> : Kidsono fait écouter gratuitement (plusieurs histoires, soit environ 30 minutes, sans carte), puis propose l'abonnement, <b>sans période d'essai</b> (le gratuit a déjà été donné). Le compte se crée au moment du déblocage du gratuit. C'était l'une des trois options finales (l'option 3) ; la dose gratuite a été ramenée d'une heure à 30 minutes (une heure est longue sur des histoires d'environ 5 minutes, avec un risque de ne pas terminer et de ne jamais atteindre la proposition d'abonnement).</p>
   </div>
 
   <div class="legend">
@@ -88,8 +88,7 @@
       <span class="lchip"><span class="ldot" style="background:#475569;"></span>Lancement</span>
       <span class="lchip"><span class="ldot" style="background:#7c3aed;"></span>Proposition de valeur</span>
       <span class="lchip"><span class="ldot" style="background:#2563eb;"></span>Autorité / réassurance</span>
-      <span class="lchip"><span class="ldot" style="background:#0891b2;"></span>Profils enfants</span>
-      <span class="lchip"><span class="ldot" style="background:#db2777;"></span>Personnalisation</span>
+      <span class="lchip"><span class="ldot" style="background:#db2777;"></span>Profil et personnalisation</span>
       <span class="lchip"><span class="ldot" style="background:#5f8b08;"></span>Offre gratuite</span>
       <span class="lchip"><span class="ldot" style="background:#ea580c;"></span>Création de compte</span>
       <span class="lchip"><span class="ldot" style="background:#0d9488;"></span>Navigation / découverte</span>
@@ -108,60 +107,53 @@
       <span class="step f-value"><span class="sn">4 · Valeur</span>Proposition de valeur 3</span><span class="arrow">→</span>
       <span class="step f-trust"><span class="sn">5 · Autorité</span>Les éditeurs partenaires</span><span class="arrow">→</span>
       <span class="step f-trust"><span class="sn">6 · Autorité</span>La presse</span><span class="arrow">→</span>
-      <span class="step f-profile"><span class="sn">7 · Profils</span>Profils enfants (prénom)</span><span class="arrow">→</span>
-      <span class="step f-perso"><span class="sn">8 · Personnalisation</span>L'âge</span><span class="arrow">→</span>
-      <span class="step f-perso"><span class="sn">9 · Personnalisation</span>La catégorie</span><span class="arrow">→</span>
-      <span class="step f-perso"><span class="sn">10 · Personnalisation</span>La licence préférée</span><span class="arrow">→</span>
-      <span class="step f-free"><span class="sn">11 · Offre gratuite</span>Présentation / validation de l'offre gratuite (sans CB)</span><span class="arrow">→</span>
-      <span class="step f-account"><span class="sn">12 · Compte</span>Création de compte (SSO / lien magique)</span><span class="arrow">→</span>
-      <span class="step f-nav"><span class="sn">13 · Navigation</span>Catalogue préfiltré</span><span class="arrow">→</span>
-      <span class="step f-nav"><span class="sn">14 · Navigation</span>Choix d'un livre audio / écran de livre audio</span><span class="arrow">→</span>
-      <span class="step f-nav aha"><span class="sn">★ 15 · L'AHA</span>Consommation des 30 minutes</span><span class="arrow">→</span>
-      <span class="step f-trans"><span class="sn">16 · Transition</span>Crédit de minutes de test consommé</span><span class="arrow">→</span>
+      <span class="step f-pp"><span class="sn">7 · Profil et perso.</span>Profil et personnalisation 1<span class="det">Nom, âge, catégorie, avatar, et création d'un autre profil (optionnelle)</span></span><span class="arrow">→</span>
+      <span class="step f-free"><span class="sn">8 · Offre gratuite</span>Présentation / validation de l'offre gratuite (sans CB)</span><span class="arrow">→</span>
+      <span class="step f-account"><span class="sn">9 · Compte</span>Création de compte (SSO / lien magique)</span><span class="arrow">→</span>
+      <span class="step f-nav"><span class="sn">10 · Navigation</span>Catalogue préfiltré</span><span class="arrow">→</span>
+      <span class="step f-nav"><span class="sn">11 · Navigation</span>Choix d'un livre audio / écran de livre audio</span><span class="arrow">→</span>
+      <span class="step f-nav aha"><span class="sn">★ 12 · L'AHA</span>Consommation des 30 minutes</span><span class="arrow">→</span>
+      <span class="step f-trans"><span class="sn">13 · Transition</span>Crédit de minutes de test consommé</span><span class="arrow">→</span>
       <div class="pwwrap">
         <div class="pwline">
           <div class="pwgrp">
             <div class="pwlabel">Paywall · tous ces écrans sont fermables</div>
             <div class="pwsteps">
-              <span class="step f-pay"><span class="sn">17 · Paywall</span>Présentation de l'offre</span><span class="arrow">→</span>
-              <span class="step f-pay"><span class="sn">18 · Paywall</span>Réassurance paiement 1</span><span class="arrow">→</span>
-              <span class="step f-pay"><span class="sn">19 · Paywall</span>Réassurance paiement 2</span><span class="arrow">→</span>
-              <span class="step f-pay"><span class="sn">20 · Paywall</span>Options d'abonnement</span><span class="arrow">→</span>
-              <span class="step f-pay"><span class="sn">21 · Paywall</span>Modal officielle Apple</span>
+              <span class="step f-pay"><span class="sn">14 · Paywall</span>Présentation de l'offre</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">15 · Paywall</span>Réassurance paiement 1</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">16 · Paywall</span>Réassurance paiement 2</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">17 · Paywall</span>Options d'abonnement</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">18 · Paywall</span>Modal officielle Apple</span>
             </div>
           </div>
           <span class="arrow">→</span>
           <span class="step f-acces"><span class="sn">S'abonne</span>Accès complet</span>
         </div>
-        <div class="pwclose"><span class="wbl">↓ Ferme / refuse, depuis n'importe lequel des écrans 17 à 21</span><span class="arrow">→</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span></div>
+        <div class="pwclose"><span class="wbl">↓ Ferme / refuse, depuis n'importe lequel des écrans 14 à 18</span><span class="arrow">→</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span></div>
       </div>
     </div>
     <div class="scrollhint">← défiler horizontalement →</div>
   </div>
 
-  <p class="note"><b>Au paywall :</b> tous les écrans (17 à 21) sont fermables. Fermer ou refuser à n'importe lequel mène au même résultat : l'accès limité (extraits / previews uniquement). Le refus est figuré sous le premier écran du paywall, car on peut déjà refuser là. Le nombre d'écrans de réassurance (ici 2) sera calé par comparaison avec le benchmark.</p>
+  <p class="note"><b>Au paywall :</b> tous les écrans (14 à 18) sont fermables. Fermer ou refuser à l'un d'eux mène au même résultat, l'accès limité (extraits / previews uniquement). Le nombre d'écrans de réassurance, fixé à deux, pourra être affiné par comparaison avec le benchmark.</p>
 
   <div class="summary" style="border-left-color:#16a34a;">
-    <div class="lt">Validé</div>
-    <p><b>La longueur :</b> ~12 écrans d'onboarding avant d'entrer dans le catalogue (lancement, valeur, autorité, profils, personnalisation, offre, compte). C'est dans la fourchette de notre famille (histoires audio FR de qualité), qui a <b>les onboardings les plus longs du marché : 12 à 18 écrans</b>, et ça marche : sur un achat à fort risque perçu et une marque sans notoriété, la conviction prend des écrans. On ne déconne pas, c'est même le bon côté du trade-off (un peu plus long mais bien rassuré). La navigation in-app et le paywall viennent après : ce ne sont pas des écrans de conviction. Seule règle : chaque écran doit produire quelque chose (le multi-profil est le seul à surveiller pour un foyer à plusieurs enfants). · <b>Le pilier sécurité :</b> confirmé comme l'un des 3 messages de valeur du carrousel. · <b>L'offre gratuite :</b> non skippable (décidé : la skipper n'aurait pas de sens, c'est le moteur de conversion).</p>
+    <div class="lt">Points actés</div>
+    <p><b>La longueur :</b> environ 9 écrans d'onboarding avant l'entrée dans le catalogue (lancement, valeur, autorité, profil et personnalisation, offre, compte). C'est en deçà de la fourchette de la famille de référence (histoires audio françaises de qualité), qui présente les onboardings les plus longs du marché, de 12 à 18 écrans. La longueur n'est donc pas un sujet : le parcours reste court pour le segment, tout en portant la conviction nécessaire à une marque encore sans notoriété. · <b>Le pilier sécurité</b> est confirmé comme l'un des trois messages de valeur du carrousel. · <b>L'offre gratuite</b> n'est pas skippable : elle est le moteur de conversion. · <b>Le multi-profil</b> est skippable, intégré à l'écran « Profil et personnalisation ». · <b>La réassurance au paiement</b> : deux écrans, confirmé.</p>
   </div>
 
   <div class="confirm">
-    <div class="lt">Points à confirmer ensemble (architecture)</div>
-    <ol>
-      <li><b>Le prénom</b> : confirmer qu'il est bien capté à la création du profil (écran 7), pour pouvoir le réutiliser nominativement.</li>
-      <li><b>Le multi-profil</b> : son placement très en amont allonge le parcours avant l'écoute. Voir s'il peut être skippable ou reporté, et si la perso devient par enfant.</li>
-      <li><b>Le nombre d'écrans de réassurance au paywall</b> : 2 par défaut, à caler sur le benchmark.</li>
-    </ol>
+    <div class="lt">Point d'amélioration à proposer</div>
+    <p>L'écran « Profil et personnalisation » regroupe aujourd'hui, sur un seul écran, le nom de l'enfant, l'âge, la catégorie, l'avatar et la création d'un autre profil, ce qui impose du défilement. Des variantes de présentation seront proposées pour le rendre plus fluide.</p>
   </div>
 
   <div class="note" style="background:#eef4fc;border:1px solid #cfe0f5;border-left:5px solid #2563c9;border-radius:14px;padding:14px 18px;color:#33476b;">
-    <b style="color:#1d4ea8;text-transform:uppercase;font-size:11px;letter-spacing:1px;">Best practices à intégrer dans le contenu des écrans (plus tard, hors architecture)</b><br>
-    1. Réafficher l'autorité au paywall (logos éditeurs + presse) et un récap de la session (« X histoires écoutées ») : le signal de confiance a son effet maximal au moment de décider.<br>
-    2. Cadrer la presse : elle a parlé des contenus et du studio, pas de l'app.
+    <b style="color:#1d4ea8;text-transform:uppercase;font-size:11px;letter-spacing:1px;">Best practices à intégrer dans le contenu des écrans (étape suivante)</b><br>
+    1. Réafficher l'autorité au paywall (logos éditeurs et presse) et un récapitulatif de la session (« X histoires écoutées ») : le signal de confiance a son effet maximal au moment de la décision.<br>
+    2. Cadrer le message de la presse : elle a couvert les contenus et le studio, pas l'application.
   </div>
 
-  <p class="ftnote">Document de travail, mission conseil Kidsono. Le parcours ci-dessus reflète l'enchaînement arrêté en réunion ; les embranchements (ici au paywall) pourront se multiplier au fil du calage.</p>
+  <p class="ftnote">Document de travail, mission conseil Kidsono. Le parcours ci-dessus reflète l'enchaînement arrêté en réunion ; les embranchements, ici au paywall, pourront se multiplier au fil du calage.</p>
 
 </div>
 </body>
