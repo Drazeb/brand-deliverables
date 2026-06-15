@@ -49,11 +49,15 @@
   .f-limit{background:#eef1f4;color:#64748b;border-color:#d3dae1;}
 
   .step.aha{border:2px solid #eab308;box-shadow:0 0 0 3px #fdf3cf;}
+  .step.win{border:2px solid #16a34a;box-shadow:0 0 0 3px #cdeed9;}
+  .trigwrap{display:inline-flex;flex-direction:column;gap:6px;flex:none;align-self:center;}
+  .triglabel{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#9a6200;}
+  .trigcard{width:152px;min-height:40px;font-size:10px;font-weight:700;line-height:1.25;color:#7a5b12;background:#fff7e6;border:1px solid #f0dcae;border-radius:9px;padding:6px 9px;display:flex;align-items:center;gap:5px;}
 
   .wbl{font-weight:800;font-size:9.5px;text-transform:uppercase;letter-spacing:.3px;color:#be123c;white-space:nowrap;}
   .pwwrap{display:inline-flex;flex-direction:column;gap:9px;flex:none;}
   .pwline{display:flex;align-items:center;gap:5px;}
-  .pwgrp{border:1.5px dashed #ef9ba0;border-radius:13px;padding:9px 10px 10px;background:#fef6f6;}
+  .pwgrp{border:2px solid #dc2626;border-radius:13px;padding:10px 11px 11px;background:#fef2f2;box-shadow:0 0 0 3px #fde0e2;}
   .pwlabel{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#be123c;margin-bottom:8px;}
   .pwsteps{display:flex;align-items:flex-start;gap:5px;}
   .pwclose{display:flex;align-items:center;gap:7px;margin-left:10px;flex-wrap:wrap;}
@@ -112,7 +116,7 @@
       <span class="step f-value"><span class="sn">4 · Valeur</span>Proposition de valeur 3</span><span class="arrow">→</span>
       <span class="step f-trust"><span class="sn">5 · Autorité</span>Les éditeurs partenaires</span><span class="arrow">→</span>
       <span class="step f-trust"><span class="sn">6 · Autorité</span>La presse</span><span class="arrow">→</span>
-      <div class="annwrap"><span class="step f-pp"><span class="sn">7 · Profil et perso.</span>Profil et personnalisation 1<span class="det">Nom, âge, catégorie, avatar, et création d'un autre profil (optionnelle)</span></span><div class="ann">↑ Charles proposera à Samuel (CTO) un découpage en 3 écrans. Si c'est trop complexe techniquement, conserver cet écran unique reste tout à fait possible.</div></div><span class="arrow">→</span>
+      <div class="annwrap"><span class="step f-pp"><span class="sn">7 · Profil et perso.</span>Profil et personnalisation 1<span class="det">Nom, âge, catégorie, avatar, et création d'un autre profil (optionnelle)</span></span><div class="ann">↑ Charles proposera à Samuel (CTO) un découpage en 3 écrans. Si c'est trop fastidieux techniquement, ou si l'équipe Kidsono préfère, conserver cet écran unique reste tout à fait possible.</div></div><span class="arrow">→</span>
       <span class="step f-free"><span class="sn">8 · Offre gratuite</span>Présentation / validation de l'offre gratuite (sans CB)</span><span class="arrow">→</span>
       <span class="step f-account"><span class="sn">9 · Compte</span>Création de compte (SSO / lien magique)</span><span class="arrow">→</span>
       <div class="curgrp">
@@ -124,10 +128,15 @@
           <span class="step f-trans"><span class="sn">13 · Transition</span>Crédit de minutes de test consommé</span>
         </div>
       </div><span class="arrow">→</span>
+      <div class="trigwrap">
+        <div class="triglabel">Ce qui déclenche le paywall</div>
+        <div class="trigcard">▶ L'utilisateur veut lire une nouvelle histoire</div>
+        <div class="trigcard">⏸ L'utilisateur est interrompu au milieu d'une histoire</div>
+      </div><span class="arrow">→</span>
       <div class="pwwrap">
         <div class="pwline">
           <div class="pwgrp">
-            <div class="pwlabel">Paywall · tous ces écrans sont fermables</div>
+            <div class="pwlabel">🔒 Paywall · tous ces écrans sont fermables</div>
             <div class="pwsteps">
               <span class="step f-pay"><span class="sn">14 · Paywall</span>Présentation de l'offre</span><span class="arrow">→</span>
               <span class="step f-pay"><span class="sn">15 · Paywall</span>Réassurance paiement 1</span><span class="arrow">→</span>
@@ -137,7 +146,7 @@
             </div>
           </div>
           <span class="arrow">→</span>
-          <span class="step f-acces"><span class="sn">S'abonne</span>Accès complet</span>
+          <span class="step f-acces win"><span class="sn">👑 S'abonne</span>Accès complet</span>
         </div>
         <div class="pwclose"><span class="wbl">↓ Ferme / refuse, depuis n'importe lequel des écrans 14 à 18</span><span class="arrow">→</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span><span class="arrow">↺</span><span class="loopback">Clic sur « Lecture » d'un audio → réouverture du paywall (écran 14)</span></div>
       </div>
@@ -154,7 +163,7 @@
 
   <div class="confirm">
     <div class="lt">Point d'amélioration à proposer</div>
-    <p>L'écran « Profil et personnalisation » regroupe aujourd'hui, sur un seul écran, le nom de l'enfant, l'âge, la catégorie, l'avatar et la création d'un autre profil, ce qui impose du défilement. Charles proposera à Samuel (CTO) un découpage en trois écrans plus fluides ; si c'est trop complexe techniquement, conserver cet écran unique reste tout à fait possible.</p>
+    <p>L'écran « Profil et personnalisation » regroupe aujourd'hui, sur un seul écran, le nom de l'enfant, l'âge, la catégorie, l'avatar et la création d'un autre profil, ce qui impose du défilement. Charles proposera à Samuel (CTO) un découpage en trois écrans plus fluides ; si c'est trop fastidieux techniquement, ou si l'équipe Kidsono préfère, conserver cet écran unique reste tout à fait possible.</p>
   </div>
 
   <div class="note" style="background:#eef4fc;border:1px solid #cfe0f5;border-left:5px solid #2563c9;border-radius:14px;padding:14px 18px;color:#33476b;">
