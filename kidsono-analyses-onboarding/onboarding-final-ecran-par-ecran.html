@@ -56,7 +56,8 @@
   .pwgrp{border:1.5px dashed #ef9ba0;border-radius:13px;padding:9px 10px 10px;background:#fef6f6;}
   .pwlabel{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#be123c;margin-bottom:8px;}
   .pwsteps{display:flex;align-items:flex-start;gap:5px;}
-  .pwclose{display:flex;align-items:center;gap:7px;margin-left:10px;}
+  .pwclose{display:flex;align-items:center;gap:7px;margin-left:10px;flex-wrap:wrap;}
+  .loopback{font-size:10px;font-weight:700;line-height:1.35;color:#be123c;background:#fff;border:1px dashed #ef9ba0;border-radius:9px;padding:6px 9px;max-width:170px;align-self:center;}
   .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:2px 0 0 2px;}
   .annwrap{display:inline-flex;flex-direction:column;gap:7px;flex:none;align-items:flex-start;max-width:150px;}
   .ann{font-size:9.5px;font-weight:600;line-height:1.38;color:#7a4e00;background:#fff7e6;border:1px solid #f0dcae;border-radius:9px;padding:6px 8px;}
@@ -131,13 +132,13 @@
           <span class="arrow">→</span>
           <span class="step f-acces"><span class="sn">S'abonne</span>Accès complet</span>
         </div>
-        <div class="pwclose"><span class="wbl">↓ Ferme / refuse, depuis n'importe lequel des écrans 14 à 18</span><span class="arrow">→</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span></div>
+        <div class="pwclose"><span class="wbl">↓ Ferme / refuse, depuis n'importe lequel des écrans 14 à 18</span><span class="arrow">→</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span><span class="arrow">↺</span><span class="loopback">Clic sur « Lecture » d'un audio → réouverture du paywall (écran 14)</span></div>
       </div>
     </div>
     <div class="scrollhint">← défiler horizontalement →</div>
   </div>
 
-  <p class="note"><b>Au paywall :</b> tous les écrans (14 à 18) sont fermables. Fermer ou refuser à l'un d'eux mène au même résultat, l'accès limité (extraits / previews uniquement). Le nombre d'écrans de réassurance, fixé à deux, pourra être affiné par comparaison avec le benchmark.</p>
+  <p class="note"><b>Au paywall :</b> tous les écrans (14 à 18) sont fermables. Fermer ou refuser à l'un d'eux mène au même résultat, l'accès limité (extraits / previews uniquement). Depuis cet accès limité, un clic sur le bouton « Lecture » d'un audio rouvre le paywall : c'est le déclencheur de réouverture. Le nombre d'écrans de réassurance, fixé à deux, pourra être affiné par comparaison avec le benchmark.</p>
 
   <div class="summary" style="border-left-color:#16a34a;">
     <div class="lt">Points actés</div>
