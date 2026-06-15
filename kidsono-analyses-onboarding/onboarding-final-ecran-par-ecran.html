@@ -50,9 +50,13 @@
 
   .step.aha{border:2px solid #eab308;box-shadow:0 0 0 3px #fdf3cf;}
 
-  .wall{display:inline-flex;flex-direction:column;gap:8px;align-items:flex-start;flex:none;}
-  .wbr-no{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:7px;border-radius:9px;background:#fdf4f3;border-left:3px solid #dc2626;}
   .wbl{font-weight:800;font-size:9.5px;text-transform:uppercase;letter-spacing:.3px;color:#be123c;white-space:nowrap;}
+  .pwwrap{display:inline-flex;flex-direction:column;gap:9px;flex:none;}
+  .pwline{display:flex;align-items:center;gap:5px;}
+  .pwgrp{border:1.5px dashed #ef9ba0;border-radius:13px;padding:9px 10px 10px;background:#fef6f6;}
+  .pwlabel{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#be123c;margin-bottom:8px;}
+  .pwsteps{display:flex;align-items:flex-start;gap:5px;}
+  .pwclose{display:flex;align-items:center;gap:7px;margin-left:10px;}
   .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:2px 0 0 2px;}
 
   .confirm{background:#fff7e6;border:1px solid #f0dcae;border-left:6px solid #d99b1c;border-radius:14px;padding:16px 20px;margin-top:18px;}
@@ -114,15 +118,23 @@
       <span class="step f-nav"><span class="sn">14 · Navigation</span>Choix d'un livre audio / écran de livre audio</span><span class="arrow">→</span>
       <span class="step f-nav aha"><span class="sn">★ 15 · L'AHA</span>Consommation des 30 minutes</span><span class="arrow">→</span>
       <span class="step f-trans"><span class="sn">16 · Transition</span>Crédit de minutes de test consommé</span><span class="arrow">→</span>
-      <div class="wall">
-        <span class="step f-pay"><span class="sn">17 · Paywall</span>Présentation de l'offre</span>
-        <div class="wbr-no"><span class="wbl">↓ Ferme / refuse</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span></div>
-      </div><span class="arrow">→</span>
-      <span class="step f-pay"><span class="sn">18 · Paywall</span>Réassurance paiement 1</span><span class="arrow">→</span>
-      <span class="step f-pay"><span class="sn">19 · Paywall</span>Réassurance paiement 2</span><span class="arrow">→</span>
-      <span class="step f-pay"><span class="sn">20 · Paywall</span>Options d'abonnement</span><span class="arrow">→</span>
-      <span class="step f-pay"><span class="sn">21 · Paywall</span>Modal officielle Apple</span><span class="arrow">→</span>
-      <span class="step f-acces"><span class="sn">Accès</span>Accès complet</span>
+      <div class="pwwrap">
+        <div class="pwline">
+          <div class="pwgrp">
+            <div class="pwlabel">Paywall · tous ces écrans sont fermables</div>
+            <div class="pwsteps">
+              <span class="step f-pay"><span class="sn">17 · Paywall</span>Présentation de l'offre</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">18 · Paywall</span>Réassurance paiement 1</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">19 · Paywall</span>Réassurance paiement 2</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">20 · Paywall</span>Options d'abonnement</span><span class="arrow">→</span>
+              <span class="step f-pay"><span class="sn">21 · Paywall</span>Modal officielle Apple</span>
+            </div>
+          </div>
+          <span class="arrow">→</span>
+          <span class="step f-acces"><span class="sn">S'abonne</span>Accès complet</span>
+        </div>
+        <div class="pwclose"><span class="wbl">↓ Ferme / refuse, depuis n'importe lequel des écrans 17 à 21</span><span class="arrow">→</span><span class="step f-limit"><span class="sn">Sortie</span>Accès limité (extraits uniquement)</span></div>
+      </div>
     </div>
     <div class="scrollhint">← défiler horizontalement →</div>
   </div>
