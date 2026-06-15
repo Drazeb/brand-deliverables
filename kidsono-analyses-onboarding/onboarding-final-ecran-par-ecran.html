@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'onboarding final Kidsono, écran par écran · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:min(96vw,1500px);margin:0 auto;padding:28px 24px 70px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:36px 38px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.18;font-weight:700;margin:13px 0 13px;max-width:920px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:940px;line-height:1.6;}
+
+  .summary{background:#f1f8f3;border:1px solid #cfe7d8;border-left:6px solid #1f7d45;border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .summary .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#1f7d45;margin-bottom:8px;}
+  .summary p{font-size:13px;color:#33503f;line-height:1.6;max-width:1100px;}
+  .summary b{color:#0f5a30;}
+
+  .legend{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-top:14px;}
+  .legend .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .legend .row{display:flex;flex-wrap:wrap;gap:8px 10px;}
+  .lchip{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:#444;}
+  .ldot{width:12px;height:12px;border-radius:4px;flex:none;}
+
+  .fam-block{background:var(--surface);border:1px solid var(--border);border-left:6px solid var(--fc,#ccc);border-radius:14px;padding:14px 18px 18px;margin-top:14px;}
+  .fam-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+  .fam-name{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--fc,#333);}
+  .fam-role{font-size:12px;color:var(--muted);font-weight:600;}
+  .screens{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;}
+  .scr{display:flex;gap:11px;background:#fbfbf8;border:1px solid var(--border);border-radius:11px;padding:11px 13px;width:340px;align-items:flex-start;}
+  .scr-num{flex:none;width:26px;height:26px;border-radius:7px;background:var(--fc,#888);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .scr-t{font-size:13px;font-weight:800;line-height:1.3;margin-bottom:3px;}
+  .scr-d{font-size:12px;color:#555;line-height:1.45;}
+  .scr-tag{display:inline-block;font-size:10px;font-weight:700;color:var(--fc,#666);background:#fff;border:1px solid var(--border);border-radius:5px;padding:1px 6px;margin-top:6px;}
+  .flag{display:block;font-size:11px;color:#9a6200;background:#fff7e6;border:1px solid #f0dcae;border-radius:6px;padding:4px 7px;margin-top:6px;line-height:1.4;}
+  .flag b{color:#7a4e00;}
+
+  .famarrow{text-align:center;color:#c2c2b9;font-size:20px;font-weight:800;margin:2px 0;}
+
+  .confirm{background:#fff7e6;border:1px solid #f0dcae;border-left:6px solid #d99b1c;border-radius:14px;padding:16px 20px;margin-top:22px;}
+  .confirm .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#9a6200;margin-bottom:9px;}
+  .confirm ol{margin:0 0 0 18px;} .confirm li{font-size:12.5px;line-height:1.6;margin-bottom:7px;color:#5c4a1e;}
+  .confirm li b{color:#7a4e00;}
+  .note{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1100px;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Retour à l'accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Schéma final, écran par écran</div>
+    <h1>L'onboarding final Kidsono, écran par écran</h1>
+    <div class="standfirst">Le parcours arrêté en réunion, déroulé écran par écran et regroupé par famille (code couleur). Document de calage : il sert à confirmer qu'on est tous alignés sur l'enchaînement avant la mise en production. Les pastilles ambre signalent les points à confirmer ensemble.</div>
+  </header>
+
+  <div class="summary">
+    <div class="lt">Le modèle retenu</div>
+    <p><b>« La preuve, paiement direct »</b> : on fait écouter gratuitement (plusieurs histoires, soit ~30 min, sans carte), puis on demande l'abonnement, <b>sans période d'essai</b> (le gratuit a déjà été donné). Le compte se crée au moment où l'on débloque le gratuit. C'était l'une de nos 3 options finales (l'option 3) ; la dose gratuite a été ramenée d'1h à 30 min (1h est longue sur des histoires de ~5 min : risque de ne pas aller au bout, donc de ne jamais arriver à l'abonnement). La variante « essai long pour installer un rituel » a été écartée car techniquement Kidsono n'offre qu'un budget d'heures, pas une période datée.</p>
+  </div>
+
+  <div class="legend">
+    <div class="lt">Les familles d'écrans</div>
+    <div class="row">
+      <span class="lchip"><span class="ldot" style="background:#6e6e6e;"></span>Lancement</span>
+      <span class="lchip"><span class="ldot" style="background:#7e3ff2;"></span>Proposition de valeur</span>
+      <span class="lchip"><span class="ldot" style="background:#2563c9;"></span>Réassurance &amp; autorité</span>
+      <span class="lchip"><span class="ldot" style="background:#1c6b6b;"></span>Profils enfants</span>
+      <span class="lchip"><span class="ldot" style="background:#b3357a;"></span>Personnalisation</span>
+      <span class="lchip"><span class="ldot" style="background:#1f9d55;"></span>Découverte gratuite &amp; compte</span>
+      <span class="lchip"><span class="ldot" style="background:#d8362f;"></span>Conversion (paywall)</span>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <div class="fam-block" style="--fc:#6e6e6e;">
+    <div class="fam-head"><span class="fam-name">Lancement</span><span class="fam-role">1 écran</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">1</div><div><div class="scr-t">Splash, logo Kidsono</div><div class="scr-d">L'écran d'ouverture de l'application.</div></div></div>
+    </div>
+  </div>
+  <div class="famarrow">↓</div>
+
+  <!-- 2 -->
+  <div class="fam-block" style="--fc:#7e3ff2;">
+    <div class="fam-head"><span class="fam-name">Proposition de valeur</span><span class="fam-role">carrousel, 3 écrans · les 3 piliers du positionnement</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">2</div><div><div class="scr-t">① La caution / la qualité</div><div class="scr-d">Les grandes maisons d'édition françaises, des contenus de qualité.</div><span class="scr-tag">pilier caution</span></div></div>
+      <div class="scr"><div class="scr-num">3</div><div><div class="scr-t">② L'espace safe</div><div class="scr-d">Un espace sûr, entièrement pensé pour l'enfant.</div><span class="scr-tag">pilier clôture</span><span class="flag"><b>À confirmer :</b> que la sécurité soit bien l'un des 3 messages phares (c'est un de nos 3 piliers et un différenciant fort vs Spotify).</span></div></div>
+      <div class="scr"><div class="scr-num">4</div><div><div class="scr-t">③ L'espace rangé</div><div class="scr-d">Tout est organisé pour l'enfant, à l'opposé du bazar partagé.</div><span class="scr-tag">pilier curation · différenciant vs Spotify</span></div></div>
+    </div>
+  </div>
+  <div class="famarrow">↓</div>
+
+  <!-- 3 -->
+  <div class="fam-block" style="--fc:#2563c9;">
+    <div class="fam-head"><span class="fam-name">Réassurance &amp; autorité</span><span class="fam-role">2 écrans · la caution tierce</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">5</div><div><div class="scr-t">Les éditeurs partenaires</div><div class="scr-d">Logos des maisons d'édition partenaires (École des Loisirs, Gallimard...).</div><span class="scr-tag">autorité éditoriale (décidé)</span></div></div>
+      <div class="scr"><div class="scr-num">6</div><div><div class="scr-t">La presse</div><div class="scr-d">Logos des magazines / journaux qui ont parlé de Kidsono.</div><span class="scr-tag">autorité presse (nouvel atout)</span><span class="flag">Cadrage à soigner : la presse a parlé des contenus / du studio, pas de l'app. Réassurance légitime, à formuler sans laisser croire que l'app a été testée.</span></div></div>
+    </div>
+  </div>
+  <div class="famarrow">↓</div>
+
+  <!-- 4 -->
+  <div class="fam-block" style="--fc:#1c6b6b;">
+    <div class="fam-head"><span class="fam-name">Profils enfants</span><span class="fam-role">1 écran · feature existante</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">7</div><div><div class="scr-t">Création / sélection des profils</div><div class="scr-d">Un ou plusieurs profils enfants selon le foyer.</div><span class="scr-tag">multi-profil</span><span class="flag"><b>À questionner :</b> placé très tôt (avant toute écoute), il allonge le pré-aha. Le rendre skippable (« ajouter d'autres enfants plus tard ») ? Et préciser si la perso devient par enfant. NB : on avait recommandé un profil unique en v0, mais l'inclure est OK puisque la feature existe déjà.</span></div></div>
+    </div>
+  </div>
+  <div class="famarrow">↓</div>
+
+  <!-- 5 -->
+  <div class="fam-block" style="--fc:#b3357a;">
+    <div class="fam-head"><span class="fam-name">Personnalisation</span><span class="fam-role">3 écrans · au tap, progression visible</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">8</div><div><div class="scr-t">L'âge</div><div class="scr-d">Obligatoire : filtre le catalogue (3-10 ans).</div><span class="scr-tag">décidé</span></div></div>
+      <div class="scr"><div class="scr-num">9</div><div><div class="scr-t">La catégorie / le genre</div><div class="scr-d">Au tap (aventure, animaux, frisson...).</div><span class="scr-tag">décidé</span></div></div>
+      <div class="scr"><div class="scr-num">10</div><div><div class="scr-t">La licence préférée</div><div class="scr-d">Au tap, parmi les licences du catalogue.</div><span class="scr-tag">décidé</span><span class="flag"><b>Où est le prénom ?</b> La touche nominative était décidée (appropriation, « pour [prénom] »). Probablement capté à la création du profil (écran 7) : à confirmer, et à réutiliser nominativement ensuite (catalogue, paywall).</span></div></div>
+    </div>
+  </div>
+  <div class="famarrow">↓</div>
+
+  <!-- 6 -->
+  <div class="fam-block" style="--fc:#1f9d55;">
+    <div class="fam-head"><span class="fam-name">Découverte gratuite &amp; compte</span><span class="fam-role">3 écrans · l'aha</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">11</div><div><div class="scr-t">L'offre de contenu gratuit</div><div class="scr-d">« Plusieurs histoires offertes » (techniquement ~30 min), sans carte. « Lancez-vous ».</div><span class="scr-tag">cadeau, sans CB</span><span class="flag">Le skip doit rester minimal : c'est le moteur de conversion, on ne veut pas qu'on le saute.</span></div></div>
+      <div class="scr"><div class="scr-num">12</div><div><div class="scr-t">Création de compte</div><div class="scr-d">Lien magique (écrans existants) + idéalement SSO Apple / Google. Le compte débloque le gratuit (et permet de décompter les 30 min).</div><span class="scr-tag">compte au déblocage (décidé) · capte l'email</span></div></div>
+      <div class="scr"><div class="scr-num">13</div><div><div class="scr-t">Catalogue préfiltré, écoute</div><div class="scr-d">Catalogue filtré par la perso, le bon contenu poussé en avant (hero). ~30 min d'écoute libre.</div><span class="scr-tag">hero + scroll (décidé) · c'est l'aha</span></div></div>
+    </div>
+  </div>
+  <div class="famarrow">↓</div>
+
+  <!-- 7 -->
+  <div class="fam-block" style="--fc:#d8362f;">
+    <div class="fam-head"><span class="fam-name">Conversion (paywall)</span><span class="fam-role">à la fin des 30 min · pas d'essai</span></div>
+    <div class="screens">
+      <div class="scr"><div class="scr-num">14</div><div><div class="scr-t">Réassurance au paiement</div><div class="scr-d">Avant la carte : un ou des écrans qui rassurent (résiliable à tout moment, ce que vous obtenez).</div><span class="scr-tag">réassurance max (décidé)</span><span class="flag"><b>À enrichir :</b> réutiliser ici l'autorité éditeurs + presse (le signal de confiance a son effet maximal au moment de décider) et un récap de la session (« [prénom] a écouté X histoires »).</span></div></div>
+      <div class="scr"><div class="scr-num">15</div><div><div class="scr-t">Les options d'abonnement</div><div class="scr-d">Les paliers, avec ancrage annuel (« économisez X% »). Pas d'essai (les 30 min ont déjà servi).</div><span class="scr-tag">ancrage annuel (décidé)</span></div></div>
+      <div class="scr"><div class="scr-num">16</div><div><div class="scr-t">La carte bleue</div><div class="scr-d">L'écran de paiement classique.</div><span class="scr-tag">paiement</span></div></div>
+    </div>
+    <div class="screens" style="margin-top:8px;">
+      <div class="scr" style="width:auto;background:#fff;border-style:dashed;"><div><div class="scr-d" style="color:#a3261f;"><b>Au refus :</b> sortie (les 30 min ont été données, pas de filet). Mais l'email étant capté à l'écran 12, la réactivation reste possible (push « rituel du soir », email nouveautés).</div></div></div>
+    </div>
+  </div>
+
+  <div class="confirm">
+    <div class="lt">Points à confirmer ensemble</div>
+    <ol>
+      <li><b>Le prénom (touche nominative)</b> : confirmer qu'il est capté (écran 7) et qu'on le réutilise nominativement (catalogue, récap, paywall).</li>
+      <li><b>Le pilier sécurité dans le carrousel</b> : confirmer qu'il est bien l'un des 3 messages de valeur (écran 3).</li>
+      <li><b>L'autorité au paywall</b> : ajouter au paywall les logos éditeurs / presse + un récap de la session gratuite, pour frapper au moment de la décision.</li>
+      <li><b>Le placement du multi-profil</b> : très en amont, il allonge le parcours avant l'écoute. Le rendre skippable ? Et clarifier la perso par enfant.</li>
+      <li><b>La longueur avant la première histoire</b> : ~10 écrans avant d'écouter. Chaque écran doit se justifier ; le multi-profil est le plus reportable.</li>
+      <li><b>Le risque propre à « paiement direct »</b> : sans essai, le taux de remboursement est plus élevé. À contrer par un aha vraiment réussi (les 30 min), une réassurance de paiement forte, et la rétention post-achat (notification du rituel du soir), qui sort du périmètre de cet onboarding mais devient critique ici.</li>
+    </ol>
+  </div>
+
+  <p class="note">Document de travail, mission conseil Kidsono. Le parcours ci-dessus reflète l'enchaînement arrêté en réunion ; les pastilles ambre sont des points d'alignement à valider avant production. Les écrans de réassurance de paiement et les meilleurs types d'écrans seront calés par comparaison avec le benchmark.</p>
+
+</div>
+</body>
+</html>
