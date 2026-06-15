@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modèle d'accès Kidsono : cheminement et 3 options · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:min(96vw,1900px);margin:0 auto;padding:28px 24px 70px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);transition:border-color .12s;}
+  .home-btn:hover{border-color:#2563c9;}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:38px 38px 28px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.18;font-weight:700;margin:13px 0 13px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:850px;line-height:1.6;}
+
+  .legend{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px 20px;margin-top:16px;}
+  .legend .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .legend .row{display:flex;flex-wrap:wrap;gap:8px 10px;}
+
+  .step{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:8px;line-height:1.25;white-space:nowrap;border:1px solid transparent;}
+  .s-accueil{background:#eaf1fb;color:#1d4ea8;border-color:#d6e2f6;}
+  .s-perso{background:#f3edff;color:#6b32c9;border-color:#e4d7fb;}
+  .s-cata{background:#f3eee4;color:#7a6748;border-color:#e7dcc6;}
+  .s-aha{background:#e9f6ef;color:#1f7d45;border-color:#cfead9;}
+  .s-essai{background:#fbefdd;color:#9a6200;border-color:#f1ddb7;}
+  .s-mur{background:#fdeceb;color:#b23a2f;border-color:#f6d3cf;}
+  .s-carte{background:#eef1f5;color:#48566b;border-color:#dde2ea;}
+  .s-amort{background:#fdf7e0;color:#8a6d12;border-color:#eedfa6;border-style:dashed;}
+  .s-acces{background:#e6f0e9;color:#1c5a36;border-color:#cfe2d6;}
+  .arrow{color:#c2c2b9;font-weight:700;font-size:14px;padding:0 1px;flex:none;}
+  .term{color:#8a8a8a;font-style:italic;font-weight:600;font-size:11px;white-space:nowrap;}
+  .term.pos{color:#3a7d55;}
+
+  .flow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:6px;flex:1 1 0;min-width:0;overflow-x:auto;padding-bottom:9px;}
+  .wall{display:inline-flex;flex-direction:column;gap:5px;align-items:flex-start;flex:none;}
+  .wbr{display:flex;align-items:center;flex-wrap:nowrap;gap:5px;font-size:11px;padding:4px 9px;border-radius:7px;}
+  .wbr-yes{background:#f4f9f6;border-left:3px solid #5aa377;}
+  .wbr-no{background:#f7f4f3;border-left:3px solid #c29a94;}
+  .wbl{font-weight:800;font-size:9.5px;text-transform:uppercase;letter-spacing:.3px;margin-right:2px;white-space:nowrap;}
+  .wbr-yes .wbl{color:#1f7d45;} .wbr-no .wbl{color:#a3261f;}
+  .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:-2px 0 0 160px;}
+
+  .ocard{background:var(--surface);border:1px solid var(--border);border-left:6px solid var(--sc,#ccc);border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .ohead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:3px;}
+  .rank{font-family:Georgia,serif;font-weight:700;font-size:14px;color:#fff;background:var(--sc,#ccc);min-width:25px;height:25px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;flex:none;}
+  .otitle{font-size:15.5px;font-weight:800;}
+  .score{font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#fff;background:var(--sc,#888);padding:3px 11px;border-radius:999px;margin-left:auto;}
+  .approach{display:inline-block;background:#34406b;color:#fff;font-size:12px;font-weight:800;letter-spacing:.3px;padding:4px 12px;border-radius:8px;margin:4px 0 10px;}
+  .desc{font-size:12.5px;color:#444;line-height:1.62;margin:0 0 13px;padding:10px 13px;background:#faf9f5;border:1px solid #efece2;border-radius:9px;max-width:1050px;}
+
+  .row2{display:flex;gap:10px;font-size:12.5px;color:#3b3b3b;line-height:1.55;padding:9px 0;border-top:1px dashed #ece6d4;}
+  .row2:first-of-type{border-top:none;}
+  .lab{flex:none;width:150px;font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px;color:#888;padding-top:1px;}
+  .lab.ok{color:#1f7d45;} .lab.ko{color:#a3463f;} .lab.im{color:#1d4ea8;}
+  .plist{margin:0;padding-left:2px;list-style:none;}
+  .plist li{position:relative;padding-left:15px;margin-bottom:4px;}
+  .plist li::before{content:"›";position:absolute;left:0;color:#aaa;font-weight:800;}
+  .row2 > div:not(.flow), .row2 > .plist{max-width:1050px;}
+  .appref{display:inline-block;font-size:11.5px;font-weight:700;background:#f4f4ef;border:1px solid var(--border);border-radius:8px;padding:1px 8px;margin:0 1px;white-space:nowrap;text-decoration:none;color:#34406b;transition:border-color .12s,box-shadow .12s;}
+  .appref:hover{border-color:#2563c9;box-shadow:0 1px 5px rgba(37,99,201,.18);}
+
+  .note{font-size:12px;color:var(--muted);margin-top:24px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;}
+  .conf.d{background:#e8f6ee;color:#1f7d45;} .conf.e{background:#fff4e0;color:#9a6200;}
+  .sectit{font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;margin:38px 0 4px;display:flex;align-items:center;gap:10px;}
+  .sectit::before{content:"";width:6px;height:23px;border-radius:3px;background:var(--accent-dark);}
+  .sectit .ct{font-size:13px;font-weight:600;color:var(--muted);font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+  .sec-sub{font-size:13px;color:var(--muted);margin:2px 0 6px 16px;max-width:880px;line-height:1.55;}
+  .crossroads{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .crossroads .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;}
+  .crbadge{margin-left:auto;flex:none;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 8px;border-radius:999px;height:fit-content;white-space:nowrap;}
+  .crbadge.done{background:#e8f6ee;color:#1f7d45;} .crbadge.todo{background:#fff4e0;color:#9a6200;} .crbadge.test{background:#e9f0fc;color:#1d4ea8;}
+  .cgroup{padding:15px 0;border-top:1px solid var(--border);}
+  .cgroup:first-of-type{border-top:none;padding-top:2px;}
+  .chead{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .cn{flex:none;width:24px;height:24px;border-radius:7px;background:#34406b;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}
+  .cq{font-weight:700;font-size:13.5px;}
+  .copts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .copts li{display:flex;gap:9px;align-items:baseline;font-size:12.5px;line-height:1.5;padding:7px 11px;border-radius:8px;}
+  .copts li.elim{background:#faf6f5;}
+  .copts li.keep{background:#f1f8f3;border:1px solid #cfe7d8;}
+  .copts li.todo{background:#fbfaf7;}
+  .ostat{flex:none;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 7px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:1px;}
+  .elim .ostat{background:#f1d9d6;color:#a3463f;} .keep .ostat{background:#d2ecdb;color:#1f7d45;} .todo .ostat{background:#fbe6c2;color:#9a6200;}
+  .oname{font-weight:800;} .owhy{color:#6a6a6a;font-weight:400;}
+  .crnote{font-size:11.5px;color:#777;font-style:italic;margin-top:8px;padding-left:2px;line-height:1.5;max-width:1000px;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Retour à l'accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Modèle d'accès, décision</div>
+    <h1>Le modèle d'accès : le cheminement, et les 3 options qui s'offrent à nous</h1>
+    <div class="standfirst">D'abord le cheminement : carrefour par carrefour, toutes les options envisagées, celles qu'on élimine (et pourquoi) et celles qu'on garde. Puis les 3 options d'onboarding qui en ressortent, à arbitrer avec les fondateurs. Les schémas se lisent de gauche à droite (défilement horizontal) ; au mur, le parcours bifurque selon que le parent accepte ou refuse.</div>
+  </header>
+
+  <div class="legend">
+    <div class="lt">Code couleur des étapes</div>
+    <div class="row">
+      <span class="step s-accueil">Accueil + preuve (logos)</span>
+      <span class="step s-perso">Personnalisation / quiz</span>
+      <span class="step s-cata">Catalogue (état précisé)</span>
+      <span class="step s-aha">Valeur vécue (écoute)</span>
+      <span class="step s-essai">Essai / test</span>
+      <span class="step s-mur">Mur (paywall)</span>
+      <span class="step s-carte">Carte bleue</span>
+      <span class="step s-amort">Amortisseur (filet)</span>
+      <span class="step s-acces">Accès complet</span>
+    </div>
+  </div>
+
+  <h2 class="sectit">Le cheminement <span class="ct">carrefour par carrefour</span></h2>
+  <div class="crossroads">
+    <div class="lt">Les carrefours, option par option</div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn">1</span><span class="cq">Peut-on vivre la vraie valeur gratuitement, ou faut-il payer pour y accéder ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Paywall strict</b> <span class="owhy">: payer pour accéder à la vraie valeur (mur sec, ou extraits seuls). Pour un inconnu, faire payer sans avoir fait vivre la vraie valeur effondre le volume ; les 3 conditions du hard paywall (résultat mesurable projeté, enjeu urgent, acquisition payante) manquent à Kidsono.</span></div></li>
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Faire vivre la vraie valeur gratuitement avant de demander</b> <span class="owhy">: seule voie crédible pour une marque inconnue : prouver avant de demander.</span> <a class="appref" href="apps/07-kili/presentation.html">KiLi</a> <a class="appref" href="apps/13-readmio/presentation.html">Readmio</a></div></li>
+      </ul>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn">2</span><span class="cq">Que doit accomplir la dégustation : prouver la valeur, ou amorcer l'envie ? (la question fondamentale)</span><span class="crbadge done">Les deux gardées</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Config A : la dégustation est une preuve</b> <span class="owhy">: une dégustation (le minimum pour un aha complet), puis paiement direct, au pic d'envie. Une seule durée.</span></div></li>
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Config B : la dégustation est une amorce</b> <span class="owhy">: deux temps et deux durées, une amorce courte d'abord, puis un essai plus long (l'1h étalée) qui installe le rituel, puis paiement.</span></div></li>
+      </ul>
+      <div class="crnote">Les deux configs sont gardées : le choix preuve/amorce et les durées exactes se tranchent avec les fondateurs, qui connaissent leur catalogue et la consommation. Penchant directionnel : l'amorce/essai étalé sied à un produit de rituel (meilleure rétention, moins de remboursements), le paiement direct maximise la conversion immédiate.</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn">3</span><span class="cq">Carte avant la dégustation, ou après (et avec ou sans filet) ?</span><span class="crbadge test">À tester</span></div>
+      <ul class="copts">
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Carte avant, sans filet</b> <span class="owhy">: dominée par « carte avant + filet » : l'amortisseur (exit-intent) ne coûte presque rien et récupère des refus.</span></div></li>
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Dégustation sans carte, carte à la conversion</b> <span class="owhy">: favori pour un inconnu : plus d'entrées dans la valeur, meilleure 1re impression. À départager en A/B.</span> <a class="appref" href="apps/20-lingokids/presentation.html">Lingokids</a> <a class="appref" href="apps/21-abcmouse/presentation.html">ABCmouse</a></div></li>
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Carte avant + filet sans carte</b> <span class="owhy">: si le parent refuse de donner sa carte, on lui ouvre quand même un filet gratuit (sans carte). Cash immédiat sur ceux qui acceptent, on rattrape les refus. Forme du filet décidée au carrefour 4. À départager en A/B.</span></div></li>
+      </ul>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn">4</span><span class="cq">Amortisseur : un filet pour rattraper le refus ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Amortisseur partout, tant qu'il reste quelque chose à offrir</b> <span class="owhy">: un filet ne coûte presque rien et récupère des refus : on a toujours plus à gagner qu'à perdre. Le filet = ce qu'il reste à offrir (le reste de l'1h, ou tout autre complément), y compris après un refus à la conversion.</span> <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="appref" href="apps/14-aumio/presentation.html">Aumio</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Pas d'amortisseur</b> <span class="owhy">: on perd les refus sans aucun rattrapage, pour zéro gain.</span></div></li>
+      </ul>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn">5</span><span class="cq">Forme de la dégustation : dirigée ou libre ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Exploration libre totale</b> <span class="owhy">: dominée par le hero + scroll ; risque de se perdre ou de ne pas trouver la valeur, sans bénéfice que le hero + scroll n'offre déjà.</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Poussé exclusif</b> <span class="owhy">: on ne montre que le bon contenu, sans accès au reste : focus maximal, mais trop fragile si le ciblage (2-3 questions) rate, aucune échappatoire. Perdre sur un mauvais ciblage est évitable.</span></div></li>
+        <li class="keep"><span class="ostat">À garder</span><div><b class="oname">Hero + scroll</b> <span class="owhy">: on pousse le bon en hero, le catalogue reste navigable : le meilleur des deux mondes (guidage + filet si le ciblage rate), et c'est standard et éprouvé.</span> <a class="appref" href="apps/07-kili/presentation.html">KiLi</a> <a class="appref" href="apps/17-epic/presentation.html">Epic</a></div></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h2 class="sectit">Les 3 options qui s'offrent à nous <span class="ct">à arbitrer avec les fondateurs</span></h2>
+  <p class="sec-sub">Les trois combinaisons cohérentes des choix restés ouverts (preuve ou amorce, carte avant ou après). Toutes font vivre la valeur avant de demander, toutes ont un amortisseur et un catalogue en hero + scroll. Elles forment une gamme, du plus prudent au plus agressif.</p>
+
+  <!-- OPTION 1 -->
+  <div class="ocard" style="--sc:#2563c9;">
+    <div class="ohead"><span class="rank">1</span><div class="otitle">Amorce douce, sans carte</div><span class="score">Le plus prudent</span></div>
+    <div class="approach">Amorce gratuite (sans carte), puis essai pour installer le rituel</div>
+    <div class="desc">Le parent voit les logos éditeurs, répond à 2-3 questions, arrive sur un catalogue personnalisé (hero + scroll). Il écoute gratuitement une <b>amorce d'environ 15 min, sans donner sa carte</b>. Le mur lui propose de continuer en <b>essai (1h offerte, sans carte)</b> pour laisser le rituel s'installer, puis la carte à la conversion. S'il refuse, on lui laisse un filet sans carte, puis on le relance. Carte demandée seulement au moment de s'abonner. Durées indicatives, à confirmer avec les fondateurs.</div>
+    <div class="row2"><span class="lab">Schéma</span><div class="flow">
+      <span class="step s-accueil">Accueil + logos</span><span class="arrow">→</span>
+      <span class="step s-perso">Perso (âge, goût)</span><span class="arrow">→</span>
+      <span class="step s-aha">Amorce gratuite ~15 min, hero + scroll (sans carte)</span><span class="arrow">→</span>
+      <div class="wall">
+        <span class="step s-mur">MUR : continuer en essai (1h offerte)</span>
+        <div class="wbr wbr-yes"><span class="wbl">Accepte</span><span class="step s-essai">Essai (installe le rituel)</span><span class="arrow">→</span><span class="step s-carte">Carte</span><span class="arrow">→</span><span class="step s-acces">Accès complet</span></div>
+        <div class="wbr wbr-no"><span class="wbl">Refuse</span><span class="step s-amort">Filet sans carte</span><span class="arrow">→</span><span class="term">relance</span></div>
+      </div>
+    </div></div>
+    <div class="scrollhint">← défiler →</div>
+    <div class="row2"><span class="lab">Référent benchmark</span><div>Aha avant le mur (F1a) : <a class="appref" href="apps/07-kili/presentation.html">KiLi</a> <a class="appref" href="apps/13-readmio/presentation.html">Readmio</a>. Amortisseur inspiré de <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a> (F2), en version 1h.</div></div>
+    <div class="row2"><span class="lab ok">Pour Kidsono</span><ul class="plist">
+      <li>Faible friction (pas de carte avant), volume d'entrées dans la valeur maximal, prouve la qualité avant de demander.</li>
+      <li>L'essai laisse le rituel s'amorcer, ce qui sert la rétention d'un produit d'usage répété.</li>
+    </ul></div>
+    <div class="row2"><span class="lab ko">Contre Kidsono</span><ul class="plist">
+      <li>Coûte de l'1h (amorce + essai), conversion par essayeur plus basse (sans carte), flow un peu plus long.</li>
+    </ul></div>
+    <div class="row2"><span class="lab im">Profil / avis</span><div>Le plus sûr pour une marque inconnue. Mon favori directionnel au lancement.</div></div>
+  </div>
+
+  <!-- OPTION 2 -->
+  <div class="ocard" style="--sc:#c4761a;">
+    <div class="ohead"><span class="rank">2</span><div class="otitle">Amorce agressive, carte d'abord</div><span class="score">Le plus agressif</span></div>
+    <div class="approach">Carte d'emblée (test 1h), amortisseur sans carte si refus</div>
+    <div class="desc">Même accueil et même mini-personnalisation, mais on demande la carte tout de suite, pour un <b>test d'~1h</b> qui installe le rituel. Si le parent donne sa carte, il vit son test et se convertit. S'il refuse, on ne le perd pas : on lui ouvre une <b>amorce gratuite d'~15 min</b> (hero + scroll, sans carte), et à la fin on lui re-propose le test ~1h sous carte. Durées indicatives, à confirmer.</div>
+    <div class="row2"><span class="lab">Schéma</span><div class="flow">
+      <span class="step s-accueil">Accueil + logos</span><span class="arrow">→</span>
+      <span class="step s-perso">Perso (âge, goût)</span><span class="arrow">→</span>
+      <div class="wall">
+        <span class="step s-mur">MUR : test ~1h (carte d'emblée)</span>
+        <div class="wbr wbr-yes"><span class="wbl">Accepte</span><span class="step s-carte">Carte</span><span class="arrow">→</span><span class="step s-essai">Test ~1h (installe le rituel)</span><span class="arrow">→</span><span class="step s-acces">Accès (auto-conversion)</span></div>
+        <div class="wbr wbr-no"><span class="wbl">Refuse</span><span class="step s-amort">Amorce ~15 min, sans carte (hero + scroll)</span><span class="arrow">→</span><span class="step s-mur">re-MUR : test ~1h</span></div>
+      </div>
+    </div></div>
+    <div class="scrollhint">← défiler →</div>
+    <div class="row2"><span class="lab">Référent benchmark</span><div>Reverse trial carte d'emblée (standard mobile) : <a class="appref" href="apps/01-bayam/presentation.html">Bayam</a> <a class="appref" href="apps/17-epic/presentation.html">Epic</a>. Amortisseur exit-intent : <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a> (F2).</div></div>
+    <div class="row2"><span class="lab ok">Pour Kidsono</span><ul class="plist">
+      <li>Capte les hautes intentions et le cash immédiat (carte d'emblée), économise l'1h sur ceux qui paient direct.</li>
+      <li>L'amortisseur rattrape une part des refus.</li>
+    </ul></div>
+    <div class="row2"><span class="lab ko">Contre Kidsono</span><ul class="plist">
+      <li>Carte à froid avant l'aha = friction maximale, volume d'essais plus faible (~3x moins), première impression plus rude. <span class="conf d">Documenté, SaaS hors enfant</span></li>
+      <li>L'amortisseur (15 min) ne sauve que partiellement.</li>
+    </ul></div>
+    <div class="row2"><span class="lab im">Profil / avis</span><div>Le pari cash / filtrage. Le plus risqué sur le volume pour une marque inconnue, à réserver si capter les hautes intentions prime.</div></div>
+  </div>
+
+  <!-- OPTION 3 -->
+  <div class="ocard" style="--sc:#7e3ff2;">
+    <div class="ohead"><span class="rank">3</span><div class="otitle">La preuve, paiement direct</div><span class="score">La preuve forte</span></div>
+    <div class="approach">Dégustation gratuite (sans carte), puis paiement direct (pas d'essai)</div>
+    <div class="desc">Accueil, mini-personnalisation, puis une <b>dégustation gratuite d'1h (sans carte)</b>, hero + scroll, qui sert de preuve. À l'issue, on demande directement l'abonnement (paiement, <b>pas de période d'essai</b>), en frappant au pic d'envie. L'1h étant entièrement donnée, <b>pas de filet</b> : un refus = sortie. C'est la seule des trois options sans amortisseur.</div>
+    <div class="row2"><span class="lab">Schéma</span><div class="flow">
+      <span class="step s-accueil">Accueil + logos</span><span class="arrow">→</span>
+      <span class="step s-perso">Perso (âge, goût)</span><span class="arrow">→</span>
+      <span class="step s-aha">Dégustation gratuite (preuve) 1h, hero + scroll (sans carte)</span><span class="arrow">→</span>
+      <div class="wall">
+        <span class="step s-mur">MUR : abonnement direct (paiement, pas de test)</span>
+        <div class="wbr wbr-yes"><span class="wbl">Accepte</span><span class="step s-carte">Carte</span><span class="arrow">→</span><span class="step s-acces">Accès complet</span></div>
+        <div class="wbr wbr-no"><span class="wbl">Refuse</span><span class="term">Sortie (1h déjà donnée, pas de filet)</span></div>
+      </div>
+    </div></div>
+    <div class="scrollhint">← défiler →</div>
+    <div class="row2"><span class="lab">Référent benchmark</span><div>Hard paywall après l'aha (logique RevenueCat) ; payer après la conviction (F4b) : <a class="appref" href="apps/19-homer/presentation.html">Homer</a> <a class="appref" href="apps/27-reading-com/presentation.html">Reading.com</a>.</div></div>
+    <div class="row2"><span class="lab ok">Pour Kidsono</span><ul class="plist">
+      <li>Prouve fortement la valeur, puis frappe au pic d'envie ; pas de fenêtre d'annulation, cash net immédiat (hard paywall convertit 10,7% vs 2,1% freemium). <span class="conf d">Documenté</span></li>
+    </ul></div>
+    <div class="row2"><span class="lab ko">Contre Kidsono</span><ul class="plist">
+      <li>+70% de remboursements (hard paywall) ; coûte la dégustation à tous ; si le rituel ne prend pas après le paiement, churn. <span class="conf d">Documenté</span></li>
+    </ul></div>
+    <div class="row2"><span class="lab im">Profil / avis</span><div>Bonne si l'aha ponctuel suffit à décider. Engagement demandé au moment fort, mais à surveiller (remboursements).</div></div>
+  </div>
+
+  <div class="note">
+    Ces 3 options sont les seules combinaisons cohérentes des choix restés ouverts. La 4e théorique (preuve + carte avant) n'existe pas : demander la carte avant exclut une « preuve » gratuite, c'est forcément un essai.<br><br>
+    À border avec les fondateurs : le budget d'1h (l'amorce et l'essai doivent tenir dedans), et les durées exactes (amorce courte, essai plus long). Confiance : ratios carte / sans carte, J0-J1, remboursements <span class="conf d">Documenté</span> (RevenueCat, Adapty, données SaaS hors enfant signalées) ; transposition kids-audio directionnelle.
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les carrefours structurels de l'onboarding : la liste à trancher · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:min(96vw,1900px);margin:0 auto;padding:28px 24px 70px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);transition:border-color .12s;}
+  .home-btn:hover{border-color:#2563c9;}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:38px 38px 28px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.18;font-weight:700;margin:13px 0 13px;max-width:920px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;}
+
+  /* Bandeau "déjà tranché" */
+  .done-band{background:#f1f8f3;border:1px solid #cfe7d8;border-left:6px solid #1f7d45;border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .done-band .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#1f7d45;margin-bottom:9px;}
+  .done-band .sub{font-size:12px;color:#5c6f62;margin-bottom:10px;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .dchip{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:8px;background:#fff;border:1px solid #cfe7d8;color:#1f6d40;line-height:1.25;}
+  .dchip b{color:#0f5a30;font-weight:800;margin-right:5px;}
+
+  .sectit{font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;margin:38px 0 4px;display:flex;align-items:center;gap:10px;}
+  .sectit::before{content:"";width:6px;height:23px;border-radius:3px;background:var(--accent-dark);}
+  .sectit .ct{font-size:13px;font-weight:600;color:var(--muted);font-family:-apple-system,BlinkMacSystemFont,sans-serif;}
+  .sec-sub{font-size:13px;color:var(--muted);margin:2px 0 6px 16px;max-width:980px;line-height:1.55;}
+
+  .crossroads{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .cgroup{padding:17px 0;border-top:1px solid var(--border);}
+  .cgroup:first-of-type{border-top:none;padding-top:4px;}
+  .chead{display:flex;align-items:center;gap:10px;margin-bottom:11px;flex-wrap:wrap;}
+  .cn{flex:none;width:25px;height:25px;border-radius:7px;background:#34406b;color:#fff;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;}
+  .cq{font-weight:700;font-size:14px;}
+  .ckid{flex:none;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 8px;border-radius:999px;background:#f3edff;color:#6b32c9;white-space:nowrap;}
+  .ctrial{flex:none;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 8px;border-radius:999px;background:#fbefdd;color:#9a6200;white-space:nowrap;}
+
+  .copts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .copts li{display:flex;gap:11px;align-items:baseline;font-size:12.5px;line-height:1.5;padding:8px 12px;border-radius:8px;background:#faf9f5;border:1px solid #efece2;}
+  .olet{flex:none;width:21px;height:21px;border-radius:6px;background:#eceadf;color:#6a6450;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;align-self:flex-start;margin-top:1px;}
+  .oname{font-weight:800;} .owhy{color:#6a6a6a;font-weight:400;}
+  .copts li > div{max-width:1100px;}
+  .crnote{font-size:11.5px;color:#777;font-style:italic;margin-top:9px;padding-left:2px;line-height:1.5;max-width:1080px;}
+
+  /* verdicts (carrefours tranchés) */
+  .crbadge{flex:none;margin-left:auto;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+  .crbadge.done{background:#e8f6ee;color:#1f7d45;}
+  .copts li.elim{background:#faf6f5;border-color:#f0dcd8;}
+  .copts li.keep{background:#f1f8f3;border-color:#cfe7d8;}
+  .ostat{flex:none;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 7px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:1px;}
+  .elim .ostat{background:#f1d9d6;color:#a3463f;}
+  .keep .ostat{background:#d2ecdb;color:#1f7d45;}
+  .conf{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;white-space:nowrap;}
+  .conf.d{background:#e8f6ee;color:#1f7d45;} .conf.o{background:#e9f0fc;color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+  /* encart recommandation */
+  .reco{margin-top:14px;background:#f7faf8;border:1px solid #cfe7d8;border-left:5px solid #1f7d45;border-radius:12px;padding:16px 19px;}
+  .reco .rtit{font-size:13.5px;font-weight:800;color:#1f6d40;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .reco .rtit::before{content:"\2605";color:#1f9d55;font-size:14px;}
+  .reco p{font-size:12.5px;line-height:1.62;color:#333;margin-bottom:9px;max-width:1080px;}
+  .reco h5{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#5c6f62;margin:13px 0 6px;}
+  .reco ul{list-style:none;margin:0;padding:0;}
+  .reco li{font-size:12.5px;line-height:1.55;padding-left:16px;position:relative;margin-bottom:5px;max-width:1080px;}
+  .reco li::before{content:"\203A";position:absolute;left:0;color:#1f9d55;font-weight:800;}
+  .reco .avis{margin-top:11px;padding-top:11px;border-top:1px dashed #cfe1d6;}
+  .reco .avis .al{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:#1f6d40;}
+  .copts li.defer{background:#fbfaf7;border-color:#eee2c8;}
+  .defer .ostat{background:#fbe6c2;color:#9a6200;}
+  .outscope{background:#f4f4ef;border:1px dashed #d8d4c6;border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .outscope .os-tit{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#8a8472;margin-bottom:9px;}
+  .outscope ul{margin:0;padding-left:18px;}
+  .outscope li{font-size:12.5px;line-height:1.55;color:#555;margin-bottom:6px;}
+  .appref{display:inline-block;font-size:11px;font-weight:700;background:#f4f4ef;border:1px solid var(--border);border-radius:7px;padding:1px 7px;margin:0 1px;white-space:nowrap;text-decoration:none;color:#34406b;transition:border-color .12s;}
+  .appref:hover{border-color:#2563c9;}
+  .subsec{font-family:Georgia,serif;font-size:16.5px;font-weight:700;color:#34406b;margin:26px 0 2px;}
+  .vp-box{background:#f6f3fb;border:1px solid #e4d7fb;border-left:5px solid #7e3ff2;border-radius:12px;padding:15px 18px;margin-top:12px;}
+  .vp-box .vt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#6b32c9;margin-bottom:8px;}
+  .vp-box ol{margin:0 0 0 18px;} .vp-box li{font-size:12.5px;line-height:1.6;margin-bottom:5px;}
+
+  .note{font-size:12px;color:var(--muted);margin-top:26px;line-height:1.65;border-top:1px solid var(--border);padding-top:15px;max-width:1100px;}
+  .note b{color:#444;}
+  .note .nblock{margin-bottom:9px;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Retour à l'accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Paramètres structurels</div>
+    <h1>Les carrefours structurels de l'onboarding : la liste à trancher</h1>
+    <div class="standfirst">Après le modèle d'accès (le premier gros bloc, déjà tranché en 3 options), voici le reste du squelette du parcours : ce qu'on demande à l'utilisateur, à quel moment, et par quel mécanisme. Pour l'instant, juste la liste des carrefours et les options qui s'offrent à nous, sans verdict : on tranchera l'un après l'autre. La couche conviction (ce qu'on dit pour convaincre) s'habillera en dernier, séparément.</div>
+  </header>
+
+  <div class="done-band">
+    <div class="lt">Déjà tranché par le modèle d'accès</div>
+    <div class="sub">Rappel, à ne pas rouvrir : ces choix sont actés dans le livrable des 3 options.</div>
+    <div class="chips">
+      <span class="dchip"><b>Aha</b> faire vivre la valeur avant de demander</span>
+      <span class="dchip"><b>Mur</b> position et nature (les 3 options)</span>
+      <span class="dchip"><b>Amortisseur</b> oui partout, tant qu'il reste à offrir</span>
+      <span class="dchip"><b>Dégustation</b> hero + scroll</span>
+      <span class="dchip"><b>Carte</b> avant / après (à tester A/B)</span>
+      <span class="dchip"><b>Conviction</b> autorité éditoriale</span>
+      <span class="dchip"><b>Cible</b> hook 3-6 ans</span>
+      <span class="dchip"><b>Repoussoir</b> le flux gratuit</span>
+    </div>
+  </div>
+
+  <h2 class="sectit">1. Les carrefours structurels du flow d'onboarding <span class="ct">tranchés, option par option</span></h2>
+  <p class="sec-sub">Cinq carrefours dans le périmètre onboarding (deux autres, la structure du quota d'heures et le post-achat, en sont sortis : voir plus bas). La pastille violette signale ce qui est propre à Kidsono (zone sans référent marché). Chaque carrefour tranché porte son verdict (option retenue, options éliminées avec leurs arguments) et un encart de recommandation détaillé.</p>
+
+  <div class="crossroads">
+
+    <!-- 1 -->
+    <div class="cgroup">
+      <div class="chead"><span class="cn">1</span><span class="cq">Personnalisation : quelle profondeur, et qu'est-ce qu'elle sert dans le flow ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">A. Absente</b> <span class="owhy">: sans ciblage minimal (au moins l'âge), le hero ne peut pas être la bonne histoire. Sur un catalogue 3-10, pousser une histoire de tout-petit à un enfant de 9 ans (ou l'inverse) sabote l'aha. La perso n'est pas un confort, c'est ce qui charge le hero.</span> <span class="conf d">Solide</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">B. Minimale, au choix (skippable)</b> <span class="owhy">: le « au choix » de Lingokids / ABCmouse marche pour eux parce que leur perso n'est pas porteuse (palier gratuit permanent, aha non décisif). Chez Kidsono la perso choisit le hero : la rendre skippable laisse le parent saboter sa propre première impression. On garde donc une perso courte mais NON skippable (option C), le skip réservé au seul prénom.</span> <span class="conf e">Estimation</span></div></li>
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">C. Simple structurante</b> <span class="owhy">: prénom + âge + un goût, 2-3 écrans au tap, qui chargent le hero. Le seul niveau qui sert l'aha sans emprunter le registre « résultat » des apps d'apprentissage. Voir la recommandation détaillée ci-dessous.</span> <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">D. Poussée</b> <span class="owhy">: le quiz long n'existe que là où le parent achète un résultat mesurable (le niveau de lecture : Homer, Reading.com). Kidsono vend un plaisir et un rituel, pas un accomplissement : rien à diagnostiquer, on ne remplirait pas dix écrans. Hors-standard en dehors de l'apprentissage, et anxiogène (une charge sans contrepartie avant d'avoir rien fait écouter).</span> <span class="conf o">Observé</span></div></li>
+      </ul>
+
+      <div class="reco">
+        <div class="rtit">Notre recommandation : l'option C, et comment la faire</div>
+        <p>On retient la <b>perso simple structurante</b> parce que toute la conversion repose sur l'aha (la première histoire doit faire mouche), et que C est le seul niveau qui <b>charge correctement le hero sans faire virer Kidsono en app d'objectifs</b>. L'arbitrage central : <b>un aha raté coûte bien plus qu'un peu de drop sur une question</b>. Les chiffres de drop qu'on a en tête (64 % des annulations d'essai dès J0-J1, l'abandon sur un compte demandé trop tôt) portent sur des étapes de friction <i>sans contrepartie</i> (payer, créer un compte), pas sur une question de goût présentée comme un service. <span class="conf d">Documenté</span> pour les sources de friction, <span class="conf e">Estimation raisonnée</span> pour l'asymétrie (pas de benchmark kids-audio propre).</p>
+
+        <h5>Les 3 conditions pour que C ne drope quasiment pas</h5>
+        <ul>
+          <li><b>Réponses au tap, jamais de saisie clavier</b> (sauf le prénom) : le clavier est l'input le plus coûteux d'un onboarding, une grille à toucher non.</li>
+          <li><b>2 à 3 écrans maximum, avec une progression visible</b> (« 1/3 ») : on tolère un engagement court et borné (effet de gradient vers le but). <span class="conf o">Principe</span></li>
+          <li><b>Chaque question visiblement au service de l'enfant</b> (« pour trouver les bonnes histoires de ton enfant ») : ça transforme la friction perçue en valeur perçue, et chaque réponse crée de l'appropriation (pied-dans-la-porte, effet IKEA). <span class="conf o">Principe</span></li>
+        </ul>
+
+        <h5>Skippable ou pas : la règle</h5>
+        <p><b>Les questions porteuses (âge, goût) ne sont PAS skippables ; seul le prénom l'est.</b> Le « au choix » de Lingokids / ABCmouse marche pour eux parce que leur perso n'est pas porteuse (palier gratuit permanent, aha non décisif). Chez Kidsono la perso choisit le hero : la rendre skippable, c'est laisser le parent saboter sa propre première impression, donc affaiblir l'aha, donc la conversion. Le risque de forcer 2-3 taps est faible ; le risque de rater l'aha est maximal. <span class="conf e">Estimation</span></p>
+
+        <h5>Les questions à poser</h5>
+        <ul>
+          <li><b>Âge : obligatoire.</b> Standard absolu (profil prénom + âge présent 4/4 chez les histoires audio qui tiennent), risque quasi nul, indispensable vu l'étendue 3-10 (un enfant de 4 ans et un de 9 ans n'ont pas le même hero). <span class="conf o">Observé</span></li>
+          <li><b>Pas d'objectif.</b> Kidsono n'apprend pas à lire : un objectif emprunterait le registre « résultat » des apps de bien-être ou d'apprentissage et trahirait le positionnement (plaisir et rituel, pas accomplissement).</li>
+          <li><b>Un goût, par thème.</b> Une grille visuelle à taper (aventure, animaux, princesses, frisson, rigolo, dodo...) marche sur n'importe quel titre du catalogue. Les licences / univers reconnaissables sont un bon accélérateur (elles réduisent la paralysie du choix), mais le catalogue Kidsono est très éditorial (École des Loisirs 58 %), avec peu de licences iconiques grand public : une question « quelle licence ? » surfacerait peu de noms connus. <span class="conf o">Observé</span></li>
+        </ul>
+
+        <h5>Le prénom : oui, mais optionnel</h5>
+        <p>On le demande (un seul champ, justifié : « pour personnaliser les histoires de [prénom] »), mais <b>skippable</b>, avec un défaut (« ton enfant ») si vide. Bénéfice : l'effet d'auto-référence rend la suite plus saillante et crée de l'appropriation (« c'est pour mon enfant »). Limite à ne pas survendre : cet effet est <span class="conf d">Documenté</span> sur l'attention et la mémoire, pas sur la conversion ; et c'est de la saisie clavier plus une donnée perçue comme intime. D'où le skip. <span class="conf e">Estimation</span></p>
+
+        <h5>À border avec les fondateurs</h5>
+        <ul>
+          <li>2 ou 3 écrans (selon qu'on sépare ou non le prénom).</li>
+          <li>Le contenu exact de la question goût (les thèmes, et les univers éditoriaux à amorcer en visuel) : ils savent ce qui ressort le mieux de leur catalogue.</li>
+        </ul>
+
+        <div class="avis">
+          <p><span class="al">L'avis.</span></p>
+          <ul>
+            <li><b>Force :</b> on garde le seul niveau de perso qui sert l'aha sans virer app d'objectifs ; la règle « porteur = non skippable, accessoire = skippable » résout le dilemme du skip.</li>
+            <li><b>Risques :</b> l'asymétrie drop / aha est une estimation raisonnée, pas un chiffre kids-audio mesuré. Si les fondateurs constatent en test un drop fort sur la question goût, on bascule cette question-là en skippable. Le bénéfice conversion du prénom est extrapolé d'un effet mesuré sur l'attention, pas sur l'achat.</li>
+            <li><b>Position vs standard :</b> pile dans le standard (prénom + âge + 1 goût = la perso simple structurante des gagnants type Moshi), sans l'excès des apps d'apprentissage.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="al">Traduction business.</span> Une perso de 2-3 taps bien ciblée augmente la probabilité que le hero fasse mouche, donc l'activation (le seul levier qui compte, puisque tout repose sur l'aha). La rendre skippable pour « réduire le drop » économiserait quelques sorties au prix d'aha ratés en masse : mauvais échange.</p>
+        </div>
+      </div>
+
+      <div class="crnote">Question liée déjà cadrée : ce que la perso alimente, c'est le ciblage de la bonne histoire pour le hero (le hero + scroll est acté). Le débouché retenu n'est donc pas une promesse au nom de l'enfant (registre résultat, écarté) mais le bon contenu poussé en vitrine.</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="cgroup">
+      <div class="chead"><span class="cn">2</span><span class="cq">Création de compte : à quel moment du parcours ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">A. Précoce, obligatoire</b> <span class="owhy">: demander le compte avant d'avoir rien prouvé est le pire endroit du parcours, et ça contredit la règle d'or (faire écouter avant de demander). La donnée est nette : un compte trop tôt génère hésitation et abandon. Le compte-mur sec sans contrepartie est d'ailleurs le propre des marques à forte notoriété (Epic, Audible), ce qu'on n'est pas.</span> <span class="conf d">Documenté, hors enfant</span></div></li>
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">B. Au déblocage de l'essai gratuit (avant le mur)</b> <span class="owhy">: là où le parcours offre un essai sans carte (option d'accès 1, ou le filet de l'option 2), le compte se crée à ce déblocage. Un tap, contre du gratuit en plus.</span> <a class="appref" href="apps/07-kili/presentation.html">KiLi</a></div></li>
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">C. À la conversion (avec la carte)</b> <span class="owhy">: là où il n'y a pas d'essai gratuit avant (option d'accès 3), le compte se fait avec le paiement. B et C ne s'opposent pas : ce sont les deux faces d'une seule règle (le compte sur l'essai, gratuit ou sous carte).</span> <a class="appref" href="apps/20-lingokids/presentation.html">Lingokids</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">D. Absent</b> <span class="owhy">: techniquement impossible. Tout temps gratuit décompté (l'heure offerte) exige un compte pour être mesuré et synchronisé. Et « absent » est la signature des perdants (compte différé ou absent, F1b), qui ne sert à rien faute de moment de conversion derrière.</span> <span class="conf d">Solide</span></div></li>
+      </ul>
+
+      <div class="reco">
+        <div class="rtit">Notre recommandation : le compte dès qu'un essai est proposé (gratuit ou sous carte), jamais à vide</div>
+        <p>Le compte ne flotte jamais seul : il est toujours la clé d'un déblocage. On le crée donc <b>au moment où un essai s'ouvre</b>, gratuit (un tap SSO) ou payant (avec la carte). Jamais avant le premier aha, jamais comme une formalité sans contrepartie.</p>
+        <h5>Pourquoi, dans l'ordre des arguments</h5>
+        <ul>
+          <li><b>C'est techniquement obligatoire.</b> Pour décompter le temps gratuit (l'heure offerte, ou l'amorce métrée), il faut un compte qui porte le compteur. Sans compte, on ne peut pas mesurer ce qu'on donne. <span class="conf d">Confirmé côté CTO</span></li>
+          <li><b>Ça protège l'heure offerte.</b> L'1h est du vrai CAC, non dépensable deux fois. Liée à une identité, elle n'est plus farmable par réinstallation (effacer l'app pour re-déclencher 1h gratuite). C'est l'argument décisif, propre à Kidsono. <span class="conf d">Solide sur le principe</span></li>
+          <li><b>Ça capte un lead réactivable</b> (l'email des « ont aimé, pas payé »), canal durable qui complète le push (lequel, lui, ne demande pas de compte). Gain réel mais borné. <span class="conf e">Estimation</span></li>
+          <li><b>Le drop est faible</b> : un tap SSO (ou un lien magique) contre un gros carrot (du gratuit en plus), après que la valeur a été ressentie. Rapport très favorable. <span class="conf e">Estimation</span></li>
+        </ul>
+        <div class="avis">
+          <p><span class="al">L'avis.</span></p>
+          <ul>
+            <li><b>Force :</b> la décision repose sur un gain dur et chiffrable (l'1h = CAC protégé, et c'est techniquement requis), pas sur un gain mou. Le coût est un tap.</li>
+            <li><b>Risques :</b> l'ampleur du drop et du farming sont des estimations, pas des mesures kids-audio. Seuil de bascule testable : si le gate fait chuter fortement les entrées en essai (>20-25%), on rouvre (essai sans compte plus empreinte d'appareil contre le farming, compte à la carte).</li>
+            <li><b>Position vs standard :</b> standard (les reverse trials captent l'identité au démarrage de l'essai), avec une justification Kidsono en plus (protéger l'1h).</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="al">Traduction business.</span> Le compte au déblocage transforme l'1h offerte en CAC maîtrisé (un coût par personne, pas par réinstallation) et capte un lead réactivable, au prix d'un petit drop d'un tap. Le farming non maîtrisé, lui, ferait fuir un budget d'acquisition déjà rare.</p>
+        </div>
+      </div>
+
+      <div class="crnote">Précision : comme tout temps gratuit décompté exige un compte, le compte se crée au moment du gratuit (l'amorce en option 1, la dégustation en option 3), ou à la carte s'il n'y a pas de gratuit avant le mur (option 2 carte d'emblée). Les trois options captent donc l'email au premier déblocage gratuit : il n'y a pas de défaut de réactivation propre à l'option 3.</div>
+    </div>
+
+    <!-- 3 -->
+    <div class="cgroup">
+      <div class="chead"><span class="cn">3</span><span class="cq">Création de compte : par quelle méthode de connexion ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">A. SSO Apple + Google</b> <span class="owhy">: la connexion en un bouton. Google couvre le côté Android (c'est le même Google Sign-In), donc Apple + Google = iOS + Android. Apple impose d'ailleurs son bouton dès qu'un social login existe.</span> <a class="appref" href="apps/13-readmio/presentation.html">Readmio</a> <a class="appref" href="apps/17-epic/presentation.html">Epic</a></div></li>
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">Email : lien magique</b> <span class="owhy">: la voie email, mais SANS mot de passe (on saisit son email, on reçoit un lien, on clique, on est connecté). C'est le choix du CTO, et c'est une friction de moins (la création de mot de passe est toujours un enfer). Observé au benchmark chez Aumio et Reading.com.</span> <a class="appref" href="apps/14-aumio/presentation.html">Aumio</a> <a class="appref" href="apps/27-reading-com/presentation.html">Reading.com</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">B. SSO d'écosystème éditeur</b> <span class="owhy">: se connecter avec un compte type École des Loisirs (façon KiLi). Écartée AU LANCEMENT : faisabilité partenaires incertaine et complexité d'intégration au pire moment. Gardée en réserve, car l'École des Loisirs pèse 58 % du catalogue : c'est un vrai levier futur, pas un non définitif.</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">C. Email + mot de passe</b> <span class="owhy">: remplacé par le lien magique, qui fait le même travail sans la friction du mot de passe.</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">D. QR enfant</b> <span class="owhy">: il résout l'accès autonome de l'enfant, pas la création du compte parent (qui porte le paiement et le quota). Problème différent, hors sujet ici.</span></div></li>
+      </ul>
+
+      <div class="reco">
+        <div class="rtit">Notre recommandation : SSO Apple + Google, plus le lien magique pour l'email</div>
+        <p>On démarre avec le SSO Apple + Google (un tap) et le lien magique en voie email (pas de mot de passe). On écarte le SSO éditeur (au lancement), l'email + mot de passe et le QR enfant.</p>
+        <h5>L'argument central : s'aligner sur le standard des gagnants</h5>
+        <p>On a mesuré le taux de SSO dans le benchmark : il est <b>majoritaire chez les apps qui réussissent</b>. 64 % chez les apps à forte notoriété (contre 44 % sur tout le panel), et <b>100 % chez les gagnantes observables hors apprentissage</b> (7 sur 7). Chez celles qui gagnent, le SSO n'est pas une option. Autant s'aligner. <span class="conf o">Observé, benchmark</span></p>
+        <h5>Le reste</h5>
+        <ul>
+          <li><b>Le lien magique</b> retire la friction du mot de passe tout en gardant une voie email pour qui ne veut pas de SSO. Bon compromis, déjà choisi par le CTO.</li>
+          <li><b>Le SSO éditeur</b> est la seule piste vraiment différenciante (le compte École des Loisirs sert aussi le produit physique), mais c'est une intégration partenaire lourde et incertaine : à garder pour plus tard, pas pour le lancement.</li>
+          <li><b>Le QR enfant</b> répond à un autre besoin (l'enfant se connecte seul), pas à la création de compte.</li>
+        </ul>
+        <div class="avis">
+          <p><span class="al">L'avis.</span></p>
+          <ul>
+            <li><b>Force :</b> aligné sur le standard mesuré des gagnants, friction minimale (un tap, ou un lien sans mot de passe), gratuit à mettre en place.</li>
+            <li><b>Risques :</b> le gain de conversion du SSO est réel mais marginal (quelques points), pas un facteur de product-market fit. On le prend parce qu'il ne coûte rien, pas parce qu'il sauve le lancement.</li>
+            <li><b>Position vs standard :</b> pile sur le standard, avec une piste différenciante (SSO éditeur) consciemment reportée.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="al">Traduction business.</span> Quelques points de conversion gagnés pour un coût de développement quasi nul, en s'alignant sur ce que font 100 % des gagnantes hors apprentissage. Le levier différenciant (compte éditeur) est mis en réserve pour quand on voudra muscler la rétention via les partenaires.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="cgroup">
+      <div class="chead"><span class="cn">4</span><span class="cq">Réassurance au paiement : combien on désamorce l'anxiété ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">A. Minimale</b> <span class="owhy">: mentions légales standard (« sans engagement, résiliable »). C'est tout le marché FR aujourd'hui, donc l'occasion manquée à ne pas reproduire.</span></div></li>
+        <li class="keep"><span class="ostat">Retenue, adaptée</span><div><b class="oname">B. Réassurance maximale</b> <span class="owhy">: le principe de la trial timeline forte (chronologie claire, conditions visibles), MAIS transposé. Notre essai n'est pas au temps (7 jours) mais à l'usage (1 heure d'écoute) : on affiche le quota restant et on rappelle quand l'heure est presque épuisée, pas « au jour 5 ».</span> <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="appref" href="apps/17-epic/presentation.html">Epic</a></div></li>
+        <li class="keep"><span class="ostat">Retenue, adaptée</span><div><b class="oname">C. Rappel avant tout prélèvement</b> <span class="owhy">: oui, mais déclenché par l'usage (quand l'heure touche à sa fin) et seulement là où une carte est enregistrée.</span></div></li>
+      </ul>
+
+      <div class="reco">
+        <div class="rtit">Notre recommandation : réassurance maximale, mais adaptée à un essai à l'usage (pas au temps)</div>
+        <p>On met le maximum de réassurance : c'est l'écart le plus facile à exploiter du marché FR (aucune app FR ne le fait). Mais la forme change, parce que notre essai se mesure en <b>heures d'écoute</b>, pas en jours.</p>
+        <h5>Ce qui est standard et connu (on l'applique)</h5>
+        <ul>
+          <li>Afficher clairement le quota restant (« il reste X min de l'heure offerte de [prénom] »).</li>
+          <li>Dire clairement ce qui se passe à la fin et quand on est prélevé, conditions d'annulation visibles.</li>
+        </ul>
+        <h5>L'insight qui change tout : l'anxiété d'auto-prélèvement n'existe que s'il y a une carte enregistrée</h5>
+        <ul>
+          <li><b>Option d'accès 1 (essai sans carte)</b> : aucune carte enregistrée, donc <b>aucun prélèvement automatique</b>. La réassurance devient un argument de vente (« aucun prélèvement, pas de carte enregistrée, vous payez seulement si vous décidez »). L'anxiété est quasi nulle par design.</li>
+          <li><b>Option d'accès 2 (carte d'emblée)</b> : carte enregistrée, donc c'est LÀ que la réassurance maximale est cruciale (que se passe-t-il à la fin de l'heure, et un rappel avant tout débit).</li>
+          <li><b>Option d'accès 3 (paiement direct)</b> : pas d'essai, donc réassurance = conditions claires, résiliable, politique de remboursement affichée.</li>
+        </ul>
+        <h5>À border avec les fondateurs</h5>
+        <ul>
+          <li>Le seuil exact du rappel (à combien de minutes restantes), parce qu'ils connaissent le rythme de consommation. Le principe, lui, est standard et acquis.</li>
+        </ul>
+        <div class="avis">
+          <p><span class="al">L'avis.</span></p>
+          <ul>
+            <li><b>Force :</b> on prend l'occasion FR (réassurance forte absente du marché) sans plaquer bêtement une chrono au temps sur un essai à l'usage.</li>
+            <li><b>Risques :</b> les seuils de rappel exacts dépendent du rythme de consommation, à caler avec les fondateurs. Mal réglé (rappel trop tôt ou trop tard), il rate sa cible.</li>
+            <li><b>Position vs standard :</b> en avance sur le marché FR (qui ne fait rien), aligné sur le standard international dans le principe, adapté dans la forme.</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="al">Traduction business.</span> Une réassurance claire réduit l'anxiété d'achat, donc augmente la conversion et réduit les remboursements et litiges. Et dans l'option sans carte, elle ne coûte rien : c'est même un argument de vente (« vous ne serez pas prélevé »).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="cgroup">
+      <div class="chead"><span class="cn">5</span><span class="cq">Multi-profil : un enfant ou plusieurs, et le quota se partage comment ?</span><span class="ckid">Spécifique Kidsono</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">A. Un seul profil enfant (au lancement)</b> <span class="owhy">: le plus simple. Suffit pour lancer vite et propre, sans gérer des profils par enfant ni un partage de quota.</span></div></li>
+        <li class="defer"><span class="ostat">Plus tard</span><div><b class="oname">B. Plusieurs profils, quota partagé</b> <span class="owhy">: fast-follow, pas lancement.</span></div></li>
+        <li class="defer"><span class="ostat">Plus tard</span><div><b class="oname">C. Plusieurs profils, quota par enfant</b> <span class="owhy">: la plus complexe (un quota par enfant), clairement post-lancement.</span></div></li>
+      </ul>
+
+      <div class="reco">
+        <div class="rtit">Notre recommandation : un seul profil au lancement (v0), le multi-profil en fast-follow</div>
+        <p>Au lancement, un seul profil suffit. On n'a pas besoin de profils par enfant ni de partage de quota pour sortir, et on évite une complexité produit (gestion de profils, règles de quota) au moment où il faut sortir vite et propre.</p>
+        <h5>Une précision honnête</h5>
+        <p>Le bon argument n'est pas « peu d'utilisateurs concernés » : les foyers à plusieurs enfants ne sont pas 3 %, c'est une grande minorité. Le bon argument est : <b>on n'a pas besoin de le résoudre pour lancer</b>. Un profil unique marche en v0, et le multi-profil s'ajoute après <b>sans rien casser</b> (fast-follow). C'est un « plus tard », pas un « jamais ».</p>
+        <div class="avis">
+          <p><span class="al">L'avis.</span></p>
+          <ul>
+            <li><b>Force :</b> on enlève de la complexité au pire moment (le lancement), sur une feature qui s'ajoute proprement plus tard.</li>
+            <li><b>Risques :</b> un foyer multi-âges avec un seul profil = une perso (âge, goût) moins fine, donc un hero un peu moins juste pour le 2e enfant. Acceptable en v0, mais c'est la raison d'en faire un fast-follow prioritaire, pas un projet lointain.</li>
+            <li><b>Position vs standard :</b> standard pour un lancement (commencer simple, enrichir ensuite).</li>
+          </ul>
+          <p style="margin-top:8px;"><span class="al">Traduction business.</span> On dépense l'effort de développement là où il compte au lancement (l'aha, le mur, le compte) et on diffère une feature de confort qui n'empêche personne de s'abonner aujourd'hui.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- hors périmètre (ex-carrefours 6 et 7) -->
+    <div class="outscope">
+      <div class="os-tit">Sortis du périmètre onboarding</div>
+      <ul>
+        <li><b>Structure du quota d'heures</b> (nombre de paliers, report des heures non consommées, cycle) : c'est du <b>pricing et du positionnement</b>, pas une question d'onboarding. L'onboarding affichera le pricing une fois décidé, il ne le décide pas. Hors mission.</li>
+        <li><b>Post-achat, mise en main et rétention</b> (coachmarks, notifications, habit-building) : c'est de l'<b>après-onboarding</b>. Hors périmètre et hors mission ici. À traiter dans un chantier dédié si besoin.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h2 class="sectit" style="margin-top:46px;">2. Les tactiques de conviction <span class="ct">ce qu'on dit pour convaincre</span></h2>
+  <p class="sec-sub">On commence par la proposition de valeur (les tout premiers écrans, à revalider avec les fondateurs), puis les leviers tactiques (déjà tranchés). L'« effort global de conviction » n'est pas un carrefour à part : il est la somme de ces leviers. Source : la page benchmark des 6 tactiques de conviction.</p>
+
+  <div class="subsec">2.A&nbsp;&nbsp;La proposition de valeur, à revalider avec les fondateurs</div>
+  <div class="vp-box">
+    <div class="vt">Le positionnement acté (session précédente) : le « jardin tenu » face au bazar</div>
+    <ol>
+      <li><b>La caution / la qualité</b> : des éditeurs reconnus, historiques, français, et des contenus de qualité (pas abrutissants).</li>
+      <li><b>La clôture / le safe</b> : un espace sûr pour l'enfant, techniquement (features de sécurité) et éditorialement.</li>
+      <li><b>La curation / l'ordre</b> : un espace rangé, entièrement dédié à l'enfant, à l'opposé du bazar partagé (Spotify et consorts).</li>
+    </ol>
+    <p style="font-size:12px;color:#6a5c8a;margin:8px 0 0;">Ces 3 piliers sont la matière des premiers écrans (le premier carrousel). Les 3 carrefours qui suivent les mettent en forme, et se tranchent AVEC les fondateurs.</p>
+  </div>
+
+  <div class="crossroads">
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">1</span><span class="cq">Registre de promesse : quel fil rouge sur les premiers écrans ?</span><span class="crbadge" style="background:#fff4e0;color:#9a6200;">À trancher avec les fondateurs</span></div>
+      <ul class="copts">
+        <li><span class="olet">A</span><div><b class="oname">La caution + le catalogue</b> <span class="owhy">: « les histoires des grandes maisons que vous aimez » (aligné sur l'angle dominant acté, l'autorité éditoriale).</span></div></li>
+        <li><span class="olet">B</span><div><b class="oname">Le résultat sur le foyer</b> <span class="owhy">: le rituel du soir réussi, l'anti-écran (le registre le plus proche du job Kidsono).</span></div></li>
+        <li><span class="olet">C</span><div><b class="oname">Mixte</b> <span class="owhy">: caution + résultat-rituel. Une part de la case vide du marché.</span></div></li>
+      </ul>
+      <div class="crnote">C'est le PREMIER écran : la proposition de valeur se déroule en tête d'onboarding. Il doit faire ressortir fortement les 3 piliers ci-dessus, pour les revalider avec les fondateurs. Chaque gagnant vend UNE chose, pas un mélange flou : le choix du fil rouge se tranche avec eux.</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">2</span><span class="cq">Sécurité enfant et valeurs (le pilier « clôture ») : quel statut ?</span><span class="crbadge" style="background:#fff4e0;color:#9a6200;">À trancher avec les fondateurs</span></div>
+      <ul class="copts">
+        <li><span class="olet">A</span><div><b class="oname">En hero</b> <span class="owhy">: argument central, mis en avant fort (parmi les tout premiers carrousels).</span></div></li>
+        <li><span class="olet">B</span><div><b class="oname">Table stakes</b> <span class="owhy">: « le minimum attendu » : présent, mais pas mis en avant (on suppose que le parent l'exige sans en faire un argument de vente).</span></div></li>
+      </ul>
+      <div class="crnote">Un pilier fort de la proposition de valeur : l'espace sûr, à la fois technique (features de sécurité) et éditorial (qualité des contenus). À trancher avec les fondateurs : ils y croient déjà, donc la question est le STATUT (héros ou prérequis), pas l'existence. Le sans-tracking et les données enfant protégées sont un vrai différenciant vs le gratuit-pub (Gulli).</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">3</span><span class="cq">Les différenciants à pousser face au bazar (Spotify) : lesquels ?</span><span class="crbadge" style="background:#fff4e0;color:#9a6200;">À trancher avec les fondateurs</span></div>
+      <ul class="copts">
+        <li><span class="olet">A</span><div><b class="oname">Le patrimoine / la qualité éditoriale FR</b> <span class="owhy">: le fonds des grandes maisons historiques françaises (le pilier caution).</span></div></li>
+        <li><span class="olet">B</span><div><b class="oname">L'espace rangé et dédié</b> <span class="owhy">: entièrement organisé pour l'enfant, à l'opposé du bazar partagé (le pilier curation).</span></div></li>
+        <li><span class="olet">C</span><div><b class="oname">L'anti-écran</b> <span class="owhy">: l'audio sans écran, le bénéfice du coucher.</span></div></li>
+      </ul>
+      <div class="crnote">Ce sont les 3 piliers retournés en différenciants explicites face à Spotify. À trancher avec les fondateurs : lesquels pousser le plus, et dans quel ordre.</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">F</span><span class="cq">Sous quelle forme on présente cette proposition de valeur ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">Carrousel classique</b> <span class="owhy">: 2-3 écrans qu'on fait défiler, chacun portant un pilier (logos éditeurs, espace safe, espace rangé). Standard, simple, éprouvé, rapide à produire.</span> <a class="appref" href="apps/01-bayam/presentation.html">Bayam</a> <a class="appref" href="apps/20-lingokids/presentation.html">Lingokids</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Vidéo / animation premium</b> <span class="owhy">: un intro animé soigné (façon Readmio en 3D). Écarté : coûteux à produire, et la qualité de prod se prouve en faisant écouter, pas en l'affichant.</span> <a class="appref" href="apps/13-readmio/presentation.html">Readmio</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Écran hero unique</b> <span class="owhy">: un seul écran d'accueil. Écarté : trop court pour dérouler les 3 piliers.</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Déroulé conversationnel / quiz</b> <span class="owhy">: façon programmes à quiz. Écarté : on a déjà tranché une perso légère, pas de long questionnaire.</span></div></li>
+      </ul>
+      <div class="crnote">Le carrousel porte les 3 piliers et le registre de promesse choisi avec les fondateurs.</div>
+    </div>
+
+  </div>
+
+  <div class="subsec">2.B&nbsp;&nbsp;Les leviers tactiques, tranchés</div>
+  <div class="crossroads">
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">4</span><span class="cq">Autorité tierce : sur quoi s'appuie la caution ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">Logos éditeurs en vitrine</b> <span class="owhy">: École des Loisirs, Gallimard, Père Castor... dès l'accueil. La caution se joue au niveau ÉDITEUR (reconnu), pas du titre.</span> <a class="appref" href="apps/01-bayam/presentation.html">Bayam</a> <a class="appref" href="apps/07-kili/presentation.html">KiLi</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Caution d'expert nommé</b> <span class="owhy">: la case vide du marché, mais on n'a pas d'expert identifié à mettre en avant. On ne l'invente pas (à garder en tête si on en recrute un).</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Label / certification</b> <span class="owhy">: on n'en a pas non plus.</span></div></li>
+      </ul>
+      <div class="crnote"><b>Règle dure :</b> ne jamais cacher la caution derrière le mur (le gâchis d'Epic et Vooks). Le signal de confiance a son effet maximal au moment de décider.</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">5</span><span class="cq">Preuve sociale : on en met, et laquelle ? (notoriété : zéro)</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">Aucune, assumé (au lancement)</b> <span class="owhy">: on n'a pas de masse à montrer, et une preuve vague (« des milliers de familles ») ne convertit pas.</span></div></li>
+        <li class="defer"><span class="ostat">Plus tard</span><div><b class="oname">Témoignage placé au mur</b> <span class="owhy">: à placer dès qu'on aura des avis, au moment de décider.</span> <a class="appref" href="apps/01-bayam/presentation.html">Bayam</a></div></li>
+        <li class="defer"><span class="ostat">Plus tard</span><div><b class="oname">Par contenu</b> <span class="owhy">: compteurs d'écoute / notes par histoire, quand on aura du volume d'usage.</span></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Chiffre de masse</b> <span class="owhy">: on ne l'a pas.</span></div></li>
+      </ul>
+      <div class="crnote">Au lancement, pas de preuve sociale forcée. Le plan : témoignage au mur + preuve par contenu dès qu'on aura de la matière (avis, usage).</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">6</span><span class="cq">Engagement fabriqué : combien on fait investir le parent ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">Léger : touche nominative + mini-perso</b> <span class="owhy">: le prénom de l'enfant dans la promesse, plus les 2-3 questions de perso déjà actées (section 1). L'engagement juste suffisant.</span> <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Lourd : quiz diagnostique long</b> <span class="owhy">: rien à diagnostiquer chez Kidsono (pas d'objectif scolaire). On ne le fait pas.</span></div></li>
+      </ul>
+      <div class="crnote">La « production comme preuve » (la qualité de prod en argument) ne s'affirme pas, elle se prouve en faisant écouter : c'est déjà l'aha.</div>
+    </div>
+
+    <div class="cgroup">
+      <div class="chead"><span class="cn" style="background:#7e3ff2;">7</span><span class="cq">Pression et urgence : jusqu'où on pousse ?</span><span class="crbadge done">Tranché</span></div>
+      <ul class="copts">
+        <li class="keep"><span class="ostat">Retenue</span><div><b class="oname">Standard peu coûteux</b> <span class="owhy">: ancrage annuel (« économisez X% », prix mensuel équivalent affiché), compte à rebours d'essai. Ça marche et ça ne coûte pas en confiance, tant que ça reste mesuré.</span> <a class="appref" href="apps/12-moshi-kids/presentation.html">Moshi</a> <a class="appref" href="apps/20-lingokids/presentation.html">Lingokids</a></div></li>
+        <li class="elim"><span class="ostat">Éliminée</span><div><b class="oname">Pratiques limites</b> <span class="owhy">: faux prix barré, urgence factice, conviction par la peur. À exclure sur un public parental (ça coûte cher en confiance).</span></div></li>
+      </ul>
+      <div class="crnote"><b>La « frustration construite » expliquée :</b> ce sont des extraits orchestrés qui donnent envie de la suite (façon KiLi), par opposition aux cadenas subis qui agacent. Chez nous, elle est déjà portée par la dégustation hero + scroll : ce n'est pas une tactique de pression à ajouter.</div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <div class="nblock"><b>Pas un carrefour, dérivé :</b> la longueur du parcours. Elle découle mécaniquement de la logique choisie (un parcours qui convainc est long, un parcours qui montre est court), elle ne se décide pas en soi.</div>
+    <div class="nblock"><b>Fixés, hors décision :</b> zéro tracking publicitaire / ATT pendant l'onboarding (à porter en argument de positionnement « données enfant protégées »), un code de parrainage reste un champ optionnel possible au moment du compte, les modes adaptés (DYS, TDAH) sont une option de contenu et un signal d'inclusion.</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les 3 options finales d'onboarding, enrichies · pour Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:min(96vw,1900px);margin:0 auto;padding:28px 24px 70px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:38px 38px 28px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.18;font-weight:700;margin:13px 0 13px;max-width:920px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+
+  .common{background:#f1f8f3;border:1px solid #cfe7d8;border-left:6px solid #1f7d45;border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .common .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#1f7d45;margin-bottom:9px;}
+  .common ul{list-style:none;display:flex;flex-wrap:wrap;gap:7px;}
+  .common li{font-size:11.5px;font-weight:700;background:#fff;border:1px solid #cfe7d8;color:#1f6d40;border-radius:8px;padding:5px 10px;}
+  .common li b{color:#0f5a30;}
+
+  .legend{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px 20px;margin-top:14px;}
+  .legend .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .legend .row{display:flex;flex-wrap:wrap;gap:8px 10px;}
+
+  .step{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:8px;line-height:1.25;white-space:nowrap;border:1px solid transparent;}
+  .s-accueil{background:#eaf1fb;color:#1d4ea8;border-color:#d6e2f6;}
+  .s-perso{background:#f3edff;color:#6b32c9;border-color:#e4d7fb;}
+  .s-aha{background:#e9f6ef;color:#1f7d45;border-color:#cfead9;}
+  .s-essai{background:#fbefdd;color:#9a6200;border-color:#f1ddb7;}
+  .s-mur{background:#fdeceb;color:#b23a2f;border-color:#f6d3cf;}
+  .s-compte{background:#e4f3f3;color:#1c6b6b;border-color:#c8e6e6;}
+  .s-carte{background:#eef1f5;color:#48566b;border-color:#dde2ea;}
+  .s-amort{background:#fdf7e0;color:#8a6d12;border-color:#eedfa6;border-style:dashed;}
+  .s-acces{background:#e6f0e9;color:#1c5a36;border-color:#cfe2d6;}
+  .arrow{color:#c2c2b9;font-weight:700;font-size:14px;padding:0 1px;flex:none;}
+  .term{color:#8a8a8a;font-style:italic;font-weight:600;font-size:11px;white-space:nowrap;}
+
+  .flow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:6px;overflow-x:auto;padding-bottom:9px;}
+  .wall{display:inline-flex;flex-direction:column;gap:5px;align-items:flex-start;flex:none;}
+  .wbr{display:flex;align-items:center;flex-wrap:nowrap;gap:5px;font-size:11px;padding:4px 9px;border-radius:7px;}
+  .wbr-yes{background:#f4f9f6;border-left:3px solid #5aa377;}
+  .wbr-no{background:#f7f4f3;border-left:3px solid #c29a94;}
+  .wbl{font-weight:800;font-size:9.5px;text-transform:uppercase;letter-spacing:.3px;margin-right:2px;white-space:nowrap;}
+  .wbr-yes .wbl{color:#1f7d45;} .wbr-no .wbl{color:#a3261f;}
+  .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:-2px 0 0 6px;}
+
+  .ocard{background:var(--surface);border:1px solid var(--border);border-left:6px solid var(--sc,#ccc);border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .ohead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px;}
+  .rank{font-family:Georgia,serif;font-weight:700;font-size:14px;color:#fff;background:var(--sc,#ccc);min-width:25px;height:25px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;flex:none;}
+  .otitle{font-size:15.5px;font-weight:800;}
+  .score{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#fff;background:var(--sc,#888);padding:3px 11px;border-radius:999px;margin-left:auto;}
+  . flowlab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#888;margin:4px 0 6px;}
+  .ocard .cap{font-size:12px;color:#555;margin-top:10px;line-height:1.6;max-width:1100px;}
+  .ocard .cap b{color:#333;}
+  .sectit{font-family:Georgia,serif;font-size:21px;font-weight:700;margin:34px 0 4px;display:flex;align-items:center;gap:10px;}
+  .sectit::before{content:"";width:6px;height:23px;border-radius:3px;background:var(--accent-dark);}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Retour à l'accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Propositions finales</div>
+    <h1>Les 3 options finales d'onboarding, tout intégré</h1>
+    <div class="standfirst">Les 3 modèles d'accès retenus, enrichis de toutes les décisions prises depuis (personnalisation, création de compte, méthode de connexion, réassurance, conviction). Ce qui est commun aux 3 est listé une fois ci-dessous ; les schémas montrent les spécificités de chaque option. Les schémas se lisent de gauche à droite (défilement horizontal) ; au mur, le parcours bifurque selon que le parent accepte ou refuse.</div>
+  </header>
+
+  <div class="common">
+    <div class="lt">Commun aux 3 options (décidé, identique partout)</div>
+    <ul>
+      <li><b>Carrousel de valeur (3 écrans)</b> : ① caution / logos éditeurs, ② espace safe, ③ espace rangé et dédié</li>
+      <li><b>Perso</b> 2-3 taps : âge + goût + prénom (skippable), progression visible</li>
+      <li><b>Dégustation</b> hero + scroll (le bon poussé, catalogue navigable)</li>
+      <li><b>Compte</b> SSO (1 tap) ou lien magique, au moment du gratuit (amorce / dégustation), sinon à la carte</li>
+      <li><b>Réassurance</b> quota affiché + rappel quand l'heure s'épuise</li>
+      <li><b>Pricing</b> ancrage annuel (« économisez X% »)</li>
+      <li><b>Un seul profil</b> enfant (multi-profil en fast-follow)</li>
+      <li><b>Pas de preuve sociale</b> au lancement (témoignages plus tard)</li>
+    </ul>
+  </div>
+
+  <div class="legend">
+    <div class="lt">Code couleur des étapes</div>
+    <div class="row">
+      <span class="step s-accueil">Carrousel de valeur</span>
+      <span class="step s-perso">Perso (taps)</span>
+      <span class="step s-aha">Dégustation (écoute)</span>
+      <span class="step s-essai">Essai / test</span>
+      <span class="step s-mur">Mur (paywall)</span>
+      <span class="step s-compte">Compte (SSO)</span>
+      <span class="step s-carte">Carte bleue</span>
+      <span class="step s-amort">Filet (amortisseur)</span>
+      <span class="step s-acces">Accès complet</span>
+    </div>
+  </div>
+
+  <h2 class="sectit">Les 3 options finales</h2>
+
+  <!-- OPTION 1 -->
+  <div class="ocard" style="--sc:#2563c9;">
+    <div class="ohead"><span class="rank">1</span><div class="otitle">Amorce douce, sans carte</div><span class="score">Le plus prudent · favori</span></div>
+    <div class="flow">
+      <span class="step s-accueil">Carrousel ① Caution : logos éditeurs</span><span class="arrow">→</span>
+      <span class="step s-accueil">② Espace safe</span><span class="arrow">→</span>
+      <span class="step s-accueil">③ Espace rangé</span><span class="arrow">→</span>
+      <span class="step s-perso">Perso : âge, goût, prénom</span><span class="arrow">→</span>
+      <span class="step s-compte">Compte SSO (débloque l'amorce)</span><span class="arrow">→</span>
+      <span class="step s-aha">Amorce gratuite ~15 min, hero + scroll</span><span class="arrow">→</span>
+      <div class="wall">
+        <span class="step s-mur">MUR : continuer en essai (1h offerte)</span>
+        <div class="wbr wbr-yes"><span class="wbl">Accepte</span><span class="step s-essai">Essai 1h (quota + rappel)</span><span class="arrow">→</span><span class="step s-mur">Mur conversion</span><span class="arrow">→</span><span class="step s-carte">Carte (annuel)</span><span class="arrow">→</span><span class="step s-acces">Accès complet</span></div>
+        <div class="wbr wbr-no"><span class="wbl">Refuse</span><span class="step s-amort">Filet sans carte (reste de l'1h)</span><span class="arrow">→</span><span class="term">relance</span></div>
+      </div>
+    </div>
+    <div class="scrollhint">← défiler →</div>
+    <div class="cap"><b>Profil :</b> le plus sûr pour une marque inconnue, mon favori directionnel. Le compte se crée au moment de l'amorce gratuite (un tap SSO, nécessaire pour décompter l'heure et protéger l'1h du farming), ce qui capte aussi l'email pour la réactivation.</div>
+  </div>
+
+  <!-- OPTION 2 -->
+  <div class="ocard" style="--sc:#c4761a;">
+    <div class="ohead"><span class="rank">2</span><div class="otitle">Amorce agressive, carte d'abord</div><span class="score">Le plus agressif</span></div>
+    <div class="flow">
+      <span class="step s-accueil">Carrousel ① Caution : logos éditeurs</span><span class="arrow">→</span>
+      <span class="step s-accueil">② Espace safe</span><span class="arrow">→</span>
+      <span class="step s-accueil">③ Espace rangé</span><span class="arrow">→</span>
+      <span class="step s-perso">Perso : âge, goût, prénom</span><span class="arrow">→</span>
+      <div class="wall">
+        <span class="step s-mur">MUR : test ~1h, carte d'emblée</span>
+        <div class="wbr wbr-yes"><span class="wbl">Accepte</span><span class="step s-compte">Compte + Carte (SSO)</span><span class="arrow">→</span><span class="step s-essai">Test ~1h (quota + rappel)</span><span class="arrow">→</span><span class="step s-acces">Accès (auto-conversion, annuel)</span></div>
+        <div class="wbr wbr-no"><span class="wbl">Refuse</span><span class="step s-compte">Compte SSO</span><span class="arrow">→</span><span class="step s-amort">Amorce ~15 min sans carte (hero + scroll)</span><span class="arrow">→</span><span class="step s-mur">re-MUR : test ~1h</span></div>
+      </div>
+    </div>
+    <div class="scrollhint">← défiler →</div>
+    <div class="cap"><b>Profil :</b> capte les hautes intentions et le cash immédiat (carte d'emblée), mais carte à froid = friction maximale, volume d'essais plus faible. L'amortisseur (amorce sans carte) rattrape une part des refus.</div>
+  </div>
+
+  <!-- OPTION 3 -->
+  <div class="ocard" style="--sc:#7e3ff2;">
+    <div class="ohead"><span class="rank">3</span><div class="otitle">La preuve, paiement direct</div><span class="score">La preuve forte</span></div>
+    <div class="flow">
+      <span class="step s-accueil">Carrousel ① Caution : logos éditeurs</span><span class="arrow">→</span>
+      <span class="step s-accueil">② Espace safe</span><span class="arrow">→</span>
+      <span class="step s-accueil">③ Espace rangé</span><span class="arrow">→</span>
+      <span class="step s-perso">Perso : âge, goût, prénom</span><span class="arrow">→</span>
+      <span class="step s-compte">Compte SSO (débloque la dégustation)</span><span class="arrow">→</span>
+      <span class="step s-aha">Dégustation gratuite 1h, hero + scroll</span><span class="arrow">→</span>
+      <div class="wall">
+        <span class="step s-mur">MUR : abonnement direct (paiement)</span>
+        <div class="wbr wbr-yes"><span class="wbl">Accepte</span><span class="step s-carte">Carte (annuel)</span><span class="arrow">→</span><span class="step s-acces">Accès complet</span></div>
+        <div class="wbr wbr-no"><span class="wbl">Refuse</span><span class="term">Sortie (1h donnée, pas de filet)</span></div>
+      </div>
+    </div>
+    <div class="scrollhint">← défiler →</div>
+    <div class="cap"><b>Profil :</b> prouve fortement la valeur puis frappe au pic d'envie, cash net immédiat. Le compte se crée au moment de la dégustation gratuite (pour décompter l'1h), donc l'email EST capté avant le mur : la réactivation des non-convertis reste possible. Son vrai défaut demeure : +70% de remboursements (paiement direct, sans essai).</div>
+  </div>
+
+</div>
+</body>
+</html>
