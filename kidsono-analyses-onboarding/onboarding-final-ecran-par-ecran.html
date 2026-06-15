@@ -58,6 +58,8 @@
   .pwsteps{display:flex;align-items:flex-start;gap:5px;}
   .pwclose{display:flex;align-items:center;gap:7px;margin-left:10px;}
   .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:2px 0 0 2px;}
+  .annwrap{display:inline-flex;flex-direction:column;gap:7px;flex:none;align-items:flex-start;max-width:150px;}
+  .ann{font-size:9.5px;font-weight:600;line-height:1.38;color:#7a4e00;background:#fff7e6;border:1px solid #f0dcae;border-radius:9px;padding:6px 8px;}
 
   .confirm{background:#fff7e6;border:1px solid #f0dcae;border-left:6px solid #d99b1c;border-radius:14px;padding:16px 20px;margin-top:18px;}
   .confirm .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#9a6200;margin-bottom:9px;}
@@ -107,7 +109,7 @@
       <span class="step f-value"><span class="sn">4 · Valeur</span>Proposition de valeur 3</span><span class="arrow">→</span>
       <span class="step f-trust"><span class="sn">5 · Autorité</span>Les éditeurs partenaires</span><span class="arrow">→</span>
       <span class="step f-trust"><span class="sn">6 · Autorité</span>La presse</span><span class="arrow">→</span>
-      <span class="step f-pp"><span class="sn">7 · Profil et perso.</span>Profil et personnalisation 1<span class="det">Nom, âge, catégorie, avatar, et création d'un autre profil (optionnelle)</span></span><span class="arrow">→</span>
+      <div class="annwrap"><span class="step f-pp"><span class="sn">7 · Profil et perso.</span>Profil et personnalisation 1<span class="det">Nom, âge, catégorie, avatar, et création d'un autre profil (optionnelle)</span></span><div class="ann">↑ Charles proposera à Samuel (CTO) un découpage en 3 écrans. Si c'est trop complexe techniquement, conserver cet écran unique reste tout à fait possible.</div></div><span class="arrow">→</span>
       <span class="step f-free"><span class="sn">8 · Offre gratuite</span>Présentation / validation de l'offre gratuite (sans CB)</span><span class="arrow">→</span>
       <span class="step f-account"><span class="sn">9 · Compte</span>Création de compte (SSO / lien magique)</span><span class="arrow">→</span>
       <span class="step f-nav"><span class="sn">10 · Navigation</span>Catalogue préfiltré</span><span class="arrow">→</span>
@@ -144,7 +146,7 @@
 
   <div class="confirm">
     <div class="lt">Point d'amélioration à proposer</div>
-    <p>L'écran « Profil et personnalisation » regroupe aujourd'hui, sur un seul écran, le nom de l'enfant, l'âge, la catégorie, l'avatar et la création d'un autre profil, ce qui impose du défilement. Des variantes de présentation seront proposées pour le rendre plus fluide.</p>
+    <p>L'écran « Profil et personnalisation » regroupe aujourd'hui, sur un seul écran, le nom de l'enfant, l'âge, la catégorie, l'avatar et la création d'un autre profil, ce qui impose du défilement. Charles proposera à Samuel (CTO) un découpage en trois écrans plus fluides ; si c'est trop complexe techniquement, conserver cet écran unique reste tout à fait possible.</p>
   </div>
 
   <div class="note" style="background:#eef4fc;border:1px solid #cfe0f5;border-left:5px solid #2563c9;border-radius:14px;padding:14px 18px;color:#33476b;">
