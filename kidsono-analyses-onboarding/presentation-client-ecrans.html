@@ -39,6 +39,17 @@
   .scard .shot img{display:block;width:100%;height:auto;cursor:zoom-in;}
   .ph{display:none;height:340px;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:700;color:#a39f95;background:repeating-linear-gradient(45deg,#f3f1ea,#f3f1ea 11px,#eceae3 11px,#eceae3 22px);padding:12px;gap:3px;border-radius:11px;}
   .ph b{font-size:13px;color:#8c887e;}
+  /* placeholder de proposition de valeur : maquette à produire, jamais pris pour un écran final */
+  .propmock{position:relative;width:100%;min-height:382px;display:flex;flex-direction:column;gap:8px;border:2px dashed #c9ad5e;border-radius:11px;background:#fffdf2;padding:12px;}
+  .propmock .tag{display:block;text-align:center;font-size:8.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#fff;background:#b8901f;border-radius:6px;padding:4px 7px;line-height:1.25;}
+  .propmock .mtitle{font-family:Georgia,serif;font-weight:800;font-size:14px;line-height:1.16;color:#2b2a24;}
+  .propmock ul.mb{list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .propmock ul.mb li{font-size:10.5px;line-height:1.3;color:#3a3a34;font-weight:600;padding-left:13px;position:relative;}
+  .propmock ul.mb li::before{content:"";position:absolute;left:0;top:5px;width:6px;height:6px;border-radius:50%;background:#00AB69;}
+  .propmock .spacer{flex:1;}
+  .propmock .imp{display:flex;align-items:center;background:#EE5729;border:1.5px solid #2b2a24;border-radius:8px;padding:7px 9px;}
+  .propmock .imp .il{font-size:10px;font-weight:800;color:#fff;line-height:1.2;}
+  .propmock .ctab{height:26px;border-radius:8px;background:#FFCB02;border:1.5px dashed #2b2a24;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;color:#2b2a24;opacity:.8;}
   .scard .sn{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--fc);}
   .scard .nm{font-size:12.5px;font-weight:800;color:#191919;margin-top:-3px;}
   .scard ul{list-style:none;display:flex;flex-direction:column;gap:4px;margin-top:2px;}
@@ -117,22 +128,41 @@
 
       <!-- VALEUR -->
       <div class="fam fv">
-        <div class="flabel">● Proposition de valeur · le carrousel</div>
+        <div class="flabel">● Proposition de valeur · le carrousel · maquettes à produire</div>
         <div class="fcards">
           <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/03-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+            <div class="shot"><div class="propmock">
+              <span class="tag">1ère version en cours de modification - À venir</span>
+              <div class="mtitle">Le plus beau catalogue de livres audio pour les 3-12 ans</div>
+              <ul class="mb"><li>Plus de 500 histoires des meilleurs éditeurs</li><li>Les héros préférés des enfants</li><li>Les grands classiques de la jeunesse</li></ul>
+              <div class="spacer"></div>
+              <div class="imp"><span class="il">IMPORTANT · Accédez à tout le catalogue</span></div>
+              <div class="ctab">Suivant ›</div>
+            </div></div>
             <div class="sn">03 · Valeur A</div><div class="nm">Le catalogue</div>
-            <ul><li><b>Psycho :</b> on montre les vraies couvertures plutôt que de promettre, la preuve visuelle convainc plus qu'un discours</li><li><b>Business :</b> les éditeurs reconnaissables = la caution empruntée, seul actif de notoriété d'une marque inconnue</li></ul>
+            <ul><li><b>Psycho :</b> le « 500+ » chiffré et les vraies couvertures prouvent par le concret, plus fort qu'une promesse pour une marque sans notoriété</li><li><b>Business :</b> la pastille « tout le catalogue » pose la valeur que l'abonnement débloquera (wording à border pour ne pas laisser croire que tout est gratuit)</li></ul>
           </div>
           <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/04-espace-sur.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">04 · Valeur B</div><div class="nm">Catalogue fermé</div>
-            <ul><li><b>Psycho :</b> la frontière Dehors/Dedans répond à l'angoisse n°1 du parent (écrans, algo, contenu inadapté) en opposant un jardin tenu</li><li><b>Business :</b> la sécurité justifie de payer face au gratuit (Gulli/Okoo) et au bazar (Spotify)</li></ul>
+            <div class="shot"><div class="propmock">
+              <span class="tag">1ère version en cours de modification - À venir</span>
+              <div class="mtitle">Une bibliothèque complète, pour moins cher qu'un livre audio</div>
+              <ul class="mb"><li>Profils illimités, un seul abonnement (pas de jaloux !)</li><li>Playlists, favoris et reprise pour chaque enfant</li></ul>
+              <div class="spacer"></div>
+              <div class="ctab">Suivant ›</div>
+            </div></div>
+            <div class="sn">04 · Valeur B</div><div class="nm">Toute la biblio, moins cher</div>
+            <ul><li><b>Conversion :</b> « moins cher qu'un livre audio » recadre le prix en économie au moment où le parent jauge la valeur, avant même le paywall</li><li><b>Business :</b> profils illimités + playlists = un seul abonnement pour toute la fratrie, ce qui justifie un quota d'heures plus élevé et crée l'attachement</li></ul>
           </div>
           <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/05-son-monde.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">05 · Valeur C</div><div class="nm">À chacun le sien</div>
-            <ul><li><b>Rétention :</b> un profil par enfant (reprise + favoris), la personnalisation crée l'attachement et le réusage</li><li><b>Business :</b> l'argument multi-enfants ("chacun le sien") justifie un quota d'heures plus élevé</li></ul>
+            <div class="shot"><div class="propmock">
+              <span class="tag">1ère version en cours de modification - À venir</span>
+              <div class="mtitle">100% sécurisé, zéro publicité</div>
+              <ul class="mb"><li>Pensé pour les petits qui ne lisent pas encore</li><li>Minuteur d'écoute</li><li>Mode avion, écoute hors connexion</li><li>Un vieux téléphone recyclé en conteuse</li></ul>
+              <div class="spacer"></div>
+              <div class="ctab">Commencer ›</div>
+            </div></div>
+            <div class="sn">05 · Valeur C</div><div class="nm">Sûr & sans pub</div>
+            <ul><li><b>Confiance :</b> « 100% sécurisé, zéro pub » lève l'angoisse n°1 du parent, le quick win de confiance que le marché FR néglige</li><li><b>Déculpabilisation :</b> minuteur, ergonomie petits et mode avion couvrent les usages réels (voiture, avion, vieux mobile recyclé) et désamorcent le sujet du temps d'écran</li></ul>
           </div>
         </div>
       </div>
