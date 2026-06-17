@@ -28,6 +28,11 @@
   .fam .fcards{display:flex;gap:10px;align-items:flex-start;}
   .fl{--fc:#475569;border-color:#e8ebef;} .fv{--fc:#7c3aed;border-color:#efe8fb;} .ft{--fc:#2563eb;border-color:#e4edfc;}
   .fp{--fc:#db2777;border-color:#fbe2ee;} .ff{--fc:#5f8b08;border-color:#eef5da;} .fa{--fc:#ea580c;border-color:#fce6d6;} .fpay{--fc:#dc2626;border-color:#fce1e3;}
+  .fbrowse{--fc:#0d9488;border-color:#cbeae6;} .fgate{--fc:#0e9f6e;border-color:#cdeede;}
+  /* murs : carte d'accent plus marquée */
+  .mur{border-width:2px;box-shadow:0 2px 0 var(--fc);}
+  .murtag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.4px;color:#fff;background:var(--fc);border-radius:5px;padding:2px 7px;margin-bottom:2px;}
+  .phaseband{flex:none;align-self:center;writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#9a9488;padding:0 2px;}
 
   .scard{width:194px;flex:none;display:flex;flex-direction:column;gap:7px;}
   .scard .shot{position:relative;width:100%;border-radius:11px;overflow:hidden;}
@@ -68,21 +73,23 @@
 <div class="wrap">
 
   <header class="cover">
-    <div class="kicker">Mission Kidsono · Onboarding · Les écrans, par famille</div>
-    <h1>Les écrans de l'onboarding Kidsono, et le pourquoi de chaque choix</h1>
-    <div class="standfirst">Le parcours déroulé écran par écran (défilement horizontal), regroupé par famille. Pour chaque écran, les <b>points importants</b> : ce qu'on a mis et pourquoi, issu des benchmarks et des propositions de la mission. <b>Cliquez sur un écran pour le voir en grand.</b> Les visuels sont les rendus Claude Design ; les écrans encore en production apparaissent comme "à venir".</div>
+    <div class="kicker">Mission Kidsono · Onboarding · Parcours "découverte avant compte"</div>
+    <h1>Le parcours d'onboarding Kidsono, et le pourquoi de chaque choix</h1>
+    <div class="standfirst">Nouveau principe : <b>on laisse explorer le vrai catalogue sans créer de compte</b>. Le compte ne se déclenche qu'au moment où l'on veut vraiment écouter, le catalogue fait la vente. Le parcours comporte alors <b>deux murs successifs</b> : un premier mur gratuit (créer le compte pour débloquer le cadeau de bienvenue), puis, une fois les heures gratuites épuisées, le mur payant (l'abonnement). Parcours déroulé écran par écran, défilement horizontal. Pour chaque écran, les <b>points importants</b> : ce qu'on a mis et pourquoi. <b>Cliquez sur un écran pour le voir en grand.</b> Les visuels sont les rendus Claude Design ou des captures de l'app ; les écrans encore en production apparaissent comme "à venir".</div>
   </header>
 
   <div class="legend">
-    <div class="lt">Les familles d'écrans</div>
+    <div class="lt">Les familles d'écrans · du gris au rouge, sans compte puis après compte</div>
     <div class="row">
       <span class="lchip"><span class="ldot" style="background:#475569;"></span>Lancement</span>
       <span class="lchip"><span class="ldot" style="background:#7c3aed;"></span>Proposition de valeur</span>
       <span class="lchip"><span class="ldot" style="background:#2563eb;"></span>Autorité</span>
-      <span class="lchip"><span class="ldot" style="background:#5f8b08;"></span>Offre gratuite</span>
+      <span class="lchip"><span class="ldot" style="background:#5f8b08;"></span>Annonce du cadeau</span>
+      <span class="lchip"><span class="ldot" style="background:#0d9488;"></span>Exploration libre du catalogue</span>
+      <span class="lchip"><span class="ldot" style="background:#0e9f6e;"></span>Mur 1 · activation gratuite</span>
       <span class="lchip"><span class="ldot" style="background:#ea580c;"></span>Création de compte</span>
       <span class="lchip"><span class="ldot" style="background:#db2777;"></span>Profil et personnalisation</span>
-      <span class="lchip"><span class="ldot" style="background:#dc2626;"></span>Conversion (paywall)</span>
+      <span class="lchip"><span class="ldot" style="background:#dc2626;"></span>Mur 2 · conversion payante</span>
     </div>
   </div>
 
@@ -146,19 +153,59 @@
 
       <span class="garrow">→</span>
 
-      <!-- OFFRE GRATUITE -->
+      <!-- ANNONCE DU CADEAU -->
       <div class="fam ff">
-        <div class="flabel">● Offre gratuite</div>
+        <div class="flabel">● Annonce du cadeau</div>
         <div class="fcards">
           <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/07-offre-gratuite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">07 · Offre gratuite</div><div class="nm">~30 min offertes</div>
-            <ul><li><b>Conversion :</b> "la preuve, paiement direct", faire écouter gratuitement désamorce le risque perçu avant de demander de payer</li><li><b>Psycho :</b> "sans carte, rien ne se déclenche" lève l'anxiété du piège à abonnement, ce qui augmente l'engagement</li><li><b>Business :</b> l'heure offerte est aux frais de Kidsono, un coût d'acquisition assumé pour amorcer l'habitude</li></ul>
+            <div class="shot"><div class="ph"><b>À venir</b>variation allégée de l'offre gratuite</div><img src="ecrans-finaux-claude-design/_annonce-cadeau.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+            <div class="sn">07 · Annonce</div><div class="nm">Le cadeau de bienvenue</div>
+            <ul><li><b>Rôle :</b> on annonce le cadeau (~30 min offertes) sans rien demander, puis on laisse entrer dans le catalogue, l'écran ne bloque pas, il met en appétit</li><li><b>Psycho :</b> promettre le cadeau avant de laisser explorer crée l'anticipation, l'utilisateur cherche déjà ce qu'il écoutera en premier</li><li><b>Note :</b> variation allégée de l'écran d'offre, le même contenu deviendra le mur d'activation plus loin (au moment d'écouter)</li></ul>
           </div>
         </div>
       </div>
 
+      <div class="conn">L'utilisateur entre dans le vrai catalogue <b>sans créer de compte</b></div>
+
+      <!-- EXPLORATION LIBRE -->
+      <div class="fam fbrowse">
+        <div class="flabel">● Exploration libre · sans compte</div>
+        <div class="fcards">
+          <div class="scard">
+            <div class="shot"><div class="ph"><b>capture</b>catalogue de l'app</div><img src="ecrans-finaux-claude-design/app-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+            <div class="sn">Catalogue</div><div class="nm">Navigation libre</div>
+            <ul><li><b>Conversion :</b> le catalogue réel fait la vente mieux qu'un argumentaire, on laisse le contenu convaincre avant de demander quoi que ce soit</li><li><b>Friction :</b> zéro mur à l'entrée, on supprime l'abandon des curieux qui ne veulent pas s'inscrire pour "juste voir"</li></ul>
+          </div>
+          <div class="scard">
+            <div class="shot"><div class="ph"><b>capture</b>fiche histoire de l'app</div><img src="ecrans-finaux-claude-design/app-fiche-extrait.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+            <div class="sn">Fiche histoire</div><div class="nm">Extrait gratuit</div>
+            <ul><li><b>Psycho :</b> l'extrait gratuit fait goûter sans engager, l'envie d'entendre la suite devient le moteur de l'inscription</li><li><b>UX :</b> deux portes claires sur la fiche, "Extrait gratuit" (libre) et "Histoire complète" (qui déclenche le mur)</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DÉCLENCHEUR DU MUR 1 -->
+      <div class="trigzone">
+        <div class="triglabel">▼ Ce qui déclenche le mur d'activation</div>
+        <div class="trigcard">▶ Un clic sur "Histoire complète"</div>
+        <div class="trigcard">⏹ La fin d'un extrait gratuit</div>
+      </div>
+
       <span class="garrow">→</span>
+
+      <!-- MUR 1 · ACTIVATION GRATUITE -->
+      <div class="fam fgate mur">
+        <div class="flabel"><span class="murtag">MUR 1 · GRATUIT</span> Débloquer le cadeau</div>
+        <div class="fcards">
+          <div class="scard">
+            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/07-offre-gratuite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+            <div class="sn">Mur 1 · activation</div><div class="nm">Récupère tes histoires</div>
+            <ul><li><b>Conversion :</b> on demande le compte à l'instant précis d'intention maximale (l'utilisateur veut écouter CETTE histoire), pas avant, ce qui maximise le taux de création de compte</li><li><b>Psycho :</b> "sans carte, rien ne se déclenche", le compte sert à débloquer un cadeau, pas à payer, l'inscription est vécue comme un gain et non comme un péage</li><li><b>Business :</b> les ~30 min offertes sont aux frais de Kidsono, coût d'acquisition assumé pour amorcer l'habitude et capturer l'e-mail</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="conn">OK → on crée le compte, puis on personnalise</div>
 
       <!-- COMPTE -->
       <div class="fam fa">
@@ -195,8 +242,8 @@
 
       <!-- ÉCOUTE + DÉCLENCHEURS -->
       <div class="trigzone">
-        <div style="font-size:10px;color:#7a4e00;font-weight:700;line-height:1.4;">Écoute gratuite (~30 min), répartie sur plusieurs jours.</div>
-        <div class="triglabel">▼ Ce qui déclenche le paywall (l'un de ces cas)</div>
+        <div style="font-size:10px;color:#7a4e00;font-weight:700;line-height:1.4;">Cadeau débloqué : écoute gratuite (~30 min), répartie sur plusieurs jours, dans le profil de l'enfant.</div>
+        <div class="triglabel">▼ Ce qui déclenche le mur payant (l'un de ces cas)</div>
         <div class="trigcard">⏱ Le quota d'heures gratuites est épuisé</div>
         <div class="trigcard">⏸ L'enfant est arrêté en plein milieu d'une histoire</div>
         <div class="trigcard">▶ Un clic sur "Lecture" alors qu'il n'y a plus de quota</div>
@@ -205,8 +252,8 @@
       <span class="garrow">→</span>
 
       <!-- PAYWALL -->
-      <div class="fam fpay">
-        <div class="flabel">● Conversion · le paywall (fermable → accès limité)</div>
+      <div class="fam fpay mur">
+        <div class="flabel"><span class="murtag">MUR 2 · PAYANT</span> Conversion · le paywall (fermable → accès limité)</div>
         <div class="fcards">
           <div class="scard">
             <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/1-paywall-valeur.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
@@ -239,7 +286,7 @@
     <div class="scrollhint">← défiler horizontalement · cliquer un écran pour l'agrandir →</div>
   </div>
 
-  <p class="ftnote">Document de présentation, mission conseil Kidsono. Les visuels sont les rendus Claude Design (déposés au fil de l'eau dans le dossier ecrans-finaux-claude-design). Les annotations résument le pourquoi de chaque choix, fondé sur les benchmarks (splash, claim, autorité, réassurance, création de compte, paywall) et les propositions validées en réunion.</p>
+  <p class="ftnote">Document de présentation, mission conseil Kidsono. Parcours mis à jour selon le principe <b>découverte avant compte</b> : exploration libre du catalogue sans inscription, puis deux murs successifs (activation gratuite, puis abonnement). Les visuels sont les rendus Claude Design ou des captures de l'app (exploration libre). Les écrans encore à produire apparaissent comme "à venir" (notamment l'annonce allégée du cadeau). Les annotations résument le pourquoi de chaque choix, fondé sur les benchmarks et les propositions de la mission.</p>
 
 </div>
 
