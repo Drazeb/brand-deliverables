@@ -112,6 +112,15 @@
   .famrow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:8px;}
   .prail{border:1.5px solid;border-bottom-width:3px;border-radius:12px 12px 6px 6px;background:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:4px 10px;width:0;min-width:100%;}
   .scard .warn{margin-top:9px;font-size:9.5px;line-height:1.4;font-weight:700;color:#92400e;background:#fff7e6;border:1px solid #f0dcae;border-radius:7px;padding:6px 8px;}
+  /* marquages de statut d'écran */
+  .scard.st-wait{outline:3px solid #f59e0b;outline-offset:4px;border-radius:6px;}
+  .scard.st-wip{outline:3px solid #d946ef;outline-offset:4px;border-radius:6px;}
+  .stbadge{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#fff;border-radius:6px;padding:4px 9px;align-self:flex-start;}
+  .stbadge.wait{background:#f59e0b;} .stbadge.wip{background:#d946ef;}
+  .warn.wip{color:#86198f;background:#fdf4ff;border-color:#f0abfc;}
+  .scard .infonote{margin-top:9px;font-size:9.5px;line-height:1.4;font-weight:700;color:#3f4756;background:#eef1f6;border:1px solid #d6dde8;border-radius:7px;padding:6px 8px;}
+  /* bannière d'identification de la couche Purchasely (à gauche du parcours) */
+  .lanebanner{flex:none;align-self:stretch;writing-mode:vertical-rl;transform:rotate(180deg);background:#4f46e5;color:#fff;font-weight:800;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;border-radius:11px;padding:16px 11px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.6;}
   .prail .ptag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;border-radius:4px;padding:2px 6px;color:#fff;flex:none;}
   .prail .pid{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:800;line-height:1.1;flex:none;}
   .prail .ptr{font-size:9.5px;font-weight:700;color:#555;line-height:1.3;}
@@ -175,6 +184,8 @@
     </div>
     <div class="flow">
 
+      <div class="lanebanner">Couche Purchasely · configuration des placements</div>
+
       <!-- BLOC : splash natif -->
       <div class="block">
         <div class="prail p-nat"><span class="pid">Natif</span><span class="ptr">Écran de démarrage, géré par l'app</span></div>
@@ -205,11 +216,12 @@
           <div class="fam fl">
             <div class="flabel">● Accroche · claim</div>
             <div class="fcards">
-              <div class="scard">
+              <div class="scard st-wait">
+                <div class="stbadge wait">⏸ En attente · décision Kidsono</div>
                 <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/02-accroche.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
                 <div class="sn">02 · Accroche</div><div class="nm">Le 1er pic</div>
                 <ul><li><b>Positionnement :</b> la signature "Du bon son pour bien grandir" dit qui on est, au lieu d'un superlatif vide non prouvable ("la meilleure app")</li><li><b>Psycho :</b> le pic émotionnel coloré ancre la marque par l'émotion avant toute demande</li><li><b>UX :</b> le carrefour "Déjà un compte ?" évite le mur "tu n'es pas connecté" qui bloquait les revenants</li></ul>
-                <div class="warn">⚠ Si l'équipe Kidsono retire cet écran de claim, le flow <b>onboarding</b> démarrera directement au premier écran du carrousel.</div>
+                <div class="warn"><b>En attente de la décision de l'équipe Kidsono</b> : conserve-t-on cet écran de claim ? S'il est retiré, le flow <b>onboarding</b> démarrera directement au premier écran du carrousel.</div>
               </div>
             </div>
           </div>
@@ -226,11 +238,14 @@
                 <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/06-autorite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
                 <div class="sn">04 · Autorité</div><div class="nm">Le mur des éditeurs</div>
                 <ul><li><b>Confiance :</b> la masse de logos éditeurs fait caution, au moment précis où une marque inconnue doit prouver sa légitimité</li><li><b>Rythme :</b> le fond vert (changement de couleur) signale ce beat de preuve, sans répéter le carrousel</li><li><b>Business :</b> on emprunte la notoriété des éditeurs faute de notoriété propre</li></ul>
+                <div class="infonote">ℹ Possibilité de varier la couleur sur cet écran.</div>
               </div>
-              <div class="scard">
+              <div class="scard st-wip">
+                <div class="stbadge wip">🔧 Work in progress</div>
                 <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-3-securite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
                 <div class="sn">05 · Sécurité</div><div class="nm">Sûr & sans pub</div>
                 <ul><li><b>Confiance :</b> « 100% sécurisé, zéro pub » lève l'angoisse n°1 du parent, le quick win de confiance que le marché FR néglige</li><li><b>Déculpabilisation :</b> minuteur, ergonomie petits et mode avion couvrent les usages réels (voiture, avion, vieux mobile recyclé) et désamorcent le sujet du temps d'écran</li></ul>
+                <div class="warn wip"><b>Refonte de cet écran à venir.</b></div>
               </div>
             </div>
           </div>
