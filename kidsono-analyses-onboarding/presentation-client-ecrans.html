@@ -110,7 +110,7 @@
   /* blocs : card-rail placement au-dessus d'une rangée d'écrans (même colonne = alignement garanti) */
   .block{display:flex;flex-direction:column;gap:9px;flex:none;}
   .famrow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:8px;}
-  .prail{border:1.5px solid;border-bottom-width:3px;border-radius:12px 12px 6px 6px;background:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:4px 10px;width:0;min-width:100%;}
+  .prail{border:1.5px solid;border-bottom-width:3px;border-radius:12px 12px 6px 6px;background:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;align-items:center;align-content:center;gap:4px 10px;width:0;min-width:100%;min-height:104px;}
   .scard .warn{margin-top:9px;font-size:9.5px;line-height:1.4;font-weight:700;color:#92400e;background:#fff7e6;border:1px solid #f0dcae;border-radius:7px;padding:6px 8px;}
   /* marquages de statut d'écran */
   .scard.st-wait{outline:3px solid #f59e0b;outline-offset:4px;border-radius:6px;}
@@ -120,7 +120,7 @@
   .warn.wip{color:#86198f;background:#fdf4ff;border-color:#f0abfc;}
   .scard .infonote{margin-top:9px;font-size:9.5px;line-height:1.4;font-weight:700;color:#3f4756;background:#eef1f6;border:1px solid #d6dde8;border-radius:7px;padding:6px 8px;}
   /* bannière d'identification de la couche Purchasely (à gauche du parcours) */
-  .lanebanner{flex:none;align-self:stretch;writing-mode:vertical-rl;transform:rotate(180deg);background:#4f46e5;color:#fff;font-weight:800;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;border-radius:11px;padding:16px 11px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.6;}
+  .lanebanner{flex:none;align-self:flex-start;width:132px;min-height:104px;box-sizing:border-box;background:#4f46e5;color:#fff;font-weight:800;font-size:11px;letter-spacing:.5px;text-transform:uppercase;border-radius:11px;padding:12px 13px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.45;}
   .prail .ptag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;border-radius:4px;padding:2px 6px;color:#fff;flex:none;}
   .prail .pid{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:800;line-height:1.1;flex:none;}
   .prail .ptr{font-size:9.5px;font-weight:700;color:#555;line-height:1.3;}
@@ -300,8 +300,8 @@
       <div class="block">
         <div class="prail p-ac">
           <span class="ptag">Écran</span><span class="pid">activation_gate</span>
-          <span class="ptr">▶ Apparaît quand on lance une histoire, ou quand un extrait se termine — tant que le cadeau n'a pas encore été récupéré</span>
-          <span class="pret">Ensuite → on passe à la création de compte</span>
+          <span class="ptr">▶ Au lancement d'une histoire ou en fin d'extrait, tant que le cadeau n'a pas été récupéré</span>
+          <span class="pret">Ensuite → création de compte</span>
         </div>
         <div class="famrow">
           <div class="fam fgate mur">
@@ -324,7 +324,7 @@
         <div class="prail p-cc">
           <span class="ptag">Écran</span><span class="pid">account_creation</span>
           <span class="ptr">▶ Apparaît quand on appuie sur « Essayer gratuitement »</span>
-          <span class="pret">Ensuite → connexion avec Apple ou Google</span>
+          <span class="pret">Ensuite → connexion Apple ou Google</span>
         </div>
         <div class="famrow">
           <div class="fam fa">
