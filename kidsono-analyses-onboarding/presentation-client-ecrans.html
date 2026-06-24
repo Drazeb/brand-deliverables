@@ -73,6 +73,68 @@
   .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:4px 0 0 2px;}
   .ftnote{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1180px;}
 
+  /* ===== Couche placements Purchasely ===== */
+  .pmap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px 18px;margin-top:14px;}
+  .pmap .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:5px;}
+  .pmap .sub{font-size:12px;color:#555;line-height:1.5;margin-bottom:13px;max-width:1120px;}
+  .pmap .sub b{color:#191919;}
+  .pmap table{border-collapse:collapse;width:100%;font-size:11.5px;}
+  .pmap th,.pmap td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid #eee;line-height:1.42;}
+  .pmap th{font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;color:#8a8a8a;font-weight:800;border-bottom:1.5px solid #e2e2dc;}
+  .pmap td .pid{font-family:ui-monospace,Menlo,monospace;font-weight:800;font-size:11px;}
+  .pmap td b{color:#191919;}
+  .pmap .tb{display:inline-block;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#fff;border-radius:5px;padding:2px 7px;}
+  .pmap code{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;background:#f1f1ec;border-radius:4px;padding:1px 4px;}
+  .pmap .note{font-size:11px;color:#5a4d2a;background:#fff7e6;border:1px solid #f0dcae;border-radius:9px;padding:10px 13px;margin-top:13px;line-height:1.55;}
+  .pmap .note b{color:#3f3414;}
+
+  /* brackets de placement dans le flow (au-dessus des cartes) */
+  .prow{display:flex;gap:10px;align-items:stretch;}
+  .pcell{flex:none;border-radius:10px 10px 5px 5px;padding:6px 9px 7px;display:flex;flex-direction:column;gap:3px;border:1.5px solid;border-bottom-width:3px;background:#fff;}
+  .pcell .pid{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;line-height:1.12;}
+  .pcell .ptag{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;border-radius:4px;padding:1px 5px;align-self:flex-start;color:#fff;}
+  .pcell .ptr{font-size:9px;line-height:1.28;font-weight:600;color:#555;}
+  .pcell .pcont{font-size:8.5px;font-weight:800;color:#9a9488;text-transform:uppercase;letter-spacing:.3px;}
+  .p-ob{border-color:#4f46e5;} .p-ob .pid{color:#4f46e5;} .p-ob .ptag{background:#4f46e5;}
+  .p-ac{border-color:#0e9f6e;} .p-ac .pid{color:#0b7d56;} .p-ac .ptag{background:#0e9f6e;}
+  .p-cc{border-color:#ea580c;} .p-cc .pid{color:#c2410c;} .p-cc .ptag{background:#ea580c;}
+  .p-pw{border-color:#dc2626;} .p-pw .pid{color:#b91c1c;} .p-pw .ptag{background:#dc2626;}
+  .p-nat{border-color:#cbd5e1;border-style:dashed;background:#f8fafc;} .p-nat .pid{color:#64748b;font-family:inherit;font-size:10px;text-transform:uppercase;letter-spacing:.4px;} .p-nat .ptr{color:#94a3b8;}
+  .prow .pcell{gap:4px;}
+  .pcell .pret{font-size:9px;line-height:1.3;font-weight:600;color:#777;}
+  .pcell .pnote{font-size:8.5px;line-height:1.34;font-weight:700;color:#8a6d1f;background:#fdf6e3;border:1px solid #f0e0b0;border-radius:5px;padding:3px 6px;}
+  .pcell .pst{font-size:8.5px;line-height:1.34;font-weight:800;color:#3f4756;background:#eef1f6;border:1px solid #d6dde8;border-radius:5px;padding:3px 6px;}
+  .pkey{font-size:11px;color:#555;line-height:1.55;background:#faf9f4;border:1px dashed #ddd9cb;border-radius:10px;padding:10px 14px;margin-bottom:14px;}
+  .pkey b{color:#191919;} .pkey code{font-family:ui-monospace,Menlo,monospace;font-size:10px;background:#eceae1;border-radius:4px;padding:1px 4px;}
+
+  /* blocs : card-rail placement au-dessus d'une rangée d'écrans (même colonne = alignement garanti) */
+  .block{display:flex;flex-direction:column;gap:9px;flex:none;}
+  .famrow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:8px;}
+  .prail{border:1.5px solid;border-bottom-width:3px;border-radius:12px 12px 6px 6px;background:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:4px 10px;width:0;min-width:100%;}
+  .scard .warn{margin-top:9px;font-size:9.5px;line-height:1.4;font-weight:700;color:#92400e;background:#fff7e6;border:1px solid #f0dcae;border-radius:7px;padding:6px 8px;}
+  .prail .ptag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;border-radius:4px;padding:2px 6px;color:#fff;flex:none;}
+  .prail .pid{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:800;line-height:1.1;flex:none;}
+  .prail .ptr{font-size:9.5px;font-weight:700;color:#555;line-height:1.3;}
+  .prail .pret{font-size:9.5px;font-weight:600;color:#777;line-height:1.3;}
+  .prail .pst{font-size:8.5px;font-weight:800;line-height:1.32;color:#3f4756;background:#eef1f6;border:1px solid #d6dde8;border-radius:5px;padding:3px 7px;}
+  .prail .pnote{font-size:8.5px;font-weight:700;line-height:1.32;color:#8a6d1f;background:#fdf6e3;border:1px solid #f0e0b0;border-radius:5px;padding:3px 7px;}
+
+  /* encadré explicatif "c'est quoi un placement" */
+  .pintro{background:#f4f1ff;border:1px solid #ddd5f5;border-radius:12px;padding:15px 19px;margin-bottom:14px;}
+  .pintro .pit{font-size:13px;font-weight:800;color:#4f46e5;margin-bottom:9px;}
+  .pintro p{font-size:12.5px;color:#444;line-height:1.55;margin:0 0 8px;}
+  .pintro ul{margin:0 0 8px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .pintro li{font-size:12.5px;color:#444;line-height:1.5;padding-left:17px;position:relative;}
+  .pintro li::before{content:"";position:absolute;left:2px;top:7px;width:7px;height:7px;border-radius:50%;background:#4f46e5;}
+  .pintro b{color:#191919;}
+  /* encadré "à décider avec le CTO" */
+  .ctobox{background:#fff;border:1px solid var(--border);border-left:4px solid #c2410c;border-radius:10px;padding:13px 17px;margin-top:16px;}
+  .ctobox .ct{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#c2410c;margin-bottom:9px;}
+  .ctobox ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .ctobox li{font-size:12.5px;color:#444;line-height:1.5;padding-left:16px;position:relative;}
+  .ctobox li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:2px;background:#c2410c;}
+  .ctobox b{color:#191919;}
+
   /* lightbox */
   #lb{display:none;position:fixed;inset:0;background:rgba(20,20,18,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;}
   #lb img{max-width:78vw;max-height:92vh;object-fit:contain;border-radius:10px;box-shadow:0 16px 60px rgba(0,0,0,.6);cursor:default;}
@@ -86,7 +148,7 @@
 <div class="wrap">
 
   <header class="cover">
-    <div class="kicker">Mission Kidsono · Onboarding · Parcours "découverte avant compte"</div>
+    <div class="kicker">Mission Kidsono · Onboarding · Parcours "découverte avant compte" · Couche placements Purchasely</div>
     <h1>Le parcours d'onboarding Kidsono, et le pourquoi de chaque choix</h1>
     <div class="standfirst">Nouveau principe : <b>on laisse explorer le vrai catalogue sans créer de compte</b>. Le compte ne se déclenche qu'au moment où l'on veut vraiment écouter, le catalogue fait la vente. Le parcours comporte alors <b>deux murs successifs</b> : un premier mur gratuit (créer le compte pour débloquer le cadeau de bienvenue), puis, une fois les heures gratuites épuisées, le mur payant (l'abonnement). Parcours déroulé écran par écran, défilement horizontal. Pour chaque écran, les <b>points importants</b> : ce qu'on a mis et pourquoi. <b>Cliquez sur un écran pour le voir en grand.</b> Les visuels sont les rendus Claude Design ou des captures de l'app ; les écrans encore en production apparaissent comme "à venir".</div>
   </header>
@@ -106,67 +168,93 @@
   </div>
 
   <div class="flowbox">
+    <div class="pintro">
+      <div class="pit">La ligne colorée en haut de chaque groupe = la configuration Purchasely</div>
+      <p>Pour chaque écran (ou suite d'écrans), elle indique <b>à quel moment il apparaît</b> et <b>ce qui se passe ensuite</b>. La couleur identifie un placement ; le gris « Natif » = un écran géré par l'app, hors Purchasely.</p>
+      <p><b>L'idée clé :</b> c'est l'app qui sait où en est la personne (cadeau déjà récupéré ? temps gratuit restant ?) et qui choisit, selon ça, quel écran déclencher.</p>
+    </div>
     <div class="flow">
 
-      <!-- LANCEMENT -->
-      <div class="fam fl">
-        <div class="flabel">● Lancement</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/01-splash.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">01 · Splash</div><div class="nm">Logo seul</div>
-            <ul><li><b>UX :</b> un seul signe et du vide, le restraint fait le premium (convergent chez Noom, Aumio, Storytel)</li><li><b>Psycho :</b> on ne vend rien ici, vendre avant d'avoir posé la marque fait fuir</li><li><b>Rythme :</b> splash volontairement au plus bas pour réserver le pic de couleur au claim (montée du désir)</li></ul>
-          </div>
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/02-accroche.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">02 · Accroche</div><div class="nm">Le 1er pic</div>
-            <ul><li><b>Positionnement :</b> la signature "Du bon son pour bien grandir" dit qui on est, au lieu d'un superlatif vide non prouvable ("la meilleure app")</li><li><b>Psycho :</b> le pic émotionnel coloré ancre la marque par l'émotion avant toute demande</li><li><b>UX :</b> le carrefour "Déjà un compte ?" évite le mur "tu n'es pas connecté" qui bloquait les revenants</li></ul>
-          </div>
-        </div>
-      </div>
-
-      <span class="garrow">→</span>
-
-      <!-- VALEUR -->
-      <div class="fam fv">
-        <div class="flabel">● Proposition de valeur · le carrousel</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-1-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">03 · Catalogue</div><div class="nm">Le catalogue</div>
-            <ul><li><b>Psycho :</b> le « 500+ » chiffré et les vraies couvertures prouvent par le concret, plus fort qu'une promesse pour une marque sans notoriété</li><li><b>Business :</b> la pastille « tout le catalogue » pose la valeur que l'abonnement débloquera (wording à border pour ne pas laisser croire que tout est gratuit)</li></ul>
-          </div>
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/06-autorite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">04 · Autorité</div><div class="nm">Le mur des éditeurs</div>
-            <ul><li><b>Confiance :</b> la masse de logos éditeurs fait caution, au moment précis où une marque inconnue doit prouver sa légitimité</li><li><b>Rythme :</b> le fond vert (changement de couleur) signale ce beat de preuve, sans répéter le carrousel</li><li><b>Business :</b> on emprunte la notoriété des éditeurs faute de notoriété propre</li></ul>
-          </div>
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-3-securite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">05 · Sécurité</div><div class="nm">Sûr & sans pub</div>
-            <ul><li><b>Confiance :</b> « 100% sécurisé, zéro pub » lève l'angoisse n°1 du parent, le quick win de confiance que le marché FR néglige</li><li><b>Déculpabilisation :</b> minuteur, ergonomie petits et mode avion couvrent les usages réels (voiture, avion, vieux mobile recyclé) et désamorcent le sujet du temps d'écran</li></ul>
+      <!-- BLOC : splash natif -->
+      <div class="block">
+        <div class="prail p-nat"><span class="pid">Natif</span><span class="ptr">Écran de démarrage, géré par l'app</span></div>
+        <div class="famrow">
+          <div class="fam fl">
+            <div class="flabel">● Lancement</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/01-splash.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">01 · Splash</div><div class="nm">Logo seul</div>
+                <ul><li><b>UX :</b> un seul signe et du vide, le restraint fait le premium (convergent chez Noom, Aumio, Storytel)</li><li><b>Psycho :</b> on ne vend rien ici, vendre avant d'avoir posé la marque fait fuir</li><li><b>Rythme :</b> splash volontairement au plus bas pour réserver le pic de couleur au claim (montée du désir)</li></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <span class="garrow">→</span>
 
-      <!-- ANNONCE DU CADEAU -->
-      <div class="fam ff">
-        <div class="flabel">● Annonce du cadeau</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/_annonce-cadeau.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">07 · Annonce</div><div class="nm">Le cadeau de bienvenue</div>
-            <ul><li><b>Teasing :</b> dès l'entrée dans le catalogue, une carte « cadeau de bienvenue » présente les premières histoires offertes, sans rien demander, elle met en appétit sans bloquer</li><li><b>Confiance :</b> « rien à payer, pas de carte, aucun abonnement, sans publicité » lève d'emblée l'anxiété du piège, et l'Éducation nationale surlignée pose la caution</li><li><b>Conversion :</b> « Écouter maintenant » amorce l'envie, le déblocage réel (création de compte) se joue ensuite, au moment d'écouter</li></ul>
+      <!-- BLOC : onboarding (flow Purchasely, 02 → 07) -->
+      <div class="block">
+        <div class="prail p-ob">
+          <span class="ptag">Flow</span><span class="pid">onboarding</span>
+          <span class="ptr">▶ Apparaît à la toute première ouverture de l'app</span>
+          <span class="pret">Ensuite → l'app ouvre le catalogue</span>
+        </div>
+        <div class="famrow">
+          <div class="fam fl">
+            <div class="flabel">● Accroche · claim</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/02-accroche.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">02 · Accroche</div><div class="nm">Le 1er pic</div>
+                <ul><li><b>Positionnement :</b> la signature "Du bon son pour bien grandir" dit qui on est, au lieu d'un superlatif vide non prouvable ("la meilleure app")</li><li><b>Psycho :</b> le pic émotionnel coloré ancre la marque par l'émotion avant toute demande</li><li><b>UX :</b> le carrefour "Déjà un compte ?" évite le mur "tu n'es pas connecté" qui bloquait les revenants</li></ul>
+                <div class="warn">⚠ Si l'équipe Kidsono retire cet écran de claim, le flow <b>onboarding</b> démarrera directement au premier écran du carrousel.</div>
+              </div>
+            </div>
+          </div>
+          <span class="garrow">→</span>
+          <div class="fam fv">
+            <div class="flabel">● Proposition de valeur · le carrousel</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-1-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">03 · Catalogue</div><div class="nm">Le catalogue</div>
+                <ul><li><b>Psycho :</b> le « 500+ » chiffré et les vraies couvertures prouvent par le concret, plus fort qu'une promesse pour une marque sans notoriété</li><li><b>Business :</b> la pastille « tout le catalogue » pose la valeur que l'abonnement débloquera (wording à border pour ne pas laisser croire que tout est gratuit)</li></ul>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/06-autorite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">04 · Autorité</div><div class="nm">Le mur des éditeurs</div>
+                <ul><li><b>Confiance :</b> la masse de logos éditeurs fait caution, au moment précis où une marque inconnue doit prouver sa légitimité</li><li><b>Rythme :</b> le fond vert (changement de couleur) signale ce beat de preuve, sans répéter le carrousel</li><li><b>Business :</b> on emprunte la notoriété des éditeurs faute de notoriété propre</li></ul>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-3-securite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">05 · Sécurité</div><div class="nm">Sûr & sans pub</div>
+                <ul><li><b>Confiance :</b> « 100% sécurisé, zéro pub » lève l'angoisse n°1 du parent, le quick win de confiance que le marché FR néglige</li><li><b>Déculpabilisation :</b> minuteur, ergonomie petits et mode avion couvrent les usages réels (voiture, avion, vieux mobile recyclé) et désamorcent le sujet du temps d'écran</li></ul>
+              </div>
+            </div>
+          </div>
+          <span class="garrow">→</span>
+          <div class="fam ff">
+            <div class="flabel">● Annonce du cadeau</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/_annonce-cadeau.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">07 · Annonce</div><div class="nm">Le cadeau de bienvenue</div>
+                <ul><li><b>Teasing :</b> dès l'entrée dans le catalogue, une carte « cadeau de bienvenue » présente les premières histoires offertes, sans rien demander, elle met en appétit sans bloquer</li><li><b>Confiance :</b> « rien à payer, pas de carte, aucun abonnement, sans publicité » lève d'emblée l'anxiété du piège, et l'Éducation nationale surlignée pose la caution</li><li><b>Conversion :</b> « Écouter maintenant » amorce l'envie, le déblocage réel (création de compte) se joue ensuite, au moment d'écouter</li></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="conn">L'utilisateur entre dans le vrai catalogue <b>sans créer de compte</b></div>
 
-      <!-- EXPLORATION LIBRE -->
-      <div class="fam fbrowse">
+      <!-- BLOC : exploration native -->
+      <div class="block">
+        <div class="prail p-nat"><span class="pid">Natif</span><span class="ptr">Le catalogue de l'app, exploré librement</span></div>
+        <div class="famrow">
+        <div class="fam fbrowse">
         <div class="flabel">● Exploration libre · sans compte</div>
         <div class="fcards">
           <div class="scard">
@@ -180,6 +268,8 @@
             <ul><li><b>Psycho :</b> l'extrait gratuit fait goûter sans engager, l'envie d'entendre la suite devient le moteur de l'inscription</li><li><b>UX :</b> deux portes claires sur la fiche, "Extrait gratuit" (libre) et "Histoire complète" (qui déclenche le mur)</li></ul>
           </div>
         </div>
+        </div>
+        </div>
       </div>
 
       <!-- DÉCLENCHEUR DU MUR 1 -->
@@ -191,47 +281,84 @@
 
       <span class="garrow">→</span>
 
-      <!-- MUR 1 · ACTIVATION GRATUITE -->
-      <div class="fam fgate mur">
-        <div class="flabel"><span class="murtag">MUR 1 · GRATUIT</span> Activation : la modale cadeau</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>modale (en conception)</div><img src="ecrans-finaux-claude-design/_mur1-modale.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">Mur 1 · activation</div><div class="nm">Modale au moment d'écouter</div>
-            <ul><li><b>Conversion :</b> on demande le compte à l'instant précis d'intention maximale (l'utilisateur veut écouter CETTE histoire), pas avant, ce qui maximise le taux de création de compte</li><li><b>Psycho :</b> "sans carte, rien ne se déclenche", le compte sert à débloquer un cadeau, pas à payer, l'inscription est vécue comme un gain et non comme un péage</li><li><b>Business :</b> les ~30 min offertes sont aux frais de Kidsono, coût d'acquisition assumé pour amorcer l'habitude et capturer l'e-mail</li></ul>
+      <!-- BLOC : activation_gate (Mur 1) -->
+      <div class="block">
+        <div class="prail p-ac">
+          <span class="ptag">Écran</span><span class="pid">activation_gate</span>
+          <span class="ptr">▶ Apparaît quand on lance une histoire, ou quand un extrait se termine — tant que le cadeau n'a pas encore été récupéré</span>
+          <span class="pret">Ensuite → on passe à la création de compte</span>
+        </div>
+        <div class="famrow">
+          <div class="fam fgate mur">
+            <div class="flabel"><span class="murtag">MUR 1 · GRATUIT</span> Activation : la modale cadeau</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>modale (en conception)</div><img src="ecrans-finaux-claude-design/_mur1-modale.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Mur 1 · activation</div><div class="nm">Modale au moment d'écouter</div>
+                <ul><li><b>Conversion :</b> on demande le compte à l'instant précis d'intention maximale (l'utilisateur veut écouter CETTE histoire), pas avant, ce qui maximise le taux de création de compte</li><li><b>Psycho :</b> "sans carte, rien ne se déclenche", le compte sert à débloquer un cadeau, pas à payer, l'inscription est vécue comme un gain et non comme un péage</li><li><b>Business :</b> les ~30 min offertes sont aux frais de Kidsono, coût d'acquisition assumé pour amorcer l'habitude et capturer l'e-mail</li></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="conn">OK → on crée le compte, puis on personnalise</div>
 
-      <!-- COMPTE -->
-      <div class="fam fa">
-        <div class="flabel">● Création de compte</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/08-creation-compte.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">08 · Compte</div><div class="nm">Création de compte</div>
-            <ul><li><b>Friction :</b> Apple/Google = 1 tap au lieu de saisir un email et attendre, moins d'abandon au moment-clé du déblocage</li><li><b>Standard :</b> le SSO est absent du segment FR enfant, l'ajouter place Kidsono au-dessus du marché local</li><li><b>UX :</b> écran gardé léger (pas de logo redondant avec l'illustration) pour ne pas alourdir l'inscription</li></ul>
+      <!-- BLOC : account_creation (08) -->
+      <div class="block">
+        <div class="prail p-cc">
+          <span class="ptag">Écran</span><span class="pid">account_creation</span>
+          <span class="ptr">▶ Apparaît quand on appuie sur « Essayer gratuitement »</span>
+          <span class="pret">Ensuite → connexion avec Apple ou Google</span>
+        </div>
+        <div class="famrow">
+          <div class="fam fa">
+            <div class="flabel">● Création de compte</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/08-creation-compte.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">08 · Compte</div><div class="nm">Création de compte</div>
+                <ul><li><b>Friction :</b> Apple/Google = 1 tap au lieu de saisir un email et attendre, moins d'abandon au moment-clé du déblocage</li><li><b>Standard :</b> le SSO est absent du segment FR enfant, l'ajouter place Kidsono au-dessus du marché local</li><li><b>UX :</b> écran gardé léger (pas de logo redondant avec l'illustration) pour ne pas alourdir l'inscription</li></ul>
+              </div>
+            </div>
           </div>
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/09-code-verification.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">09 · Compte</div><div class="nm">Saisie du code</div>
-            <ul><li><b>Compréhension :</b> on garde le mot "lien magique" que les gens connaissent, même si techniquement c'est un code, le wording prime sur l'exactitude</li><li><b>Tech :</b> le système de code existant est conservé pour ne pas charger le CTO (réalignement visuel à la DA plus tard)</li></ul>
+        </div>
+      </div>
+
+      <!-- BLOC : code natif (09) -->
+      <div class="block">
+        <div class="prail p-nat">
+          <span class="pid">Natif</span><span class="ptr">Saisie du code reçu par e-mail</span>
+        </div>
+        <div class="famrow">
+          <div class="fam fa">
+            <div class="flabel">● Vérification</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/09-code-verification.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">09 · Compte</div><div class="nm">Saisie du code</div>
+                <ul><li><b>Compréhension :</b> on garde le mot "lien magique" que les gens connaissent, même si techniquement c'est un code, le wording prime sur l'exactitude</li><li><b>Tech :</b> le système de code existant est conservé pour ne pas charger le CTO (réalignement visuel à la DA plus tard)</li></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <span class="garrow">→</span>
 
-      <!-- PROFIL (après le compte) -->
-      <div class="fam fp">
-        <div class="flabel">● Profil et personnalisation</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/10-profil.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">10 · Profil</div><div class="nm">Profil et perso.</div>
-            <ul><li><b>UX :</b> la perso vient APRÈS le compte, configurer l'enfant une fois connecté évite de bloquer l'entrée</li><li><b>Rétention :</b> un profil par enfant prépare des recommandations à sa hauteur (réusage)</li><li><b>Friction :</b> multi-profil optionnel (skippable) pour ne pas alourdir l'inscription</li></ul>
+      <!-- BLOC : profil natif -->
+      <div class="block">
+        <div class="prail p-nat"><span class="pid">Natif</span><span class="ptr">Choix du profil de l'enfant</span></div>
+        <div class="famrow">
+          <div class="fam fp">
+            <div class="flabel">● Profil et personnalisation</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/10-profil.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">10 · Profil</div><div class="nm">Profil et perso.</div>
+                <ul><li><b>UX :</b> la perso vient APRÈS le compte, configurer l'enfant une fois connecté évite de bloquer l'entrée</li><li><b>Rétention :</b> un profil par enfant prépare des recommandations à sa hauteur (réusage)</li><li><b>Friction :</b> multi-profil optionnel (skippable) pour ne pas alourdir l'inscription</li></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -242,31 +369,54 @@
       <div class="trigzone">
         <div style="font-size:10px;color:#7a4e00;font-weight:700;line-height:1.4;">Cadeau débloqué : écoute gratuite (~30 min), répartie sur plusieurs jours, dans le profil de l'enfant.</div>
         <div class="triglabel">▼ Ce qui déclenche le mur payant (l'un de ces cas)</div>
-        <div class="trigcard">⏱ Le quota d'heures gratuites est épuisé</div>
+        <div class="trigcard">⏱ Le temps gratuit est épuisé</div>
         <div class="trigcard">⏸ L'enfant est arrêté en plein milieu d'une histoire</div>
-        <div class="trigcard">▶ Un clic sur "Lecture" alors qu'il n'y a plus de quota</div>
+        <div class="trigcard">▶ Un clic sur "Lecture" alors qu'il ne reste plus de temps gratuit</div>
       </div>
 
       <span class="garrow">→</span>
 
-      <!-- PAYWALL -->
-      <div class="fam fpay mur">
-        <div class="flabel"><span class="murtag">MUR 2 · PAYANT</span> Conversion · le paywall (fermable → accès limité)</div>
-        <div class="fcards">
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/1-paywall-valeur.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">11 · Paywall</div><div class="nm">La valeur (le pic)</div>
-            <ul><li><b>Psycho :</b> le mur de couvertures matérialise la perte ("voilà ce que vous ratez"), levier d'aversion à la perte au moment de décider</li><li><b>Confiance :</b> autorité + Éducation nationale ici, le signal de confiance a son effet maximal à l'instant de payer</li><li><b>Rythme :</b> 2e pic visuel (pic en haut, prix au calme en bas), un paywall doit "péter" sans noyer les prix</li></ul>
+      <!-- BLOC : paywall (11, 12) -->
+      <div class="block">
+        <div class="prail p-pw">
+          <span class="ptag">Flow</span><span class="pid">paywall</span>
+          <span class="ptr">▶ Apparaît quand le temps gratuit est dépassé pendant l'écoute, ou quand on relance une histoire une fois le cadeau épuisé</span>
+          <span class="pret">Ensuite → s'abonne : tout le catalogue s'ouvre · ferme : il reste les extraits gratuits</span>
+        </div>
+        <div class="famrow">
+          <div class="fam fpay mur">
+            <div class="flabel"><span class="murtag">MUR 2 · PAYANT</span> Conversion · le paywall</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/1-paywall-valeur.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">11 · Paywall</div><div class="nm">La valeur (le pic)</div>
+                <ul><li><b>Psycho :</b> le mur de couvertures matérialise la perte ("voilà ce que vous ratez"), levier d'aversion à la perte au moment de décider</li><li><b>Confiance :</b> autorité + Éducation nationale ici, le signal de confiance a son effet maximal à l'instant de payer</li><li><b>Rythme :</b> 2e pic visuel (pic en haut, prix au calme en bas), un paywall doit "péter" sans noyer les prix</li></ul>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/2-paywall-formules.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">12 · Paywall</div><div class="nm">Choix du palier</div>
+                <ul><li><b>Décision :</b> formules nommées par l'usage ("pour la maison") pour aider le parent à se projeter plutôt qu'à calculer des heures</li><li><b>Conversion :</b> la formule recommandée présélectionnée sert d'ancrage, on guide sans forcer</li><li><b>Confiance :</b> les 3 garanties juste avant le paiement, la réassurance culmine à l'instant de sortir la carte</li></ul>
+              </div>
+            </div>
           </div>
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/2-paywall-formules.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">12 · Paywall</div><div class="nm">Choix du palier</div>
-            <ul><li><b>Décision :</b> formules nommées par l'usage ("pour la maison") pour aider le parent à se projeter plutôt qu'à calculer des heures</li><li><b>Conversion :</b> la formule recommandée présélectionnée sert d'ancrage, on guide sans forcer</li><li><b>Confiance :</b> les 3 garanties juste avant le paiement, la réassurance culmine à l'instant de sortir la carte</li></ul>
-          </div>
-          <div class="scard">
-            <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/3-paiement-apple.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
-            <div class="sn">13 · Paywall</div><div class="nm">Modale Apple</div>
-            <ul><li><b>Friction :</b> le CTA ouvre direct la modale native, pas d'écran de confirmation maison, chaque écran en plus = de l'abandon</li><li><b>Confiance :</b> paiement géré par Apple, pas de carte saisie dans l'app, résiliation centralisée</li></ul>
+        </div>
+      </div>
+
+      <!-- BLOC : modale Apple native (13) -->
+      <div class="block">
+        <div class="prail p-nat">
+          <span class="pid">Apple</span><span class="ptr">Fenêtre de paiement d'Apple</span>
+        </div>
+        <div class="famrow">
+          <div class="fam fpay">
+            <div class="flabel">● Modale Apple</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/3-paiement-apple.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">13 · Paywall</div><div class="nm">Modale Apple</div>
+                <ul><li><b>Friction :</b> le CTA ouvre direct la modale native, pas d'écran de confirmation maison, chaque écran en plus = de l'abandon</li><li><b>Confiance :</b> paiement géré par Apple, pas de carte saisie dans l'app, résiliation centralisée</li></ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -282,6 +432,15 @@
 
     </div>
     <div class="scrollhint">← défiler horizontalement · cliquer un écran pour l'agrandir →</div>
+  </div>
+
+  <div class="ctobox">
+    <div class="ct">À décider avec le CTO</div>
+    <ul>
+      <li><b>L'écran de saisie du code (09)</b> : on le garde dans l'app comme aujourd'hui, ou on l'intègre dans Purchasely ? À décider ensemble.</li>
+      <li><b>L'écran de création de compte</b> peut servir partout où l'app demande de créer un compte, pas seulement ici.</li>
+      <li><b>La fenêtre de paiement d'Apple</b> : à voir avec le CTO comment elle s'ouvre après le choix de la formule.</li>
+    </ul>
   </div>
 
   <p class="ftnote">Document de présentation, mission conseil Kidsono. Parcours mis à jour selon le principe <b>découverte avant compte</b> : exploration libre du catalogue sans inscription, puis deux murs successifs (activation gratuite, puis abonnement). Les visuels sont les rendus Claude Design ou des captures de l'app (exploration libre). Les écrans encore à produire apparaissent comme "à venir" (notamment l'annonce allégée du cadeau). Les annotations résument le pourquoi de chaque choix, fondé sur les benchmarks et les propositions de la mission.</p>
