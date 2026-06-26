@@ -143,6 +143,12 @@
   .clickhint{background:#fffbe6;border:2px solid var(--yellow,#FFCB02);border-radius:11px;padding:12px 11px;text-align:center;line-height:1.4;box-shadow:2px 2px 0 rgba(0,0,0,.07);}
   .clickhint .ch-ic{display:block;font-size:20px;margin-bottom:5px;}
   .clickhint .ch-tx{font-size:11px;font-weight:800;color:#7a5b12;}
+  /* écrans natifs : hachures = existants dans l'app, non refaits */
+  .nat-hatch{background:repeating-linear-gradient(45deg,#efece4,#efece4 7px,#e4e0d5 7px,#e4e0d5 14px);border:1.5px dashed #b0aa9a;border-radius:16px;}
+  .native-zone{flex:none;display:flex;flex-direction:column;gap:10px;padding:11px 11px 13px;background:repeating-linear-gradient(45deg,#efece4,#efece4 7px,#e4e0d5 7px,#e4e0d5 14px);border:1.5px dashed #b0aa9a;border-radius:16px;}
+  .nz-banner{align-self:flex-start;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#5f5a4d;background:#fff;border:1px solid #cfcabb;border-radius:7px;padding:5px 11px;}
+  .nz-row{display:flex;flex-direction:row;align-items:flex-start;gap:8px;}
+  .block.nat{padding:11px;background:repeating-linear-gradient(45deg,#efece4,#efece4 7px,#e4e0d5 7px,#e4e0d5 14px);border:1.5px dashed #b0aa9a;border-radius:16px;}
   /* encadré "à décider avec le CTO" */
   .ctobox{background:#fff;border:1px solid var(--border);border-left:4px solid #c2410c;border-radius:10px;padding:13px 17px;margin-top:16px;}
   .ctobox .ct{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#c2410c;margin-bottom:9px;}
@@ -186,6 +192,7 @@
     <div class="pintro">
       <div class="pit">La ligne colorée en haut de chaque groupe = la configuration Purchasely</div>
       <p>Pour chaque écran (ou suite d'écrans), elle indique <b>à quel moment il apparaît</b> et <b>ce qui se passe ensuite</b>. La couleur identifie un placement ; le gris « Natif » = un écran géré par l'app, hors Purchasely.</p>
+      <p>Les écrans sur <b>fond hachuré</b> sont <b>natifs : ils existent déjà dans l'app et ne sont pas refaits</b>. Tout le flot de la création de compte jusqu'au lecteur est dans ce cas.</p>
       <p><b>L'idée clé :</b> c'est l'app qui sait où en est la personne (cadeau déjà récupéré ? temps gratuit restant ?) et qui choisit, selon ça, quel écran déclencher.</p>
     </div>
     <div class="flow">
@@ -196,7 +203,7 @@
       </div>
 
       <!-- BLOC : splash natif -->
-      <div class="block">
+      <div class="block nat">
         <div class="prail p-nat"><span class="pid">Natif</span><span class="ptr">Écran de démarrage, géré par l'app</span></div>
         <div class="famrow">
           <div class="fam fl">
@@ -279,7 +286,7 @@
       <div class="conn">L'utilisateur entre dans le vrai catalogue <b>sans créer de compte</b></div>
 
       <!-- BLOC : exploration native -->
-      <div class="block">
+      <div class="block nat">
         <div class="prail p-nat"><span class="pid">Natif</span><span class="ptr">Le catalogue de l'app, exploré librement</span></div>
         <div class="famrow">
         <div class="fam fbrowse">
@@ -331,6 +338,10 @@
       </div>
 
       <div class="conn">OK → on crée le compte, puis on personnalise</div>
+
+      <div class="native-zone">
+        <div class="nz-banner">🔧 Écrans natifs de l'app · déjà existants, non refaits</div>
+        <div class="nz-row">
 
       <!-- BLOC : account_creation (08) -->
       <div class="block">
@@ -433,6 +444,9 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
         </div>
       </div>
 
