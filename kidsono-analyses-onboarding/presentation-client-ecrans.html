@@ -136,6 +136,11 @@
   .pintro li{font-size:12.5px;color:#444;line-height:1.5;padding-left:17px;position:relative;}
   .pintro li::before{content:"";position:absolute;left:2px;top:7px;width:7px;height:7px;border-radius:50%;background:#4f46e5;}
   .pintro b{color:#191919;}
+  /* rail gauche sticky : bannière placements + mention cliquer pour agrandir */
+  .leftrail{flex:none;position:sticky;left:0;z-index:6;align-self:stretch;display:flex;flex-direction:column;gap:9px;width:132px;background:var(--surface);padding-right:2px;}
+  .clickhint{background:#fffbe6;border:2px solid var(--yellow,#FFCB02);border-radius:11px;padding:12px 11px;text-align:center;line-height:1.4;box-shadow:2px 2px 0 rgba(0,0,0,.07);}
+  .clickhint .ch-ic{display:block;font-size:20px;margin-bottom:5px;}
+  .clickhint .ch-tx{font-size:11px;font-weight:800;color:#7a5b12;}
   /* encadré "à décider avec le CTO" */
   .ctobox{background:#fff;border:1px solid var(--border);border-left:4px solid #c2410c;border-radius:10px;padding:13px 17px;margin-top:16px;}
   .ctobox .ct{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#c2410c;margin-bottom:9px;}
@@ -184,7 +189,10 @@
     </div>
     <div class="flow">
 
-      <div class="lanebanner">Couche Purchasely · configuration des placements</div>
+      <div class="leftrail">
+        <div class="lanebanner">Couche Purchasely · configuration des placements</div>
+        <div class="clickhint"><span class="ch-ic">👆</span><span class="ch-tx">Cliquez sur les écrans pour les voir en grand</span></div>
+      </div>
 
       <!-- BLOC : splash natif -->
       <div class="block">
