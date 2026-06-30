@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding de lancement · Kidsono</title>
+<style>
+  :root{--bg:#f6f6f2;--surface:#fff;--border:#e6e6e0;--text:#191919;--muted:#6e6e6e;--accent-dark:#e2492f;--yellow:#FFCB02;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:min(96vw,1960px);margin:0 auto;padding:28px 24px 70px;}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 38px 26px;}
+  .kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.18;font-weight:700;margin:13px 0 10px;max-width:960px;}
+  .cover .vbadge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#475569;background:#eef1f4;border:1px solid #d3dae1;border-radius:7px;padding:5px 11px;}
+  .standfirst{font-size:14px;color:#444;max-width:1000px;line-height:1.6;margin-top:10px;} .standfirst b{color:#191919;}
+
+  .legend{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-top:14px;}
+  .legend .lt{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;}
+  .legend .row{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;}
+  .lchip{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:#444;}
+  .ldot{width:13px;height:13px;border-radius:4px;flex:none;}
+  .lchip.nat .ldot{background:repeating-linear-gradient(45deg,#efece4,#efece4 4px,#b0aa9a 4px,#b0aa9a 7px);border:1px solid #b0aa9a;}
+
+  .flowbox{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 20px 14px;margin-top:14px;}
+  .flow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:8px;overflow-x:auto;padding-bottom:14px;}
+
+  .fam{flex:none;display:inline-flex;flex-direction:column;gap:10px;border:1px solid;border-radius:16px;padding:11px 12px 13px;background:#fff;}
+  .fam .flabel{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--fc);}
+  .fam .fcards{display:flex;gap:10px;align-items:flex-start;}
+  .fl{--fc:#475569;border-color:#e8ebef;} .fv{--fc:#7c3aed;border-color:#efe8fb;}
+  .fp{--fc:#db2777;border-color:#fbe2ee;} .fa{--fc:#ea580c;border-color:#fce6d6;} .fpay{--fc:#dc2626;border-color:#fce1e3;}
+  .fbrowse{--fc:#0d9488;border-color:#cbeae6;} .fgate{--fc:#0e9f6e;border-color:#cdeede;}
+  /* murs : carte d'accent plus marquée */
+  .mur{border-width:2px;box-shadow:0 2px 0 var(--fc);}
+  .murtag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.4px;color:#fff;background:var(--fc);border-radius:5px;padding:2px 7px;margin-bottom:2px;}
+
+  .scard{width:194px;flex:none;display:flex;flex-direction:column;gap:7px;}
+  .scard .shot{position:relative;width:100%;border-radius:11px;overflow:hidden;}
+  .scard .shot img{display:block;width:100%;height:auto;cursor:zoom-in;}
+  .ph{display:none;height:340px;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:700;color:#a39f95;background:repeating-linear-gradient(45deg,#f3f1ea,#f3f1ea 11px,#eceae3 11px,#eceae3 22px);padding:12px;gap:3px;border-radius:11px;}
+  .ph b{font-size:13px;color:#8c887e;}
+  .scard .sn{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--fc);}
+  .scard .nm{font-size:12.5px;font-weight:800;color:#191919;margin-top:-3px;}
+
+  .garrow{align-self:center;color:#c4c2b8;font-weight:800;font-size:19px;flex:none;padding-top:150px;}
+  .conn{flex:none;align-self:center;width:140px;font-size:10.5px;font-weight:700;line-height:1.4;color:#7a4e00;background:#fff7e6;border:1px dashed #f0dcae;border-radius:11px;padding:9px 11px;text-align:center;}
+  .trigzone{flex:none;align-self:center;display:flex;flex-direction:column;gap:6px;width:190px;}
+  .triglabel{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#9a6200;margin-top:5px;}
+  .trigcard{font-size:10.5px;font-weight:700;line-height:1.32;color:#7a5b12;background:#fff7e6;border:1px solid #f0dcae;border-radius:9px;padding:8px 10px;}
+  .outwrap{flex:none;align-self:center;display:flex;flex-direction:column;gap:9px;width:194px;}
+  .outcome{font-size:11px;font-weight:700;line-height:1.32;border-radius:11px;padding:10px 12px;}
+  .out-full{background:#ddf4e3;color:#15803d;border:2px solid #bce8c8;}
+  .out-limit{background:#eef1f4;color:#5b6675;border:1px solid #d3dae1;}
+  .out-sn{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:3px;}
+  .loopback{font-size:9.5px;font-weight:700;line-height:1.38;color:#be123c;background:#fff;border:1px dashed #ef9ba0;border-radius:9px;padding:7px 9px;}
+  .scrollhint{font-size:10.5px;color:#b0a98f;font-style:italic;margin:4px 0 0 2px;}
+  .ftnote{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1180px;}
+
+  /* écrans natifs : hachures = existants dans l'app, non refaits */
+  .block{display:flex;flex-direction:column;gap:9px;flex:none;}
+  .famrow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:8px;}
+  .native-zone{flex:none;display:flex;flex-direction:column;gap:10px;padding:11px 11px 13px;background:repeating-linear-gradient(45deg,#efece4,#efece4 7px,#e4e0d5 7px,#e4e0d5 14px);border:1.5px dashed #b0aa9a;border-radius:16px;}
+  .nz-banner{align-self:flex-start;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#5f5a4d;background:#fff;border:1px solid #cfcabb;border-radius:7px;padding:5px 11px;}
+  .nz-row{display:flex;flex-direction:row;align-items:flex-start;gap:8px;}
+  .block.nat{padding:11px;background:repeating-linear-gradient(45deg,#efece4,#efece4 7px,#e4e0d5 7px,#e4e0d5 14px);border:1.5px dashed #b0aa9a;border-radius:16px;}
+  .nattag{align-self:flex-start;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#5f5a4d;background:#fff;border:1px solid #cfcabb;border-radius:6px;padding:3px 8px;margin-bottom:1px;}
+
+  /* rail gauche sticky : mention cliquer pour agrandir */
+  .leftrail{flex:none;position:sticky;left:0;z-index:6;align-self:stretch;display:flex;flex-direction:column;gap:9px;width:132px;background:var(--surface);padding-right:2px;}
+  .clickhint{background:#fffbe6;border:2px solid var(--yellow);border-radius:11px;padding:12px 11px;text-align:center;line-height:1.4;box-shadow:2px 2px 0 rgba(0,0,0,.07);}
+  .clickhint .ch-ic{display:block;font-size:20px;margin-bottom:5px;}
+  .clickhint .ch-tx{font-size:11px;font-weight:800;color:#7a5b12;}
+
+  /* lightbox */
+  #lb{display:none;position:fixed;inset:0;background:rgba(20,20,18,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;}
+  #lb img{max-width:78vw;max-height:92vh;object-fit:contain;border-radius:10px;box-shadow:0 16px 60px rgba(0,0,0,.6);cursor:default;}
+  #lb .close{position:fixed;top:18px;right:26px;color:#fff;font-size:34px;font-weight:300;opacity:.85;cursor:pointer;line-height:1;}
+  #lb .navbtn{position:fixed;top:50%;transform:translateY(-50%);width:60px;height:60px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:42px;background:rgba(255,255,255,.12);border-radius:50%;cursor:pointer;opacity:.85;user-select:none;}
+  #lb .navbtn:hover{opacity:1;background:rgba(255,255,255,.22);}
+  #lb .prev{left:26px;} #lb .next{right:26px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Parcours découverte avant compte</div>
+    <h1>Onboarding de lancement</h1>
+    <span class="vbadge">Version retenue · V1</span>
+    <p class="standfirst">Le déroulé du parcours d'onboarding retenu pour le lancement, un écran par carte, dans l'ordre. <b>Les écrans sur fond hachuré sont natifs</b> (déjà existants dans l'app, non refaits) ; les autres sont les rendus Claude Design. D'autres variantes à tester (V2, V3) viendront s'ajouter.</p>
+  </header>
+
+  <div class="legend">
+    <div class="lt">Les phases du parcours · du gris au rouge, sans compte puis après compte</div>
+    <div class="row">
+      <span class="lchip"><span class="ldot" style="background:#475569;"></span>Lancement</span>
+      <span class="lchip"><span class="ldot" style="background:#7c3aed;"></span>Proposition de valeur (carrousel + autorité)</span>
+      <span class="lchip"><span class="ldot" style="background:#0d9488;"></span>Exploration libre du catalogue</span>
+      <span class="lchip"><span class="ldot" style="background:#0e9f6e;"></span>Mur 1 · activation gratuite</span>
+      <span class="lchip"><span class="ldot" style="background:#ea580c;"></span>Création de compte</span>
+      <span class="lchip"><span class="ldot" style="background:#db2777;"></span>Profil et personnalisation</span>
+      <span class="lchip"><span class="ldot" style="background:#dc2626;"></span>Mur 2 · conversion payante</span>
+      <span class="lchip nat"><span class="ldot"></span>Écran natif (déjà dans l'app)</span>
+    </div>
+  </div>
+
+  <div class="flowbox">
+    <div class="flow">
+
+      <div class="leftrail">
+        <div class="clickhint"><span class="ch-ic">👉</span><span class="ch-tx">Cliquez sur les écrans pour les voir en grand</span></div>
+      </div>
+
+      <!-- BLOC : splash natif -->
+      <div class="block nat">
+        <span class="nattag">🔧 Natif</span>
+        <div class="famrow">
+          <div class="fam fl">
+            <div class="flabel">● Lancement</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/01-splash.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">01 · Splash</div><div class="nm">Logo seul</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- BLOC : claim + carrousel de valeur -->
+      <div class="block">
+        <div class="famrow">
+          <div class="fam fl">
+            <div class="flabel">● Accroche · claim</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/02-accroche.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">02 · Accroche</div><div class="nm">Le claim</div>
+              </div>
+            </div>
+          </div>
+          <span class="garrow">→</span>
+          <div class="fam fv">
+            <div class="flabel">● Proposition de valeur · le carrousel</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-1-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">03 · Catalogue</div><div class="nm">Le catalogue</div>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/06-autorite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">04 · Autorité</div><div class="nm">Le mur des éditeurs</div>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/valeur-3-securite.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">05 · Sécurité</div><div class="nm">Sûr &amp; sans pub</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conn">L'utilisateur entre dans le vrai catalogue <b>sans créer de compte</b></div>
+
+      <!-- BLOC : exploration native -->
+      <div class="block nat">
+        <span class="nattag">🔧 Natif</span>
+        <div class="famrow">
+          <div class="fam fbrowse">
+            <div class="flabel">● Exploration libre · sans compte</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/app-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Accueil</div><div class="nm">Navigation libre</div>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/app-fiche-extrait.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Fiche histoire</div><div class="nm">Extrait gratuit</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DÉCLENCHEUR DU MUR 1 -->
+      <div class="trigzone">
+        <div class="triglabel">▼ Ce qui déclenche le mur d'activation</div>
+        <div class="trigcard">▶ Un clic sur "Histoire complète"</div>
+        <div class="trigcard">⏹ La fin d'un extrait gratuit</div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- BLOC : Mur 1 -->
+      <div class="block">
+        <div class="famrow">
+          <div class="fam fgate mur">
+            <div class="flabel"><span class="murtag">MUR 1 · GRATUIT</span> Activation : la modale cadeau</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>modale</div><img src="ecrans-finaux-claude-design/_mur1-modale.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Mur 1 · activation</div><div class="nm">Modale au moment d'écouter</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conn">OK → on crée le compte, puis on personnalise</div>
+
+      <!-- ZONE NATIVE : compte → code → profil → navigation → lecteur -->
+      <div class="native-zone">
+        <div class="nz-banner">🔧 Écrans natifs de l'app · déjà existants, non refaits</div>
+        <div class="nz-row">
+
+          <div class="block">
+            <div class="famrow">
+              <div class="fam fa">
+                <div class="flabel">● Création de compte</div>
+                <div class="fcards">
+                  <div class="scard">
+                    <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/08-creation-compte.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                    <div class="sn">08 · Compte</div><div class="nm">Création de compte</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="famrow">
+              <div class="fam fa">
+                <div class="flabel">● Vérification</div>
+                <div class="fcards">
+                  <div class="scard">
+                    <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/09-code-verification.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                    <div class="sn">09 · Compte</div><div class="nm">Saisie du code</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span class="garrow">→</span>
+
+          <div class="block">
+            <div class="famrow">
+              <div class="fam fp">
+                <div class="flabel">● Profil et personnalisation</div>
+                <div class="fcards">
+                  <div class="scard">
+                    <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/10-profil.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                    <div class="sn">10 · Profil</div><div class="nm">Profil et perso.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span class="garrow">→</span>
+
+          <div class="block">
+            <div class="famrow">
+              <div class="fam fbrowse">
+                <div class="flabel">● Navigation dans l'app</div>
+                <div class="fcards">
+                  <div class="scard">
+                    <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/app-catalogue.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                    <div class="sn">Accueil</div><div class="nm">Navigation</div>
+                  </div>
+                  <div class="scard">
+                    <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/app-fiche-extrait.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                    <div class="sn">Fiche histoire</div><div class="nm">Lance l'histoire</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <span class="garrow">→</span>
+
+          <div class="block">
+            <div class="famrow">
+              <div class="fam fl">
+                <div class="flabel">● Lecteur</div>
+                <div class="fcards">
+                  <div class="scard">
+                    <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/lecteur-natif.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                    <div class="sn">Lecteur</div><div class="nm">Écoute en cours</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- ÉCOUTE + DÉCLENCHEURS DU MUR PAYANT -->
+      <div class="trigzone">
+        <div style="font-size:10px;color:#7a4e00;font-weight:700;line-height:1.4;">Cadeau débloqué : écoute gratuite (~30 min), répartie sur plusieurs jours, dans le profil de l'enfant.</div>
+        <div class="triglabel">▼ Ce qui déclenche le mur payant (l'un de ces cas)</div>
+        <div class="trigcard">⏱ Le temps gratuit est épuisé</div>
+        <div class="trigcard">⏸ L'enfant est arrêté en plein milieu d'une histoire</div>
+        <div class="trigcard">▶ Un clic sur "Lecture" alors qu'il ne reste plus de temps gratuit</div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- BLOC : Mur 2 paywall -->
+      <div class="block">
+        <div class="famrow">
+          <div class="fam fpay mur">
+            <div class="flabel"><span class="murtag">MUR 2 · PAYANT</span> Conversion · le paywall</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/1-paywall-valeur.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">11 · Paywall</div><div class="nm">La valeur</div>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/2-paywall-formules.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">12 · Paywall</div><div class="nm">Choix du palier</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOC : modale Apple native -->
+      <div class="block nat">
+        <span class="nattag">🍏 Natif · Apple</span>
+        <div class="famrow">
+          <div class="fam fpay">
+            <div class="flabel">● Modale Apple</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/3-paiement-apple.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">13 · Paywall</div><div class="nm">Modale Apple</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- BIFURCATION -->
+      <div class="outwrap">
+        <div class="outcome out-full"><span class="out-sn">👑 S'abonne</span>Accès complet à tout le catalogue</div>
+        <div class="outcome out-limit"><span class="out-sn">✕ Ferme ou refuse (n'importe quel écran du paywall)</span>Accès limité : extraits uniquement</div>
+        <div class="loopback">↺ Depuis l'accès limité, un clic sur "Lecture" rouvre le paywall</div>
+      </div>
+
+    </div>
+    <div class="scrollhint">← défiler horizontalement · cliquer un écran pour l'agrandir →</div>
+  </div>
+
+  <p class="ftnote">Document de présentation, mission conseil Kidsono. <b>Onboarding de lancement (V1)</b> selon le principe découverte avant compte : exploration libre du catalogue sans inscription, puis deux murs successifs (activation gratuite, puis abonnement). Les écrans sur fond hachuré sont natifs (déjà dans l'app) ; les autres sont les rendus Claude Design. Les variantes alternatives (V2, V3) seront ajoutées au fil des tests.</p>
+
+</div>
+
+<div id="lb">
+  <span class="close" id="lbclose">&times;</span>
+  <span class="navbtn prev" id="lbprev">&lsaquo;</span>
+  <img id="lbimg" src="">
+  <span class="navbtn next" id="lbnext">&rsaquo;</span>
+</div>
+<script>
+  var lbEl=document.getElementById('lb'), lbImg=document.getElementById('lbimg');
+  var lbList=[], lbIdx=0;
+  function lbVisible(){ return Array.prototype.slice.call(document.querySelectorAll('.scard .shot img')).filter(function(im){ return im.style.display!=='none' && im.naturalWidth>0; }); }
+  function lbShow(){ lbImg.src=lbList[lbIdx].src; }
+  function lbOpen(img){ lbList=lbVisible(); lbIdx=lbList.indexOf(img); if(lbIdx<0)lbIdx=0; lbShow(); lbEl.style.display='flex'; }
+  function lbClose(){ lbEl.style.display='none'; }
+  function lbNav(d){ if(!lbList.length)return; lbIdx=(lbIdx+d+lbList.length)%lbList.length; lbShow(); }
+  document.querySelectorAll('.scard .shot img').forEach(function(img){
+    img.addEventListener('click', function(e){ e.stopPropagation(); lbOpen(img); });
+  });
+  lbEl.addEventListener('click', lbClose);
+  lbImg.addEventListener('click', function(e){ e.stopPropagation(); });
+  document.getElementById('lbclose').addEventListener('click', function(e){ e.stopPropagation(); lbClose(); });
+  document.getElementById('lbprev').addEventListener('click', function(e){ e.stopPropagation(); lbNav(-1); });
+  document.getElementById('lbnext').addEventListener('click', function(e){ e.stopPropagation(); lbNav(1); });
+  document.addEventListener('keydown', function(e){
+    if(lbEl.style.display!=='flex') return;
+    if(e.key==='Escape') lbClose();
+    else if(e.key==='ArrowLeft') lbNav(-1);
+    else if(e.key==='ArrowRight') lbNav(1);
+  });
+</script>
+</body>
+</html>
