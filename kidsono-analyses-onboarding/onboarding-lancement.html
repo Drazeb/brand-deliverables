@@ -70,6 +70,8 @@
   .fam.dev{background:repeating-linear-gradient(45deg,#fdf4e2,#fdf4e2 7px,#f6e3c2 7px,#f6e3c2 14px);}
   .devtag{align-self:flex-start;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#8a5a00;background:#fff;border:1px solid #e6c281;border-radius:6px;padding:3px 8px;margin-bottom:1px;}
   .lchip.dev .ldot{background:repeating-linear-gradient(45deg,#fdf4e2,#fdf4e2 4px,#d9a441 4px,#d9a441 7px);border:1px solid #d9a441;}
+  .scard.dev .shot{outline:2px dashed #d9a441;outline-offset:2px;}
+  .devbadge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#8a5a00;background:#fdf4e2;border:1px solid #e6c281;border-radius:6px;padding:3px 8px;align-self:flex-start;}
 
   /* rail gauche sticky : mention cliquer pour agrandir */
   .leftrail{flex:none;position:sticky;left:0;z-index:6;align-self:stretch;display:flex;flex-direction:column;gap:9px;width:132px;background:var(--surface);padding-right:2px;}
@@ -401,15 +403,15 @@
       <!-- 3 écrans de recharge de temps -->
       <div class="block">
         <div class="famrow">
-          <div class="fam fcredit dev">
-            <span class="devtag">🚧 Natif à développer</span>
+          <div class="fam fcredit">
             <div class="flabel">● Recharge de temps · crédits</div>
             <div class="fcards">
               <div class="scard">
                 <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/credit-1-fintemps.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
                 <div class="sn">Crédit · 1</div><div class="nm">Temps écoulé (enfant)</div>
               </div>
-              <div class="scard">
+              <div class="scard dev">
+                <span class="devbadge">🚧 Natif à développer</span>
                 <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/credit-2-parents.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
                 <div class="sn">Crédit · 2</div><div class="nm">Barrière parentale</div>
               </div>
