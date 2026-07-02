@@ -31,6 +31,7 @@
   .fl{--fc:#475569;border-color:#e8ebef;} .fv{--fc:#7c3aed;border-color:#efe8fb;}
   .fp{--fc:#db2777;border-color:#fbe2ee;} .fa{--fc:#ea580c;border-color:#fce6d6;} .fpay{--fc:#dc2626;border-color:#fce1e3;}
   .fbrowse{--fc:#0d9488;border-color:#cbeae6;} .fgate{--fc:#0e9f6e;border-color:#cdeede;}
+  .fconsent{--fc:#0369a1;border-color:#cfe3f2;} .fcredit{--fc:#b45309;border-color:#f0e0c4;}
   /* murs : carte d'accent plus marquée */
   .mur{border-width:2px;box-shadow:0 2px 0 var(--fc);}
   .murtag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.4px;color:#fff;background:var(--fc);border-radius:5px;padding:2px 7px;margin-bottom:2px;}
@@ -96,11 +97,13 @@
     <div class="row">
       <span class="lchip"><span class="ldot" style="background:#475569;"></span>Lancement</span>
       <span class="lchip"><span class="ldot" style="background:#7c3aed;"></span>Proposition de valeur (carrousel + autorité)</span>
+      <span class="lchip"><span class="ldot" style="background:#0369a1;"></span>Consentement données</span>
       <span class="lchip"><span class="ldot" style="background:#0d9488;"></span>Exploration libre du catalogue</span>
       <span class="lchip"><span class="ldot" style="background:#0e9f6e;"></span>Mur 1 · activation gratuite</span>
       <span class="lchip"><span class="ldot" style="background:#ea580c;"></span>Création de compte</span>
       <span class="lchip"><span class="ldot" style="background:#db2777;"></span>Profil et personnalisation</span>
       <span class="lchip"><span class="ldot" style="background:#dc2626;"></span>Mur 2 · conversion payante</span>
+      <span class="lchip"><span class="ldot" style="background:#b45309;"></span>Recharge de temps (crédits)</span>
       <span class="lchip nat"><span class="ldot"></span>Écran natif (déjà dans l'app)</span>
     </div>
   </div>
@@ -139,6 +142,16 @@
               <div class="scard">
                 <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/02-accroche.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
                 <div class="sn">02 · Accroche</div><div class="nm">Le claim</div>
+              </div>
+            </div>
+          </div>
+          <span class="garrow">→</span>
+          <div class="fam fconsent">
+            <div class="flabel">● Consentement · données</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/consent-donnees.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Consentement</div><div class="nm">Vos données</div>
               </div>
             </div>
           </div>
@@ -354,6 +367,52 @@
         <div class="outcome out-full"><span class="out-sn">👑 S'abonne</span>Accès complet à tout le catalogue</div>
         <div class="outcome out-limit"><span class="out-sn">✕ Ferme ou refuse (n'importe quel écran du paywall)</span>Accès limité : extraits uniquement</div>
         <div class="loopback">↺ Depuis l'accès limité, un clic sur "Lecture" rouvre le paywall</div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- SECTION : recharge de temps (moment ultérieur, quota mensuel de l'abonné épuisé) -->
+      <div class="conn" style="width:152px;">Plus tard · le quota mensuel de l'abonné est épuisé pendant l'écoute</div>
+
+      <!-- lecteur natif (2e occurrence : c'est lui qui précède la recharge) -->
+      <div class="block nat">
+        <span class="nattag">🔧 Natif</span>
+        <div class="famrow">
+          <div class="fam fl">
+            <div class="flabel">● Lecteur</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/lecteur-natif.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Lecteur</div><div class="nm">Écoute en cours</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <span class="garrow">→</span>
+
+      <!-- 3 écrans de recharge de temps -->
+      <div class="block">
+        <div class="famrow">
+          <div class="fam fcredit">
+            <div class="flabel">● Recharge de temps · crédits</div>
+            <div class="fcards">
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/credit-1-fintemps.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Crédit · 1</div><div class="nm">Temps écoulé (enfant)</div>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/credit-2-parents.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Crédit · 2</div><div class="nm">Barrière parentale</div>
+              </div>
+              <div class="scard">
+                <div class="shot"><div class="ph"><b>À venir</b>rendu Claude Design</div><img src="ecrans-finaux-claude-design/credit-3-choix.png" onerror="this.style.display='none';this.parentNode.querySelector('.ph').style.display='flex'"></div>
+                <div class="sn">Crédit · 3</div><div class="nm">Choix de recharge</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
