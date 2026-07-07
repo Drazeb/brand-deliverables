@@ -70,7 +70,7 @@
   <header class="cover">
     <div class="kicker">Kidsono · Onboarding · Schéma de navigation</div>
     <h1>Schéma de navigation haut-niveau</h1>
-    <p class="intro">Routage complet de l'app. <b>Chaque flèche a sa propre couleur</b>, part de la <b>pastille</b> de son bouton et pointe l'écran de destination (la copie du bouton seule est affichée ; les <b>CTA</b> sont marqués). Écrans <b>Purchasely</b> en couleur, nom officiel à compléter. Deux mises en page à comparer.</p>
+    <p class="intro">Routage complet de l'app. <b>Chaque flèche a sa propre couleur</b>, part de la <b>pastille</b> de son bouton et pointe l'écran de destination (la copie du bouton seule est affichée ; les <b>CTA</b> sont marqués). Écrans <b>Purchasely</b> en couleur, nom officiel à compléter. Les boutons du haut de l'écran (retour, passer, fermer) sont au-dessus de la vignette ; les autres en dessous.</p>
   </header>
 
   <div class="legend">
@@ -81,15 +81,10 @@
     <span class="lnote">flèche = où mène le bouton · <b>CTA</b> = bouton d'action principal</span>
   </div>
 
-  <div class="vtitle">Version 1 · tous les boutons sous l'écran <span>— disposition actuelle</span></div>
-  <div class="flow" id="flow1"><svg class="arrows" id="arrows1"></svg><div class="lane" id="lane1"></div></div>
+  <div class="flow" id="flow2"><svg class="arrows" id="arrows2"></svg><div class="lane split" id="lane2"></div></div>
   <div class="scrollhint">← défiler horizontalement · cliquer une vignette pour l'agrandir →</div>
 
-  <div class="vtitle">Version 2 · boutons répartis haut / bas <span>— les boutons situés en haut de l'écran (retour, passer, fermer) sont affichés au-dessus ; les autres en dessous</span></div>
-  <div class="flow" id="flow2"><svg class="arrows" id="arrows2"></svg><div class="lane split" id="lane2"></div></div>
-  <div class="scrollhint">← défiler horizontalement →</div>
-
-  <p class="note"><b>À valider :</b> noms officiels Purchasely (tes captures) · répartition Purchasely / natif · routages. La modale d'activation se déclenche depuis la Fiche par <b>deux</b> cas : « Histoire complète » ou fin de l'« Extrait gratuit ». Après le profil, un placeholder marque la <b>phase des 20 min offertes</b>.</p>
+  <p class="note"><b>À valider :</b> noms officiels Purchasely (tes captures) · répartition Purchasely / natif · routages. La modale d'activation se déclenche depuis la Fiche par <b>deux</b> cas : « Histoire complète » ou fin de l'« Extrait gratuit ». Après le profil : <b>phase des 20 min offertes</b> (3 cas mènent au paywall). Après le paiement : <b>phase d'utilisation d'un abonné</b> (couronne).</p>
 
 </div>
 
@@ -114,15 +109,14 @@
     {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire (Apple / Google / e-mail)",'code',1,'b']]},
     {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','profil',1,'b']]},
     {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage',1,'b']]},
-    {id:'usage',name:'',type:'ph',img:null,phT:'Phase d’utilisation',phD:'Écoute des 20 min d’histoires offertes (navigation libre + lecteur).',b:[['Le temps s’écoule','lecteur',0,'b']]},
-    {id:'lecteur',name:'Lecteur',type:'nat',img:'lecteur-natif.png',b:[['Quota gratuit épuisé','paywall',0,'b'],['Abonné · quota mensuel épuisé','fintemps',0,'b']]},
-    {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',off:1,b:[['✕ Fermer','outLimit',0,'t'],['Je choisis ma formule','formules',1,'b']]},
+    {id:'usage',name:'',type:'ph',img:null,phT:'Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min d’histoires offertes (navigation libre + lecteur).',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
+    {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',off:1,b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]},
     {id:'formules',name:'Choix de la formule',type:'ply',img:'2-paywall-formules.png',off:1,b:[['◂ Retour','paywall',0,'t'],["Je m'abonne",'apple',1,'b']]},
-    {id:'apple',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','formules',0,'t'],['Confirmé','outFull',1,'b']]},
-    {id:'__out',type:'out'},
-    {id:'fintemps',name:'Fin de temps d’histoire',type:'ply',img:'credit-1-fintemps.png',off:1,b:[['Plus tard','lecteur',0,'t'],['Débloquer','barriere',1,'b']]},
+    {id:'apple',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','formules',0,'t'],['Confirmé','usageSub',1,'b']]},
+    {id:'usageSub',name:'',type:'ph',img:null,phT:'👑 Phase d’utilisation d’un abonné',phD:'Écoute selon le quota mensuel de la formule choisie.',b:[['Quota mensuel épuisé','fintemps',0,'b']]},
+    {id:'fintemps',name:'Fin de temps d’histoire',type:'ply',img:'credit-1-fintemps.png',off:1,b:[['Plus tard','usageSub',0,'t'],['Débloquer','barriere',1,'b']]},
     {id:'barriere',name:'Barrière parentale',type:'dev',img:'credit-2-parents.png',b:[['◂ Retour','fintemps',0,'t'],['Bonne réponse','recharge',1,'b']]},
-    {id:'recharge',name:'Recharge de temps',type:'ply',img:'credit-3-choix.png',off:1,b:[['◂ Retour','lecteur',0,'t'],['Je choisis','apple',1,'b']]}
+    {id:'recharge',name:'Recharge de temps',type:'ply',img:'credit-3-choix.png',off:1,b:[['◂ Retour','usageSub',0,'t'],['Je choisis','apple',1,'b']]}
   ];
 
   function btnHTML(bt){
@@ -223,10 +217,8 @@
     });
   }
 
-  buildLane(document.getElementById('lane1'),false);
   buildLane(document.getElementById('lane2'),true);
   function run(){
-    draw(document.getElementById('lane1'),document.getElementById('arrows1'),'dir','a');
     draw(document.getElementById('lane2'),document.getElementById('arrows2'),'pos','b');
     var lb=document.getElementById('lb'),lbi=document.getElementById('lbimg');
     document.querySelectorAll('.thumb img').forEach(function(im){im.onclick=function(){lbi.src=im.src;lb.style.display='flex';};});
