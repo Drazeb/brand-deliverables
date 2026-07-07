@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schéma de navigation · Kidsono</title>
+<style>
+  :root{--bg:#f6f6f2;--surface:#fff;--border:#e6e6e0;--text:#191919;--muted:#6e6e6e;
+        --ply:#4f46e5;--nat:#64748b;--dev:#b45309;--apple:#111;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;}
+  .wrap{max-width:min(97vw,2400px);margin:0 auto;padding:26px 22px 70px;}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 30px 20px;}
+  .kicker{font-size:11.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--ply);}
+  h1{font-family:Georgia,serif;font-size:25px;font-weight:700;margin:10px 0 8px;}
+  .intro{font-size:13.5px;color:#444;max-width:1050px;line-height:1.55;}
+  .intro b{color:#191919;}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 18px;margin-top:12px;align-items:center;}
+  .lchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#3a3a3a;}
+  .ldot{width:14px;height:14px;border-radius:4px;flex:none;}
+  .lchip .ldot.dev{background:repeating-linear-gradient(45deg,#fdf4e2,#fdf4e2 4px,#d9a441 4px,#d9a441 7px);border:1px solid #d9a441;}
+  .lchip .ldot.nat{background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 4px,#94a3b8 4px,#94a3b8 7px);border:1px solid #94a3b8;}
+
+  .rowlabel{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:22px 0 8px;}
+  .flow{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:4px;overflow-x:auto;padding-bottom:16px;}
+
+  .node{flex:none;width:150px;background:#fff;border:1px solid var(--border);border-top-width:4px;border-radius:11px;padding:8px 8px 9px;display:flex;flex-direction:column;gap:6px;}
+  .node.ply{border-top-color:var(--ply);}
+  .node.nat{border-top-color:var(--nat);border-top-style:solid;}
+  .node.dev{border-top-color:var(--dev);}
+  .node.apple{border-top-color:var(--apple);}
+  .thumb{width:100%;border-radius:7px;overflow:hidden;background:#f0efe9;}
+  .thumb img{display:block;width:100%;height:150px;object-fit:cover;object-position:top;cursor:zoom-in;}
+  .tag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 6px;border-radius:5px;color:#fff;align-self:flex-start;}
+  .tag.ply{background:var(--ply);} .tag.nat{background:var(--nat);} .tag.dev{background:var(--dev);} .tag.apple{background:var(--apple);}
+  .nname{font-size:12px;font-weight:800;color:#191919;line-height:1.2;}
+  .official{font-size:9px;font-weight:600;color:#8a8a8a;font-style:italic;line-height:1.25;border-top:1px dotted #ddd;padding-top:4px;}
+  .official b{color:#4f46e5;font-style:normal;}
+  .btns{display:flex;flex-direction:column;gap:4px;margin-top:1px;}
+  .btn{font-size:9.5px;line-height:1.28;font-weight:600;color:#333;background:#f4f4ef;border:1px solid #e6e6df;border-radius:6px;padding:4px 6px;}
+  .btn .lab{font-weight:800;color:#191919;}
+  .btn .dst{color:var(--ply);font-weight:700;}
+  .btn.back{background:#fbf3f3;border-color:#f0dede;} .btn.back .dst{color:#be123c;}
+  .btn.jump{background:#fff7e6;border-color:#f0dcae;} .btn.jump .dst{color:#a15c00;}
+  .btn.auto{background:#eef7ef;border-color:#cfe6d3;} .btn.auto .dst{color:#15803d;}
+
+  .arr{flex:none;align-self:center;color:#c0beb4;font-weight:800;font-size:16px;padding-top:70px;}
+  .branchnote{flex:none;align-self:center;width:150px;font-size:10.5px;font-weight:700;line-height:1.4;color:#7a4e00;background:#fff7e6;border:1px dashed #f0dcae;border-radius:10px;padding:9px 11px;text-align:center;}
+  .outcol{flex:none;display:flex;flex-direction:column;align-self:center;}
+  .end{flex:none;align-self:center;width:120px;font-size:10.5px;font-weight:800;line-height:1.35;border-radius:10px;padding:10px;text-align:center;}
+  .end.full{background:#ddf4e3;color:#15803d;border:2px solid #bce8c8;}
+  .end.limit{background:#eef1f4;color:#5b6675;border:1px solid #d3dae1;margin-top:8px;}
+
+  .note{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1100px;}
+  .note b{color:#191919;}
+
+  /* lightbox */
+  #lb{display:none;position:fixed;inset:0;background:rgba(20,20,18,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;}
+  #lb img{max-width:70vw;max-height:92vh;object-fit:contain;border-radius:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Kidsono · Onboarding · Schéma de navigation (premier jet)</div>
+    <h1>Schéma de navigation haut-niveau</h1>
+    <p class="intro">Vue d'ensemble du routage de l'app : pour chaque écran, <b>quel bouton emmène où</b>. Volontairement réduit (nom d'écran + boutons + destination, pas le détail). Les écrans <b>Purchasely</b> sont marqués en couleur ; leur <b>nom officiel</b> reste à compléter (tes captures). Les écrans natifs Kidsono sont là comme repères, le CTO les reconnaîtra.</p>
+  </header>
+
+  <div class="legend">
+    <span class="lchip"><span class="ldot" style="background:#4f46e5;"></span>Écran Purchasely</span>
+    <span class="lchip"><span class="ldot nat"></span>Natif déjà existant</span>
+    <span class="lchip"><span class="ldot dev"></span>Natif à développer</span>
+    <span class="lchip"><span class="ldot" style="background:#111;"></span>Apple (système)</span>
+    <span class="lchip" style="color:#8a8a8a;font-weight:600;font-style:italic;">→ destination · ◂ retour · ⤏ saut vers le catalogue</span>
+  </div>
+
+  <div class="rowlabel">Parcours principal · de l'ouverture à l'abonnement</div>
+  <div class="flow">
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/01-splash.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Splash</div>
+      <div class="btns"><span class="btn auto"><span class="lab">(auto)</span> <span class="dst">→ Accroche</span></span></div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/02-accroche.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Accroche / Claim</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Je découvre</span> <span class="dst">→ Consentement</span></span>
+        <span class="btn jump"><span class="lab">Passer</span> <span class="dst">⤏ Catalogue</span></span>
+        <span class="btn"><span class="lab">Se connecter</span> <span class="dst">→ Création compte</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node dev">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/consent-donnees.png"></div>
+      <span class="tag dev">Natif à développer</span>
+      <div class="nname">Consentement données</div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Accepter</span> <span class="dst">→ Carrousel 1</span></span>
+        <span class="btn"><span class="lab">Ne pas accepter</span> <span class="dst">→ Carrousel 1</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/valeur-1-catalogue.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Carrousel 1 · Catalogue</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Suivant</span> <span class="dst">→ Carrousel 2</span></span>
+        <span class="btn jump"><span class="lab">Passer</span> <span class="dst">⤏ Catalogue</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/06-autorite.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Carrousel 2 · Autorité</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Suivant</span> <span class="dst">→ Carrousel 3</span></span>
+        <span class="btn jump"><span class="lab">Passer</span> <span class="dst">⤏ Catalogue</span></span>
+        <span class="btn back"><span class="lab">◂ Retour</span> <span class="dst">→ Carrousel 1</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/valeur-3-securite.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Carrousel 3 · Sécurité</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Suivant</span> <span class="dst">→ Catalogue</span></span>
+        <span class="btn jump"><span class="lab">Passer</span> <span class="dst">⤏ Catalogue</span></span>
+        <span class="btn back"><span class="lab">◂ Retour</span> <span class="dst">→ Carrousel 2</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/app-catalogue.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Catalogue (accueil app)</div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Tap sur une histoire</span> <span class="dst">→ Fiche histoire</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/app-fiche-extrait.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Fiche histoire</div>
+      <div class="btns">
+        <span class="btn auto"><span class="lab">Extrait gratuit</span> <span class="dst">→ Lecture extrait</span></span>
+        <span class="btn"><span class="lab">Histoire complète</span> <span class="dst">→ Modale activation</span></span>
+        <span class="btn back"><span class="lab">◂ Retour</span> <span class="dst">→ Catalogue</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/_mur1-modale.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Mur 1 · Modale activation</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">J'essaie gratuitement</span> <span class="dst">→ Création compte</span></span>
+        <span class="btn back"><span class="lab">✕ Fermer</span> <span class="dst">→ Fiche</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/08-creation-compte.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Création de compte</div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Apple / Google / e-mail</span> <span class="dst">→ Code vérif</span></span>
+        <span class="btn back"><span class="lab">✕ Fermer</span> <span class="dst">→ Catalogue</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/09-code-verification.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Code de vérification</div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Code saisi</span> <span class="dst">→ Profil</span></span>
+        <span class="btn back"><span class="lab">Corriger l'e-mail</span> <span class="dst">→ Création compte</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/10-profil.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Profil / personnalisation</div>
+      <div class="btns">
+        <span class="btn auto"><span class="lab">Validé</span> <span class="dst">→ Catalogue</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node nat">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/lecteur-natif.png"></div>
+      <span class="tag nat">Natif</span>
+      <div class="nname">Lecteur</div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Quota gratuit épuisé</span> <span class="dst">→ Paywall</span></span>
+        <span class="btn jump"><span class="lab">Abonné · quota mensuel épuisé</span> <span class="dst">⤏ Fin de temps</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/1-paywall-valeur.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Mur 2 · Paywall valeur</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Je choisis ma formule</span> <span class="dst">→ Formules</span></span>
+        <span class="btn back"><span class="lab">✕ Fermer</span> <span class="dst">→ Accès limité</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/2-paywall-formules.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Choix de la formule</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Je m'abonne</span> <span class="dst">→ Paiement Apple</span></span>
+        <span class="btn back"><span class="lab">◂ Retour</span> <span class="dst">→ Paywall valeur</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node apple">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/3-paiement-apple.png"></div>
+      <span class="tag apple">Apple</span>
+      <div class="nname">Paiement Apple</div>
+      <div class="btns">
+        <span class="btn auto"><span class="lab">Confirmé</span> <span class="dst">→ Abonné</span></span>
+        <span class="btn back"><span class="lab">Annulé</span> <span class="dst">→ Formules</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="outcol">
+      <div class="end full">👑 Abonné<br>Catalogue complet</div>
+      <div class="end limit">✕ Non abonné<br>Extraits seulement</div>
+    </div>
+
+  </div>
+
+  <div class="rowlabel">Recharge de temps · quand un abonné épuise son quota mensuel (depuis le Lecteur)</div>
+  <div class="flow">
+
+    <div class="branchnote">Depuis le <b>Lecteur</b>, l'abonné qui a épuisé son quota mensuel ⤏</div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/credit-1-fintemps.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Fin de temps d'histoire</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Débloquer</span> <span class="dst">→ Barrière parentale</span></span>
+        <span class="btn back"><span class="lab">Plus tard</span> <span class="dst">→ Lecteur</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node dev">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/credit-2-parents.png"></div>
+      <span class="tag dev">Natif à développer</span>
+      <div class="nname">Barrière parentale</div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Bonne réponse</span> <span class="dst">→ Recharge</span></span>
+        <span class="btn back"><span class="lab">◂ Retour</span> <span class="dst">→ Fin de temps</span></span>
+      </div>
+    </div>
+
+    <span class="arr">→</span>
+
+    <div class="node ply">
+      <div class="thumb"><img src="ecrans-finaux-claude-design/credit-3-choix.png"></div>
+      <span class="tag ply">Purchasely</span>
+      <div class="nname">Recharge de temps</div>
+      <div class="official">nom officiel : <b>à compléter</b></div>
+      <div class="btns">
+        <span class="btn"><span class="lab">Je choisis</span> <span class="dst">→ Paiement Apple</span></span>
+        <span class="btn back"><span class="lab">◂ Retour</span> <span class="dst">→ Lecteur</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="note"><b>Premier jet volontairement brut.</b> À valider / compléter : (1) les <b>noms officiels Purchasely</b> (tes captures), (2) la <b>répartition Purchasely vs natif</b> écran par écran, (3) les <b>routages exacts</b> (surtout retours et sauts « Passer »). Dis-moi ce qui cloche et j'ajuste avant d'affiner l'habillage.</p>
+
+</div>
+
+<div id="lb"><img id="lbimg" src=""></div>
+<script>
+  var lb=document.getElementById('lb'),lbi=document.getElementById('lbimg');
+  document.querySelectorAll('.thumb img').forEach(function(im){im.addEventListener('click',function(){lbi.src=im.src;lb.style.display='flex';});});
+  lb.addEventListener('click',function(){lb.style.display='none';});
+</script>
+</body>
+</html>
