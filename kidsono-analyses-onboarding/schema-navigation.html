@@ -6,14 +6,14 @@
 <title>Schéma de navigation · Kidsono</title>
 <style>
   :root{--bg:#f6f6f2;--surface:#fff;--border:#e6e6e0;--text:#191919;--muted:#6e6e6e;
-        --ply:#4f46e5;--nat:#64748b;--dev:#b45309;--apple:#111;--fwd:#4f46e5;--back:#be123c;--jump:#a15c00;}
+        --ply:#4f46e5;--nat:#64748b;--dev:#b45309;--apple:#111;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;}
   .wrap{max-width:99vw;margin:0 auto;padding:24px 20px 60px;}
   .cover{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 30px 18px;}
   .kicker{font-size:11.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--ply);}
   h1{font-family:Georgia,serif;font-size:24px;font-weight:700;margin:9px 0 8px;}
-  .intro{font-size:13.5px;color:#444;max-width:1050px;line-height:1.55;}
+  .intro{font-size:13.5px;color:#444;max-width:1080px;line-height:1.55;}
   .intro b{color:#191919;}
 
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 18px;margin-top:12px;align-items:center;}
@@ -21,37 +21,44 @@
   .ldot{width:14px;height:14px;border-radius:4px;flex:none;}
   .ldot.dev{background:repeating-linear-gradient(45deg,#fdf4e2,#fdf4e2 4px,#d9a441 4px,#d9a441 7px);border:1px solid #d9a441;}
   .ldot.nat{background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 4px,#94a3b8 4px,#94a3b8 7px);border:1px solid #94a3b8;}
-  .lline{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;}
-  .lline i{width:22px;height:0;border-top:3px solid;display:inline-block;border-radius:2px;}
+  .lnote{font-size:11px;font-weight:600;font-style:italic;color:#666;}
 
-  .flow{position:relative;overflow-x:auto;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;}
-  .lane{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:118px;padding:260px 50px 340px;width:max-content;position:relative;z-index:1;}
+  .vtitle{font-size:15px;font-weight:800;color:#191919;margin:30px 0 4px;padding-top:18px;border-top:2px solid #e6e6e0;}
+  .vtitle span{font-weight:600;color:#777;font-size:12.5px;}
+  .scrollhint{font-size:11px;color:#b0a98f;font-style:italic;margin:6px 0 0 2px;}
+
+  .flow{position:relative;overflow-x:auto;margin-top:12px;background:var(--surface);border:1px solid var(--border);border-radius:14px;}
+  .lane{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:130px;padding:150px 52px 300px;width:max-content;position:relative;z-index:1;}
+  .lane.split{padding-top:300px;}
   svg.arrows{position:absolute;top:0;left:0;z-index:4;pointer-events:none;overflow:visible;}
 
-  .node{flex:none;width:150px;position:relative;background:#fff;border:1px solid var(--border);border-top-width:4px;border-radius:11px;padding:8px 8px 9px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+  .node{flex:none;width:166px;position:relative;background:#fff;border:1px solid var(--border);border-top-width:4px;border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
   .node.ply{border-top-color:var(--ply);} .node.nat{border-top-color:var(--nat);} .node.dev{border-top-color:var(--dev);} .node.apple{border-top-color:var(--apple);}
-  .thumb{width:100%;border-radius:7px;overflow:hidden;background:#f0efe9;}
-  .thumb img{display:block;width:100%;height:142px;object-fit:cover;object-position:top;cursor:zoom-in;}
+  .thumb{width:100%;border-radius:8px;overflow:hidden;background:#f0efe9;}
+  .thumb img{display:block;width:100%;height:auto;cursor:zoom-in;}
   .tag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 6px;border-radius:5px;color:#fff;align-self:flex-start;}
   .tag.ply{background:var(--ply);} .tag.nat{background:var(--nat);} .tag.dev{background:var(--dev);} .tag.apple{background:var(--apple);}
-  .nname{font-size:12px;font-weight:800;color:#191919;line-height:1.2;}
+  .nname{font-size:12.5px;font-weight:800;color:#191919;line-height:1.2;}
   .official{font-size:9px;font-weight:600;color:#8a8a8a;font-style:italic;line-height:1.25;border-top:1px dotted #ddd;padding-top:4px;}
   .official b{color:#4f46e5;font-style:normal;}
-  .btns{display:flex;flex-direction:column;gap:5px;margin-top:1px;}
-  .btns{gap:15px !important;}
-  .btn{position:relative;font-size:9.5px;line-height:1.2;font-weight:700;color:#222;background:#f4f4ef;border:1px solid #e2e2da;border-radius:6px;padding:8px 20px 8px 8px;}
-  .btn::after{content:"";position:absolute;right:4px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:var(--dc,#2563eb);box-shadow:0 0 0 2px #fff;}
+  .btns{display:flex;flex-direction:column;gap:16px;}
+  .btns.top{margin-bottom:2px;}
+  .btn{position:relative;font-size:10px;line-height:1.2;font-weight:700;color:#222;background:#f4f4ef;border:1px solid #e2e2da;border-radius:6px;padding:8px 22px 8px 8px;}
+  .btn::after{content:"";position:absolute;right:5px;top:50%;transform:translateY(-50%);width:11px;height:11px;border-radius:50%;background:var(--dc,#2563eb);box-shadow:0 0 0 2px #fff;}
+  .btn .cta{display:inline-block;font-size:8px;font-weight:800;letter-spacing:.5px;color:#fff;background:#e2492f;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle;}
 
-  .outcol{flex:none;display:flex;flex-direction:column;gap:10px;align-self:center;}
-  .end{width:130px;font-size:11px;font-weight:800;line-height:1.35;border-radius:11px;padding:12px 10px;text-align:center;position:relative;}
+  .ph{flex:none;width:166px;align-self:center;background:repeating-linear-gradient(45deg,#f1efe8,#f1efe8 8px,#e7e4da 8px,#e7e4da 16px);border:1.5px dashed #b7b1a2;border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:9px;}
+  .ph .pht{font-size:11px;font-weight:800;color:#5f5a4d;text-transform:uppercase;letter-spacing:.4px;}
+  .ph .phd{font-size:11px;font-weight:700;color:#4a4636;line-height:1.35;}
+  .ph .btns{margin-top:4px;}
+
+  .outcol{flex:none;display:flex;flex-direction:column;gap:12px;align-self:center;}
+  .end{width:140px;font-size:11.5px;font-weight:800;line-height:1.35;border-radius:12px;padding:14px 11px;text-align:center;}
   .end.full{background:#ddf4e3;color:#15803d;border:2px solid #bce8c8;}
   .end.limit{background:#eef1f4;color:#5b6675;border:1px solid #d3dae1;}
 
-  .note{font-size:12px;color:var(--muted);margin-top:20px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1100px;}
+  .note{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1100px;}
   .note b{color:#191919;}
-  .scrollhint{font-size:11px;color:#b0a98f;font-style:italic;margin:6px 0 0 2px;}
-  .vtitle{font-size:14px;font-weight:800;color:#191919;margin:26px 0 4px;padding-top:18px;border-top:2px solid #e6e6e0;}
-  .vtitle span{font-weight:600;color:#777;font-size:12.5px;}
 
   #lb{display:none;position:fixed;inset:0;background:rgba(20,20,18,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;}
   #lb img{max-width:70vw;max-height:92vh;object-fit:contain;border-radius:10px;}
@@ -61,9 +68,9 @@
 <div class="wrap">
 
   <header class="cover">
-    <div class="kicker">Kidsono · Onboarding · Schéma de navigation (premier jet)</div>
+    <div class="kicker">Kidsono · Onboarding · Schéma de navigation</div>
     <h1>Schéma de navigation haut-niveau</h1>
-    <p class="intro">Routage complet de l'app sur une seule ligne : <b>chaque bouton porte une flèche vers l'écran qu'il ouvre</b>. Écrans <b>Purchasely</b> marqués en couleur (nom officiel à compléter). Les natifs Kidsono sont des repères. Flèches <b>avant</b> sous la ligne, <b>retours</b> et <b>sauts</b> au-dessus.</p>
+    <p class="intro">Routage complet de l'app. <b>Chaque flèche a sa propre couleur</b>, part de la <b>pastille</b> de son bouton et pointe l'écran de destination (la copie du bouton seule est affichée ; les <b>CTA</b> sont marqués). Écrans <b>Purchasely</b> en couleur, nom officiel à compléter. Deux mises en page à comparer.</p>
   </header>
 
   <div class="legend">
@@ -71,206 +78,18 @@
     <span class="lchip"><span class="ldot nat"></span>Natif déjà existant</span>
     <span class="lchip"><span class="ldot dev"></span>Natif à développer</span>
     <span class="lchip"><span class="ldot" style="background:#111;"></span>Apple</span>
-    <span class="lline" style="color:#555;font-weight:600;font-style:italic;">chaque flèche a la couleur de sa pastille de départ · tracé à angle droit · avance sous la ligne, retour au-dessus</span>
+    <span class="lnote">flèche = où mène le bouton · <b>CTA</b> = bouton d'action principal</span>
   </div>
 
-  <div class="vtitle">Version A · une couleur par bouton <span>— sur un écran, 1er bouton bleu, 2e rose, 3e turquoise</span></div>
-  <div class="flow" id="flow">
-    <svg class="arrows" id="arrows"></svg>
-    <div class="lane" id="lane">
-
-      <div class="node nat" data-node="splash">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/01-splash.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Splash</div>
-        <div class="btns"><span class="btn jump" data-to="accroche">(auto) → Accroche</span></div>
-      </div>
-
-      <div class="node ply" data-node="accroche">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/02-accroche.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Accroche / Claim</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="consent">Je découvre → Consentement</span>
-          <span class="btn jump" data-to="catalogue">Passer → Catalogue</span>
-          <span class="btn jump" data-to="compte">Se connecter → Création compte</span>
-        </div>
-      </div>
-
-      <div class="node dev" data-node="consent">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/consent-donnees.png"></div>
-        <span class="tag dev">Natif à développer</span><div class="nname">Consentement données</div>
-        <div class="btns">
-          <span class="btn" data-to="car1">Accepter → Carrousel 1</span>
-          <span class="btn" data-to="car1">Ne pas accepter → Carrousel 1</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="car1">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/valeur-1-catalogue.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Carrousel 1 · Catalogue</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="car2">Suivant → Carrousel 2</span>
-          <span class="btn jump" data-to="catalogue">Passer → Catalogue</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="car2">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/06-autorite.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Carrousel 2 · Autorité</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="car3">Suivant → Carrousel 3</span>
-          <span class="btn jump" data-to="catalogue">Passer → Catalogue</span>
-          <span class="btn back" data-to="car1">◂ Retour → Carrousel 1</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="car3">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/valeur-3-securite.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Carrousel 3 · Sécurité</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="catalogue">Suivant → Catalogue</span>
-          <span class="btn jump" data-to="catalogue">Passer → Catalogue</span>
-          <span class="btn back" data-to="car2">◂ Retour → Carrousel 2</span>
-        </div>
-      </div>
-
-      <div class="node nat" data-node="catalogue">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/app-catalogue.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Catalogue (accueil app)</div>
-        <div class="btns"><span class="btn" data-to="fiche">Tap histoire → Fiche</span></div>
-      </div>
-
-      <div class="node nat" data-node="fiche">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/app-fiche-extrait.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Fiche histoire</div>
-        <div class="btns">
-          <span class="btn" data-to="lecteur">Extrait gratuit → Lecteur</span>
-          <span class="btn" data-to="modale">Histoire complète → Modale</span>
-          <span class="btn back" data-to="catalogue">◂ Retour → Catalogue</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="modale">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/_mur1-modale.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Mur 1 · Modale activation</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="compte">J'essaie gratuitement → Compte</span>
-          <span class="btn back" data-to="fiche">✕ Fermer → Fiche</span>
-        </div>
-      </div>
-
-      <div class="node nat" data-node="compte">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/08-creation-compte.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Création de compte</div>
-        <div class="btns">
-          <span class="btn" data-to="code">Apple / Google / e-mail → Code</span>
-          <span class="btn back" data-to="catalogue">✕ Fermer → Catalogue</span>
-        </div>
-      </div>
-
-      <div class="node nat" data-node="code">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/09-code-verification.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Code de vérification</div>
-        <div class="btns">
-          <span class="btn" data-to="profil">Code saisi → Profil</span>
-          <span class="btn back" data-to="compte">◂ Corriger e-mail → Compte</span>
-        </div>
-      </div>
-
-      <div class="node nat" data-node="profil">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/10-profil.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Profil / personnalisation</div>
-        <div class="btns"><span class="btn jump" data-to="catalogue">Validé → Catalogue</span></div>
-      </div>
-
-      <div class="node nat" data-node="lecteur">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/lecteur-natif.png"></div>
-        <span class="tag nat">Natif</span><div class="nname">Lecteur</div>
-        <div class="btns">
-          <span class="btn" data-to="paywall">Quota gratuit épuisé → Paywall</span>
-          <span class="btn jump" data-to="fintemps">Abonné · quota épuisé → Fin de temps</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="paywall">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/1-paywall-valeur.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Mur 2 · Paywall valeur</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="formules">Je choisis ma formule → Formules</span>
-          <span class="btn jump" data-to="outLimit">✕ Fermer → Accès limité</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="formules">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/2-paywall-formules.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Choix de la formule</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="apple">Je m'abonne → Paiement Apple</span>
-          <span class="btn back" data-to="paywall">◂ Retour → Paywall valeur</span>
-        </div>
-      </div>
-
-      <div class="node apple" data-node="apple">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/3-paiement-apple.png"></div>
-        <span class="tag apple">Apple</span><div class="nname">Paiement Apple</div>
-        <div class="btns">
-          <span class="btn" data-to="outFull">Confirmé → Abonné</span>
-          <span class="btn back" data-to="formules">Annulé → Formules</span>
-        </div>
-      </div>
-
-      <div class="outcol">
-        <div class="end full" data-node="outFull">👑 Abonné<br>Catalogue complet</div>
-        <div class="end limit" data-node="outLimit">✕ Non abonné<br>Extraits seulement</div>
-      </div>
-
-      <div class="node ply" data-node="fintemps">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/credit-1-fintemps.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Fin de temps d'histoire</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn" data-to="barriere">Débloquer → Barrière parentale</span>
-          <span class="btn back" data-to="lecteur">Plus tard → Lecteur</span>
-        </div>
-      </div>
-
-      <div class="node dev" data-node="barriere">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/credit-2-parents.png"></div>
-        <span class="tag dev">Natif à développer</span><div class="nname">Barrière parentale</div>
-        <div class="btns">
-          <span class="btn" data-to="recharge">Bonne réponse → Recharge</span>
-          <span class="btn back" data-to="fintemps">◂ Retour → Fin de temps</span>
-        </div>
-      </div>
-
-      <div class="node ply" data-node="recharge">
-        <div class="thumb"><img src="ecrans-finaux-claude-design/credit-3-choix.png"></div>
-        <span class="tag ply">Purchasely</span><div class="nname">Recharge de temps</div>
-        <div class="official">nom officiel : <b>à compléter</b></div>
-        <div class="btns">
-          <span class="btn back" data-to="apple">Je choisis → Paiement Apple</span>
-          <span class="btn back" data-to="lecteur">◂ Retour → Lecteur</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
+  <div class="vtitle">Version 1 · tous les boutons sous l'écran <span>— disposition actuelle</span></div>
+  <div class="flow" id="flow1"><svg class="arrows" id="arrows1"></svg><div class="lane" id="lane1"></div></div>
   <div class="scrollhint">← défiler horizontalement · cliquer une vignette pour l'agrandir →</div>
 
-  <div class="vtitle">Version B · une couleur unique par flèche <span>— chaque flèche du schéma a sa propre couleur (≈30 couleurs)</span></div>
-  <div class="flow" id="flow2">
-    <svg class="arrows" id="arrows2"></svg>
-    <div class="lane" id="lane2"></div>
-  </div>
+  <div class="vtitle">Version 2 · boutons répartis haut / bas <span>— les boutons situés en haut de l'écran (retour, passer, fermer) sont affichés au-dessus ; les autres en dessous</span></div>
+  <div class="flow" id="flow2"><svg class="arrows" id="arrows2"></svg><div class="lane split" id="lane2"></div></div>
   <div class="scrollhint">← défiler horizontalement →</div>
 
-  <p class="note"><b>Premier jet des flèches.</b> À valider : (1) <b>noms officiels Purchasely</b> (tes captures), (2) <b>Purchasely vs natif</b> par écran, (3) <b>routages</b> (retours et sauts). Si des flèches se chevauchent trop, je peux encore espacer ou réétager.</p>
+  <p class="note"><b>À valider :</b> noms officiels Purchasely (tes captures) · répartition Purchasely / natif · routages. La modale d'activation se déclenche depuis la Fiche par <b>deux</b> cas : « Histoire complète » ou fin de l'« Extrait gratuit ». Après le profil, un placeholder marque la <b>phase des 20 min offertes</b>.</p>
 
 </div>
 
@@ -278,95 +97,143 @@
 <script>
 (function(){
   var NS="http://www.w3.org/2000/svg";
-  var PAL=['#2563eb','#db2777','#0d9488','#ea580c'];  // version A : couleur par index de bouton
-  function uniqueCol(i,n){ return 'hsl('+Math.round((i*137.5)%360)+',68%,45%)'; } // version B : 1 par flèche
+  var IMG="ecrans-finaux-claude-design/";
+  function uCol(i,n){ return 'hsl('+Math.round((i*137.508)%360)+',70%,45%)'; }
+
+  // ---- données : ordre = déroulé ; pos = position du bouton sur l'écran ----
+  var NODES=[
+    {id:'splash',name:'Splash',type:'nat',img:'01-splash.png',b:[['(auto)','accroche',0,'b']]},
+    {id:'accroche',name:'Accroche / Claim',type:'ply',img:'02-accroche.png',off:1,b:[['Passer','catalogue',0,'t'],["Je découvre",'consent',1,'b'],['Se connecter','compte',0,'b']]},
+    {id:'consent',name:'Consentement données',type:'dev',img:'consent-donnees.png',b:[['Accepter','car1',1,'b'],['Ne pas accepter','car1',0,'b']]},
+    {id:'car1',name:'Carrousel 1 · Catalogue',type:'ply',img:'valeur-1-catalogue.png',off:1,b:[['◂ Retour','consent',0,'t'],['Passer','catalogue',0,'t'],['Suivant','car2',1,'b']]},
+    {id:'car2',name:'Carrousel 2 · Autorité',type:'ply',img:'06-autorite.png',off:1,b:[['◂ Retour','car1',0,'t'],['Passer','catalogue',0,'t'],['Suivant','car3',1,'b']]},
+    {id:'car3',name:'Carrousel 3 · Sécurité',type:'ply',img:'valeur-3-securite.png',off:1,b:[['◂ Retour','car2',0,'t'],['Passer','catalogue',0,'t'],['Suivant','catalogue',1,'b']]},
+    {id:'catalogue',name:'Catalogue (accueil app)',type:'nat',img:'app-catalogue.png',b:[['Tap sur une histoire','fiche',0,'b']]},
+    {id:'fiche',name:'Fiche histoire',type:'nat',img:'app-fiche-extrait.png',b:[['◂ Retour','catalogue',0,'t'],['Extrait gratuit (fin d’écoute)','modale',0,'b'],['Histoire complète','modale',1,'b']]},
+    {id:'modale',name:'Mur 1 · Modale activation',type:'ply',img:'_mur1-modale.png',off:1,b:[['✕ Fermer','fiche',0,'t'],["J'essaie gratuitement",'compte',1,'b']]},
+    {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire (Apple / Google / e-mail)",'code',1,'b']]},
+    {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','profil',1,'b']]},
+    {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage',1,'b']]},
+    {id:'usage',name:'',type:'ph',img:null,phT:'Phase d’utilisation',phD:'Écoute des 20 min d’histoires offertes (navigation libre + lecteur).',b:[['Le temps s’écoule','lecteur',0,'b']]},
+    {id:'lecteur',name:'Lecteur',type:'nat',img:'lecteur-natif.png',b:[['Quota gratuit épuisé','paywall',0,'b'],['Abonné · quota mensuel épuisé','fintemps',0,'b']]},
+    {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',off:1,b:[['✕ Fermer','outLimit',0,'t'],['Je choisis ma formule','formules',1,'b']]},
+    {id:'formules',name:'Choix de la formule',type:'ply',img:'2-paywall-formules.png',off:1,b:[['◂ Retour','paywall',0,'t'],["Je m'abonne",'apple',1,'b']]},
+    {id:'apple',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','formules',0,'t'],['Confirmé','outFull',1,'b']]},
+    {id:'__out',type:'out'},
+    {id:'fintemps',name:'Fin de temps d’histoire',type:'ply',img:'credit-1-fintemps.png',off:1,b:[['Plus tard','lecteur',0,'t'],['Débloquer','barriere',1,'b']]},
+    {id:'barriere',name:'Barrière parentale',type:'dev',img:'credit-2-parents.png',b:[['◂ Retour','fintemps',0,'t'],['Bonne réponse','recharge',1,'b']]},
+    {id:'recharge',name:'Recharge de temps',type:'ply',img:'credit-3-choix.png',off:1,b:[['◂ Retour','lecteur',0,'t'],['Je choisis','apple',1,'b']]}
+  ];
+
+  function btnHTML(bt){
+    return '<span class="btn" data-to="'+bt[1]+'" data-pos="'+bt[3]+'">'+bt[0]+(bt[2]?'<span class="cta">CTA</span>':'')+'</span>';
+  }
+  function buildLane(laneEl, split){
+    var h='';
+    NODES.forEach(function(n){
+      if(n.type==='out'){
+        h+='<div class="outcol"><div class="end full" data-node="outFull">👑 Abonné<br>Catalogue complet</div><div class="end limit" data-node="outLimit">✕ Non abonné<br>Extraits seulement</div></div>';
+        return;
+      }
+      if(n.type==='ph'){
+        h+='<div class="ph" data-node="'+n.id+'"><div class="pht">🎧 '+n.phT+'</div><div class="phd">'+n.phD+'</div><div class="btns">'+n.b.map(btnHTML).join('')+'</div></div>';
+        return;
+      }
+      var top=n.b.filter(function(b){return b[3]==='t';}), bot=n.b.filter(function(b){return b[3]==='b';});
+      var topH = split ? '<div class="btns top">'+top.map(btnHTML).join('')+'</div>' : '';
+      var botList = split ? bot : n.b;
+      h+='<div class="node '+n.type+'" data-node="'+n.id+'">'+topH
+        +'<div class="thumb"><img src="'+IMG+n.img+'"></div>'
+        +'<span class="tag '+n.type+'">'+(n.type==='ply'?'Purchasely':n.type==='dev'?'Natif à dév.':n.type==='apple'?'Apple':'Natif')+'</span>'
+        +'<div class="nname">'+n.name+'</div>'
+        +(n.off?'<div class="official">nom officiel : <b>à compléter</b></div>':'')
+        +'<div class="btns">'+botList.map(btnHTML).join('')+'</div></div>';
+    });
+    laneEl.innerHTML=h;
+  }
 
   function assignLanes(list){
-    list.sort(function(a,b){return Math.min(a.x0,a.tcx)-Math.min(b.x0,b.tcx);});
-    var laneMax=[];
+    list.sort(function(a,b){return Math.min(a.x0,a.ex)-Math.min(b.x0,b.ex);});
+    var mx=[];
     list.forEach(function(a){
-      var lo=Math.min(a.x0,a.tcx), hi=Math.max(a.x0,a.tcx), placed=-1;
-      for(var k=0;k<laneMax.length;k++){ if(lo > laneMax[k]+20){ placed=k; break; } }
-      if(placed<0){ placed=laneMax.length; laneMax.push(0); }
-      a.lane=placed; laneMax[placed]=hi;
+      var lo=Math.min(a.x0,a.ex),hi=Math.max(a.x0,a.ex),pl=-1;
+      for(var k=0;k<mx.length;k++){ if(lo>mx[k]+22){pl=k;break;} }
+      if(pl<0){pl=mx.length;mx.push(0);}
+      a.lane=pl; mx[pl]=hi;
     });
   }
-
-  function mkMarker(defs,mid,col){
+  function mk(defs,id,col){
     var m=document.createElementNS(NS,'marker');
-    m.setAttribute('id',mid); m.setAttribute('markerWidth','8'); m.setAttribute('markerHeight','8');
-    m.setAttribute('refX','6.5'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
-    var mp=document.createElementNS(NS,'path'); mp.setAttribute('d','M0,0 L7,3 L0,6 Z'); mp.setAttribute('fill',col);
-    m.appendChild(mp); defs.appendChild(m);
+    m.setAttribute('id',id);m.setAttribute('markerWidth','8');m.setAttribute('markerHeight','8');
+    m.setAttribute('refX','6.5');m.setAttribute('refY','3');m.setAttribute('orient','auto');
+    var p=document.createElementNS(NS,'path');p.setAttribute('d','M0,0 L7,3 L0,6 Z');p.setAttribute('fill',col);
+    m.appendChild(p);defs.appendChild(m);
   }
 
-  function draw(laneEl, svgEl, mode, pref){
+  function draw(laneEl, svgEl, bandMode, pref){
     var flowEl=laneEl.parentNode;
-    function cpos(el){ var r=el.getBoundingClientRect(), f=flowEl.getBoundingClientRect();
-      return {l:r.left-f.left+flowEl.scrollLeft, t:r.top-f.top+flowEl.scrollTop, w:r.width, h:r.height}; }
-    while(svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
-    var W=laneEl.scrollWidth, H=laneEl.scrollHeight;
-    svgEl.setAttribute('width',W); svgEl.setAttribute('height',H); svgEl.setAttribute('viewBox','0 0 '+W+' '+H);
-    var defs=document.createElementNS(NS,'defs'); svgEl.appendChild(defs);
+    function cp(el){var r=el.getBoundingClientRect(),f=flowEl.getBoundingClientRect();
+      return {l:r.left-f.left+flowEl.scrollLeft,t:r.top-f.top+flowEl.scrollTop,w:r.width,h:r.height};}
+    while(svgEl.firstChild)svgEl.removeChild(svgEl.firstChild);
+    svgEl.setAttribute('width',laneEl.scrollWidth);svgEl.setAttribute('height',laneEl.scrollHeight);
+    svgEl.setAttribute('viewBox','0 0 '+laneEl.scrollWidth+' '+laneEl.scrollHeight);
+    var defs=document.createElementNS(NS,'defs');svgEl.appendChild(defs);
 
-    var order=[].slice.call(laneEl.querySelectorAll('[data-node]')), idxOf={}, rowTop=1e9, rowBottom=0;
-    order.forEach(function(n,i){ idxOf[n.getAttribute('data-node')]=i; var p=cpos(n); if(p.t<rowTop)rowTop=p.t; if(p.t+p.h>rowBottom)rowBottom=p.t+p.h; });
+    var order=[].slice.call(laneEl.querySelectorAll('[data-node]')),idx={},rowTop=1e9,rowBottom=0;
+    order.forEach(function(n,i){idx[n.getAttribute('data-node')]=i;var p=cp(n);if(p.t<rowTop)rowTop=p.t;if(p.t+p.h>rowBottom)rowBottom=p.t+p.h;});
 
-    var btns=[].slice.call(laneEl.querySelectorAll('.btn[data-to]')), total=btns.length, arrows=[];
+    var btns=[].slice.call(laneEl.querySelectorAll('.btn[data-to]')),total=btns.length,arrows=[],ncount={};
     btns.forEach(function(b,gi){
-      var toId=b.getAttribute('data-to'), tgt=laneEl.querySelector('[data-node="'+toId+'"]'); if(!tgt) return;
-      var node=b.closest('.node'), fromId=node.getAttribute('data-node');
-      var sibs=[].slice.call(b.parentNode.children), ci=sibs.indexOf(b);
-      var col = mode==='index' ? PAL[ci%PAL.length] : uniqueCol(gi,total);
-      b.style.setProperty('--dc',col);
-      var bp=cpos(b), tp=cpos(tgt), np=cpos(node);
-      var forward = tp.l >= (np.l+np.w-4);
-      var adjacent = forward && (idxOf[toId]===idxOf[fromId]+1);
-      arrows.push({ci:ci,gi:gi,col:col,adjacent:adjacent,forward:forward,
-        dotX:bp.l+bp.w-9, dotY:bp.t+bp.h/2, np:np, tp:tp,
-        x0:(np.l+np.w)+16+ci*16, tcx:tp.l+tp.w/2});
+      var toId=b.getAttribute('data-to'),tgt=laneEl.querySelector('[data-node="'+toId+'"]');if(!tgt)return;
+      var host=b.closest('[data-node]'),fromId=host.getAttribute('data-node');
+      var col=uCol(gi,total);b.style.setProperty('--dc',col);
+      var bp=cp(b),tp=cp(tgt),np=cp(host);
+      var k=ncount[fromId]||0;ncount[fromId]=k+1;
+      var forward=tp.l>=np.l+np.w-4, adjacent=forward&&(idx[toId]===idx[fromId]+1);
+      var pos=b.getAttribute('data-pos');
+      var band= adjacent?'d':(bandMode==='pos'?(pos==='t'?'t':'b'):(forward?'b':'t'));
+      arrows.push({to:toId,col:col,gi:gi,band:band,dotX:bp.l+bp.w-9,dotY:bp.t+bp.h/2,
+        np:np,tp:tp,x0:(np.l+np.w)+18+k*16,tcx:tp.l+tp.w/2});
     });
 
-    // voies uniquement pour les flèches "à bande" (non directes)
-    assignLanes(arrows.filter(function(a){return a.forward && !a.adjacent;}));
-    assignLanes(arrows.filter(function(a){return !a.forward;}));
+    // points d'entrée uniques par (cible, bande)
+    var grp={};arrows.forEach(function(a){if(a.band==='d')return;var key=a.to+'|'+a.band;(grp[key]=grp[key]||[]).push(a);});
+    Object.keys(grp).forEach(function(key){var g=grp[key];g.sort(function(p,q){return p.dotX-q.dotX;});
+      g.forEach(function(a,i){a.ex=a.tcx+(i-(g.length-1)/2)*15;});});
+    // voies horizontales sans chevauchement, par bande
+    assignLanes(arrows.filter(function(a){return a.band==='b';}));
+    assignLanes(arrows.filter(function(a){return a.band==='t';}));
 
     arrows.forEach(function(a){
-      var mid=pref+a.gi; mkMarker(defs,mid,a.col);
-      var d;
-      if(a.adjacent){                              // ADJACENT : trait direct vers le bord gauche de la cible
-        var ey=Math.max(a.tp.t+10, Math.min(a.tp.t+a.tp.h-10, a.dotY)), ex=a.tp.l-3;
-        if(Math.abs(ey-a.dotY)<2){ d='M '+a.dotX+' '+a.dotY+' L '+ex+' '+a.dotY; }
-        else { var mx=(a.dotX+ex)/2; d='M '+a.dotX+' '+a.dotY+' L '+mx+' '+a.dotY+' L '+mx+' '+ey+' L '+ex+' '+ey; }
-      } else if(a.forward){                          // FORWARD éloigné : par le bas
-        var yb=rowBottom+(40+a.lane*26), tyb=a.tp.t+a.tp.h, exb=a.tcx+((a.lane%4)-1.5)*12;
-        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+yb+' L '+exb+' '+yb+' L '+exb+' '+tyb;
-      } else {                                       // RETOUR : par le haut
-        var yt=rowTop-(40+a.lane*26), tyt=a.tp.t, ext=a.tcx+((a.lane%4)-1.5)*12;
-        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+yt+' L '+ext+' '+yt+' L '+ext+' '+tyt;
+      var mid=pref+a.gi;mk(defs,mid,a.col);var d;
+      if(a.band==='d'){
+        var ey=Math.max(a.tp.t+10,Math.min(a.tp.t+a.tp.h-10,a.dotY)),ex=a.tp.l-3;
+        if(Math.abs(ey-a.dotY)<2)d='M '+a.dotX+' '+a.dotY+' L '+ex+' '+ey;
+        else{var mxx=(a.dotX+ex)/2;d='M '+a.dotX+' '+a.dotY+' L '+mxx+' '+a.dotY+' L '+mxx+' '+ey+' L '+ex+' '+ey;}
+      } else if(a.band==='b'){
+        var y=rowBottom+44+a.lane*26,ty=a.tp.t+a.tp.h;
+        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.ex+' '+y+' L '+a.ex+' '+ty;
+      } else {
+        var y2=rowTop-44-a.lane*26,ty2=a.tp.t;
+        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y2+' L '+a.ex+' '+y2+' L '+a.ex+' '+ty2;
       }
-      var path=document.createElementNS(NS,'path');
-      path.setAttribute('d',d); path.setAttribute('fill','none'); path.setAttribute('stroke',a.col);
-      path.setAttribute('stroke-width','2.4'); path.setAttribute('stroke-linejoin','round');
-      path.setAttribute('opacity','0.95'); path.setAttribute('marker-end','url(#'+mid+')');
-      svgEl.appendChild(path);
+      var p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');
+      p.setAttribute('stroke',a.col);p.setAttribute('stroke-width','2.4');p.setAttribute('stroke-linejoin','round');
+      p.setAttribute('opacity','0.95');p.setAttribute('marker-end','url(#'+mid+')');svgEl.appendChild(p);
     });
   }
 
-  var lane=document.getElementById('lane'), lane2=document.getElementById('lane2');
-  lane2.innerHTML=lane.innerHTML;  // clone du schéma pour la version B
-
+  buildLane(document.getElementById('lane1'),false);
+  buildLane(document.getElementById('lane2'),true);
   function run(){
-    draw(lane, document.getElementById('arrows'), 'index', 'a');
-    draw(lane2, document.getElementById('arrows2'), 'unique', 'b');
+    draw(document.getElementById('lane1'),document.getElementById('arrows1'),'dir','a');
+    draw(document.getElementById('lane2'),document.getElementById('arrows2'),'pos','b');
+    var lb=document.getElementById('lb'),lbi=document.getElementById('lbimg');
+    document.querySelectorAll('.thumb img').forEach(function(im){im.onclick=function(){lbi.src=im.src;lb.style.display='flex';};});
+    lb.onclick=function(){lb.style.display='none';};
   }
-  if(document.readyState==='complete') run(); else window.addEventListener('load',run);
-  window.addEventListener('resize',function(){ clearTimeout(window.__t); window.__t=setTimeout(run,200); });
-
-  // lightbox
-  var lb=document.getElementById('lb'),lbi=document.getElementById('lbimg');
-  document.querySelectorAll('.thumb img').forEach(function(im){im.addEventListener('click',function(){lbi.src=im.src;lb.style.display='flex';});});
-  lb.addEventListener('click',function(){lb.style.display='none';});
+  if(document.readyState==='complete')run();else window.addEventListener('load',run);
+  window.addEventListener('resize',function(){clearTimeout(window.__t);window.__t=setTimeout(run,220);});
 })();
 </script>
 </body>
