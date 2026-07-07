@@ -25,7 +25,7 @@
   .lline i{width:22px;height:0;border-top:3px solid;display:inline-block;border-radius:2px;}
 
   .flow{position:relative;overflow-x:auto;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;}
-  .lane{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:86px;padding:210px 44px 260px;width:max-content;position:relative;z-index:1;}
+  .lane{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:118px;padding:260px 50px 340px;width:max-content;position:relative;z-index:1;}
   svg.arrows{position:absolute;top:0;left:0;z-index:0;pointer-events:none;overflow:visible;}
 
   .node{flex:none;width:150px;position:relative;background:#fff;border:1px solid var(--border);border-top-width:4px;border-radius:11px;padding:8px 8px 9px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
@@ -38,9 +38,8 @@
   .official{font-size:9px;font-weight:600;color:#8a8a8a;font-style:italic;line-height:1.25;border-top:1px dotted #ddd;padding-top:4px;}
   .official b{color:#4f46e5;font-style:normal;}
   .btns{display:flex;flex-direction:column;gap:5px;margin-top:1px;}
-  .btn{position:relative;font-size:9.5px;line-height:1.2;font-weight:700;color:#222;background:#f4f4ef;border:1px solid #e2e2da;border-radius:6px;padding:4px 14px 4px 7px;}
-  .btn::after{content:"";position:absolute;right:5px;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:var(--fwd);}
-  .btn.back::after{background:var(--back);} .btn.jump::after{background:var(--jump);}
+  .btn{position:relative;font-size:9.5px;line-height:1.2;font-weight:700;color:#222;background:#f4f4ef;border:1px solid #e2e2da;border-radius:6px;padding:4px 18px 4px 7px;}
+  .btn::after{content:"";position:absolute;right:4px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:var(--dc,#2563eb);box-shadow:0 0 0 2px #fff;}
 
   .outcol{flex:none;display:flex;flex-direction:column;gap:10px;align-self:center;}
   .end{width:130px;font-size:11px;font-weight:800;line-height:1.35;border-radius:11px;padding:12px 10px;text-align:center;position:relative;}
@@ -69,9 +68,7 @@
     <span class="lchip"><span class="ldot nat"></span>Natif déjà existant</span>
     <span class="lchip"><span class="ldot dev"></span>Natif à développer</span>
     <span class="lchip"><span class="ldot" style="background:#111;"></span>Apple</span>
-    <span class="lline" style="color:#4f46e5;"><i style="border-color:#4f46e5;"></i>avance</span>
-    <span class="lline" style="color:#be123c;"><i style="border-color:#be123c;"></i>retour</span>
-    <span class="lline" style="color:#a15c00;"><i style="border-color:#a15c00;"></i>saut</span>
+    <span class="lline" style="color:#555;font-weight:600;font-style:italic;">chaque flèche a la couleur de sa pastille de départ · tracé à angle droit · avance sous la ligne, retour au-dessus</span>
   </div>
 
   <div class="flow" id="flow">
@@ -271,59 +268,73 @@
 (function(){
   var flow=document.getElementById('flow'), lane=document.getElementById('lane'), svg=document.getElementById('arrows');
   var NS="http://www.w3.org/2000/svg";
-  var COL={fwd:'#4f46e5',back:'#be123c',jump:'#a15c00'};
+  var PAL=['#2563eb','#db2777','#0d9488','#ea580c'];  // 1 couleur par bouton (index dans l'écran)
 
   function nodeEl(id){ return lane.querySelector('[data-node="'+id+'"]'); }
-  function cpos(el){ // position dans le repère contenu de .flow
+  function cpos(el){
     var r=el.getBoundingClientRect(), f=flow.getBoundingClientRect();
     return {l:r.left-f.left+flow.scrollLeft, t:r.top-f.top+flow.scrollTop, w:r.width, h:r.height};
+  }
+  function assignLanes(list){ // ordonnancement d'intervalles : voies horizontales sans chevauchement
+    list.sort(function(a,b){return a.x0-b.x0;});
+    var laneMax=[];
+    list.forEach(function(a){
+      var lo=Math.min(a.x0,a.tcx), hi=Math.max(a.x0,a.tcx), placed=-1;
+      for(var k=0;k<laneMax.length;k++){ if(lo > laneMax[k]+18){ placed=k; break; } }
+      if(placed<0){ placed=laneMax.length; laneMax.push(0); }
+      a.lane=placed; laneMax[placed]=hi;
+    });
   }
 
   function draw(){
     while(svg.firstChild) svg.removeChild(svg.firstChild);
     var W=lane.scrollWidth, H=lane.scrollHeight;
-    svg.setAttribute('width',W); svg.setAttribute('height',H);
-    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.setAttribute('width',W); svg.setAttribute('height',H); svg.setAttribute('viewBox','0 0 '+W+' '+H);
 
-    // markers (une pointe par couleur)
     var defs=document.createElementNS(NS,'defs');
-    ['fwd','back','jump'].forEach(function(k){
+    PAL.forEach(function(col,i){
       var m=document.createElementNS(NS,'marker');
-      m.setAttribute('id','ah-'+k); m.setAttribute('markerWidth','9'); m.setAttribute('markerHeight','9');
-      m.setAttribute('refX','7'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
-      var p=document.createElementNS(NS,'path'); p.setAttribute('d','M0,0 L7,3 L0,6 Z'); p.setAttribute('fill',COL[k]);
+      m.setAttribute('id','ah'+i); m.setAttribute('markerWidth','8'); m.setAttribute('markerHeight','8');
+      m.setAttribute('refX','6.5'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
+      var p=document.createElementNS(NS,'path'); p.setAttribute('d','M0,0 L7,3 L0,6 Z'); p.setAttribute('fill',col);
       m.appendChild(p); defs.appendChild(m);
     });
     svg.appendChild(defs);
 
-    // bande verticale des écrans
-    var anyNode=nodeEl('accroche'); var np=cpos(anyNode);
-    var rowTop=np.t, rowBottom=np.t+np.h;
+    // haut/bas de la rangée d'écrans
+    var nodes=lane.querySelectorAll('[data-node]'), rowTop=1e9, rowBottom=0;
+    nodes.forEach(function(n){ var p=cpos(n); if(p.t<rowTop)rowTop=p.t; if(p.t+p.h>rowBottom)rowBottom=p.t+p.h; });
 
-    var btns=lane.querySelectorAll('.btn[data-to]');
-    var idx=0;
-    btns.forEach(function(b){
-      var tid=b.getAttribute('data-to'); var tgt=nodeEl(tid); if(!tgt) return;
-      var kind = b.classList.contains('back')?'back':(b.classList.contains('jump')?'jump':'fwd');
+    // collecte des flèches
+    var arrows=[];
+    lane.querySelectorAll('.btn[data-to]').forEach(function(b){
+      var tgt=nodeEl(b.getAttribute('data-to')); if(!tgt) return;
+      var sibs=[].slice.call(b.parentNode.children), ci=sibs.indexOf(b);
+      var col=PAL[ci%PAL.length], colI=ci%PAL.length;
+      b.style.setProperty('--dc',col);
       var bp=cpos(b), tp=cpos(tgt);
-      var sx=bp.l+bp.w-2, sy=bp.t+bp.h/2;           // départ : bord droit du bouton
-      var forward = (tp.l+tp.w/2) >= sx;             // destination à droite ?
-      var span=Math.abs((tp.l+tp.w/2)-sx);
-      var depth=Math.min(46+span*0.13,235)+(idx%5)*11;
-      var ex,ey,bandY;
-      if(forward){ // flèche sous la ligne, arrive par le bas de la cible
-        ex=tp.l+tp.w/2; ey=tp.t+tp.h; bandY=rowBottom+depth;
-      } else {     // flèche au-dessus, arrive par le haut de la cible
-        ex=tp.l+tp.w/2; ey=tp.t; bandY=rowTop-depth;
+      var dotX=bp.l+bp.w-9, dotY=bp.t+bp.h/2;      // centre de la pastille
+      var stub=12+ci*10, x0=dotX+stub;
+      var tcx=tp.l+tp.w/2;
+      var forward = tcx>=dotX;
+      arrows.push({dotX:dotX,dotY:dotY,x0:x0,tcx:tcx,tp:tp,forward:forward,col:col,colI:colI});
+    });
+
+    assignLanes(arrows.filter(function(a){return a.forward;}));
+    assignLanes(arrows.filter(function(a){return !a.forward;}));
+
+    arrows.forEach(function(a){
+      var depth=36+a.lane*24, d, ty;
+      if(a.forward){ var y=rowBottom+depth; ty=a.tp.t+a.tp.h;
+        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.tcx+' '+y+' L '+a.tcx+' '+ty;
+      } else { var y=rowTop-depth; ty=a.tp.t;
+        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.tcx+' '+y+' L '+a.tcx+' '+ty;
       }
-      var c1x=sx+(ex-sx)*0.25, c2x=sx+(ex-sx)*0.75;
-      var d='M '+sx+' '+sy+' C '+c1x+' '+bandY+' '+c2x+' '+bandY+' '+ex+' '+ey;
       var path=document.createElementNS(NS,'path');
-      path.setAttribute('d',d); path.setAttribute('fill','none');
-      path.setAttribute('stroke',COL[kind]); path.setAttribute('stroke-width','2');
-      path.setAttribute('opacity','0.85'); path.setAttribute('marker-end','url(#ah-'+kind+')');
+      path.setAttribute('d',d); path.setAttribute('fill','none'); path.setAttribute('stroke',a.col);
+      path.setAttribute('stroke-width','2.4'); path.setAttribute('stroke-linejoin','round');
+      path.setAttribute('opacity','0.92'); path.setAttribute('marker-end','url(#ah'+a.colI+')');
       svg.appendChild(path);
-      idx++;
     });
   }
 
