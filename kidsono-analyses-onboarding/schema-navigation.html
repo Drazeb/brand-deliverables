@@ -38,7 +38,8 @@
   .official{font-size:9px;font-weight:600;color:#8a8a8a;font-style:italic;line-height:1.25;border-top:1px dotted #ddd;padding-top:4px;}
   .official b{color:#4f46e5;font-style:normal;}
   .btns{display:flex;flex-direction:column;gap:5px;margin-top:1px;}
-  .btn{position:relative;font-size:9.5px;line-height:1.2;font-weight:700;color:#222;background:#f4f4ef;border:1px solid #e2e2da;border-radius:6px;padding:4px 18px 4px 7px;}
+  .btns{gap:15px !important;}
+  .btn{position:relative;font-size:9.5px;line-height:1.2;font-weight:700;color:#222;background:#f4f4ef;border:1px solid #e2e2da;border-radius:6px;padding:8px 20px 8px 8px;}
   .btn::after{content:"";position:absolute;right:4px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:var(--dc,#2563eb);box-shadow:0 0 0 2px #fff;}
 
   .outcol{flex:none;display:flex;flex-direction:column;gap:10px;align-self:center;}
@@ -49,6 +50,8 @@
   .note{font-size:12px;color:var(--muted);margin-top:20px;line-height:1.6;border-top:1px solid var(--border);padding-top:14px;max-width:1100px;}
   .note b{color:#191919;}
   .scrollhint{font-size:11px;color:#b0a98f;font-style:italic;margin:6px 0 0 2px;}
+  .vtitle{font-size:14px;font-weight:800;color:#191919;margin:26px 0 4px;padding-top:18px;border-top:2px solid #e6e6e0;}
+  .vtitle span{font-weight:600;color:#777;font-size:12.5px;}
 
   #lb{display:none;position:fixed;inset:0;background:rgba(20,20,18,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;}
   #lb img{max-width:70vw;max-height:92vh;object-fit:contain;border-radius:10px;}
@@ -71,6 +74,7 @@
     <span class="lline" style="color:#555;font-weight:600;font-style:italic;">chaque flèche a la couleur de sa pastille de départ · tracé à angle droit · avance sous la ligne, retour au-dessus</span>
   </div>
 
+  <div class="vtitle">Version A · une couleur par bouton <span>— sur un écran, 1er bouton bleu, 2e rose, 3e turquoise</span></div>
   <div class="flow" id="flow">
     <svg class="arrows" id="arrows"></svg>
     <div class="lane" id="lane">
@@ -259,6 +263,13 @@
   </div>
   <div class="scrollhint">← défiler horizontalement · cliquer une vignette pour l'agrandir →</div>
 
+  <div class="vtitle">Version B · une couleur unique par flèche <span>— chaque flèche du schéma a sa propre couleur (≈30 couleurs)</span></div>
+  <div class="flow" id="flow2">
+    <svg class="arrows" id="arrows2"></svg>
+    <div class="lane" id="lane2"></div>
+  </div>
+  <div class="scrollhint">← défiler horizontalement →</div>
+
   <p class="note"><b>Premier jet des flèches.</b> À valider : (1) <b>noms officiels Purchasely</b> (tes captures), (2) <b>Purchasely vs natif</b> par écran, (3) <b>routages</b> (retours et sauts). Si des flèches se chevauchent trop, je peux encore espacer ou réétager.</p>
 
 </div>
@@ -266,79 +277,76 @@
 <div id="lb"><img id="lbimg" src=""></div>
 <script>
 (function(){
-  var flow=document.getElementById('flow'), lane=document.getElementById('lane'), svg=document.getElementById('arrows');
   var NS="http://www.w3.org/2000/svg";
-  var PAL=['#2563eb','#db2777','#0d9488','#ea580c'];  // 1 couleur par bouton (index dans l'écran)
+  var PAL=['#2563eb','#db2777','#0d9488','#ea580c'];  // version A : couleur par index de bouton
+  function uniqueCol(i,n){ return 'hsl('+Math.round((i*137.5)%360)+',68%,45%)'; } // version B : 1 par flèche
 
-  function nodeEl(id){ return lane.querySelector('[data-node="'+id+'"]'); }
-  function cpos(el){
-    var r=el.getBoundingClientRect(), f=flow.getBoundingClientRect();
-    return {l:r.left-f.left+flow.scrollLeft, t:r.top-f.top+flow.scrollTop, w:r.width, h:r.height};
-  }
-  function assignLanes(list){ // ordonnancement d'intervalles : voies horizontales sans chevauchement
-    list.sort(function(a,b){return a.x0-b.x0;});
+  function assignLanes(list){
+    list.sort(function(a,b){return Math.min(a.x0,a.tcx)-Math.min(b.x0,b.tcx);});
     var laneMax=[];
     list.forEach(function(a){
       var lo=Math.min(a.x0,a.tcx), hi=Math.max(a.x0,a.tcx), placed=-1;
-      for(var k=0;k<laneMax.length;k++){ if(lo > laneMax[k]+18){ placed=k; break; } }
+      for(var k=0;k<laneMax.length;k++){ if(lo > laneMax[k]+20){ placed=k; break; } }
       if(placed<0){ placed=laneMax.length; laneMax.push(0); }
       a.lane=placed; laneMax[placed]=hi;
     });
   }
 
-  function draw(){
-    while(svg.firstChild) svg.removeChild(svg.firstChild);
-    var W=lane.scrollWidth, H=lane.scrollHeight;
-    svg.setAttribute('width',W); svg.setAttribute('height',H); svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  function draw(laneEl, svgEl, mode, pref){
+    var flowEl=laneEl.parentNode;
+    function cpos(el){ var r=el.getBoundingClientRect(), f=flowEl.getBoundingClientRect();
+      return {l:r.left-f.left+flowEl.scrollLeft, t:r.top-f.top+flowEl.scrollTop, w:r.width, h:r.height}; }
+    while(svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
+    var W=laneEl.scrollWidth, H=laneEl.scrollHeight;
+    svgEl.setAttribute('width',W); svgEl.setAttribute('height',H); svgEl.setAttribute('viewBox','0 0 '+W+' '+H);
+    var defs=document.createElementNS(NS,'defs'); svgEl.appendChild(defs);
 
-    var defs=document.createElementNS(NS,'defs');
-    PAL.forEach(function(col,i){
-      var m=document.createElementNS(NS,'marker');
-      m.setAttribute('id','ah'+i); m.setAttribute('markerWidth','8'); m.setAttribute('markerHeight','8');
-      m.setAttribute('refX','6.5'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
-      var p=document.createElementNS(NS,'path'); p.setAttribute('d','M0,0 L7,3 L0,6 Z'); p.setAttribute('fill',col);
-      m.appendChild(p); defs.appendChild(m);
-    });
-    svg.appendChild(defs);
-
-    // haut/bas de la rangée d'écrans
-    var nodes=lane.querySelectorAll('[data-node]'), rowTop=1e9, rowBottom=0;
+    var nodes=laneEl.querySelectorAll('[data-node]'), rowTop=1e9, rowBottom=0;
     nodes.forEach(function(n){ var p=cpos(n); if(p.t<rowTop)rowTop=p.t; if(p.t+p.h>rowBottom)rowBottom=p.t+p.h; });
 
-    // collecte des flèches
-    var arrows=[];
-    lane.querySelectorAll('.btn[data-to]').forEach(function(b){
-      var tgt=nodeEl(b.getAttribute('data-to')); if(!tgt) return;
-      var sibs=[].slice.call(b.parentNode.children), ci=sibs.indexOf(b);
-      var col=PAL[ci%PAL.length], colI=ci%PAL.length;
+    var btns=laneEl.querySelectorAll('.btn[data-to]'), total=btns.length, arrows=[], gi=0;
+    btns.forEach(function(b){
+      var tgt=laneEl.querySelector('[data-node="'+b.getAttribute('data-to')+'"]'); if(!tgt){gi++;return;}
+      var node=b.closest('.node'), sibs=[].slice.call(b.parentNode.children), ci=sibs.indexOf(b);
+      var col = mode==='index' ? PAL[ci%PAL.length] : uniqueCol(gi,total);
       b.style.setProperty('--dc',col);
-      var bp=cpos(b), tp=cpos(tgt);
-      var dotX=bp.l+bp.w-9, dotY=bp.t+bp.h/2;      // centre de la pastille
-      var stub=12+ci*10, x0=dotX+stub;
-      var tcx=tp.l+tp.w/2;
-      var forward = tcx>=dotX;
-      arrows.push({dotX:dotX,dotY:dotY,x0:x0,tcx:tcx,tp:tp,forward:forward,col:col,colI:colI});
+      var bp=cpos(b), tp=cpos(tgt), np=cpos(node);
+      var dotX=bp.l+bp.w-9, dotY=bp.t+bp.h/2;         // centre de la pastille (départ)
+      var x0=(np.l+np.w)+14+ci*15;                     // sort DANS le gap à droite de l'écran (visible), décalé par bouton
+      var tcx=tp.l+tp.w/2, forward=tcx>=dotX;
+      arrows.push({dotX:dotX,dotY:dotY,x0:x0,tcx:tcx,tp:tp,forward:forward,col:col,gi:gi});
+      gi++;
     });
 
     assignLanes(arrows.filter(function(a){return a.forward;}));
     assignLanes(arrows.filter(function(a){return !a.forward;}));
 
     arrows.forEach(function(a){
-      var depth=36+a.lane*24, d, ty;
-      if(a.forward){ var y=rowBottom+depth; ty=a.tp.t+a.tp.h;
-        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.tcx+' '+y+' L '+a.tcx+' '+ty;
-      } else { var y=rowTop-depth; ty=a.tp.t;
-        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.tcx+' '+y+' L '+a.tcx+' '+ty;
-      }
+      var m=document.createElementNS(NS,'marker'), mid=pref+a.gi;
+      m.setAttribute('id',mid); m.setAttribute('markerWidth','8'); m.setAttribute('markerHeight','8');
+      m.setAttribute('refX','6.5'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
+      var mp=document.createElementNS(NS,'path'); mp.setAttribute('d','M0,0 L7,3 L0,6 Z'); mp.setAttribute('fill',a.col);
+      m.appendChild(mp); defs.appendChild(m);
+
+      var depth=38+a.lane*26, y, ty;
+      if(a.forward){ y=rowBottom+depth; ty=a.tp.t+a.tp.h; }
+      else { y=rowTop-depth; ty=a.tp.t; }
+      var d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.tcx+' '+y+' L '+a.tcx+' '+ty;
       var path=document.createElementNS(NS,'path');
       path.setAttribute('d',d); path.setAttribute('fill','none'); path.setAttribute('stroke',a.col);
       path.setAttribute('stroke-width','2.4'); path.setAttribute('stroke-linejoin','round');
-      path.setAttribute('opacity','0.92'); path.setAttribute('marker-end','url(#ah'+a.colI+')');
-      svg.appendChild(path);
+      path.setAttribute('opacity','0.92'); path.setAttribute('marker-end','url(#'+mid+')');
+      svgEl.appendChild(path);
     });
   }
 
-  function run(){ draw(); }
+  var lane=document.getElementById('lane'), lane2=document.getElementById('lane2');
+  lane2.innerHTML=lane.innerHTML;  // clone du schéma pour la version B
+
+  function run(){
+    draw(lane, document.getElementById('arrows'), 'index', 'a');
+    draw(lane2, document.getElementById('arrows2'), 'unique', 'b');
+  }
   if(document.readyState==='complete') run(); else window.addEventListener('load',run);
   window.addEventListener('resize',function(){ clearTimeout(window.__t); window.__t=setTimeout(run,200); });
 
