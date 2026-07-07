@@ -26,7 +26,7 @@
 
   .flow{position:relative;overflow-x:auto;margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:14px;}
   .lane{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:118px;padding:260px 50px 340px;width:max-content;position:relative;z-index:1;}
-  svg.arrows{position:absolute;top:0;left:0;z-index:0;pointer-events:none;overflow:visible;}
+  svg.arrows{position:absolute;top:0;left:0;z-index:4;pointer-events:none;overflow:visible;}
 
   .node{flex:none;width:150px;position:relative;background:#fff;border:1px solid var(--border);border-top-width:4px;border-radius:11px;padding:8px 8px 9px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
   .node.ply{border-top-color:var(--ply);} .node.nat{border-top-color:var(--nat);} .node.dev{border-top-color:var(--dev);} .node.apple{border-top-color:var(--apple);}
@@ -292,6 +292,14 @@
     });
   }
 
+  function mkMarker(defs,mid,col){
+    var m=document.createElementNS(NS,'marker');
+    m.setAttribute('id',mid); m.setAttribute('markerWidth','8'); m.setAttribute('markerHeight','8');
+    m.setAttribute('refX','6.5'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
+    var mp=document.createElementNS(NS,'path'); mp.setAttribute('d','M0,0 L7,3 L0,6 Z'); mp.setAttribute('fill',col);
+    m.appendChild(mp); defs.appendChild(m);
+  }
+
   function draw(laneEl, svgEl, mode, pref){
     var flowEl=laneEl.parentNode;
     function cpos(el){ var r=el.getBoundingClientRect(), f=flowEl.getBoundingClientRect();
@@ -301,41 +309,46 @@
     svgEl.setAttribute('width',W); svgEl.setAttribute('height',H); svgEl.setAttribute('viewBox','0 0 '+W+' '+H);
     var defs=document.createElementNS(NS,'defs'); svgEl.appendChild(defs);
 
-    var nodes=laneEl.querySelectorAll('[data-node]'), rowTop=1e9, rowBottom=0;
-    nodes.forEach(function(n){ var p=cpos(n); if(p.t<rowTop)rowTop=p.t; if(p.t+p.h>rowBottom)rowBottom=p.t+p.h; });
+    var order=[].slice.call(laneEl.querySelectorAll('[data-node]')), idxOf={}, rowTop=1e9, rowBottom=0;
+    order.forEach(function(n,i){ idxOf[n.getAttribute('data-node')]=i; var p=cpos(n); if(p.t<rowTop)rowTop=p.t; if(p.t+p.h>rowBottom)rowBottom=p.t+p.h; });
 
-    var btns=laneEl.querySelectorAll('.btn[data-to]'), total=btns.length, arrows=[], gi=0;
-    btns.forEach(function(b){
-      var tgt=laneEl.querySelector('[data-node="'+b.getAttribute('data-to')+'"]'); if(!tgt){gi++;return;}
-      var node=b.closest('.node'), sibs=[].slice.call(b.parentNode.children), ci=sibs.indexOf(b);
+    var btns=[].slice.call(laneEl.querySelectorAll('.btn[data-to]')), total=btns.length, arrows=[];
+    btns.forEach(function(b,gi){
+      var toId=b.getAttribute('data-to'), tgt=laneEl.querySelector('[data-node="'+toId+'"]'); if(!tgt) return;
+      var node=b.closest('.node'), fromId=node.getAttribute('data-node');
+      var sibs=[].slice.call(b.parentNode.children), ci=sibs.indexOf(b);
       var col = mode==='index' ? PAL[ci%PAL.length] : uniqueCol(gi,total);
       b.style.setProperty('--dc',col);
       var bp=cpos(b), tp=cpos(tgt), np=cpos(node);
-      var dotX=bp.l+bp.w-9, dotY=bp.t+bp.h/2;         // centre de la pastille (départ)
-      var x0=(np.l+np.w)+14+ci*15;                     // sort DANS le gap à droite de l'écran (visible), décalé par bouton
-      var tcx=tp.l+tp.w/2, forward=tcx>=dotX;
-      arrows.push({dotX:dotX,dotY:dotY,x0:x0,tcx:tcx,tp:tp,forward:forward,col:col,gi:gi});
-      gi++;
+      var forward = tp.l >= (np.l+np.w-4);
+      var adjacent = forward && (idxOf[toId]===idxOf[fromId]+1);
+      arrows.push({ci:ci,gi:gi,col:col,adjacent:adjacent,forward:forward,
+        dotX:bp.l+bp.w-9, dotY:bp.t+bp.h/2, np:np, tp:tp,
+        x0:(np.l+np.w)+16+ci*16, tcx:tp.l+tp.w/2});
     });
 
-    assignLanes(arrows.filter(function(a){return a.forward;}));
+    // voies uniquement pour les flèches "à bande" (non directes)
+    assignLanes(arrows.filter(function(a){return a.forward && !a.adjacent;}));
     assignLanes(arrows.filter(function(a){return !a.forward;}));
 
     arrows.forEach(function(a){
-      var m=document.createElementNS(NS,'marker'), mid=pref+a.gi;
-      m.setAttribute('id',mid); m.setAttribute('markerWidth','8'); m.setAttribute('markerHeight','8');
-      m.setAttribute('refX','6.5'); m.setAttribute('refY','3'); m.setAttribute('orient','auto');
-      var mp=document.createElementNS(NS,'path'); mp.setAttribute('d','M0,0 L7,3 L0,6 Z'); mp.setAttribute('fill',a.col);
-      m.appendChild(mp); defs.appendChild(m);
-
-      var depth=38+a.lane*26, y, ty;
-      if(a.forward){ y=rowBottom+depth; ty=a.tp.t+a.tp.h; }
-      else { y=rowTop-depth; ty=a.tp.t; }
-      var d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.tcx+' '+y+' L '+a.tcx+' '+ty;
+      var mid=pref+a.gi; mkMarker(defs,mid,a.col);
+      var d;
+      if(a.adjacent){                              // ADJACENT : trait direct vers le bord gauche de la cible
+        var ey=Math.max(a.tp.t+10, Math.min(a.tp.t+a.tp.h-10, a.dotY)), ex=a.tp.l-3;
+        if(Math.abs(ey-a.dotY)<2){ d='M '+a.dotX+' '+a.dotY+' L '+ex+' '+a.dotY; }
+        else { var mx=(a.dotX+ex)/2; d='M '+a.dotX+' '+a.dotY+' L '+mx+' '+a.dotY+' L '+mx+' '+ey+' L '+ex+' '+ey; }
+      } else if(a.forward){                          // FORWARD éloigné : par le bas
+        var yb=rowBottom+(40+a.lane*26), tyb=a.tp.t+a.tp.h, exb=a.tcx+((a.lane%4)-1.5)*12;
+        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+yb+' L '+exb+' '+yb+' L '+exb+' '+tyb;
+      } else {                                       // RETOUR : par le haut
+        var yt=rowTop-(40+a.lane*26), tyt=a.tp.t, ext=a.tcx+((a.lane%4)-1.5)*12;
+        d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+yt+' L '+ext+' '+yt+' L '+ext+' '+tyt;
+      }
       var path=document.createElementNS(NS,'path');
       path.setAttribute('d',d); path.setAttribute('fill','none'); path.setAttribute('stroke',a.col);
       path.setAttribute('stroke-width','2.4'); path.setAttribute('stroke-linejoin','round');
-      path.setAttribute('opacity','0.92'); path.setAttribute('marker-end','url(#'+mid+')');
+      path.setAttribute('opacity','0.95'); path.setAttribute('marker-end','url(#'+mid+')');
       svgEl.appendChild(path);
     });
   }
