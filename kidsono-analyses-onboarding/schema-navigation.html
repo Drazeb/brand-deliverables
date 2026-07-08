@@ -128,12 +128,12 @@
     {id:'verif20',type:'ph',kind:'verif',img:null,phT:'🔎 Vérification : a déjà bénéficié des 20 min offertes ?',phD:'Paramètre lié au compte, vérifiable uniquement après connexion.',warn:'Vérification importante pour les utilisateurs ayant déjà bénéficié mais qui n’étaient pas connectés jusqu’ici.',b:[['N’a pas encore bénéficié des 20 min offertes','profil',0,'b'],['A déjà bénéficié mais n’a pas terminé ses 20 min','activees',0,'b'],['A déjà bénéficié et a terminé ses 20 min','terminees',0,'b']]},
     {id:'__profilstack',type:'stack',items:[
       {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage1',1,'b']]},
-      {id:'activees',type:'ply',pid:'modale_offertes_activees',neuf:1,img:'offertes-activees.png',b:[['✕ Fermer','catalogue',0,'t'],['J’écoute mes histoires offertes','usage1',1,'b']]},
+      {id:'activees',type:'ply',pid:'modale_offertes_activees',neuf:1,img:'offertes-activees.png',b:[['✕ Fermer','usage1',0,'t'],['J’écoute mes histoires offertes','usage1',1,'b']]},
       {id:'terminees',type:'ply',pid:'modale_offertes_terminees',neuf:1,img:'offertes-terminees.png',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]}
     ]},
     {id:'usage1',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min offertes (navigation libre + lecteur).',b:[['Les 20 min s’écoulent','usage2',0,'b']]},
     {id:'usage2',name:'',type:'ph',img:null,phT:'⏳ Fin d’utilisation des 20 minutes offertes',phD:'',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
-    {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',pid:'paywall_valeur',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]},
+    {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',pid:'paywall_valeur',b:[['✕ Fermer','usage2',0,'t'],['Je choisis ma formule','formules',1,'b']]},
     {id:'formules',name:'Choix de la formule',type:'ply',img:'2-paywall-formules.png',pid:'paywall_formules',b:[['◂ Retour','paywall',0,'t'],["Je m'abonne",'apple',1,'b']]},
     {id:'apple',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','formules',0,'t'],['Confirmé','usageSub',1,'b']]},
     {id:'usageSub',name:'',type:'ph',img:null,phT:'👑 Phase d’utilisation d’un abonné',phD:'Écoute selon le quota mensuel de la formule choisie.',b:[['Le quota d’abonné est écoulé au milieu d’une histoire','fintemps',0,'b'],['L’utilisateur veut relancer une histoire','fintemps',0,'b'],['L’utilisateur écoute un extrait de l’histoire en entier','fintemps',0,'b']]},
@@ -178,7 +178,7 @@
     var mx=[];
     list.forEach(function(a){
       var lo=Math.min(a.x0,a.vg),hi=Math.max(a.x0,a.vg),pl=-1;
-      for(var k=0;k<mx.length;k++){ if(lo>mx[k]+22){pl=k;break;} }
+      for(var k=0;k<mx.length;k++){ if(lo>mx[k]+26){pl=k;break;} }
       if(pl<0){pl=mx.length;mx.push(0);}
       a.lane=pl; mx[pl]=hi;
     });
@@ -244,13 +244,13 @@
     arrows.forEach(function(a){
       var mid=pref+a.gi;mk(defs,mid,a.col);var d;
       if(!a.ls){                                     // ENTRÉE PAR LE HAUT
-        var yTop=a.base-32-a.lane*22;
+        var yTop=a.base-32-a.lane*25;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+yTop+' L '+a.entryX+' '+yTop+' L '+a.entryX+' '+(a.tp.t-2);
       } else if(a.band==='b'){                        // ENTRÉE PAR LA GAUCHE (empilé)
-        var y=a.base+26+a.lane*22;
+        var y=a.base+26+a.lane*25;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.vg+' '+y+' L '+a.vg+' '+a.entryY+' L '+(a.tp.l-2)+' '+a.entryY;
       } else {                                        // ENTRÉE PAR LA DROITE (empilé, retour)
-        var y2=a.base-26-a.lane*22;
+        var y2=a.base-26-a.lane*25;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y2+' L '+a.vg+' '+y2+' L '+a.vg+' '+a.entryY+' L '+(a.tp.l+a.tp.w+2)+' '+a.entryY;
       }
       var p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');
