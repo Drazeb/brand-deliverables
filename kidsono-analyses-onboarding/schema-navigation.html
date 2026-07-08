@@ -114,11 +114,13 @@
     {id:'modale',name:'Mur 1 · Modale activation',type:'ply',img:'_mur1-modale.png',pid:'modale_deblocage',b:[['✕ Fermer','fiche',0,'t'],["J'essaie gratuitement",'compte',1,'b']]},
     {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire avec Apple",'sso',0,'b'],["S'inscrire avec Google",'sso',0,'b'],["S'inscrire avec mon e-mail",'code',1,'b']]},
     {id:'__codestack',type:'stack',items:[
-      {id:'sso',type:'ph',phT:'🔑 Process d’inscription SSO',phD:'Connexion via Apple ou Google (géré par l’OS).',b:[['Inscription SSO effectuée','profil',0,'b']]},
-      {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','profil',1,'b']]}
+      {id:'sso',type:'ph',phT:'🔑 Process d’inscription ou connexion SSO',phD:'Inscription si nouveau compte, sinon connexion (géré par l’OS).',b:[['Inscription / connexion effectuée','verif20',0,'b']]},
+      {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','verif20',1,'b']]}
     ]},
-    {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage',1,'b']]},
-    {id:'usage',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min d’histoires offertes (navigation libre + lecteur).',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
+    {id:'verif20',type:'ph',img:null,phT:'🔎 Vérification : a déjà bénéficié des 20 min offertes ?',phD:'Paramètre lié au compte, vérifiable uniquement après connexion.',b:[['N’a pas encore bénéficié des 20 min offertes','profil',0,'b'],['A déjà bénéficié mais n’a pas terminé ses 20 min','usage1',0,'b'],['A déjà bénéficié et a terminé ses 20 min','usage2',0,'b']]},
+    {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage1',1,'b']]},
+    {id:'usage1',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min offertes (navigation libre + lecteur).',b:[['Les 20 min s’écoulent','usage2',0,'b']]},
+    {id:'usage2',name:'',type:'ph',img:null,phT:'⏳ Fin d’utilisation des 20 minutes offertes',phD:'',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
     {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',pid:'paywall_valeur',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]},
     {id:'formules',name:'Choix de la formule',type:'ply',img:'2-paywall-formules.png',pid:'paywall_formules',b:[['◂ Retour','paywall',0,'t'],["Je m'abonne",'apple',1,'b']]},
     {id:'apple',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','formules',0,'t'],['Confirmé','usageSub',1,'b']]},
