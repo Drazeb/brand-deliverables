@@ -119,7 +119,7 @@
     {id:'modale',name:'Mur 1 · Modale activation',type:'ply',img:'_mur1-modale.png',pid:'modale_deblocage',b:[['✕ Fermer','fiche',0,'t'],["J'essaie gratuitement",'compte',1,'b']]},
     {id:'__comptestack',type:'stack',items:[
       {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire avec Apple",'sso',0,'b'],["S'inscrire avec Google",'sso',0,'b'],["S'inscrire avec mon e-mail",'code',1,'b']]},
-      {id:'connexion',name:'Connexion au compte',type:'nat',neuf:1,img:'connexion-compte.png',b:[['✕ Fermer','catalogue',0,'t'],['Se connecter avec Apple','sso',0,'b'],['Se connecter avec Google','sso',0,'b'],['Se connecter avec mon e-mail','code',1,'b']]}
+      {id:'connexion',type:'ply',pid:'connexion_compte',neuf:1,img:'connexion-compte.png',b:[['✕ Fermer','catalogue',0,'t'],['Se connecter avec Apple','sso',0,'b'],['Se connecter avec Google','sso',0,'b'],['Se connecter avec mon e-mail','code',1,'b']]}
     ]},
     {id:'__codestack',type:'stack',items:[
       {id:'sso',type:'ph',kind:'signup',phT:'🔑 Process d’inscription ou connexion SSO',phD:'Inscription si nouveau compte, sinon connexion (géré par l’OS).',b:[['Inscription / connexion effectuée','verif20',0,'b']]},
@@ -128,8 +128,8 @@
     {id:'verif20',type:'ph',kind:'verif',img:null,phT:'🔎 Vérification : a déjà bénéficié des 20 min offertes ?',phD:'Paramètre lié au compte, vérifiable uniquement après connexion.',warn:'Vérification importante pour les utilisateurs ayant déjà bénéficié mais qui n’étaient pas connectés jusqu’ici.',b:[['N’a pas encore bénéficié des 20 min offertes','profil',0,'b'],['A déjà bénéficié mais n’a pas terminé ses 20 min','activees',0,'b'],['A déjà bénéficié et a terminé ses 20 min','terminees',0,'b']]},
     {id:'__profilstack',type:'stack',items:[
       {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage1',1,'b']]},
-      {id:'activees',name:'Modale · histoires offertes activées',type:'ply',off:1,neuf:1,img:'offertes-activees.png',b:[['✕ Fermer','catalogue',0,'t'],['J’écoute mes histoires offertes','usage1',1,'b']]},
-      {id:'terminees',name:'Modale · histoires offertes terminées',type:'ply',off:1,neuf:1,img:'offertes-terminees.png',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','usage2',1,'b']]}
+      {id:'activees',type:'ply',pid:'modale_offertes_activees',neuf:1,img:'offertes-activees.png',b:[['✕ Fermer','catalogue',0,'t'],['J’écoute mes histoires offertes','usage1',1,'b']]},
+      {id:'terminees',type:'ply',pid:'modale_offertes_terminees',neuf:1,img:'offertes-terminees.png',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]}
     ]},
     {id:'usage1',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min offertes (navigation libre + lecteur).',b:[['Les 20 min s’écoulent','usage2',0,'b']]},
     {id:'usage2',name:'',type:'ph',img:null,phT:'⏳ Fin d’utilisation des 20 minutes offertes',phD:'',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
@@ -230,9 +230,12 @@
     arrows.forEach(function(a){ if(a.band==='b'||a.band==='t'){ vx.push({a:a,k:'x0'}); vx.push({a:a,k:'ex'}); } });
     vx.sort(function(p,q){return p.a[p.k]-q.a[q.k];});
     for(var vi=1;vi<vx.length;vi++){ var pv=vx[vi-1].a[vx[vi-1].k], cv=vx[vi].a[vx[vi].k]; if(cv-pv<11){ vx[vi].a[vx[vi].k]=pv+11; } }
-    // voies horizontales sans chevauchement, par bande
-    assignLanes(arrows.filter(function(a){return a.band==='b';}));
-    assignLanes(arrows.filter(function(a){return a.band==='t';}));
+    // bande LOCALISÉE : juste sous (forward) / au-dessus (retour) des deux écrans concernés -> plus de détour absurde vers le bas global
+    arrows.forEach(function(a){ if(a.band==='b') a.base=Math.max(a.np.t+a.np.h,a.tp.t+a.tp.h); else if(a.band==='t') a.base=Math.min(a.np.t,a.tp.t); });
+    // voies horizontales sans chevauchement, groupées par niveau de bande
+    function laneGrp(list){var g={};list.forEach(function(a){var k=Math.round(a.base/22);(g[k]=g[k]||[]).push(a);});Object.keys(g).forEach(function(k){assignLanes(g[k]);});}
+    laneGrp(arrows.filter(function(a){return a.band==='b';}));
+    laneGrp(arrows.filter(function(a){return a.band==='t';}));
 
     arrows.forEach(function(a){
       var mid=pref+a.gi;mk(defs,mid,a.col);var d;
@@ -241,10 +244,10 @@
         if(Math.abs(ey-a.dotY)<2)d='M '+a.dotX+' '+a.dotY+' L '+ex+' '+ey;
         else{var mxx=(a.dotX+ex)/2;d='M '+a.dotX+' '+a.dotY+' L '+mxx+' '+a.dotY+' L '+mxx+' '+ey+' L '+ex+' '+ey;}
       } else if(a.band==='b'){
-        var y=rowBottom+44+a.lane*26,ty=a.tp.t+a.tp.h;
+        var y=a.base+42+a.lane*24,ty=a.tp.t+a.tp.h;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.ex+' '+y+' L '+a.ex+' '+ty;
       } else {
-        var y2=rowTop-44-a.lane*26,ty2=a.tp.t;
+        var y2=a.base-42-a.lane*24,ty2=a.tp.t;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y2+' L '+a.ex+' '+y2+' L '+a.ex+' '+ty2;
       }
       var p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');
