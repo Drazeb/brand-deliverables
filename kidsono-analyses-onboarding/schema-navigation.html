@@ -93,7 +93,9 @@
 (function(){
   var NS="http://www.w3.org/2000/svg";
   var IMG="ecrans-finaux-claude-design/";
-  function uCol(i,n){ return 'hsl('+Math.round((i*137.508)%360)+',70%,45%)'; }
+  // 20 couleurs distinctes, assignées selon la position X (grand pas) : jamais deux teintes proches côte à côte
+  var PAL=['#e6194B','#3cb44b','#4363d8','#f58231','#911eb4','#0d9488','#9A6324','#f032e6','#808000','#000075',
+           '#d62728','#17a2b8','#e07000','#6a1b9a','#2e7d32','#c2185b','#5d4037','#1565c0','#8b8b00','#00695c'];
 
   // ---- données : ordre = déroulé ; pos = position du bouton sur l'écran ----
   var NODES=[
@@ -176,18 +178,22 @@
     var order=[].slice.call(laneEl.querySelectorAll('[data-node]')),idx={},rowTop=1e9,rowBottom=0;
     order.forEach(function(n,i){idx[n.getAttribute('data-node')]=i;var p=cp(n);if(p.t<rowTop)rowTop=p.t;if(p.t+p.h>rowBottom)rowBottom=p.t+p.h;});
 
-    var btns=[].slice.call(laneEl.querySelectorAll('.btn[data-to]')),total=btns.length,arrows=[],ncount={};
+    var btns=[].slice.call(laneEl.querySelectorAll('.btn[data-to]')),arrows=[],ncount={};
     btns.forEach(function(b,gi){
       var toId=b.getAttribute('data-to'),tgt=laneEl.querySelector('[data-node="'+toId+'"]');if(!tgt)return;
       var host=b.closest('[data-node]'),fromId=host.getAttribute('data-node');
-      var col=uCol(gi,total);b.style.setProperty('--dc',col);
       var bp=cp(b),tp=cp(tgt),np=cp(host);
       var k=ncount[fromId]||0;ncount[fromId]=k+1;
       var forward=tp.l>=np.l+np.w-4, adjacent=forward&&(idx[toId]===idx[fromId]+1);
       var pos=b.getAttribute('data-pos');
       var band= adjacent?'d':(bandMode==='pos'?(pos==='t'?'t':'b'):(forward?'b':'t'));
-      arrows.push({to:toId,col:col,gi:gi,band:band,dotX:bp.l+bp.w-9,dotY:bp.t+bp.h/2,
+      arrows.push({b:b,gi:gi,to:toId,band:band,dotX:bp.l+bp.w-9,dotY:bp.t+bp.h/2,
         np:np,tp:tp,x0:(np.l+np.w)+18+k*16,tcx:tp.l+tp.w/2});
+    });
+    // couleurs : réparties sur tout le spectre À L'INTÉRIEUR de chaque bande (là où les flèches sont parallèles) -> pas deux teintes proches dans la même zone
+    ['t','b','d'].forEach(function(bd,bi){
+      var g=arrows.filter(function(a){return a.band===bd;}).sort(function(p,q){return p.dotX-q.dotX;}),n=g.length||1;
+      g.forEach(function(a,j){var hue=Math.round((j*137.508+bi*40)%360);a.col='hsl('+hue+',72%,'+(45+(j%2)*7)+'%)';a.b.style.setProperty('--dc',a.col);});
     });
 
     // points d'entrée uniques par (cible, bande)
