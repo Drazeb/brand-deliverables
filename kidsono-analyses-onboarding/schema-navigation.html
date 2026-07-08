@@ -38,6 +38,7 @@
   .thumb img{display:block;width:100%;height:auto;cursor:zoom-in;}
   .tag{font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 6px;border-radius:5px;color:#fff;align-self:flex-start;}
   .tag.ply{background:var(--ply);} .tag.nat{background:var(--nat);} .tag.dev{background:var(--dev);} .tag.apple{background:var(--apple);}
+  .neuf{position:absolute;top:-9px;right:-9px;z-index:6;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#fff;background:#16a34a;border:2px solid #fff;border-radius:7px;padding:3px 8px;box-shadow:0 2px 6px rgba(0,0,0,.28);}
   .nname{font-size:12.5px;font-weight:800;color:#191919;line-height:1.2;}
   .nname.tech{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#4f46e5;word-break:break-all;}
   .official{font-size:9px;font-weight:600;color:#8a8a8a;font-style:italic;line-height:1.25;border-top:1px dotted #ddd;padding-top:4px;}
@@ -108,7 +109,7 @@
   // ---- données : ordre = déroulé ; pos = position du bouton sur l'écran ----
   var NODES=[
     {id:'splash',name:'Splash',type:'nat',img:'01-splash.png',b:[['(auto)','accroche',0,'b']]},
-    {id:'accroche',name:'Accroche / Claim',type:'ply',img:'02-accroche.png',pid:'claim_accroche',b:[["Je découvre",'consent',1,'b'],['Se connecter','compte',0,'b']]},
+    {id:'accroche',name:'Accroche / Claim',type:'ply',img:'02-accroche.png',pid:'claim_accroche',b:[["Je découvre",'consent',1,'b'],['Se connecter','connexion',0,'b']]},
     {id:'consent',name:'Consentement parents',type:'ply',img:'consent-donnees.png',pid:'consentement_parents',b:[['Accepter','car1',1,'b'],['Ne pas accepter','car1',0,'b']]},
     {id:'car1',name:'Carrousel 1 · Catalogue',type:'ply',img:'valeur-1-catalogue.png',pid:'onboarding_catalogue',b:[['◂ Retour','consent',0,'t'],['Passer','catalogue',0,'t'],['Suivant','car2',1,'b']]},
     {id:'car2',name:'Carrousel 2 · Autorité',type:'ply',img:'06-autorite.png',pid:'onboarding_autorite',b:[['◂ Retour','car1',0,'t'],['Passer','catalogue',0,'t'],['Suivant','car3',1,'b']]},
@@ -116,13 +117,20 @@
     {id:'catalogue',name:'Catalogue (accueil app)',type:'nat',img:'app-catalogue.png',b:[['Tap sur une histoire','fiche',0,'b']]},
     {id:'fiche',name:'Fiche histoire',type:'nat',img:'app-fiche-extrait.png',b:[['◂ Retour','catalogue',0,'t'],['Extrait gratuit (fin d’écoute)','modale',0,'b'],['Histoire complète','modale',1,'b']]},
     {id:'modale',name:'Mur 1 · Modale activation',type:'ply',img:'_mur1-modale.png',pid:'modale_deblocage',b:[['✕ Fermer','fiche',0,'t'],["J'essaie gratuitement",'compte',1,'b']]},
-    {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire avec Apple",'sso',0,'b'],["S'inscrire avec Google",'sso',0,'b'],["S'inscrire avec mon e-mail",'code',1,'b']]},
+    {id:'__comptestack',type:'stack',items:[
+      {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire avec Apple",'sso',0,'b'],["S'inscrire avec Google",'sso',0,'b'],["S'inscrire avec mon e-mail",'code',1,'b']]},
+      {id:'connexion',name:'Connexion au compte',type:'nat',neuf:1,img:'connexion-compte.png',b:[['✕ Fermer','catalogue',0,'t'],['Se connecter avec Apple','sso',0,'b'],['Se connecter avec Google','sso',0,'b'],['Se connecter avec mon e-mail','code',1,'b']]}
+    ]},
     {id:'__codestack',type:'stack',items:[
       {id:'sso',type:'ph',kind:'signup',phT:'🔑 Process d’inscription ou connexion SSO',phD:'Inscription si nouveau compte, sinon connexion (géré par l’OS).',b:[['Inscription / connexion effectuée','verif20',0,'b']]},
       {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','verif20',1,'b']]}
     ]},
-    {id:'verif20',type:'ph',kind:'verif',img:null,phT:'🔎 Vérification : a déjà bénéficié des 20 min offertes ?',phD:'Paramètre lié au compte, vérifiable uniquement après connexion.',warn:'Vérification importante pour les utilisateurs ayant déjà bénéficié mais qui n’étaient pas connectés jusqu’ici.',b:[['N’a pas encore bénéficié des 20 min offertes','profil',0,'b'],['A déjà bénéficié mais n’a pas terminé ses 20 min','usage1',0,'b'],['A déjà bénéficié et a terminé ses 20 min','usage2',0,'b']]},
-    {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage1',1,'b']]},
+    {id:'verif20',type:'ph',kind:'verif',img:null,phT:'🔎 Vérification : a déjà bénéficié des 20 min offertes ?',phD:'Paramètre lié au compte, vérifiable uniquement après connexion.',warn:'Vérification importante pour les utilisateurs ayant déjà bénéficié mais qui n’étaient pas connectés jusqu’ici.',b:[['N’a pas encore bénéficié des 20 min offertes','profil',0,'b'],['A déjà bénéficié mais n’a pas terminé ses 20 min','activees',0,'b'],['A déjà bénéficié et a terminé ses 20 min','terminees',0,'b']]},
+    {id:'__profilstack',type:'stack',items:[
+      {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage1',1,'b']]},
+      {id:'activees',name:'Modale · histoires offertes activées',type:'ply',off:1,neuf:1,img:'offertes-activees.png',b:[['✕ Fermer','catalogue',0,'t'],['J’écoute mes histoires offertes','usage1',1,'b']]},
+      {id:'terminees',name:'Modale · histoires offertes terminées',type:'ply',off:1,neuf:1,img:'offertes-terminees.png',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','usage2',1,'b']]}
+    ]},
     {id:'usage1',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min offertes (navigation libre + lecteur).',b:[['Les 20 min s’écoulent','usage2',0,'b']]},
     {id:'usage2',name:'',type:'ph',img:null,phT:'⏳ Fin d’utilisation des 20 minutes offertes',phD:'',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
     {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',pid:'paywall_valeur',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]},
@@ -149,7 +157,7 @@
     var top=n.b.filter(function(b){return b[3]==='t';}), bot=n.b.filter(function(b){return b[3]==='b';});
     var topH = split ? '<div class="btns top">'+top.map(btnHTML).join('')+'</div>' : '';
     var botList = split ? bot : n.b;
-    return '<div class="node '+n.type+'" data-node="'+n.id+'">'+topH
+    return '<div class="node '+n.type+'" data-node="'+n.id+'">'+(n.neuf?'<span class="neuf">✦ Nouveau</span>':'')+topH
       +'<div class="thumb"><img src="'+IMG+n.img+'"></div>'
       +'<span class="tag '+n.type+'">'+(n.type==='ply'?'Purchasely':n.type==='dev'?'Natif à dév.':n.type==='apple'?'Apple':'Natif')+'</span>'
       +'<div class="nname'+(n.pid?' tech':'')+'">'+(n.pid||n.name)+'</div>'
