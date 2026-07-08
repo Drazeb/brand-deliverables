@@ -29,7 +29,7 @@
 
   .flow{position:relative;overflow-x:auto;margin-top:12px;background:var(--surface);border:1px solid var(--border);border-radius:14px;}
   .lane{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:300px;padding:150px 70px 300px;width:max-content;position:relative;z-index:1;}
-  .lane.split{padding-top:380px;}
+  .lane.split{padding-top:520px;}
   svg.arrows{position:absolute;top:0;left:0;z-index:4;pointer-events:none;overflow:visible;}
 
   .node{flex:none;width:166px;position:relative;background:#fff;border:1px solid var(--border);border-top-width:4px;border-radius:12px;padding:9px;display:flex;flex-direction:column;gap:7px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
@@ -102,6 +102,8 @@
 (function(){
   var NS="http://www.w3.org/2000/svg";
   var IMG="ecrans-finaux-claude-design/";
+  var SPACE=19;   // écart minimal entre deux traits VERTICAUX de flèches (augmenter = plus aéré)
+  var LANE=34;    // écart vertical entre deux VOIES horizontales parallèles (augmenter = plus aéré)
   // 20 couleurs distinctes, assignées selon la position X (grand pas) : jamais deux teintes proches côte à côte
   var PAL=['#e6194B','#3cb44b','#4363d8','#f58231','#911eb4','#0d9488','#9A6324','#f032e6','#808000','#000075',
            '#d62728','#17a2b8','#e07000','#6a1b9a','#2e7d32','#c2185b','#5d4037','#1565c0','#8b8b00','#00695c'];
@@ -129,7 +131,7 @@
     {id:'__profilstack',type:'stack',items:[
       {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage1',1,'b']]},
       {id:'activees',type:'ply',pid:'modale_offertes_activees',neuf:1,img:'offertes-activees.png',b:[['✕ Fermer','usage1',0,'t'],['J’écoute mes histoires offertes','usage1',1,'b']]},
-      {id:'terminees',type:'ply',pid:'modale_offertes_terminees',neuf:1,img:'offertes-terminees.png',b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]}
+      {id:'terminees',type:'ply',pid:'modale_offertes_terminees',neuf:1,img:'offertes-terminees.png',b:[['✕ Fermer','usage2',0,'t'],['Je choisis ma formule','formules',1,'b']]}
     ]},
     {id:'usage1',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min offertes (navigation libre + lecteur).',b:[['Les 20 min s’écoulent','usage2',0,'b']]},
     {id:'usage2',name:'',type:'ph',img:null,phT:'⏳ Fin d’utilisation des 20 minutes offertes',phD:'',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
@@ -236,7 +238,7 @@
     // anti-superposition : X verticaux (chutes x0 + colonnes vg) tous distincts
     var vx=[];arrows.forEach(function(a){vx.push({a:a,k:'x0'});vx.push({a:a,k:'vg'});});
     vx.sort(function(p,q){return p.a[p.k]-q.a[q.k];});
-    for(var vi=1;vi<vx.length;vi++){var pv=vx[vi-1].a[vx[vi-1].k],cv=vx[vi].a[vx[vi].k];if(cv-pv<11){vx[vi].a[vx[vi].k]=pv+11;}}
+    for(var vi=1;vi<vx.length;vi++){var pv=vx[vi-1].a[vx[vi-1].k],cv=vx[vi].a[vx[vi].k];if(cv-pv<SPACE){vx[vi].a[vx[vi].k]=pv+SPACE;}}
     // voies horizontales sans chevauchement, groupées par niveau de bande
     function laneGrp(list){var g={};list.forEach(function(a){var k=Math.round(a.base/22);(g[k]=g[k]||[]).push(a);});Object.keys(g).forEach(function(k){assignLanes(g[k]);});}
     laneGrp(arrows.filter(function(a){return !a.ls;}));
@@ -245,13 +247,13 @@
     arrows.forEach(function(a){
       var mid=pref+a.gi;mk(defs,mid,a.col);var d;
       if(!a.ls){                                     // ENTRÉE PAR LE HAUT
-        var yTop=a.base-32-a.lane*25;
+        var yTop=a.base-32-a.lane*LANE;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+yTop+' L '+a.entryX+' '+yTop+' L '+a.entryX+' '+(a.tp.t-2);
       } else if(a.band==='b'){                        // ENTRÉE PAR LA GAUCHE (empilé)
-        var y=a.base+26+a.lane*25;
+        var y=a.base+26+a.lane*LANE;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y+' L '+a.vg+' '+y+' L '+a.vg+' '+a.entryY+' L '+(a.tp.l-2)+' '+a.entryY;
       } else {                                        // ENTRÉE PAR LA DROITE (empilé, retour)
-        var y2=a.base-26-a.lane*25;
+        var y2=a.base-26-a.lane*LANE;
         d='M '+a.dotX+' '+a.dotY+' L '+a.x0+' '+a.dotY+' L '+a.x0+' '+y2+' L '+a.vg+' '+y2+' L '+a.vg+' '+a.entryY+' L '+(a.tp.l+a.tp.w+2)+' '+a.entryY;
       }
       var p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('fill','none');
