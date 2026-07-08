@@ -52,6 +52,8 @@
   .ph .phd{font-size:11px;font-weight:700;color:#4a4636;line-height:1.35;}
   .ph .btns{margin-top:4px;}
 
+  .vstack{flex:none;display:flex;flex-direction:column;gap:20px;width:166px;align-self:flex-start;}
+  .vstack .ph,.vstack .node{width:166px;align-self:stretch;}
   .outcol{flex:none;display:flex;flex-direction:column;gap:12px;align-self:center;}
   .end{width:140px;font-size:11.5px;font-weight:800;line-height:1.35;border-radius:12px;padding:14px 11px;text-align:center;}
   .end.full{background:#ddf4e3;color:#15803d;border:2px solid #bce8c8;}
@@ -108,42 +110,48 @@
     {id:'catalogue',name:'Catalogue (accueil app)',type:'nat',img:'app-catalogue.png',b:[['Tap sur une histoire','fiche',0,'b']]},
     {id:'fiche',name:'Fiche histoire',type:'nat',img:'app-fiche-extrait.png',b:[['◂ Retour','catalogue',0,'t'],['Extrait gratuit (fin d’écoute)','modale',0,'b'],['Histoire complète','modale',1,'b']]},
     {id:'modale',name:'Mur 1 · Modale activation',type:'ply',img:'_mur1-modale.png',off:1,b:[['✕ Fermer','fiche',0,'t'],["J'essaie gratuitement",'compte',1,'b']]},
-    {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire (Apple / Google / e-mail)",'code',1,'b']]},
-    {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','profil',1,'b']]},
+    {id:'compte',name:'Création de compte',type:'nat',img:'08-creation-compte.png',b:[['✕ Fermer','catalogue',0,'t'],["S'inscrire avec Apple",'sso',0,'b'],["S'inscrire avec Google",'sso',0,'b'],["S'inscrire avec mon e-mail",'code',1,'b']]},
+    {id:'__codestack',type:'stack',items:[
+      {id:'sso',type:'ph',phT:'🔑 Process d’inscription SSO',phD:'Connexion via Apple ou Google (géré par l’OS).',b:[['Inscription SSO effectuée','profil',0,'b']]},
+      {id:'code',name:'Code de vérification',type:'nat',img:'09-code-verification.png',b:[["◂ Corriger l'e-mail",'compte',0,'t'],['Vérifier','profil',1,'b']]}
+    ]},
     {id:'profil',name:'Profil / personnalisation',type:'nat',img:'10-profil.png',b:[['Valider','usage',1,'b']]},
-    {id:'usage',name:'',type:'ph',img:null,phT:'Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min d’histoires offertes (navigation libre + lecteur).',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
+    {id:'usage',name:'',type:'ph',img:null,phT:'🎧 Phase d’utilisation des 20 minutes offertes',phD:'Écoute des 20 min d’histoires offertes (navigation libre + lecteur).',b:[['Les 20 min offertes sont écoulées au milieu d’une histoire','paywall',0,'b'],['Les 20 min offertes sont écoulées et l’utilisateur veut relancer une histoire','paywall',0,'b'],['Les 20 min sont écoulées et l’utilisateur écoute un extrait d’histoire en entier','paywall',0,'b']]},
     {id:'paywall',name:'Mur 2 · Paywall valeur',type:'ply',img:'1-paywall-valeur.png',off:1,b:[['✕ Fermer','catalogue',0,'t'],['Je choisis ma formule','formules',1,'b']]},
     {id:'formules',name:'Choix de la formule',type:'ply',img:'2-paywall-formules.png',off:1,b:[['◂ Retour','paywall',0,'t'],["Je m'abonne",'apple',1,'b']]},
     {id:'apple',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','formules',0,'t'],['Confirmé','usageSub',1,'b']]},
-    {id:'usageSub',name:'',type:'ph',img:null,phT:'👑 Phase d’utilisation d’un abonné',phD:'Écoute selon le quota mensuel de la formule choisie.',b:[['Quota mensuel épuisé','fintemps',0,'b']]},
+    {id:'usageSub',name:'',type:'ph',img:null,phT:'👑 Phase d’utilisation d’un abonné',phD:'Écoute selon le quota mensuel de la formule choisie.',b:[['Le quota d’abonné est écoulé au milieu d’une histoire','fintemps',0,'b'],['L’utilisateur veut relancer une histoire','fintemps',0,'b'],['L’utilisateur écoute un extrait de l’histoire en entier','fintemps',0,'b']]},
     {id:'fintemps',name:'Fin de temps d’histoire',type:'ply',img:'credit-1-fintemps.png',off:1,b:[['Plus tard','usageSub',0,'t'],['Débloquer','barriere',1,'b']]},
     {id:'barriere',name:'Barrière parentale',type:'dev',img:'credit-2-parents.png',b:[['◂ Retour','fintemps',0,'t'],['Bonne réponse','recharge',1,'b']]},
-    {id:'recharge',name:'Recharge de temps',type:'ply',img:'credit-3-choix.png',off:1,b:[['◂ Retour','usageSub',0,'t'],['Je choisis','apple',1,'b']]}
+    {id:'recharge',name:'Recharge de temps',type:'ply',img:'credit-3-choix.png',off:1,b:[['◂ Retour','usageSub',0,'t'],['Je choisis','apple2',1,'b']]},
+    {id:'apple2',name:'Paiement Apple',type:'apple',img:'3-paiement-apple.png',b:[['Annulé','recharge',0,'t'],['Confirmé','usageSub2',1,'b']]},
+    {id:'usageSub2',name:'',type:'ph',img:null,phT:'👑 Phase d’utilisation d’un abonné qui a rechargé son temps d’histoire',phD:'',b:[]}
   ];
 
   function btnHTML(bt){
     return '<span class="btn" data-to="'+bt[1]+'" data-pos="'+bt[3]+'">'+bt[0]+(bt[2]?'<span class="cta">CTA</span>':'')+'</span>';
   }
+  function renderNode(n, split){
+    if(n.type==='ph'){
+      var pd = n.phD ? '<div class="phd">'+n.phD+'</div>' : '';
+      var pb = (n.b&&n.b.length) ? '<div class="btns">'+n.b.map(btnHTML).join('')+'</div>' : '';
+      return '<div class="ph" data-node="'+n.id+'"><div class="pht">'+n.phT+'</div>'+pd+pb+'</div>';
+    }
+    var top=n.b.filter(function(b){return b[3]==='t';}), bot=n.b.filter(function(b){return b[3]==='b';});
+    var topH = split ? '<div class="btns top">'+top.map(btnHTML).join('')+'</div>' : '';
+    var botList = split ? bot : n.b;
+    return '<div class="node '+n.type+'" data-node="'+n.id+'">'+topH
+      +'<div class="thumb"><img src="'+IMG+n.img+'"></div>'
+      +'<span class="tag '+n.type+'">'+(n.type==='ply'?'Purchasely':n.type==='dev'?'Natif à dév.':n.type==='apple'?'Apple':'Natif')+'</span>'
+      +'<div class="nname">'+n.name+'</div>'
+      +(n.off?'<div class="official">nom officiel : <b>à compléter</b></div>':'')
+      +'<div class="btns">'+botList.map(btnHTML).join('')+'</div></div>';
+  }
   function buildLane(laneEl, split){
     var h='';
     NODES.forEach(function(n){
-      if(n.type==='out'){
-        h+='<div class="outcol"><div class="end full" data-node="outFull">👑 Abonné<br>Catalogue complet</div><div class="end limit" data-node="outLimit">✕ Non abonné<br>Extraits seulement</div></div>';
-        return;
-      }
-      if(n.type==='ph'){
-        h+='<div class="ph" data-node="'+n.id+'"><div class="pht">🎧 '+n.phT+'</div><div class="phd">'+n.phD+'</div><div class="btns">'+n.b.map(btnHTML).join('')+'</div></div>';
-        return;
-      }
-      var top=n.b.filter(function(b){return b[3]==='t';}), bot=n.b.filter(function(b){return b[3]==='b';});
-      var topH = split ? '<div class="btns top">'+top.map(btnHTML).join('')+'</div>' : '';
-      var botList = split ? bot : n.b;
-      h+='<div class="node '+n.type+'" data-node="'+n.id+'">'+topH
-        +'<div class="thumb"><img src="'+IMG+n.img+'"></div>'
-        +'<span class="tag '+n.type+'">'+(n.type==='ply'?'Purchasely':n.type==='dev'?'Natif à dév.':n.type==='apple'?'Apple':'Natif')+'</span>'
-        +'<div class="nname">'+n.name+'</div>'
-        +(n.off?'<div class="official">nom officiel : <b>à compléter</b></div>':'')
-        +'<div class="btns">'+botList.map(btnHTML).join('')+'</div></div>';
+      if(n.type==='stack'){ h+='<div class="vstack">'+n.items.map(function(it){return renderNode(it,split);}).join('')+'</div>'; return; }
+      h+=renderNode(n,split);
     });
     laneEl.innerHTML=h;
   }
