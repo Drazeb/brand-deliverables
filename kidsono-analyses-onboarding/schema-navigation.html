@@ -98,7 +98,7 @@
   // ---- données : ordre = déroulé ; pos = position du bouton sur l'écran ----
   var NODES=[
     {id:'splash',name:'Splash',type:'nat',img:'01-splash.png',b:[['(auto)','accroche',0,'b']]},
-    {id:'accroche',name:'Accroche / Claim',type:'ply',img:'02-accroche.png',off:1,b:[['Passer','catalogue',0,'t'],["Je découvre",'consent',1,'b'],['Se connecter','compte',0,'b']]},
+    {id:'accroche',name:'Accroche / Claim',type:'ply',img:'02-accroche.png',off:1,b:[["Je découvre",'consent',1,'b'],['Se connecter','compte',0,'b']]},
     {id:'consent',name:'Consentement données',type:'dev',img:'consent-donnees.png',b:[['Accepter','car1',1,'b'],['Ne pas accepter','car1',0,'b']]},
     {id:'car1',name:'Carrousel 1 · Catalogue',type:'ply',img:'valeur-1-catalogue.png',off:1,b:[['◂ Retour','consent',0,'t'],['Passer','catalogue',0,'t'],['Suivant','car2',1,'b']]},
     {id:'car2',name:'Carrousel 2 · Autorité',type:'ply',img:'06-autorite.png',off:1,b:[['◂ Retour','car1',0,'t'],['Passer','catalogue',0,'t'],['Suivant','car3',1,'b']]},
