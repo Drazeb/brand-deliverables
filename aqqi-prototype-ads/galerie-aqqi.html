@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Aqqi — Galerie de validation · Sprint proto</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Space Mono',monospace; background:#461302; color:#EEDCB7; padding:48px 56px; }
+  h1 { font-size:24px; font-weight:700; letter-spacing:-0.01em; }
+  h1 .brand { color:#FA4F17; }
+  .meta { margin-top:10px; color:#C9A98E; font-size:13px; line-height:1.7; }
+  .meta code { background:#5A2410; padding:2px 8px; border-radius:6px; color:#EEDCB7; font-size:12px; }
+  .qa { display:inline-block; margin-left:8px; padding:2px 12px; border-radius:999px; font-size:12px; font-weight:700; background:#B7D7FF; color:#461302; }
+  .grid { display:flex; gap:32px; margin-top:36px; align-items:flex-start; flex-wrap:wrap; }
+  .card { background:#5A2410; border-radius:14px; padding:18px; }
+  .card .label { font-size:12px; font-weight:700; color:#DDBBF5; margin-bottom:12px; letter-spacing:0.1em; }
+  .card img { display:block; border-radius:6px; }
+  .sq img { width:440px; }
+  .story img { width:300px; }
+  .land img { width:560px; }
+  .footer { margin-top:40px; color:#A97B5D; font-size:12px; line-height:1.6; }
+</style>
+</head>
+<body>
+  <a href="index.html" style="font-size:13px;color:#DDBBF5;text-decoration:none;letter-spacing:.1em;">← INDEX AQQI</a>
+  <h1><span class="brand">AQQI</span> — Galerie de validation · concept « asymétrie de représentation » <span class="qa">QA dimensions : 3/3 OK</span></h1>
+  <div class="meta">
+    Design system aspiré du brand book DA (ex-Brio) : palette pixel-samplée · Source Serif 4 / Lora / Alfa Slab One / Space Mono (arbitrage 2026-07-10)<br>
+    Source : <code>content/ad-aqqi-001.json</code> + templates <code>aqqi-*</code> + <code>tokens-aqqi.css</code> · DNA : <code>aqqi-extracted-dna.md</code><br>
+    ⚠ Visuels provisoires (registre éditorial Vestia) : régénération dans le registre photo Aqqi en attente de validation des prompts.
+  </div>
+  <div class="grid">
+    <div class="card sq">
+      <div class="label">FEED CARRÉ · 1080×1080</div>
+      <img src="aqqi_asymetrie-representation_defense-acheteur_sq-1080x1080_v01_2026-07-10.png">
+    </div>
+    <div class="card story">
+      <div class="label">STORY / REELS · 1080×1920</div>
+      <img src="aqqi_asymetrie-representation_defense-acheteur_story-1080x1920_v01_2026-07-10.png">
+    </div>
+    <div class="card land">
+      <div class="label">LINK AD · 1200×628</div>
+      <img src="aqqi_asymetrie-representation_defense-acheteur_land-1200x628_v01_2026-07-10.png">
+    </div>
+  </div>
+  <div class="footer">Pipeline : content.json → data-merge → templates HTML (tokens aspirés verrouillés) → Chrome headless → PNG → QA.<br>Grammaire reproduite : grille + croix, chip label mono, stickers pivotés bleu/orange, CTA pill + bloc glyphe slab, KPI à tick orange, design flat sans ombres.</div>
+</body>
+</html>
