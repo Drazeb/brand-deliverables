@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Production d'écrans — l'architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..600&family=Space+Mono:wght@400;700&display=swap');
+  :root{
+    --bg:#FAF8F3; --ink:#2B2622; --soft:#7A7268; --line:#E6DFD3; --card:#FFFFFF;
+    --code:#FA4F17; --codd:#C33C0E; --code-s:#FDEEE7;
+    --design:#5B4BD6; --design-s:#EDEBFB; --dev:#1877F2; --devd:#0f5ec0; --dev-s:#E8F0FE; --ok:#1F8A5B;
+    --sans:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --serif:'Fraunces',Georgia,serif; --mono:'Space Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.4;padding:46px 20px 64px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{font-family:var(--serif);font-weight:600;font-size:27px;letter-spacing:-.01em}
+  .sub{font-size:13px;color:var(--soft);margin-top:4px}
+  .sub b{color:var(--ink)}
+  .key{margin-top:9px;font-family:var(--mono);font-size:11px;color:var(--soft)}
+  .key b{color:var(--ink)}
+
+  /* Phase header : icône + mini texte */
+  .phasehead{display:flex;align-items:center;gap:15px;margin:32px 0 12px}
+  .phasehead .ic{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;flex:none}
+  .phasehead .ic svg{width:28px;height:28px}
+  .ic.code{background:var(--code-s);color:var(--codd)} .ic.design{background:var(--design-s);color:var(--design)} .ic.dev{background:var(--dev-s);color:var(--devd)}
+  .phasehead .t{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.1}
+  .phasehead .d{font-size:13px;color:var(--soft);margin-top:2px}
+
+  /* Lane */
+  .lane{display:flex;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+  .badge{flex:none;width:158px;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:center;gap:5px}
+  .lane.Ain .badge{background:var(--codd)} .lane.Aout .badge{background:var(--code)}
+  .lane.B .badge{background:var(--design)} .lane.D .badge{background:var(--devd)}
+  .badge .ph{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;opacity:.85}
+  .badge .tool{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.02}
+  .badge .role{font-size:11.5px;opacity:.94;line-height:1.25}
+
+  .steps{flex:1;display:grid;gap:1px;background:var(--line);padding:1px;grid-template-columns:repeat(4,1fr)}
+  .lane.Ain .steps{grid-template-columns:repeat(5,1fr)}
+  .lane.B .steps{grid-template-columns:repeat(2,1fr)}
+  .lane.D .steps{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:880px){.steps,.lane.Ain .steps,.lane.B .steps,.lane.D .steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.lane{flex-direction:column}.badge{width:auto;flex-direction:row;align-items:center;gap:12px}.steps,.lane.Ain .steps,.lane.B .steps,.lane.D .steps{grid-template-columns:1fr}}
+
+  .st{background:var(--card);padding:14px 15px 15px;display:flex;flex-direction:column}
+  .op{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;margin-bottom:8px}
+  .lane.Ain .op{color:var(--codd)}.lane.Aout .op{color:var(--code)}.lane.B .op{color:var(--design)}.lane.D .op{color:var(--dev)}
+  .out{font-weight:700;font-size:14.5px;line-height:1.18;letter-spacing:-.01em}
+  .lane.B .out{font-size:15px}
+  .sc{font-family:var(--mono);font-size:10px;color:var(--soft);margin-top:5px;line-height:1.35}
+  .gain{color:var(--ok);font-weight:600;font-size:11.5px;margin-top:auto;padding-top:9px;line-height:1.3}
+  .gain .m{font-family:var(--mono)}
+
+  .flow{display:flex;align-items:center;justify-content:center;gap:10px;margin:16px 0 4px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--soft)}
+  .flow svg{width:24px;height:12px;color:#C3BAAB}
+  .flow .x{color:var(--ink)}
+  .flow.soft .x{color:var(--soft);font-weight:400;text-transform:lowercase;letter-spacing:.02em}
+
+  footer{text-align:center;margin-top:30px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Production d'écrans — l'architecture</h1>
+  <div class="sub">De la stratégie à l'écran fini : un <b>socle chargé</b>, l'outil conçoit, Claude Design exécute, on livre aux équipes techniques.</div>
+  <div class="key"><b>En gras</b> = ce que chaque étape produit · <span style="color:var(--ok)"><b>✓</b> le gain</span></div>
+
+  <!-- ============ SOCLE ============ -->
+  <div class="phasehead">
+    <div class="ic code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3.5 12.5L12 17l8.5-4.5"/><path d="M3.5 16L12 20.5l8.5-4.5"/></svg></div>
+    <div><div class="t">Le socle</div><div class="d">La connaissance qu'on injecte : marché, entreprise, marque, identité, décisions.</div></div>
+  </div>
+  <div class="lane Ain">
+    <div class="badge"><span class="ph">Socle · entrées</span><span class="tool">Claude Code</span><span class="role">Ce qu'on lui charge</span></div>
+    <div class="steps">
+      <div class="st"><div class="op">charge →</div><div class="out">Le corpus benchmark</div>
+        <div class="sc">des centaines d'écrans capturés &amp; analysés</div><div class="gain"><span class="m">✓</span> décider sur du réel</div></div>
+      <div class="st"><div class="op">charge →</div><div class="out">Best practices &amp; frameworks</div>
+        <div class="sc">règles codifiées, pas de mémoire</div><div class="gain"><span class="m">✓</span> méthode, pas intuition</div></div>
+      <div class="st"><div class="op">charge →</div><div class="out">Les données entreprise &amp; marque</div>
+        <div class="sc">offre, positionnement, preuves, contexte</div><div class="gain"><span class="m">✓</span> des écrans justes, pas génériques</div></div>
+      <div class="st"><div class="op">extrait →</div><div class="out">Voice DNA + tokens DA</div>
+        <div class="sc">ton &amp; identité en composants</div><div class="gain"><span class="m">✓</span> base réutilisable</div></div>
+      <div class="st"><div class="op">charge →</div><div class="out">La mémoire des décisions</div>
+        <div class="sc">historique projet complet</div><div class="gain"><span class="m">✓</span> rien ne se perd</div></div>
+    </div>
+  </div>
+
+  <div class="flow soft"><span class="x">avec ce socle, l'outil conçoit</span><svg viewBox="0 0 24 12"><path d="M12 0v7M8 5l4 5 4-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+
+  <!-- ============ PHASE 1 ============ -->
+  <div class="phasehead">
+    <div class="ic code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.6 8.4l-2.3 5.3-5.3 2.3 2.3-5.3z"/></svg></div>
+    <div><div class="t">Le cadrage</div><div class="d">L'outil transforme le socle en écrans pensés, décidés et briefés.</div></div>
+  </div>
+  <div class="lane Aout">
+    <div class="badge"><span class="ph">Phase 1</span><span class="tool">Claude Code</span><span class="role">Stratégie &amp; direction artistique</span></div>
+    <div class="steps">
+      <div class="st"><div class="op">analyse (sur demande) →</div><div class="out">Des analyses de design ciblées</div>
+        <div class="sc">un point précis, tranché sur le benchmark</div><div class="gain"><span class="m">✓</span> une réponse sourcée à chaque question</div></div>
+      <div class="st"><div class="op">décide →</div><div class="out">Décisions datées + position vs standard</div>
+        <div class="sc">argumentées, tracées</div><div class="gain"><span class="m">✓</span> rien à re-trancher ensuite</div></div>
+      <div class="st"><div class="op">conçoit + prototype →</div><div class="out">Maquettes HTML + textes</div>
+        <div class="sc">structure, message, rythme</div><div class="gain"><span class="m">✓</span> écran prototypé en minutes</div></div>
+      <div class="st"><div class="op">brief →</div><div class="out">1 protocole par écran</div>
+        <div class="sc">consigne + images de référence</div><div class="gain"><span class="m">✓</span> consigne sans ambiguïté</div></div>
+    </div>
+  </div>
+
+  <div class="flow"><span class="x">le brief passe la main</span><svg viewBox="0 0 26 12"><path d="M0 6h20M16 1l6 5-6 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+
+  <!-- ============ PHASE 2 ============ -->
+  <div class="phasehead">
+    <div class="ic design"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><rect x="14" y="14" width="7" height="7" rx="1.4"/></svg></div>
+    <div><div class="t">L'exécution visuelle</div><div class="d">Claude Design donne corps à l'intention, au pixel, et contrôle.</div></div>
+  </div>
+  <div class="lane B">
+    <div class="badge"><span class="ph">Phase 2</span><span class="tool">Claude Design</span><span class="role">Design d'interface</span></div>
+    <div class="steps">
+      <div class="st"><div class="op">compose →</div><div class="out">Mockup final + source</div>
+        <div class="sc">design system embarqué</div><div class="gain"><span class="m">✓</span> DS appliqué automatiquement</div></div>
+      <div class="st"><div class="op">contrôle (auto) →</div><div class="out">Écran validé</div>
+        <div class="sc">comparaison visuelle automatisée</div><div class="gain"><span class="m">✓</span> contrôle pixel systématique</div></div>
+    </div>
+  </div>
+
+  <div class="flow"><span class="x">passage aux équipes techniques</span><svg viewBox="0 0 26 12"><path d="M0 6h20M16 1l6 5-6 5" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+
+  <!-- ============ PHASE 3 ============ -->
+  <div class="phasehead">
+    <div class="ic dev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l-5 7 5 7"/><path d="M16 5l5 7-5 7"/></svg></div>
+    <div><div class="t">La livraison</div><div class="d">Specs, assets et code, calqués sur la stack des équipes techniques.</div></div>
+  </div>
+  <div class="lane D">
+    <div class="badge"><span class="ph">Phase 3 · calqué sur leur stack</span><span class="tool">Claude Code</span><span class="role">Livraison aux équipes techniques</span></div>
+    <div class="steps">
+      <div class="st"><div class="op">extrait →</div><div class="out">Tokens (couleur, typo, espacement) + specs</div>
+        <div class="sc">depuis le design final</div><div class="gain"><span class="m">✓</span> valeurs exactes, zéro re-mesure</div></div>
+      <div class="st"><div class="op">exporte →</div><div class="out">Images / SVG optimisés</div>
+        <div class="sc">export automatisé</div><div class="gain"><span class="m">✓</span> intégrables tels quels</div></div>
+      <div class="st"><div class="op">génère →</div><div class="out">Composants React / natif iOS-Android</div>
+        <div class="sc">dans leur techno</div><div class="gain"><span class="m">✓</span> au format de leur stack</div></div>
+    </div>
+  </div>
+
+  <div class="flow"><span class="x">intégré dans leur produit, sans dépendance à notre outillage</span></div>
+
+  <footer>Socle (Claude Code) → Stratégie (Claude Code) → Design (Claude Design) → Livraison (Claude Code · leur stack)</footer>
+
+</div>
+</body>
+</html>
