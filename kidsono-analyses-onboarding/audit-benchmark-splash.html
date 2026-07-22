@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit + benchmark · le splash · Kidsono</title>
+<style>
+  :root{--bg:#f6f6f2;--surface:#fff;--border:#e6e6e0;--text:#191919;--muted:#6e6e6e;--accent-dark:#e2492f;--green:#15803d;--green-soft:#eaf6ee;--blue:#1d4ea8;--blue-soft:#e9f0fc;--red:#a3261f;--red-soft:#fdecea;--gold:#9a6200;--gold-soft:#fdf3cf;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 34px 24px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,serif;font-size:30px;line-height:1.16;font-weight:700;margin:11px 0 11px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;}
+  .standfirst b{color:#191919;}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px 24px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+
+  .warn{background:var(--red-soft);border:1px solid #f3b6b1;border-left:6px solid #d8362f;border-radius:14px;padding:15px 20px;margin-top:14px;}
+  .warn h3{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--red);margin-bottom:6px;}
+  .warn p{font-size:13px;color:#7a1f1a;line-height:1.55;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;margin:10px 0 16px;}
+
+  .principles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .pr{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;}
+  .pr .n{font-family:Georgia,serif;font-weight:700;font-size:19px;color:var(--accent-dark);}
+  .pr .t{font-size:13.5px;font-weight:800;margin:3px 0 5px;}
+  .pr .d{font-size:12.5px;color:#555;line-height:1.5;}
+  @media(max-width:820px){.principles{grid-template-columns:1fr;}}
+
+  .arch{background:var(--surface);border:1px solid var(--border);border-left:6px solid var(--ac,#888);border-radius:16px;padding:18px 20px;margin-top:18px;}
+  .arch .an{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--ac,#888);}
+  .arch h3{font-family:Georgia,serif;font-size:20px;margin:3px 0 4px;}
+  .arch .lead{font-size:13px;color:#555;max-width:880px;margin-bottom:14px;}
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:188px;}
+  .card img{width:100%;border-radius:11px;border:1px solid #ddd;display:block;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.12);}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:8px;color:#111;display:flex;justify-content:space-between;align-items:center;}
+  .stars{color:#e6a700;font-size:12px;letter-spacing:1px;}
+  .card .note{font-size:11.5px;color:#333;line-height:1.4;margin-top:3px;}
+  .card .note b{color:#1f7d45;}
+
+  .reco{background:var(--gold-soft);border:1px solid #ecdca6;border-left:6px solid #f6c944;border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .reco h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .reco ul{margin:0 0 8px 18px;} .reco li{font-size:13.5px;margin-bottom:7px;line-height:1.5;} .reco b{color:#191919;}
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:24px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Audit + benchmark</div>
+    <h1>Splash + welcome-claim : l'archétype et la best practice de l'entrée d'une app</h1>
+    <div class="standfirst">Audit des écrans d'entrée de 35 apps du corpus, vus en pleine résolution. Deux écrans distincts à ne pas confondre : le <b>splash</b> (identité, au lancement) et le <b>welcome-claim</b> (le 1er écran d'onboarding, qui pose un claim et route nouveau / déjà-client). On répond à : est-ce standard d'avoir un welcome-claim chez les apps solides ? et <b>coexiste-t-il avec le carrousel de valeur, ou se confond-il avec ?</b></div>
+    <div class="meta"><span><b>Panel</b> · 35 splashs analysés</span><span><b>Méthode</b> · captures réelles iPhone, lecture seule</span><span><b>Échelle</b> · ★ = propreté / premium graphique</span></div>
+  </header>
+
+  <div class="warn">
+    <h3>Le constat de départ</h3>
+    <p>Kidsono a un seul écran (`01-splash-bienvenue` : mascotte au skateboard + « Bienvenue ! » + « C'est ti-par ! ») qui essaie d'être tout à la fois et n'est ni l'un ni l'autre. Il devrait y avoir <b>trois écrans d'entrée distincts</b> : le <b>splash</b> (identité, au lancement), le <b>welcome-claim</b> (un claim + le carrefour nouveau / déjà-client), puis le <b>carrousel de valeur</b> (l'argumentaire). Kidsono n'a ni vrai splash, ni vrai welcome (pas de claim, pas de carrefour nouveau/revenant : juste « C'est ti-par »).</p>
+  </div>
+
+  <!-- BEST PRACTICES -->
+  <h2 class="section">La best practice : ce qui fait un beau splash</h2>
+  <p class="chapeau">Ce qui ressort des splashs les plus propres du panel (Storytel, Aumio, Lingokids).</p>
+  <div class="principles">
+    <div class="pr"><div class="n">1</div><div class="t">Un aplat de marque + beaucoup de vide</div><div class="d">Une couleur de marque pleine (unie ou léger dégradé), et de l'espace négatif partout. Le vide, c'est ce qui fait premium.</div></div>
+    <div class="pr"><div class="n">2</div><div class="t">UNE seule chose au centre</div><div class="d">Le logo (lockup) OU la mascotte, centré. Pas deux éléments, pas de catalogue, pas de décor chargé.</div></div>
+    <div class="pr"><div class="n">3</div><div class="t">Le restraint, souvent monochrome</div><div class="d">Une seule couleur d'accent, voire une silhouette monochrome (Aumio). Moins c'est coloré, plus c'est chic.</div></div>
+    <div class="pr"><div class="n">4</div><div class="t">Zéro argumentaire de vente</div><div class="d">Pas de claim, pas de CTA sur un vrai splash. Il pose l'identité, il ne vend pas. Le claim, c'est l'écran d'après.</div></div>
+    <div class="pr"><div class="n">5</div><div class="t">Cohérence DA stricte</div><div class="d">La couleur de marque exacte, la typo du logo. Le splash est la première signature visuelle : il doit être pile la marque.</div></div>
+    <div class="pr"><div class="n">6</div><div class="t">Une micro-animation</div><div class="d">Le logo qui apparaît / pulse, ou des points de chargement (Epic). L'animation fait le premium et le « vivant », même 1 seconde.</div></div>
+  </div>
+
+  <!-- ARCHETYPE 1 -->
+  <h2 class="section">Les archétypes (du plus propre au plus chargé)</h2>
+
+  <div class="arch" style="--ac:#15803d;">
+    <div class="an">Archétype 1 · le logo pur sur aplat — le plus propre</div>
+    <h3>Le logo centré, beaucoup de vide</h3>
+    <p class="lead">La référence en propreté et en premium. Une couleur, un logo, du vide. C'est la voie la plus sûre pour faire chic.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/31-storytel/captures/03-splash-logo.png" alt="Storytel">
+        <div class="app">Storytel <span class="stars">★★★★★</span></div>
+        <div class="note"><b>La meilleure du panel.</b> Logo (goutte orange + wordmark) sur noir, vide maîtrisé. Sobre, premium, adulte.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/02-splash-logo.png" alt="Lingokids">
+        <div class="app">Lingokids <span class="stars">★★★★☆</span></div>
+        <div class="note">Wordmark blanc sur orange, le « o » est un panda. Joyeux ET net. Le détail malin dans le logo.</div>
+      </div>
+      <div class="card">
+        <img src="apps/06-lili/captures/01-splash-logo-lili.png" alt="Lili">
+        <div class="app">Lili <span class="stars">★★★★☆</span></div>
+        <div class="note">Logo rond (frimousse) sur cyan, centré. Propre et simple, mais basique (peu travaillé).</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/01-splash-epic.png" alt="Epic">
+        <div class="app">Epic <span class="stars">★★★★☆</span></div>
+        <div class="note">Logo bubbly + 3 points de chargement sur bleu. Propre, mais très enfantin (le bubble gum).</div>
+      </div>
+      <div class="card">
+        <img src="apps/34-pocket-fm/captures/02-splash-logo.png" alt="Pocket FM">
+        <div class="app">Pocket FM <span class="stars">★★★☆☆</span></div>
+        <div class="note">L'app-icon centrée sur noir. Propre mais c'est juste l'icône, pas un vrai lockup pensé pour le plein écran.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHETYPE 2 -->
+  <div class="arch" style="--ac:#7c3aed;">
+    <div class="an">Archétype 2 · la mascotte sur aplat — chaleureux et identitaire</div>
+    <h3>Le personnage centré, traité proprement</h3>
+    <p class="lead">Quand la marque a un personnage fort (comme Kidsono), on peut le mettre en splash. La clé : une pose iconique, centrée, et du restraint.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/14-aumio/captures/01-splash-mascotte.png" alt="Aumio">
+        <div class="app">Aumio <span class="stars">★★★★★</span></div>
+        <div class="note"><b>La leçon clé.</b> La mascotte en <b>silhouette monochrome</b> (violet sur navy), centrée. Le restraint rend un personnage enfantin… élégant et premium.</div>
+      </div>
+      <div class="card">
+        <img src="apps/13-readmio/captures/01-splash-fusee-elephant.png" alt="Readmio">
+        <div class="app">Readmio <span class="stars">★★★★☆</span></div>
+        <div class="note">Éléphant en fusée sur ciel étoilé. Belle illustration premium, mais c'est une <b>scène</b>, pas un logo : plus riche, moins « signature ».</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHETYPE 3 -->
+  <div class="arch" style="--ac:#2563c9;">
+    <div class="an">Archétype 3 · l'ambiance texturée — immersif, à doser</div>
+    <h3>Un fond qui pose un climat</h3>
+    <p class="lead">Un fond travaillé (texture, dégradé, motif) pose une humeur. Risque : vite chargé ou cucul si on en met trop.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/29-skybrary/captures/02-splash-welcome.png" alt="Skybrary">
+        <div class="app">Skybrary <span class="stars">★★★☆☆</span></div>
+        <div class="note">Logo nuage sur ciel texturé « Welcome to ». Mignon et cohérent, mais un peu enfantin-cucul et chargé.</div>
+      </div>
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/01-splash-welcome.png" alt="Moshi">
+        <div class="app">Moshi <span class="stars">★★★☆☆</span></div>
+        <div class="note">Fond aquatique + logo + claim + 2 CTA. En fait un <b>écran d'accueil</b>, pas un splash. Le fond est un peu terne.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELCOME-CLAIM SECTION -->
+  <h2 class="section">Le welcome-claim · est-ce standard ? coexiste-t-il avec le carrousel ?</h2>
+  <p class="chapeau">Le welcome-claim, c'est l'écran juste après le splash. Il fait <b>deux jobs</b> : (1) <b>UN claim de marque</b> (une seule ligne, pas l'argumentaire complet) ; (2) le <b>carrefour nouveau / déjà-client</b> (router les revenants vers le login, les nouveaux vers l'onboarding). Souvent + le logo, parfois une preuve sociale ou une illustration.</p>
+
+  <div class="reco" style="background:var(--green-soft);border-color:#bfe3cb;border-left-color:#15803d;">
+    <h3 style="color:#15803d;">1. Oui, c'est standard — quasi universel chez les apps solides</h3>
+    <p style="font-size:13.5px;line-height:1.55;">Toutes les apps solides du domaine ont cet écran : Lingokids, Reading.com, Homer, Super Simple Songs, KiLi. C'est l'entrée normale après le splash. Son vrai moteur, ce n'est pas l'argument de vente, c'est <b>le carrefour nouveau / revenant</b> : un client qui revient ne doit pas refaire l'onboarding, il doit pouvoir se connecter tout de suite.</p>
+  </div>
+
+  <div class="reco" style="background:var(--blue-soft);border-color:#cdddf5;border-left-color:#1d4ea8;">
+    <h3 style="color:#1d4ea8;">2. Il coexiste avec le carrousel — il ne le remplace pas, et ne fait pas double emploi</h3>
+    <ul>
+      <li><b>École dominante (les solides) : welcome-claim séparé, AVANT le carrousel.</b> Jobs différents : le welcome = UN claim + le carrefour (fonction : router) ; le carrousel = l'argumentaire complet (3 slides, réservé aux nouveaux). Ex : KiLi (welcome → tour 3 slides), Lingokids, Homer.</li>
+      <li><b>École plus lean (Epic, Hooked) : pas de welcome dédié</b>, le claim est porté par la slide 1 du carrousel, le login est un petit lien. Plus court, mais le carrefour revenant est moins net.</li>
+      <li><b>Donc pas de confusion</b> : le welcome n'est pas une slide de valeur de plus. C'est l'écran de <b>routage + un seul hook</b>. La valeur, c'est le carrousel.</li>
+    </ul>
+  </div>
+
+  <div class="arch" style="--ac:#c4761a;">
+    <div class="an">Les welcome-claims du panel</div>
+    <h3>Le claim + le carrefour « je commence » / « j'ai un compte »</h3>
+    <p class="lead">Toutes font le même duo : une ligne de claim, et les deux boutons nouveau / déjà-client. Du plus propre au plus chargé.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/19-homer/captures/02-bienvenue-15min-get-started.png" alt="Homer">
+        <div class="app">Homer <span class="stars">★★★★★</span></div>
+        <div class="note"><b>Le plus propre.</b> Logo + une illustration + « Just 15 Minutes a Day » + Get Started / Log in. Un seul claim, le carrefour net, beaucoup de vide.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/04-hook-science-plus-you-2-5m-parents.png" alt="Reading.com">
+        <div class="app">Reading.com <span class="stars">★★★★☆</span></div>
+        <div class="note">Photo + « Science + You = Confident reader! » + Apple / 4.7★ / 2,5M + Get started / Log in. Claim + preuve sociale + carrefour. Premium mais chargé.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/05-welcome-nouveau-ou-compte.png" alt="Lingokids">
+        <div class="app">Lingokids <span class="stars">★★★★☆</span></div>
+        <div class="note">Logo + mascotte + kidSAFE + « 2000 activités, sans pub » + Je suis nouveau / J'ai un compte. Joyeux et net.</div>
+      </div>
+      <div class="card">
+        <img src="apps/07-kili/captures/02-bienvenue-decouvrir-compte.png" alt="KiLi">
+        <div class="app">KiLi <span class="stars">★★★★☆</span></div>
+        <div class="note">Logo + « Bienvenue sur KiLi ! » + Découvrir / J'ai un compte (+ carte bonus abonnés-livre). Carrefour clair, mais <b>pas de vrai claim</b>.</div>
+      </div>
+      <div class="card">
+        <img src="apps/25-super-simple-songs/captures/02-welcome-get-started.png" alt="Super Simple Songs">
+        <div class="app">Super Simple Songs <span class="stars">★★★☆☆</span></div>
+        <div class="note">Mascotte + « Enjoy high-quality screen time… » + Get started / Sign in. Le bon duo, mais composition un peu chargée.</div>
+      </div>
+      <div class="card">
+        <img src="apps/02-alma-studio/captures/01-splash-claim.png" alt="Alma Studio">
+        <div class="app">Alma Studio <span class="stars">★★★☆☆</span></div>
+        <div class="note">Catalogue en fond + « L'app audio qui fait rêver les enfants, sans écran » + Inscrivez-vous / Me connecter. Le bon duo, mais le catalogue en fond surcharge.</div>
+      </div>
+      <div class="card">
+        <img src="apps/00-kidsono/captures/01-splash-bienvenue.png" alt="Kidsono actuel">
+        <div class="app">Kidsono (actuel) <span class="stars">★★☆☆☆</span></div>
+        <div class="note" style="color:#7a1f1a;"><b>Le cas Kidsono.</b> Mascotte skate + « C'est ti-par ! ». Raté : pas de claim, pas de carrefour nouveau/revenant. À refaire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECO -->
+  <h2 class="section">La recommandation pour Kidsono : 3 écrans d'entrée distincts</h2>
+  <div class="reco">
+    <h3>Splash → welcome-claim → carrousel de valeur</h3>
+    <ul>
+      <li><b>1 · Splash</b> (à créer) : identité, bref, au lancement. Archétype <b>mascotte-restraint façon Aumio</b> : la mascotte centrée sur un aplat de marque (crème ou un aplat vif), <b>une pose calme et iconique</b> (pas la pose skate), beaucoup de vide, micro-animation, <b>zéro texte de vente</b>. Alternative plus sobre : le logo Kidsono centré, façon Storytel.</li>
+      <li><b>2 · Welcome-claim</b> (à créer) : <b>UN claim de marque</b> (par ex. « Du bon son pour bien grandir » ou « La plus belle app de livres audio pour vos enfants ») + le <b>carrefour « je commence » / « j'ai un compte »</b>. C'est ici qu'on règle proprement le routage du compte, aujourd'hui brutal (le « Oups, tu n'es pas connecté »). Un seul hook, pas l'argumentaire complet.</li>
+      <li><b>3 · Carrousel de valeur</b> (déjà conçu : A, B, C) : l'argumentaire, réservé aux nouveaux. Le welcome NE le remplace PAS et ne le duplique pas.</li>
+      <li><b>À éviter</b> : tout fusionner comme aujourd'hui (mascotte skate + « C'est ti-par ! » qui n'est ni splash, ni welcome, ni argument). Et ne pas remettre un CTA ou le catalogue en fond sur le splash.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la voie « mascotte centrée + restraint » (Aumio) donne à Kidsono un splash à la fois <b>chaleureux</b> (son personnage) et <b>propre/premium</b> (le vide, le restraint), sans renier sa DA. Et séparer splash et accueil corrige un vrai défaut actuel.</p>
+    <p><b>Risques</b> : la mascotte Kidsono est très colorée et « cartoon » ; sans restraint (silhouette, pose calme, vide), elle retombera vite dans le « enfantin chargé ». Le test : est-ce que ça pourrait être l'écran de lancement d'une app premium, pas d'un jeu mobile ?</p>
+    <p><b>Position vs standard</b> : au standard sur l'archétype (logo/mascotte centré), l'enjeu pour Kidsono est uniquement l'exécution (le restraint), pas le concept.</p>
+  </div>
+
+  <p class="ftnote">Audit basé sur les captures réelles du benchmark (35 splashs vus en pleine résolution). Mission conseil Kidsono, 2026-06-16.</p>
+
+</div>
+</body>
+</html>

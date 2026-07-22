@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark · Écran d'autorité (mur des éditeurs) Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:880px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .cartouche{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:6px 4px 10px;margin:14px 0 4px;overflow-x:auto;}
+  table.trust{border-collapse:collapse;width:100%;font-size:12.5px;min-width:760px;}
+  table.trust th,table.trust td{border:1px solid var(--border);padding:8px 11px;text-align:left;vertical-align:top;}
+  table.trust th{background:#faf7ee;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;color:#555;}
+  table.trust td b{color:#111;}
+  .pill{display:inline-block;font-size:10.5px;font-weight:800;padding:1px 7px;border-radius:6px;}
+  .pill.yes{background:var(--green-soft);color:#1f7d45;} .pill.no{background:var(--red-soft);color:#a3261f;} .pill.part{background:#fdf3cf;color:#9a6200;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:880px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .verb{font-size:11px;color:#3a3a3a;font-style:italic;background:#fff;border:1px solid #eee;border-radius:7px;padding:5px 7px;margin-bottom:6px;line-height:1.4;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Conception onboarding · L'écran d'autorité (le mur des éditeurs)</div>
+    <h1>Emprunter la notoriété qu'on n'a pas : l'écran qui pose la caution éditeurs, tôt et en clair</h1>
+    <div class="standfirst">Kidsono est <b>inconnue du grand public</b>. Sa seule notoriété est <b>empruntée</b> : 16 maisons d'édition que le parent reconnaît déjà (Gallimard Jeunesse, École des Loisirs, Nathan, Sarbacane, Milan, Bayard...), une presse qui a parlé du studio (ELLE, France Inter, Télérama, Le Monde) et des contenus recommandés par l'Éducation nationale. La caution se joue au niveau <b>éditeur</b>, jamais au niveau du titre ni de l'app. Cet audit balaye le corpus (37 apps) pour répondre à une seule question : <b>comment poser cette autorité dans l'onboarding</b>, juste après le carrousel de valeur, pour qu'elle convainque un parent exigeant en 2 secondes. La règle dure qui cadre tout : <b>nommer la caution</b> (jamais « recommandé par des experts » en l'air), <b>la montrer tôt et en clair</b> (l'erreur d'Epic est de la cacher derrière le mur), et <b>ne jamais s'appuyer sur une preuve de masse qu'on n'a pas</b> (« 2,5 M de parents » est un contre-modèle, pas un objectif).</div>
+    <div class="meta">
+      <span><b>Corpus</b> · 37 apps, 16 captures lues en pleine résolution</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs positives</b> · Lingokids, Pickatale (logos éditeurs) · Reading.com (research-backed) · Reading Eggs (lauriers)</span>
+    </div>
+  </header>
+
+  <h2 class="section">La réponse aux questions</h2>
+  <p class="chapeau">La synthèse d'abord ; les écrans qui la fondent suivent, groupés par type d'autorité. Honnêteté : je liste aussi ce que le benchmark fait et qu'on ne reprend pas, et les types d'autorité qui ne s'appliquent pas à Kidsono.</p>
+
+  <div class="qa">
+    <h3>1 · Combien d'écrans d'autorité, et où ?</h3>
+    <div class="verdict">Un écran dédié, tôt, juste après le carrousel. La caution est ensuite distribuée, pas répétée.</div>
+    <p><span class="conf o">Observé</span> Le corpus ne tient presque jamais l'autorité sur <b>un écran 100% dédié</b> : elle se pose le plus souvent <b>en pied de splash</b> (Lingokids : logos Oxford + KidScreen), <b>en intercalaire d'onboarding</b> (Reading.com : un écran « research-backed », un écran témoignage, glissés entre deux questions de quiz) ou <b>au paywall</b> (Reading Eggs : mur de lauriers). C'est une <b>couche distribuée</b>, rarement un temps fort isolé.</p>
+    <p><span class="conf o">Observé</span> <b>Pour Kidsono, c'est précisément l'opportunité.</b> Personne ne consacre un écran plein à un vrai mur de logos éditeurs reconnaissables, parce que la plupart n'ont qu'une seule caution (Oxford pour Lingokids) ou n'en ont aucune et meublent au vague. Nous, on en a 16. On en fait donc <b>un écran d'autorité dédié, placé tôt</b> (juste après les 3 slides du carrousel, là où le parent vient d'entendre la promesse « le plus beau catalogue »), avec la presse « vu dans » en bande de support. La caution la plus forte (Éducation nationale) est <b>gardée pour le paywall</b>, au moment de décider, pour ne pas tout brûler d'un coup. Un escalier, pas un empilement.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · Quels types d'autorité montrer, et lesquels éviter pour nous ?</h3>
+    <div class="verdict">Logos éditeurs (notre force) + presse « vu dans » (support). On évite la masse, le vague et l'auto-décerné.</div>
+    <ul>
+      <li><b>Logos de maisons / marques caution</b> <span class="conf s">Solide</span> Le levier central pour nous : 16 maisons reconnaissables. Lingokids (Oxford) et Pickatale (Oxford, Cricket, Arcturus) le font, mais avec une ou deux marques. <b>Notre mur sera plus dense et plus reconnaissable côté parent FR.</b></li>
+      <li><b>Presse « vu dans »</b> <span class="conf e">Estim.</span> Quasi absente du corpus (apps US, peu de presse grand public). Pour nous c'est un actif rare : ELLE, France Inter, Télérama, Le Monde. En <b>bande de support</b> sous le mur éditeurs, jamais en revendication sur l'app.</li>
+      <li><b>Recherche / méthode (« research-backed »)</b> <span class="conf s">Solide</span> Fort chez Reading.com (« Direct Instruction method », lauriers). Ne s'applique pas tel quel : on n'est pas une app de pédagogie. <b>Notre équivalent = l'exigence éditoriale du studio</b>, pas une méthode scientifique.</li>
+      <li><b>Caution institutionnelle (Éducation nationale)</b> <span class="conf s">Solide</span> Notre sceau le plus fort. Mais <b>au paywall</b>, pas sur cet écran (un type d'autorité par écran). Porte sur les <b>contenus</b>, jamais sur l'app.</li>
+      <li><b>Lauriers / récompenses</b> <span class="conf s">Solide</span> Très présent (Reading Eggs, Lingokids KidScreen). Kidsono en a peu pour l'instant : à n'utiliser que si réel et nommé. Pas un pilier.</li>
+      <li><b class="bad" style="color:#a3261f">Preuve de masse</b> (« X M de parents », « 16 000 écoles », « 4,7 / 59k enfants ») <span class="conf s">Solide</span> Omniprésent (Reading.com, Reading Eggs). <span style="color:#a3261f"><b>Interdit pour nous : notoriété zéro, on ne l'a pas.</b></span> Le revendiquer sonnerait faux ou mensonger.</li>
+      <li><b class="bad" style="color:#a3261f">Témoignage parent</b> <span class="conf s">Solide</span> Très utilisé (Reading.com, Bayam, Super Simple Songs). À éviter <b>tant qu'on n'a pas de vrais avis</b> ; inventer ou recycler décrédibilise. Réservé plus tard, au paywall, quand on en aura.</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>3 · Comment les présenter (format) ?</h3>
+    <div class="verdict">Un mur de logos en clair, posés à plat, sobre et premium. Pas de superlatif vide, pas d'illustration de scène.</div>
+    <p><span class="conf o">Observé</span> Les formats qui marchent dans le corpus : <b>les logos en pied d'écran sur fond uni</b> (Lingokids), <b>la grille de logos / collections d'éditeurs</b> (Pickatale « Publisher Collections »), <b>le mur de lauriers en grille</b> (Reading Eggs). Le bon réflexe est toujours le même : <b>le logo parle seul</b>, on ne le sur-commente pas. Le format à fuir est l'illustration de scène sans nom (Epic « Trusted by teachers and parents » avec des couvertures floues et zéro logo identifiable).</p>
+    <p><span class="conf o">Observé</span> <b>Format Kidsono</b> : un titre sobre (registre parent, vouvoiement, exigeant : « Les maisons que vous connaissez déjà »), un <b>mur des 16 logos éditeurs</b> posés à plat (illustrations figées, pas de scène ni photo, conformément à la contrainte d'illustration), une <b>bande presse « vu dans »</b> en dessous (logos médias en niveaux de gris, discrète), un CTA neutre (« Continuer »). Une caution par écran : ici les éditeurs, point. Pas de chiffre de masse, pas d'étoiles, pas de témoignage.</p>
+  </div>
+
+  <div class="qa">
+    <h3>4 · Quel est notre angle vs le benchmark ?</h3>
+    <div class="verdict">Le marché cache ou dilue la caution ; nous la montrons en clair, tôt, et au niveau le plus reconnaissable (l'éditeur).</div>
+    <p><span class="conf o">Observé</span> Deux failles récurrentes dans le corpus. <b>1/ La masse à la place du nom</b> : la plupart rassurent par le volume (« 2,5 M de parents », « 20 millions d'enfants ») parce qu'ils n'ont pas de caution nommée à montrer. <b>2/ Le vague ou le caché</b> : Epic affiche « Trusted by teachers and parents » sans nommer personne, et garde tout le contenu de marque derrière le compte. Dans les deux cas, le parent doit <b>croire sur parole</b>.</p>
+    <p><span class="conf o">Observé</span> <b>Notre angle : la caution nommée et reconnaissable, sans détour.</b> Le parent FR connaît déjà Gallimard Jeunesse et l'École des Loisirs : on n'a pas à le convaincre que c'est sérieux, juste à <b>le lui montrer</b>. C'est un actif que presque aucun concurrent du segment ne possède (les apps de pédagogie US empruntent à une université ; nous empruntons à 16 maisons que le parent a déjà dans sa bibliothèque). <b>Impact business <span class="conf e">Estim.</span></b> : lever le risque perçu d'une marque inconnue est le frein n°1 à l'activation d'un parent exigeant. Un écran de caution nommée, tôt, peut soutenir le passage carrousel → offre sans budget d'acquisition (c'est de la conversion organique, pas du CAC payé).</p>
+  </div>
+
+  <h2 class="section">Cartographie trust-building : ce que le corpus déploie, ce qui vaut pour nous</h2>
+  <p class="chapeau">Les sept types d'autorité repérés dans le corpus, avec leur présence, leur applicabilité à Kidsono, et le pourquoi. C'est la grille qui fonde les recos ci-dessus.</p>
+
+  <div class="cartouche">
+  <table class="trust">
+    <thead><tr><th>Type d'autorité</th><th>Présence dans le corpus</th><th>Pour Kidsono</th><th>Pourquoi</th></tr></thead>
+    <tbody>
+      <tr><td><b>Logos éditeurs / marques caution</b></td><td>Lingokids (Oxford), Pickatale (Oxford, Cricket, Arcturus, Universal ELT)</td><td><span class="pill yes">Pilier</span></td><td>Notre seul actif de notoriété, et le plus reconnaissable côté parent FR. Personne n'a un mur aussi dense.</td></tr>
+      <tr><td><b>Presse « vu dans »</b></td><td>Quasi absente (corpus surtout US)</td><td><span class="pill yes">Support</span></td><td>Actif rare qu'on possède (ELLE, France Inter, Télérama). En bande, sous le mur. Sur le studio, pas sur l'app.</td></tr>
+      <tr><td><b>Caution institutionnelle</b></td><td>Skybrary (« for Schools »), implicite</td><td><span class="pill part">Plus tard</span></td><td>Éducation nationale = notre sceau le plus fort, gardé pour le paywall (tampon final). Un type par écran.</td></tr>
+      <tr><td><b>Recherche / méthode (« research-backed »)</b></td><td>Reading.com, Hooked on Phonics, Reading Eggs</td><td><span class="pill no">Non</span></td><td>On n'est pas une app de pédagogie scientifique. Notre équivalent = l'exigence éditoriale, pas une méthode.</td></tr>
+      <tr><td><b>Lauriers / récompenses</b></td><td>Reading Eggs (mur), Lingokids (KidScreen)</td><td><span class="pill part">Si réel</span></td><td>Peu de prix à ce jour. À n'utiliser que nommé et vrai. Jamais un pilier, jamais d'auto-décerné.</td></tr>
+      <tr><td><b>Recommandation enseignants / experts</b></td><td>Reading.com (« trusted by teachers »), Epic (vague)</td><td><span class="pill no">Non</span></td><td>On n'a pas de réseau enseignant à citer. Et nommer est obligatoire : « des experts » en l'air est interdit.</td></tr>
+      <tr><td><b>Témoignage parent</b></td><td>Reading.com, Bayam, Super Simple Songs</td><td><span class="pill no">Pas encore</span></td><td>Pas de vrais avis pour l'instant. Inventer ou recycler décrédibilise un public exigeant. Au paywall, plus tard.</td></tr>
+      <tr><td><b style="color:#a3261f">Preuve sociale de masse</b></td><td>Reading.com (« 2,5 M »), Reading Eggs (« 20 M »)</td><td><span class="pill no">Jamais</span></td><td>Notoriété zéro : on ne l'a pas. La revendiquer sonne faux. Contre-modèle assumé.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 class="section">Les écrans, groupés par type d'autorité</h2>
+  <p class="chapeau">Lecture pleine résolution, capture par capture. Chaque carte : ce que je repère, et l'intérêt ou le risque pour Kidsono.</p>
+
+  <!-- APPROCHE 1 -->
+  <div class="approach">
+    <span class="atag a-green">Type 1 · à reprendre (notre pilier)</span>
+    <h3>Les logos d'éditeurs / de marques caution, posés en clair</h3>
+    <p class="lead">La caution nommée et reconnaissable. C'est exactement notre levier, et le corpus le fait peu (une ou deux marques au mieux). Nous en avons 16 : c'est là que se joue notre écran d'autorité.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/20-lingokids/captures/03-splash-oxford-kidscreen.png" alt="Lingokids splash Oxford">
+        <div class="app">Lingokids</div>
+        <div class="scr">Splash · logos en pied</div>
+        <div class="verb">« The #1 interactive app for kids », puis en pied : logos KidScreen Awards + Oxford University Press.</div>
+        <div class="note"><b>Le format de référence</b> : logos de caution posés en pied, sur fond uni, le logo parle seul. <b>On reprend la sobriété</b>, mais sur un écran dédié et avec un mur dense, pas deux logos discrets.</div>
+      </div>
+      <div class="card">
+        <img src="apps/16-pickatale/captures/17-bonus-home-publisher-collections.png" alt="Pickatale Publisher Collections">
+        <div class="app">Pickatale</div>
+        <div class="scr">Home · « Publisher Collections »</div>
+        <div class="verb">Section « Publisher Collections » avec les pavés-logos Oxford University Press et Cricket.</div>
+        <div class="note"><b>La grille de logos éditeurs</b>, exactement notre logique. Ici en home, pas en onboarding : on en fait un <b>écran d'autorité dédié et plus tôt</b>. Le format pavé-logo est le bon.</div>
+      </div>
+      <div class="card">
+        <img src="apps/16-pickatale/captures/18-bonus-editeurs-classics.png" alt="Pickatale éditeurs">
+        <div class="app">Pickatale</div>
+        <div class="scr">Catalogue · mur d'éditeurs</div>
+        <div class="verb">Grille de pavés-logos : Oxford University Press, Cricket Media, Arcturus Publishing, Universal ELT.</div>
+        <div class="note"><b>Le vrai mur de maisons</b>, le plus proche de notre besoin. Quatre logos ici ; nous en aurons davantage et plus reconnaissables côté parent FR. <b>Le modèle de composition à viser.</b></div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/18-lessons-oxford-recommandees.png" alt="Lingokids leçons Oxford">
+        <div class="app">Lingokids</div>
+        <div class="scr">Catalogue · caution sur les contenus</div>
+        <div class="verb">Leçons recommandées, chaque carte tamponnée du logo « Oxford University Press » en pied.</div>
+        <div class="note">La caution <b>redescendue sur les contenus eux-mêmes</b> (le tampon sur chaque carte). Idée annexe : on pourra plus tard tamponner les fiches du logo éditeur. <b>Pas pour cet écran-ci</b>, mais cohérent avec l'escalier.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 2 -->
+  <div class="approach">
+    <span class="atag a-blue">Type 2 · à reprendre (en support)</span>
+    <h3>La presse « vu dans » et la caution méthode</h3>
+    <p class="lead">La bande de support sous le mur éditeurs. La presse est notre actif rare (le corpus US ne l'a pas). La « caution méthode » de Reading.com montre comment poser une crédibilité sobre, dont on garde la forme (lauriers nommés) sans le fond (méthode scientifique).</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/27-reading-com/captures/05-no-prep-required-research-backed.png" alt="Reading.com research-backed">
+        <div class="app">Reading.com</div>
+        <div class="scr">Onboarding · bloc « research-backed »</div>
+        <div class="verb">« No prep required! Our educational experts built step-by-step phonics lessons. » + bandeau « RESEARCH-BACKED · Based on the proven Direct Instruction method », encadré de lauriers.</div>
+        <div class="note"><b>On prend la forme</b> : la caution nommée (« Direct Instruction method »), sobre, en bandeau à lauriers. <span class="bad">On ne prend pas le fond</span> : on n'a pas de méthode scientifique. Notre équivalent = l'exigence des maisons d'édition.</div>
+      </div>
+      <div class="card">
+        <img src="apps/33-libro-fm/captures/07-book-detail-bookseller-review.png" alt="Libro.fm bookseller review">
+        <div class="app">Libro.fm</div>
+        <div class="scr">Fiche · avis de libraire nommé</div>
+        <div class="verb">Citation de critique signée « Stevan, Grass Roots Books » (une vraie librairie nommée).</div>
+        <div class="note"><b>L'autorité par la source nommée</b> (un libraire réel, pas « les libraires aiment »). Confirme notre règle : <b>toujours nommer</b>. Transposable à la presse « vu dans » : ELLE, France Inter, pas « la presse ».</div>
+      </div>
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/04-carrousel-educational-foundation.png" alt="Hooked on Phonics foundation">
+        <div class="app">Hooked on Phonics</div>
+        <div class="scr">Carrousel · « Strong Educational Foundation »</div>
+        <div class="verb">« Strong Educational Foundation · Crucial skills for future success. » avec une mascotte, zéro source.</div>
+        <div class="note"><span class="bad">Le contre-exemple de la promesse sans preuve</span> : une revendication de sérieux sans aucun nom derrière. À ne pas faire : c'est le piège du superlatif vide que notre voix (« exigence prouvée, pas clamée ») interdit.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 3 -->
+  <div class="approach">
+    <span class="atag a-violet">Type 3 · à connaître (pas pour cet écran)</span>
+    <h3>Lauriers, récompenses et certifications en grille</h3>
+    <p class="lead">Le mur de badges. Format efficace quand on a les prix, mais Kidsono en a peu à ce jour. On le documente pour s'en inspirer plus tard si on accumule des récompenses, jamais en auto-décerné.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/12-carrousel-3-awards-trust.png" alt="Reading Eggs mur de lauriers">
+        <div class="app">Reading Eggs</div>
+        <div class="scr">Carrousel · mur d'awards</div>
+        <div class="verb">« Trusted by teachers and loved by children », puis une grille de ~12 badges (kidSAFE, Smart Media, Brain Toy, TCA, LITH Award...).</div>
+        <div class="note"><b>Le format mur de lauriers</b> bien exécuté (grille dense, badges réels). <span class="bad">Mais</span> mêlé à « 20 millions d'enfants » : la masse qu'on n'a pas. On garde l'idée de grille, on retire le chiffre.</div>
+      </div>
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/03-video-awards-badges.png" alt="Reading Eggs badges vidéo">
+        <div class="app">Reading Eggs</div>
+        <div class="scr">Vidéo intro · planche de badges</div>
+        <div class="verb">Même planche de badges/récompenses animée dans la vidéo d'intro.</div>
+        <div class="note">La caution par accumulation de badges, en mouvement. <b>Pour nous</b> : sans objet tant qu'on n'a pas les prix. À garder en tête si le studio gagne des distinctions exploitables.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/29-plan-second-grade-level-certification.png" alt="Reading.com certification">
+        <div class="app">Reading.com</div>
+        <div class="scr">Plan · faux certificat enfant</div>
+        <div class="verb">Mockup d'un certificat « Reading Rockstar » au nom de l'enfant + « il atteindra un niveau de 2e année ».</div>
+        <div class="note"><span class="bad">Hors sujet pour nous</span> : c'est de la projection de résultat pédagogique, pas de la caution. On ne promet pas une performance d'apprentissage : on est du plaisir d'écoute, pas de la note scolaire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 4 -->
+  <div class="approach">
+    <span class="atag a-amber">Type 4 · institutionnel (pour le paywall, pas ici)</span>
+    <h3>La caution institutionnelle (écoles / Éducation nationale)</h3>
+    <p class="lead">Notre sceau le plus fort, mais réservé au paywall (un type d'autorité par écran). Le corpus l'effleure via le double compte « familles / écoles ». À articuler, pas à mettre sur cet écran.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/29-skybrary/captures/04-create-account-families-schools.png" alt="Skybrary familles écoles">
+        <div class="app">Skybrary</div>
+        <div class="scr">Création de compte · familles / écoles</div>
+        <div class="verb">Deux portes : « For Families » et « For Schools » (« used in a school setting »).</div>
+        <div class="note"><b>Le signal institutionnel implicite</b> : « utilisé en classe » = sérieux. Notre version explicite et plus forte = « recommandé par l'Éducation nationale », <b>au paywall</b>, sur les contenus. Pas sur cet écran-ci.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 5 -->
+  <div class="approach">
+    <span class="atag a-red">Type 5 · à NE PAS reprendre</span>
+    <h3>L'autorité vague, la preuve de masse, le témoignage qu'on n'a pas</h3>
+    <p class="lead">Tout ce que le marché empile parce qu'il n'a pas de caution nommée à montrer. Massif et bien fait, mais sans objet ou contre-productif pour nous. Montré ici pour cadrer ce qu'on écarte sciemment, et pourquoi.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/17-epic/captures/04-slide-trusted-teachers-parents.png" alt="Epic trusted vague">
+        <div class="app">Epic</div>
+        <div class="scr">Slide · « Trusted by teachers and parents »</div>
+        <div class="verb">« Trusted by teachers and parents. » sur un fond de couvertures floues, aucun nom, aucun logo, le reste caché derrière le compte.</div>
+        <div class="note"><span class="bad">Le contre-exemple central.</span> Autorité <b>vague</b> (qui, au juste ?) et <b>cachée</b> (le contenu de marque est derrière le mur). Nous faisons l'inverse : nommé et en clair, tôt.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/04-hook-science-plus-you-2-5m-parents.png" alt="Reading.com 2.5M parents">
+        <div class="app">Reading.com</div>
+        <div class="scr">Hook · masse + étoiles</div>
+        <div class="verb">« Featured by Apple », « ★ 4.7 / 49k reviews », « Join more than 2.5 Million parents ».</div>
+        <div class="note"><span class="bad">La preuve de masse, interdite pour nous</span> (notoriété zéro). « Featured by Apple » et les étoiles sont des cautions qu'on n'a pas. Le revendiquer sonnerait faux.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/24-testimonial-trusted-by-teachers.png" alt="Reading.com témoignage enseignant">
+        <div class="app">Reading.com</div>
+        <div class="scr">Onboarding · témoignage 5★</div>
+        <div class="verb">Photo + « Fantastic! ★★★★★ I've been a primary teacher for 15 years... », signé « Mcamp08 ». « Trusted by teachers. »</div>
+        <div class="note"><span class="bad">Le témoignage, pas encore pour nous</span> : on n'a pas de vrais avis. Recycler ou inventer décrédibilise un public exigeant. Réservé au paywall, plus tard, quand on en aura de réels.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/10-reassurance-59k-5yo-helped.png" alt="Reading.com 59k enfants">
+        <div class="app">Reading.com</div>
+        <div class="scr">Onboarding · chiffre de masse</div>
+        <div class="verb">« We've helped 59k+ 5-year-old children learn how to read. Let's help your child as well! »</div>
+        <div class="note"><span class="bad">Même piège, version chiffrée.</span> La caution par le volume d'utilisateurs : impossible et non souhaitable pour une marque qui se lance. On rassure par le nom des maisons, pas par un compteur.</div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/09-paywall-decouverte-scroll-temoignage.png" alt="Bayam témoignage paywall">
+        <div class="app">Bayam <span style="font-weight:400;color:#888">(FR)</span></div>
+        <div class="scr">Paywall · témoignage 5★ intégré</div>
+        <div class="verb">« Kath ★★★★★ Waouh! Bravo pour cette super application... » dans un carrousel d'avis, au-dessus du CTA.</div>
+        <div class="note"><span class="bad">Le réflexe FR du témoignage au paywall</span> : à éviter tant qu'on n'a pas de vrais avis. Et Bayam est dans la famille des références à ne pas suivre (ton niais). Contre-exemple double.</div>
+      </div>
+      <div class="card">
+        <img src="apps/25-super-simple-songs/captures/05-testimonial-families-love.png" alt="Super Simple Songs témoignage">
+        <div class="app">Super Simple Songs</div>
+        <div class="scr">Onboarding · « families love »</div>
+        <div class="verb">« What Super Simple Families love · "My daughter has picked up so much speech..." » + 5 étoiles.</div>
+        <div class="note"><span class="bad">Témoignage anonyme + étoiles</span> : la preuve sociale qu'on n'a pas, dans un ton enfantin loin de notre registre parent premium. Sans objet pour cet écran.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="impl">
+    <h3>La reco (à trancher avec Charles avant le brief Claude Design)</h3>
+    <ul>
+      <li><b>Un écran d'autorité dédié, tôt</b> : juste après les 3 slides du carrousel de valeur, avant l'offre. C'est le seul moment où le parent vient d'entendre « le plus beau catalogue » et où la preuve tombe pile.</li>
+      <li><b>Contenu = le mur des 16 éditeurs en clair</b> : Gallimard Jeunesse, École des Loisirs, Nathan, Flammarion Jeunesse, Sarbacane, Auzou, Rageot, Poulpe Fictions, Lucky Comics, Glénat, Delcourt, PKJ, Langue au Chat, Cascades, Lizzie, Grund. Logos posés à plat en grille (format pavé-logo façon Pickatale), illustrations figées, pas de scène ni de photo.</li>
+      <li><b>Une bande presse « vu dans » en support</b>, sous le mur : ELLE, France Inter, Télérama, Le Monde, en niveaux de gris, discrète. Cadrage strict : « vu dans », sur le studio / les contenus, <b>jamais « l'app testée par »</b>.</li>
+      <li><b>Titre registre parent</b>, vouvoiement, chic et exigeant, sobre : direction « Les maisons que vous connaissez déjà » ou « Les plus belles maisons, réunies pour ses oreilles ». Pas de superlatif vide, pas d'exclamation racoleuse.</li>
+      <li><b>Une seule caution sur cet écran : les éditeurs.</b> Pas de chiffre de masse, pas d'étoiles, pas de témoignage, pas de « recommandé par des experts ».</li>
+      <li><b>Articulation avec le paywall</b> : on y garde le tampon <b>Éducation nationale</b> (le sceau le plus fort, au moment de décider) + un écho condensé éditeurs/presse. L'escalier : carrousel (caution diffuse) → écran d'autorité (mur éditeurs nommés) → paywall (Éducation nationale, le sceau final). Jamais répéter le mur entier deux fois.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco s'appuie sur un actif réel et différenciant (16 maisons que le parent FR reconnaît déjà), là où le corpus rassure faute de mieux par la masse ou le vague. Le pattern « logos de caution posés en clair » est validé sur captures (Lingokids, Pickatale), et le contre-exemple Epic (caution cachée et anonyme) cadre précisément la faute à ne pas commettre. C'est un levier de conversion organique, sans coût d'acquisition.</p>
+    <p><b>Risques</b> : 1/ <b>l'accord des éditeurs</b> sur l'usage de leur logo dans l'onboarding doit être vérifié (un mur de 16 logos est plus exposé qu'un tampon discret) ; à confirmer juridiquement avant de briefer le design. 2/ <b>la densité visuelle</b> : 16 logos hétérogènes peuvent virer au patchwork ; la discipline de composition (grille régulière, logos normalisés, beaucoup de calme) est la condition pour que « dense » reste « premium » et non « bazar ». 3/ <b>la presse « vu dans »</b> suppose des mentions réelles et récentes ; à sécuriser pour éviter une revendication contestable. 4/ Placer l'autorité <b>avant</b> l'offre suppose que le carrousel a déjà donné envie ; si le carrousel est faible, l'écran d'autorité arrive trop tôt et tombe à plat (dépendance à valider sur le flow complet).</p>
+    <p><b>Position vs standard</b> : contrarian assumé sur le fond (le marché empile masse, étoiles et témoignages ; nous misons tout sur la caution nommée et n'affichons aucune preuve de volume), au standard sur la forme (logos de caution en clair, format éprouvé). L'angle « mur d'éditeurs reconnaissables, tôt et en clair » est en avance sur le segment audio enfant FR, qui rassure mal ou pas du tout au lancement.</p>
+  </div>
+
+  <p class="ftnote">Document de travail, mission conseil Kidsono. 16 captures lues en pleine résolution (Lingokids 03/18, Reading.com 04/05/07/10/18/24/29, Reading Eggs 03/12, Pickatale 17/18, Hooked on Phonics 04, Super Simple Songs 05, Skybrary 04, Libro.fm 07, Bayam 09, KiLi 04, Epic 04). Refs positives limitées aux apps pertinentes du corpus (Lingokids, Pickatale, Reading.com pour la forme) ; la famille des références à ne pas suivre (Bayam, etc.) n'apparaît qu'en contre-exemple. Prochaine étape : vérifier l'accord éditeurs sur l'usage des logos, puis brief Claude Design (un seul écran d'autorité, mur des 16 maisons + bande presse, illustrations figées, sans scène ni photo).</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit · Splash + Claim + rythme de la séquence d'ouverture · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card.wide{width:330px;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;display:flex;justify-content:space-between;align-items:center;}
+  .stars{color:#e6a700;font-size:12px;letter-spacing:1px;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:3px;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  .rhythm{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:16px;}
+  .rhythm .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 4px;}
+  .rhythm .step{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:11px 13px;position:relative;}
+  .rhythm .step .lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .rhythm .step .big{font-size:13.5px;font-weight:800;margin:3px 0 4px;color:#111;}
+  .rhythm .step .d{font-size:11.5px;color:#444;line-height:1.45;}
+  .rhythm .arrow{align-self:center;font-size:20px;color:#bbb;font-weight:700;}
+  @media(max-width:760px){.rhythm .arrow{display:none;}}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid rgba(0,0,0,.18);vertical-align:-1px;margin-right:3px;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Audit + benchmark (actualisé)</div>
+    <h1>Splash, claim, et le rythme de la séquence d'ouverture</h1>
+    <div class="standfirst">Actualisation de l'audit du splash, augmentée de 4 références <b>top-tier wellness</b> (Headspace, Lifesum, Lóvi, Noom) lues en pleine résolution. La question centrale n'est plus « à quoi ressemble un splash » mais <b>comment la séquence d'ouverture s'enchaîne</b> : splash, puis claim, puis carrousel / création de compte. La couleur, la densité, la composition changent-elles d'un écran à l'autre, et selon quelle règle ? On répond aussi à : que met-on (et ne met-on pas) sur le splash et sur le claim, et quel carrefour nouveau / déjà-client.</div>
+    <div class="meta">
+      <span><b>Panel</b> · 4 refs wellness premium + corpus 38 apps</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs clés</b> · Aumio, Noom (continuité) · Headspace, Lifesum (rupture)</span>
+    </div>
+  </header>
+
+  <!-- ============ LA REPONSE AUX QUESTIONS ============ -->
+  <h2 class="section">La réponse aux questions</h2>
+  <p class="chapeau">Synthèse d'abord : les 4 verdicts. Les écrans qui les fondent suivent, lus un par un. La règle de rythme (verdict 3) est le cœur de la mission.</p>
+
+  <div class="qa">
+    <h3>1 · Comment composer le SPLASH ?</h3>
+    <div class="verdict">Un seul signe de marque, centré, sur un aplat. Zéro vente.</div>
+    <p><span class="conf s">Solide</span> Le splash est l'écran de <b>lancement</b> (visible 0,5 à 2 s, le temps du chargement). Son seul job : poser l'identité. Composition unanime chez les top-tier : <b>un aplat de couleur</b> (uni ou léger dégradé) + <b>UN seul élément centré</b> (logo OU mascotte) + <b>beaucoup de vide</b>. Le restraint fait le premium : Noom n'affiche qu'une étoile coral sur du crème, Aumio une silhouette de mascotte monochrome sur navy, Headspace juste la moitié d'un visage orange qui sourit et deux mots.</p>
+    <p><span class="conf s">Solide</span> Ce qu'on n'y met <b>jamais</b> : pas de CTA, pas de carrefour compte, pas d'argumentaire, pas de catalogue en fond, pas de fausse barre de statut « 13:11 ». Le texte, s'il y en a, c'est <b>0 à 2 mots</b> d'ambiance (Headspace : « Breathe out »), pas une phrase de vente. Le splash pose la marque, il ne vend pas. La vente, c'est l'écran d'après.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · Comment composer le CLAIM (l'écran juste après) ?</h3>
+    <div class="verdict">1 visuel héros + 1 claim court + CTA + carrefour nouveau / déjà-client.</div>
+    <p><span class="conf s">Solide</span> Le claim (ou welcome) est le 1<sup>er</sup> écran d'onboarding. Structure constante chez les 4 wellness : <b>un visuel héros en haut</b> (illustration, photo, ou collage), <b>un claim court dessous</b> (3 à 6 mots en gros + une ligne de soutien), puis <b>la zone d'action en bas</b>. Exemples de claims : « Welcome to Headspace / Support for all of life's moments », « Healthy eating. Simplified. », « Results that last », « Science-backed AI Cosmetologist you can trust ».</p>
+    <p><span class="conf o">Observé</span> <b>Le carrefour nouveau / déjà-client se joue ici.</b> Deux écoles d'agencement : (1) <b>CTA primaire + lien login discret</b> sous le bouton (Lifesum « GET STARTED » + « Already have an account? Log in » ; Lóvi « Sign in with email » + « I don't have an account ») ; (2) <b>deux boutons empilés</b> de poids égal, action principale puis « Log in » secondaire (Headspace « Create an account » bleu + « Log in » blanc ; Noom « Get started » coral + « Log in » bordé). Les deux sont propres. Le lien discret va plus vite au compte ; les deux boutons rendent le carrefour plus lisible pour un public moins expert (notre cas).</p>
+  </div>
+
+  <div class="qa" style="border-left-color:var(--accent-dark);">
+    <h3 style="color:#a3261f;">3 · LA RÈGLE DE RYTHME : splash -&gt; claim -&gt; écrans suivants</h3>
+    <div class="verdict" style="background:var(--accent-dark);color:#fff;">Le splash respire (minimal), le claim est le PIC émotionnel, les écrans fonctionnels redescendent au neutre.</div>
+    <p><span class="conf o">Observé</span> Il y a bien une règle, et elle est nette sur les 4 wellness comme sur Aumio : <b>la densité fait une courbe en cloche</b>. Le splash est l'écran le <b>plus dépouillé</b> de toute l'app (1 signe, beaucoup de vide). Le claim est le <b>plus riche et le plus coloré</b> (le visuel héros, le pic de saturation, l'émotion). Puis dès la création de compte et les questions d'onboarding, <b>ça redescend</b> : fonds neutres (blanc, crème, gris très clair), formulaires sobres, couleur réduite à l'accent du CTA. On monte en intensité, on pose le pic au claim, on redescend pour faire travailler l'utilisateur.</p>
+    <p><span class="conf o">Observé</span> <b>La couleur d'accent est le fil rouge.</b> Ce qui ne change jamais d'un écran à l'autre, c'est <b>la couleur signature</b> : l'orange Headspace, le coral Noom, le vert Lifesum, le violet Lóvi. Elle voyage du splash (le signe) au CTA de chaque écran suivant. Le décor change, la palette change en intensité, mais l'accent reste : c'est lui qui dit « tu es toujours dans la même app ». <span class="conf e">Estim.</span> C'est ce qui permet de varier la composition sans casser la cohérence perçue.</p>
+  </div>
+
+  <div class="qa">
+    <h3>4 · Quelles écoles : continuité ou rupture de fond ?</h3>
+    <div class="verdict">Deux écoles valides. Continuité (Aumio, Noom, Lóvi) ou rupture (Headspace, Lifesum).</div>
+    <ul>
+      <li><b>Continuité de fond</b> : le splash et le claim partagent le <b>même fond</b> (même couleur, même dégradé). Le splash « se remplit » pour devenir le claim. <b>Aumio</b> : silhouette violette sur navy -&gt; le même navy, la silhouette devient la mascotte en couleur + le claim. <b>Noom</b> : crème + étoile -&gt; le même crème + le visuel + le claim. <b>Lóvi</b> : gradient violet -&gt; le même gradient + le claim. Effet : fluide, premium, une seule respiration.</li>
+      <li><b>Rupture franche</b> : le claim change radicalement de fond par rapport au splash. <b>Headspace</b> : splash blanc et minimal -&gt; claim sur aplat jaune/ambre saturé et illustré. <b>Lifesum</b> : splash vert uni -&gt; claim sur grande photo lifestyle. Effet : un « lever de rideau », plus spectaculaire, plus risqué (la bascule doit être maîtrisée).</li>
+      <li><span class="conf e">Estim.</span> Pour Kidsono : la continuité (façon Aumio) est la voie la plus sûre et la plus cohérente avec un univers de marque encore inconnu, qu'il faut <b>installer</b> avant de surprendre.</li>
+    </ul>
+  </div>
+
+  <!-- ============ LES EXEMPLES PAR ECRAN ============ -->
+  <h2 class="section">Les exemples, par écran</h2>
+  <p class="chapeau">Les 4 références wellness sont des planches de 3-4 écrans : on lit l'enchaînement de gauche à droite. Puis les références du corpus enfant pertinentes. Chaque planche est annotée : ce que je repère, l'intérêt pour Kidsono.</p>
+
+  <div class="approach">
+    <div class="atag a-green">Top-tier wellness · continuité de fond</div>
+    <h3>Quand le splash « se remplit » pour devenir le claim</h3>
+    <p class="lead">Même fond du splash au claim. La séquence respire d'un seul tenant, puis redescend au neutre à la création de compte.</p>
+    <div class="grid">
+      <div class="card wide">
+        <img src="apps/14-aumio/captures/01-splash-mascotte.png" alt="Aumio splash">
+        <div class="app">Aumio · splash <span class="stars">★★★★★</span></div>
+        <div class="scr">01-splash-mascotte</div>
+        <div class="note"><span class="conf s">Solide</span> <b>La leçon clé pour Kidsono.</b> La mascotte (le même personnage que le claim) en <b>silhouette monochrome violette</b> sur navy profond, centrée, énormément de vide. Le restraint rend un personnage enfantin élégant et premium. Aucun texte, aucun CTA.</div>
+      </div>
+      <div class="card wide">
+        <img src="apps/14-aumio/captures/02-intro-sinscrire.png" alt="Aumio claim">
+        <div class="app">Aumio · claim <span class="stars">★★★★★</span></div>
+        <div class="scr">02-intro-sinscrire</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Continuité + révélation.</b> Même monde bleu/navy, mais la silhouette devient <b>la mascotte en couleur</b> (casque d'astronaute, yeux clos, sereine). Wordmark + claim « Sommeil et relaxation pour votre enfant » + CTA jaune « S'inscrire maintenant ». Le splash a installé la forme, le claim la colore et la nomme. C'est exactement le mécanisme à viser pour l'ourson Kidsono.</div>
+      </div>
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/splash-claim/noom.png" alt="Noom séquence">
+        <div class="app">Noom · splash -&gt; claim -&gt; inscription <span class="stars">★★★★★</span></div>
+        <div class="scr">noom.png (3 écrans)</div>
+        <div class="note"><span class="conf s">Solide</span> Le modèle de référence du rythme. <b>Splash</b> : crème + une étoile coral centrée, vide total. <b>Claim</b> : <b>même crème</b>, wordmark sobre, collage photo coral en cercle, « Results that last » en serif + sous-titre, CTA coral + « Log in ». <b>Inscription</b> : toujours le crème, formulaire dépouillé, couleur réduite. La densité monte au claim puis redescend ; le coral est le fil rouge du début à la fin.</div>
+      </div>
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/splash-claim/lovi.png" alt="Lóvi séquence">
+        <div class="app">Lóvi · splash -&gt; claim -&gt; email <span class="stars">★★★★☆</span></div>
+        <div class="scr">lovi.png (3 écrans)</div>
+        <div class="note"><span class="conf s">Solide</span> Continuité maximale au début : <b>splash</b> = gradient violet/lilas + logo en verre dépoli ; <b>claim</b> = <b>le même gradient</b> + « Science-backed AI Cosmetologist you can trust » + « Sign in with email » / « I don't have an account » (carrefour en lien discret). Puis <b>rupture nette</b> sur l'écran email : fond blanc clinique, formulaire. Le pic chromatique est sur les 2 premiers écrans, le travail commence sur du blanc.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="approach">
+    <div class="atag a-blue">Top-tier wellness · rupture de fond</div>
+    <h3>Quand le claim change radicalement de décor (lever de rideau)</h3>
+    <p class="lead">Le splash minimal puis un claim sur un fond tout autre : aplat saturé illustré, ou photo lifestyle. Plus spectaculaire, plus exigeant à exécuter.</p>
+    <div class="grid">
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/splash-claim/headspace.png" alt="Headspace séquence">
+        <div class="app">Headspace · splash -&gt; claim -&gt; compte <span class="stars">★★★★★</span></div>
+        <div class="scr">headspace.png (4 écrans)</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Rupture assumée.</b> <b>Splash</b> : fond blanc, « Breathe out » en gris foncé, et la moitié d'un visage orange qui sourit qui monte du bas. Extrêmement minimal. <b>Claim</b> : bascule sur un <b>aplat jaune/ambre saturé</b>, collage d'illustrations dense (téléphone, nuages, note de musique, étoiles), « Welcome to Headspace / Support for all of life's moments », case CGU, CTA bleu « Create an account » + « Log in ». <b>Compte</b> : retour au <b>blanc neutre</b>, liste de boutons SSO. La courbe de densité est manuelle : minimal -&gt; pic -&gt; neutre. L'orange reste le fil rouge (le visage du splash, la mascotte du claim).</div>
+      </div>
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/splash-claim/lifesum.png" alt="Lifesum séquence">
+        <div class="app">Lifesum · splash -&gt; claim -&gt; question <span class="stars">★★★★☆</span></div>
+        <div class="scr">lifesum.png (3 écrans)</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Splash</b> : vert sapin uni, wordmark blanc centré, petit spinner = restraint total. <b>Claim</b> : rupture sur une <b>grande photo lifestyle</b> (visage souriant en lumière dorée), wordmark + « Healthy eating. Simplified. » en bas + CTA vert « GET STARTED » + « Already have an account? Log in » (carrefour en lien). <b>Question d'onboarding</b> : retour au <b>fond crème neutre</b>, liste de choix sobres. Même schéma : minimal, pic photo, neutre. Le vert reste l'accent.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="approach">
+    <div class="atag a-amber">Corpus enfant · splashs propres (références positives)</div>
+    <h3>Ce que font les apps enfant solides</h3>
+    <p class="lead">Mêmes principes que le wellness : un signe, du vide. Du plus sobre au plus illustratif.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/31-storytel/captures/03-splash-logo.png" alt="Storytel">
+        <div class="app">Storytel <span class="stars">★★★★★</span></div>
+        <div class="scr">03-splash-logo</div>
+        <div class="note"><span class="conf s">Solide</span> Logo (goutte orange + wordmark) sur noir, vide maîtrisé. Sobre, premium, adulte. La voie « logo pur » la plus chic du corpus.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/02-splash-logo.png" alt="Lingokids">
+        <div class="app">Lingokids <span class="stars">★★★★☆</span></div>
+        <div class="scr">02-splash-logo</div>
+        <div class="note"><span class="conf o">Observé</span> Wordmark blanc sur orange, le « o » est un panda. Joyeux ET net : le détail malin dans le logo, sans surcharger.</div>
+      </div>
+      <div class="card">
+        <img src="apps/06-lili/captures/01-splash-logo-lili.png" alt="Lili">
+        <div class="app">Lili <span class="stars">★★★★☆</span></div>
+        <div class="scr">01-splash-logo-lili</div>
+        <div class="note"><span class="conf o">Observé</span> Logo rond (frimousse) sur cyan, centré. Propre et simple, mais peu travaillé (basique).</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/01-splash-epic.png" alt="Epic">
+        <div class="app">Epic <span class="stars">★★★★☆</span></div>
+        <div class="scr">01-splash-epic</div>
+        <div class="note"><span class="conf o">Observé</span> Logo bubbly + points de chargement sur bleu. Propre, mais très enfantin (le bubble gum). La micro-animation de chargement fait le « vivant ».</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="approach">
+    <div class="atag a-blue">Corpus enfant · claims / welcome avec carrefour</div>
+    <h3>Le claim + le carrefour « je commence » / « j'ai un compte »</h3>
+    <p class="lead">Mêmes ingrédients que le wellness, sur cible familles : un claim, le carrefour nouveau / déjà-client, parfois une preuve de sécurité.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/19-homer/captures/02-bienvenue-15min-get-started.png" alt="Homer">
+        <div class="app">Homer <span class="stars">★★★★★</span></div>
+        <div class="scr">02-bienvenue-15min</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le plus propre.</b> Logo + une illustration + « Just 15 Minutes a Day » + Get Started / Log in. Un seul claim, carrefour net, beaucoup de vide. Le modèle du claim enfant sobre.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/05-welcome-nouveau-ou-compte.png" alt="Lingokids welcome">
+        <div class="app">Lingokids <span class="stars">★★★★☆</span></div>
+        <div class="scr">05-welcome-nouveau-ou-compte</div>
+        <div class="note"><span class="conf o">Observé</span> Logo + mascotte + sceau kidSAFE + « 2000 activités, sans pub » + Je suis nouveau / J'ai un compte. Carrefour à deux boutons + une preuve de sécurité bien placée.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/04-hook-science-plus-you-2-5m-parents.png" alt="Reading.com">
+        <div class="app">Reading.com <span class="stars">★★★★☆</span></div>
+        <div class="scr">04-hook-science-plus-you</div>
+        <div class="note"><span class="conf o">Observé</span> Photo + « Science + You = Confident reader! » + note 4.7★ / 2,5M + Get started / Log in. Claim + preuve sociale + carrefour. Premium mais chargé (à doser).</div>
+      </div>
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/01-splash-welcome.png" alt="Moshi" >
+        <div class="app">Moshi <span class="stars">★★★☆☆</span></div>
+        <div class="scr">01-splash-welcome</div>
+        <div class="note"><span class="conf o">Observé</span> Fond aquatique + logo + claim + 2 CTA : c'est un <b>écran d'accueil</b> (splash + claim fusionnés), pas un splash. Le fond est un peu terne. Montre le piège de tout mettre sur un seul écran.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="approach">
+    <div class="atag a-red">Contre-exemple · ne pas reproduire</div>
+    <h3>Le cas Kidsono actuel</h3>
+    <p class="lead">L'écran d'entrée actuel essaie d'être splash, welcome et accroche à la fois, et n'est ni l'un ni l'autre.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/00-kidsono/captures/01-splash-bienvenue.png" alt="Kidsono actuel">
+        <div class="app">Kidsono (actuel) <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">01-splash-bienvenue</div>
+        <div class="note"><span class="bad">Raté.</span> Mascotte au skateboard + « Bienvenue ! » + « C'est ti-par ! ». Pas de claim de marque (voix parent), pas de carrefour nouveau / revenant, et la pose skate empêche le restraint premium. À scinder en splash sobre + claim.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LE RYTHME ============ -->
+  <h2 class="section">Le rythme de la séquence d'ouverture</h2>
+  <p class="chapeau">La règle observée, synthétisée. C'est la réponse au cœur de la mission : ce qui change et ce qui reste d'un écran au suivant.</p>
+
+  <div class="rhythm">
+    <div style="font-size:13.5px;font-weight:800;margin-bottom:9px;">La courbe de densité : minimal -&gt; pic -&gt; neutre</div>
+    <div class="seq">
+      <div class="step" style="border-top:4px solid #cbd5e1;">
+        <div class="lab">Splash</div>
+        <div class="big">Densité minimale</div>
+        <div class="d">1 signe centré, beaucoup de vide. L'écran le plus dépouillé de l'app. Aplat de marque + accent.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid var(--accent-dark);">
+        <div class="lab">Claim</div>
+        <div class="big">Le PIC émotionnel</div>
+        <div class="d">Visuel héros + couleur saturée + claim. L'écran le plus riche et le plus coloré. Le carrefour nouveau / déjà-client est ici.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #d4c5a0;">
+        <div class="lab">Carrousel de valeur</div>
+        <div class="big">Densité moyenne</div>
+        <div class="d">L'argumentaire (3 slides). Coloré mais structuré, réservé aux nouveaux. On reste dans l'univers, on baisse l'intensité.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #cbd5e1;">
+        <div class="lab">Compte / questions</div>
+        <div class="big">Retour au neutre</div>
+        <div class="d">Fond blanc / crème, formulaires sobres. Couleur réduite à l'accent du CTA. On fait travailler l'utilisateur.</div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:#444;margin-top:12px;line-height:1.55;"><b>Ce qui CHANGE</b> d'un écran à l'autre : la densité visuelle, la saturation du fond, la composition (1 signe -&gt; visuel héros -&gt; slides -&gt; formulaire). <b>Ce qui RESTE</b> : la couleur d'accent signature (le fil rouge), la typo de marque, et le sentiment d'être dans la même app. <span class="conf e">Estim.</span> Le décor peut varier librement tant que l'accent voyage de bout en bout.</p>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;border-top:1px solid var(--border);padding-top:11px;">
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:12.5px;font-weight:800;color:#1f7d45;">École 1 · Continuité de fond</div>
+        <div style="font-size:12px;color:#444;line-height:1.5;">Aumio, Noom, Lóvi. Même fond du splash au claim ; le splash « se remplit ». Fluide, premium, une seule respiration. <b>Voie recommandée pour Kidsono</b> (marque à installer).</div>
+      </div>
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:12.5px;font-weight:800;color:#1d4ea8;">École 2 · Rupture de fond</div>
+        <div style="font-size:12px;color:#444;line-height:1.5;">Headspace, Lifesum. Le claim bascule sur un tout autre fond (aplat saturé illustré ou photo). Plus spectaculaire, plus risqué à exécuter.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="impl">
+    <h3>Splash -&gt; claim -&gt; carrousel : la séquence concrète</h3>
+    <ul>
+      <li><b>Splash (à créer, voie continuité façon Aumio)</b> : l'<b>ourson jaune en silhouette / aplat sobre</b>, centré sur un fond <b>crème</b> (ou un aplat jaune vif), une <b>pose calme et iconique</b> (pas la pose skate), beaucoup de vide, micro-animation d'apparition. Texte : <b>0 à 2 mots de voix enfant</b> maximum, ou rien. Zéro CTA, zéro carrefour. <span class="conf e">Estim.</span> Le jaune Kidsono devient le fil rouge de toute la séquence.</li>
+      <li><b>Claim (à créer, le pic)</b> : <b>continuité de fond</b> (même crème / jaune que le splash), l'ourson passe en <b>couleur pleine</b> (le mécanisme Aumio : la silhouette se révèle), <b>UN claim de voix parent</b> (vouvoiement, premium), par ex. « La plus belle app de livres audio pour vos enfants. » ou la signature « Du bon son pour bien grandir. ». Puis le <b>carrefour</b> : deux boutons lisibles « Je commence » (primaire jaune) / « J'ai déjà un compte » (secondaire), pour régler proprement le routage aujourd'hui brutal (« Oups, tu n'es pas connecté »). Un seul hook, pas l'argumentaire.</li>
+      <li><b>Enchaînement vers le carrousel crème (déjà conçu : A, B, C)</b> : le carrousel hérite du <b>même fond crème</b> que le splash et le claim, ce qui sert la continuité. La règle de rythme impose juste de <b>baisser l'intensité après le pic du claim</b> : slides structurées, une idée par slide, couleur tenue par l'accent jaune et les illustrations, pas par un fond saturé. Le claim reste l'écran le plus chargé émotionnellement ; le carrousel argumente plus calmement.</li>
+      <li><b>À éviter</b> : tout fusionner comme aujourd'hui (mascotte skate + « C'est ti-par ! ») ; un splash qui vend ou qui route ; un claim en voix enfant (le claim est voix parent, c'est lui qui amorce l'achat) ; un carrousel qui re-sature le fond et fait retomber la courbe au lieu de la prolonger.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la voie « continuité + révélation » (silhouette au splash qui devient l'ourson en couleur au claim) est <b>directement copiable sur Aumio</b>, une référence enfant premium qui résout exactement notre tension : un personnage cartoon rendu élégant par le restraint, sans renier la DA. La règle de rythme (minimal -&gt; pic -&gt; neutre, accent en fil rouge) est <b>observée de façon convergente</b> sur 4 apps top-tier indépendantes, ce qui en fait un standard fiable, pas une intuition. <span class="conf s">Solide</span></p>
+    <p><b>Risques</b> : la mascotte Kidsono est très colorée et « cartoon » ; sans le restraint (silhouette ou pose calme + vide), le splash retombera dans le « enfantin chargé ». Le crème, fond doux, donne moins de contraste premium qu'un navy (Aumio) ou un noir (Storytel) : il faudra que l'ourson et la typo Cooper Black portent le premium tout seuls. <span class="conf o">Observé</span> La continuité de fond suppose que carrousel et claim partagent vraiment le crème, sinon on perd l'argument. <span class="conf e">Estim.</span></p>
+    <p><b>Position vs standard</b> : au standard sur l'archétype (signe centré au splash, claim + carrefour à l'écran suivant) et sur la courbe de densité. L'enjeu Kidsono est uniquement l'<b>exécution</b> (le restraint du splash, le bon claim de voix parent), pas le concept. Le choix « continuité » plutôt que « rupture » est le plus prudent pour une marque inconnue qu'il faut d'abord installer.</p>
+  </div>
+
+  <p class="ftnote">Audit actualisé à partir des 4 planches wellness (Headspace, Lifesum, Lóvi, Noom) et du corpus benchmark (38 apps), captures lues une par une en pleine résolution. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern récurrent du panel · <span class="conf e">Estim.</span> projection directionnelle. Famille des perdants citée en contre-exemple uniquement. Mission conseil Kidsono, 2026-06-16.</p>
+
+</div>
+</body>
+</html>

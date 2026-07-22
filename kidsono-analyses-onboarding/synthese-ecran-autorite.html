@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synthèse · Composition et transition de l'écran d'autorité (Kidsono)</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea; --violet:#7c3aed; --violet-soft:#f3edff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--border);border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,serif;font-size:30px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;}
+  .standfirst a{color:var(--blue);}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  table.patterns{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px;}
+  table.patterns th,table.patterns td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+  table.patterns th{background:#faf9f4;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#555;}
+  table.patterns tr:last-child td{border-bottom:none;}
+  .ok{color:#1f7d45;font-weight:700;} .no{color:#a3261f;font-weight:700;}
+
+  .schools{display:flex;gap:20px;flex-wrap:wrap;}
+  .school{flex:1;min-width:340px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;}
+  .school .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:9px;}
+  .a-rupt{background:var(--violet-soft);color:var(--violet);} .a-cont{background:var(--green-soft);color:#1f7d45;}
+  .school h3{font-size:17px;margin-bottom:8px;}
+  .school img{width:100%;border-radius:10px;border:1px solid #ddd;display:block;margin:10px 0;background:#fff;}
+  .school p{font-size:13px;color:#333;margin-bottom:7px;line-height:1.5;}
+  .school b{color:#111;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .crit{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;}
+  .ccard{width:212px;background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .ccard img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .ccard .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .ccard .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:4px;}
+  .ccard .note .no{color:#a3261f;} .ccard .note .ok{color:#1f7d45;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+  .ftnote a{color:var(--blue);}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Écran d'autorité · Composition et transition</div>
+    <h1>Comment composer l'écran d'autorité, et comment il rompt le rythme du carrousel</h1>
+    <div class="standfirst">Cette page complète le benchmark de recensement (<a href="audit-benchmark-autorite.html">audit-benchmark-autorite.html</a>) avec la couche que celui-ci ne couvrait pas : la <b>composition réelle</b> des écrans d'autorité et la <b>transition</b> depuis le carrousel. Captures relues une par une en haute résolution, plus deux exemples Mobbin top-tier (ahead, Flo) apportés par Charles. Le constat de méthode : le corpus kids est faible sur l'autorité premium, ce sont les deux exemples Mobbin qui éclairent le mieux la composition.</div>
+    <div class="meta"><span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern · <span class="conf e">Estim.</span> directionnel</span></div>
+  </header>
+
+  <h2 class="section">1. Ce qui ressort en composition</h2>
+  <p class="chapeau">Les façons récurrentes de composer un écran d'autorité, et ce qu'on en garde pour Kidsono.</p>
+  <table class="patterns">
+    <tr><th>Pattern de composition</th><th>Où</th><th>Pour Kidsono</th></tr>
+    <tr><td><b>Centré et symétrique</b>, chiffres ou awards encadrés de lauriers</td><td>ahead, Reading Eggs</td><td><span class="ok">La symétrie oui</span> ; les lauriers non (signal awards / masse qu'on n'a pas)</td></tr>
+    <tr><td><b>Claim typographique fort + ligne de source précise et datée</b></td><td>Flo, ahead</td><td><span class="ok">Oui, pile notre besoin</span> : nommer et sourcer (Éducation nationale, presse)</td></tr>
+    <tr><td><b>Logos de caution discrets en pied</b> d'un splash de marque</td><td>Lingokids</td><td>Trop faible si l'autorité est notre pilier</td></tr>
+    <tr><td><b>Grille de cartes de marque</b> (une par éditeur)</td><td>Pickatale</td><td>C'est un écran de home, pas un hero ; à transposer avec prudence</td></tr>
+    <tr><td><b>Patchwork de badges</b> hétérogènes</td><td>Reading Eggs</td><td><span class="no">À éviter absolument</span> (notre risque avec 16 logos)</td></tr>
+  </table>
+
+  <h2 class="section">2. La transition carrousel → autorité : deux écoles</h2>
+  <p class="chapeau">La question clé : le rythme change-t-il quand on passe du carrousel à l'écran d'autorité ? Les deux exemples Mobbin montrent les deux stratégies opposées. Lis chaque planche de gauche à droite (l'enchaînement des écrans).</p>
+  <div class="schools">
+    <div class="school">
+      <span class="atag a-rupt">École 1 · la rupture</span>
+      <h3>ahead : l'autorité casse le rythme</h3>
+      <img src="benchmark-top-tier-mobbin/autorite/mobbin-ahead-onboarding.png" alt="ahead onboarding">
+      <p><span class="conf s">Solide</span> Les écrans autour ont un <b>fond lavande teinté + la mascotte</b>. L'écran d'autorité (au centre) <b>bascule en fond blanc</b>, affirme le logo en haut, devient une <b>liste symétrique de 3 crédentiels encadrés de lauriers</b> (3,5 M membres, Apple Design Award, #1 app 2022-2024), et <b>retire la mascotte</b>.</p>
+      <p>Un vrai "temps de preuve" formel, volontairement différent du reste.</p>
+    </div>
+    <div class="school">
+      <span class="atag a-cont">École 2 · la continuité</span>
+      <h3>Flo : l'autorité escalade le message</h3>
+      <img src="benchmark-top-tier-mobbin/autorite/mobbin-flo-onboarding.png" alt="Flo onboarding">
+      <p><span class="conf s">Solide</span> L'écran de salutation et l'écran d'autorité partagent <b>exactement la même composition</b> (fond blanc + cadre floral éparpillé + gros texte noir centré). Seul <b>le message escalade</b> : "Hello, I'm Flo" devient "#1 female OB-GYN-recommended app", avec une <b>ligne de source minuscule</b> (survey of 225 US OB-GYNs, DRG 2021).</p>
+      <p>Le décor reste constant, la preuve monte d'un cran. Aucune rupture visuelle.</p>
+    </div>
+  </div>
+
+  <h2 class="section">3. Ma reco pour Kidsono : une rupture contrôlée, dans la DA</h2>
+  <div class="impl">
+    <h3>Changer le rythme par la composition, pas par la marque</h3>
+    <ul>
+      <li><b>Garder le crème et la DA</b> (Cooper Black, encre). On ne bascule pas en blanc comme ahead : ça ferait "autre app", et le crème constant est acté comme plus premium.</li>
+      <li><b>Le changement de rythme se fait par la composition</b> : le carrousel est dynamique et asymétrique (bande qui traverse, frontière, duo d'avatars). L'écran autorité doit être <b>calme et symétrique</b> : centré, beaucoup d'air, logos éditeurs en <b>grille rangée</b> (pas patchwork), un seul claim. Cette symétrie et ce vide SONT le signal "pause, voici la preuve".</li>
+      <li><b>Reprendre le dispositif Flo "nommé + sourcé"</b> pour la presse et l'Éducation nationale : un claim fort + une mention précise et discrète (jamais "recommandé par des experts" en l'air).</li>
+      <li><b>Grille de logos</b> pour les maisons d'édition, rangée et homogénéisée (même taille, même traitement), pour éviter la salade de badges.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">4. Nuance sur le benchmark du sous-agent</h2>
+  <p class="chapeau">Ses verdicts stratégiques sont solides (écran dédié, logos éditeurs + presse, nommer pas vague, montrer ce que les autres cachent). Sa reco de composition est sa partie faible, car le corpus kids l'est. Relu en haute résolution :</p>
+  <div class="crit">
+    <div class="ccard">
+      <img src="apps/16-pickatale/captures/18-bonus-editeurs-classics.png" alt="Pickatale">
+      <div class="app">Pickatale</div>
+      <div class="note"><span class="no">Pas un hero d'onboarding</span> : c'est un écran de home (grosses cartes colorées, une par éditeur). Ne tient pas à 16 maisons en écran de conviction.</div>
+    </div>
+    <div class="ccard">
+      <img src="apps/22-reading-eggs/captures/12-carrousel-3-awards-trust.png" alt="Reading Eggs">
+      <div class="app">Reading Eggs</div>
+      <div class="note"><span class="no">Le patchwork à éviter</span> : mur de ~12 badges hétérogènes + "20 millions" + trophée, illustré, chargé. Exactement notre risque.</div>
+    </div>
+    <div class="ccard">
+      <img src="apps/20-lingokids/captures/03-splash-oxford-kidscreen.png" alt="Lingokids">
+      <div class="app">Lingokids</div>
+      <div class="note"><span class="ok">Caution propre mais discrète</span> : kidscreen + Oxford en pied de splash. Trop faible si l'autorité est notre pilier, bon pour le ton "logos rangés".</div>
+    </div>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la transition est tranchée par deux exemples nets (rupture vs continuité), pas par une intuition. La reco Kidsono prend le meilleur des deux : le changement de rythme de ahead, sans le reniement de marque, plus le "nommé + sourcé" de Flo.</p>
+    <p><b>Risques</b> : <span class="conf e">Estim.</span> sur Kidsono, le danger réel n'est pas le manque de preuve mais le patchwork (16 logos hétérogènes). La discipline (grille rangée, air, un seul claim) est ce qui sépare "institutionnel premium" de "salade de badges". Prérequis non tranché : l'accord juridique des éditeurs pour afficher leurs logos, et la vérifiabilité des mentions presse.</p>
+    <p><b>Position</b> : différenciant assumé. Le marché cache la caution (Epic), la noie dans la masse (Reading Eggs) ou la relègue en pied (Lingokids) ; nous la posons nommée, rangée et premium, comme un temps fort.</p>
+  </div>
+
+  <p class="ftnote">Synthèse, mission conseil Kidsono. Complète le recensement détaillé : <a href="audit-benchmark-autorite.html">audit-benchmark-autorite.html</a>. Exemples Mobbin à enrichir quand Charles en envoie d'autres. Prochaine étape possible : un schéma de composition de l'écran autorité (comme pour les écrans B et C du carrousel).</p>
+
+</div>
+</body>
+</html>

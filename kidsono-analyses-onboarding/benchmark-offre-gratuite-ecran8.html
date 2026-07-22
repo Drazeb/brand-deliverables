@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark · Présenter l'offre gratuite (écran 8 Kidsono)</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:880px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:880px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .verb{font-size:11px;color:#3a3a3a;font-style:italic;background:#fff;border:1px solid #eee;border-radius:7px;padding:5px 7px;margin-bottom:6px;line-height:1.4;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;}
+  .card .note b{color:#1f7d45;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+  .t*{}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Conception onboarding · Écran 8</div>
+    <h1>Comment les apps présentent une offre gratuite (et le bénéfice d'une offre)</h1>
+    <div class="standfirst">Balayage des 37 apps du benchmark, ciblé sur deux types d'écrans : ceux qui présentent une <b>offre gratuite</b> (dose, palier, contenu offert, sans carte) et les <b>paywalls qui vendent le bénéfice</b> d'une offre (essai ou abonnement). Objectif : décider quoi mettre dans l'écran 8 de Kidsono, « présentation / validation de l'offre gratuite ». La contrainte produit : le wording dira <b>« plusieurs histoires offertes »</b>, sans quantifier en minutes ; le parent doit percevoir plusieurs belles histoires accessibles tout de suite, sans carte.</div>
+    <div class="meta">
+      <span><b>Panel</b> · 37 apps analysées écran par écran</span>
+      <span><b>Méthode</b> · captures réelles iPhone, lecture seule</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+    </div>
+  </header>
+
+  <div style="background:#fdecea;border:1px solid #f3b6b1;border-left:6px solid #d8362f;border-radius:14px;padding:15px 20px;margin-top:14px;">
+    <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#a3261f;margin-bottom:6px;">Règle de benchmark · vaut pour toutes nos analyses</div>
+    <p style="font-size:13px;color:#7a1f1a;line-height:1.55;">La famille <b>F1b « audio FR qui ne réussissent pas »</b> (Souffleur de rêves, Whisperies, Quelle Histoire, Mes Histoires du Soir, Kidjo, Capitaine Aventure) n'est <b>jamais une référence positive</b> : ce sont les perdants de notre segment exact, donc des <b>contre-exemples</b> de ce qu'il faut faire (et c'est moche). On les regarde pour comprendre ce qu'on évite, on ne s'en inspire pas. Pour un même besoin, on ré-ancre sur les gagnants : F1a (Bayam, KiLi, Alma, Readmio), F4a (ABCmouse, Lingokids), Reading.com, Skybrary, Moshi.</p>
+  </div>
+
+  <!-- ====================== SYNTHÈSE : LES 5 QUESTIONS ====================== -->
+  <h2 class="section">La réponse à tes 5 questions</h2>
+  <p class="chapeau">La synthèse d'abord ; les écrans qui la fondent suivent, groupés par approche.</p>
+
+  <div class="qa">
+    <h3>1. Un seul écran, ou plusieurs ?</h3>
+    <div class="verdict">Un seul suffit pour l'écran 8</div>
+    <p><span class="conf o">Observé</span> Trois configurations existent dans le panel : <b>(a) un écran dédié</b> qui empile titre d'offre + liste de bénéfices + CTA + réassurance (Reading.com, ABCmouse, Skybrary, Moshi exit-intent) ; <b>(b) pas d'écran du tout</b>, l'offre gratuite vit dans la home sous forme de rangée éditorialisée « Mes histoires offertes » (Souffleur, Capitaine, Quelle Histoire) ; <b>(c) une mini-séquence</b> de 3 à 5 slides de bénéfices puis l'offre (Epic, Pickatale, Hooked).</p>
+    <p>Pour Kidsono : <b>un seul écran</b>. La séquence (c) ferait doublon avec le carrousel de valeur (écrans 2-4, traités à part). L'écran 8 n'a pas à ré-argumenter, il a à <b>donner envie de goûter et lever la friction (sans carte)</b>.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2. Qu'est-ce qu'on met dedans ?</h3>
+    <p><span class="conf o">Observé</span> Les ingrédients récurrents, par fréquence décroissante :</p>
+    <p>1/ <b>un titre d'offre clair</b> (ce qu'on obtient gratuitement) ; 2/ <b>le contenu offert montré</b> (couvertures premium des histoires) OU une <b>liste de 3-7 bénéfices</b> ; 3/ <b>un CTA principal</b> pour réclamer le gratuit, souvent + une sortie ; 4/ <b>un bloc de réassurance</b> (« sans carte », « sans engagement », « résiliable », « sécurisé Apple », « sans pub ») ; 5/ parfois de la <b>preuve sociale / autorité</b> (2,5M parents, 50M familles, awards) ; 6/ parfois un <b>prix d'ancrage</b>.</p>
+    <p>Pour Kidsono, on garde : titre d'offre + <b>contenu offert montré</b> (notre force) + réassurance « sans carte » + CTA. On <b>jette</b> la preuve sociale de masse (on ne l'a pas) et le prix (réservé à l'écran 17).</p>
+  </div>
+
+  <div class="qa">
+    <h3>3. Qu'est-ce qu'on fait ressortir (le héros) ?</h3>
+    <div class="verdict">Pour Kidsono : le contenu offert, pas un chiffre</div>
+    <p><span class="conf o">Observé</span> Deux écoles. Les modèles d'<b>essai</b> font ressortir l'offre/le prix (Reading.com : « 1 week for free » en énorme). Les modèles de <b>dose/freemium</b> font ressortir le <b>contenu</b> : ils montrent les couvertures premium des histoires offertes (Capitaine « Histoires offertes à découvrir », Souffleur « Mes histoires offertes… », Quelle Histoire en hero jouable).</p>
+    <p>Kidsono est un modèle de dose, sans essai, et son actif est la beauté du catalogue. Donc le héros = <b>plusieurs belles couvertures d'histoires offertes, signées des éditeurs reconnus</b>. C'est ça qui matérialise « plusieurs histoires offertes » sans avoir à dire « 30 minutes » ni « X histoires ».</p>
+  </div>
+
+  <div class="qa">
+    <h3>4. Est-ce qu'on re-parle des propositions de valeur ?</h3>
+    <div class="verdict">Très légèrement (2 props max), pas un re-pitch</div>
+    <p><span class="conf o">Observé</span> Les écrans « à liste de bénéfices » re-citent la valeur au moment de l'offre (ABCmouse, Skybrary, Capitaine « Pourquoi », Moshi, Aumio), car le signal a son effet maximal à la décision. Les écrans « contenu en contexte » ne re-citent rien (Souffleur, Quelle Histoire) : ils montrent.</p>
+    <p>Pour Kidsono : <b>pas de re-pitch complet</b> du carrousel de valeur (il vient de défiler). Au plus, <b>une ligne fine de réassurance</b> qui touche les props utiles à l'acceptation d'un essai de contenu : la sécurité / sans pub, et la caution éditeurs. <span class="conf e">Estim.</span> L'articulation exacte dépendra des propositions de valeur arrêtées dans l'autre session : à caler quand on les aura.</p>
+  </div>
+
+  <div class="qa">
+    <h3>5. Comment ça marche, mécaniquement ?</h3>
+    <p><span class="conf o">Observé</span> Deux mécaniques dominantes. <b>L'essai gaté (US)</b> : « semaine gratuite, no payment now, easy cancel » → on réclame → on entre (Reading.com, ABCmouse, Epic). <b>La dose / freemium</b> (proche de nous) : le contenu gratuit est simplement <b>montré et jouable</b>, présenté comme un cadeau, sans carte ; le mur arrive plus tard, une fois la dose consommée (Capitaine, Souffleur, KiLi, Quelle Histoire, et les feuilletons DramaBox/ONO « X épisodes gratuits »).</p>
+    <p>Kidsono = dose, sans essai, sans carte. L'écran 8 dit « voici des histoires offertes pour [enfant], sans carte » → CTA → on entre dans l'aha. Le mur (écran 14) tombe après la consommation. <b>La réassurance « sans carte » est l'élément qui débloque l'accès à l'aha</b> : c'est elle qui doit être nette.</p>
+  </div>
+
+  <!-- ====================== APPROCHE A ====================== -->
+  <h2 class="section">Les écrans, groupés par approche</h2>
+  <p class="chapeau">Vignettes = vraies captures du benchmark. Chaque carte : ce qui est écrit (verbatim), et ce qui est intéressant pour notre écran 8.</p>
+
+  <div class="approach">
+    <span class="atag a-green">Approche A · le contenu offert, montré et ORCHESTRÉ</span>
+    <h3>On met en scène le gratuit (hero, contenu choisi), on ne le pose pas dans un coin</h3>
+    <p class="lead">La plus proche de Kidsono, à une condition : chez les gagnants, le gratuit est <b>orchestré</b> (poussé en hero, contenu choisi, lancé). Le gratuit « posé » dans une rangée de catalogue est au contraire la signature des perdants F1b, et il ne convertit pas. Donc on montre les histoires offertes, mais mises en scène.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/07-kili/captures/15-bonus-player-dessin-anime-luchien-gratuit.png" alt="KiLi">
+        <div class="app">KiLi (École des Loisirs) <span style="color:#1f7d45;">· F1a gagnant</span></div>
+        <div class="scr">Player · contenu complet offert</div>
+        <div class="verb">« Luchien » jouable en entier (7:49), 1-2 contenus complets offerts</div>
+        <div class="note"><b>La référence du segment.</b> 1-2 contenus complets courts donnent le goût sans tout donner. Formats mixtes (vidéo + audio) montrent la richesse.</div>
+      </div>
+      <div class="card">
+        <img src="apps/21-abcmouse/captures/09-home-daily-learning-quest.png" alt="ABCmouse">
+        <div class="app">ABCmouse <span style="color:#1f7d45;">· F4a gagnant</span></div>
+        <div class="scr">Home · gratuit poussé en hero</div>
+        <div class="verb">« Daily Learning Quest » gamifiée en hero, jouable d'emblée</div>
+        <div class="note"><b>Le gratuit mis en scène en hero</b>, pas rangé dans le catalogue. C'est la différence gagnant / perdant. À voler : le geste « on pousse, on ne pose pas ».</div>
+      </div>
+      <div class="card">
+        <img src="apps/13-readmio/captures/04-demo-read-along-motor-coach.png" alt="Readmio">
+        <div class="app">Readmio <span style="color:#1f7d45;">· F1a gagnant</span></div>
+        <div class="scr">Démo complète avant le mur</div>
+        <div class="verb">Histoire « Motor Coach » jouable (le concept vocal vécu, pas décrit)</div>
+        <div class="note"><b>Faire vivre la valeur</b> plutôt que la décrire. Une histoire offerte qu'on lance tout de suite vaut tous les arguments.</div>
+      </div>
+      <div class="card">
+        <img src="apps/37-dramabox/captures/06-episodes-gratuits-puis-verrouilles.png" alt="DramaBox">
+        <div class="app">DramaBox <span style="color:#9a6200;">· F7, mécanique seule</span></div>
+        <div class="scr">Liste · « 1-13 gratuits » puis cadenas</div>
+        <div class="verb">Épisodes 1 à 13 déverrouillés, cadenas dès le 14</div>
+        <div class="note"><b>Générosité visible avant le verrou</b> (mécanique à retenir). Question Kidsono : combien d'histoires offertes optimisent la conversion ? (Le reste de DramaBox, urgence/coins, est hors public parental.)</div>
+      </div>
+      <div class="card">
+        <img src="apps/35-ono/captures/23-liste-episodes-premiers-gratuits-wait-read.png" alt="ONO">
+        <div class="app">ONO <span style="color:#9a6200;">· F7, mécanique seule</span></div>
+        <div class="scr">Liste · « Ép. 1-3 Gratuit »</div>
+        <div class="verb">Épisodes 1, 2, 3 = « Gratuit » (badge), suite en attente ou payant</div>
+        <div class="note"><b>Transparence du modèle</b> : gratuit / à venir / payant séparés par badge, lisibles d'un coup d'œil. Mécanique transposable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== APPROCHE B ====================== -->
+  <div class="approach">
+    <span class="atag a-blue">Approche B · l'écran dédié à liste de bénéfices</span>
+    <h3>On présente l'offre (gratuite ou palier) comme un plan, avec ses bénéfices</h3>
+    <p class="lead">L'offre est un écran à part entière : un titre, une checklist de ce qui est inclus, un CTA, parfois une sortie. Plus « argumentaire » que l'approche A. Utile si on veut un écran 8 qui pose explicitement l'offre, mais attention au doublon avec le carrousel de valeur.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/29-skybrary/captures/09-free-plan-100-books.png" alt="Skybrary">
+        <div class="app">Skybrary</div>
+        <div class="scr">Plan gratuit présenté comme un plan</div>
+        <div class="verb">« Free Plan · Sign up for free » + checklist (100 livres, profils, ad-free, offline)</div>
+        <div class="note"><b>Le gratuit traité dignement</b>, pas comme un lot de consolation : son propre onglet, sa propre liste de bénéfices. Rassurant.</div>
+      </div>
+      <div class="card">
+        <img src="apps/21-abcmouse/captures/05-paywall-onboarding-skippable.png" alt="ABCmouse">
+        <div class="app">ABCmouse</div>
+        <div class="scr">Offre + skip « basic »</div>
+        <div class="verb">« Premium Access Includes » (6 bénéfices à puces) + « I'll stick with basic for now »</div>
+        <div class="note"><b>La sortie est claire et non culpabilisante.</b> Checklist lisible. (Le « 50M+ Families » n'est pas transposable, on ne l'a pas.)</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/08-paywall-onboarding-essai-7j.png" alt="Lingokids">
+        <div class="app">Lingokids</div>
+        <div class="scr">Essai 7j skippable</div>
+        <div class="verb">« 1ère semaine GRATUITE puis 14,99€/mois. Annulez à tout moment. » + croix</div>
+        <div class="note"><b>Essai proposé sans bloquer</b> le palier gratuit derrière. Bénéfices = catalogue + sans pub + licences.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== APPROCHE C ====================== -->
+  <div class="approach">
+    <span class="atag a-amber">Approche C · le cadeau et la réassurance « sans carte »</span>
+    <h3>Le wording qui lève la friction : « rien à payer maintenant »</h3>
+    <p class="lead">C'est l'élément le plus directement réutilisable pour Kidsono : la manière de dire que c'est offert, sans carte, sans piège. Le marché FR ne le fait pas, c'est notre quick win de confiance.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/27-reading-com/captures/36-paywall-1-week-free-skippable.png" alt="Reading.com">
+        <div class="app">Reading.com</div>
+        <div class="scr">Offre + réassurance (référence)</div>
+        <div class="verb">« No payment required now. » · « Easy to cancel anytime. » · « Secured with Apple App Store »</div>
+        <div class="note"><b>Le gold standard de la réassurance.</b> Coches vertes, sécurité Apple, sortie possible (croix). À voler : la grappe de réassurance sous le CTA.</div>
+      </div>
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/10-exit-intent-3days-no-cb.png" alt="Moshi">
+        <div class="app">Moshi</div>
+        <div class="scr">Offre de secours, sans carte</div>
+        <div class="verb">« Not ready to subscribe? Here's 3 days of Premium, on us »</div>
+        <div class="note"><b>Le cadeau au refus, sans CB</b> (« on us »). Récompense le refus au lieu de le punir. Unique dans le panel. Tournure « offert » à reprendre.</div>
+      </div>
+      <div class="card">
+        <img src="apps/07-kili/captures/21-bonus-paywall-reverse-trial-1sem.png" alt="KiLi">
+        <div class="app">KiLi</div>
+        <div class="scr">Offre « sans engagement »</div>
+        <div class="verb">« 1 semaine d'essai gratuite puis 2,99€/mois, sans engagement »</div>
+        <div class="note"><b>« Sans engagement » répété</b> sur chaque plan. Bénéfices orientés encadrement parental (contrôle, temps d'écran).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== APPROCHE D ====================== -->
+  <div class="approach">
+    <span class="atag a-violet">Approche D · vendre le bénéfice avant le prix</span>
+    <h3>Pour mémoire : ce que font les paywalls-bénéfice (utile pour l'écran 14, pas le 8)</h3>
+    <p class="lead">Ces écrans ne présentent pas un gratuit : ils vendent ce qu'on obtient en s'abonnant. Ils nourrissent surtout le futur écran 14 (présentation de l'offre), mais montrent comment articuler bénéfice et prix.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/07-paywall-trial-7days.png" alt="Moshi">
+        <div class="app">Moshi</div>
+        <div class="scr">« Almost there! »</div>
+        <div class="verb">3 preuves avant le prix : « 100+ hours », « Recommended by experts », « 90k 5-star reviews »</div>
+        <div class="note">Structure « preuves puis prix ». Pour nous : nos preuves = éditeurs + récap de session, pas des avis.</div>
+      </div>
+      <div class="card">
+        <img src="apps/14-aumio/captures/11-paywall-aumioverse.png" alt="Aumio">
+        <div class="app">Aumio</div>
+        <div class="scr">3 bénéfices + ancrage prix</div>
+        <div class="verb">« 37 minutes plus vite » + « l'équivalent d'un café/mois »</div>
+        <div class="note">Bénéfice chiffré + ancrage prix « café/mois » rend un prix annuel acceptable. Ancrage à garder pour l'écran 17.</div>
+      </div>
+      <div class="card">
+        <img src="apps/13-readmio/captures/15-paywall-plans-unlock.png" alt="Readmio">
+        <div class="app">Readmio <span style="color:#1f7d45;">· F1a gagnant</span></div>
+        <div class="scr">3 paliers + achat à vie</div>
+        <div class="verb">« Unlock all 500+ stories » + option « Lifetime » à côté de l'abonnement</div>
+        <div class="note"><b>Une porte de sortie « achat à vie »</b> rassure le parent réfractaire à l'abonnement infini. À considérer pour l'écran 17.</div>
+      </div>
+      <div class="card">
+        <img src="apps/31-storytel/captures/15-tiers-heures-15-30-45.png" alt="Storytel">
+        <div class="app">Storytel (miroir crédit)</div>
+        <div class="scr">Quota nommé par usage</div>
+        <div class="verb">« Pour vos loisirs / vos trajets / écouter tous les jours » (15/30/45h)</div>
+        <div class="note"><b>Nommer le quota par occasion d'usage</b>, pas par chiffre brut. Transposable Kidsono (« histoires du soir », « trajets »). Pour l'écran 17.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== APPROCHE E ====================== -->
+  <div class="approach">
+    <span class="atag a-red">Approche E · à éviter</span>
+    <h3>Les contre-modèles repérés</h3>
+    <p class="lead">Ce que le panel fait et qu'on ne reproduit pas, surtout sur un public parental premium. En tête : la famille des perdants F1b, dont les patterns ressemblent parfois à ce qu'on veut mais sont précisément ce qui ne convertit pas.</p>
+    <div class="grid">
+      <div class="card" style="border-color:#f3b6b1;">
+        <img src="apps/03-souffleur-de-reves/captures/10-bonus-catalogue-scroll-offertes.png" alt="Souffleur de rêves">
+        <div class="app">Souffleur de rêves <span style="color:#a3261f;">· F1b perdant</span></div>
+        <div class="scr">« Mes histoires offertes… » dans le catalogue</div>
+        <div class="verb">Rangée « ✔ Mes histoires offertes… » posée parmi les autres rangées</div>
+        <div class="note" style="color:#7a1f1a;"><b>Le piège.</b> Ça ressemble à ce qu'on veut, mais le gratuit est <b>posé, non orchestré</b> : il traîne dans le catalogue et ne convertit pas. C'est la signature des perdants. Le bon geste (KiLi, ABCmouse) est de le mettre en scène, pas de le ranger.</div>
+      </div>
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/09-paywall-3-plans-annuel.png" alt="Hooked on Phonics">
+        <div class="app">Hooked on Phonics</div>
+        <div class="scr">Mur sec, zéro goût</div>
+        <div class="verb">Hard paywall, CB requise, prix barré « Save 28% » peu crédible</div>
+        <div class="note"><b>Aucun aha avant le mur</b> = volume d'essais cassé pour une marque sans notoriété. Notre anti-modèle.</div>
+      </div>
+      <div class="card">
+        <img src="apps/14-aumio/captures/11-paywall-aumioverse.png" alt="Aumio">
+        <div class="app">Aumio</div>
+        <div class="scr">Paywall avant tout contenu</div>
+        <div class="verb">Le mur tombe avant la moindre écoute</div>
+        <div class="note"><b>Demander avant de faire vivre.</b> L'inverse de notre pari (l'aha d'abord). À ne pas refaire.</div>
+      </div>
+      <div class="card">
+        <img src="apps/37-dramabox/captures/08-boite-cadeau-gamification-growth.png" alt="DramaBox">
+        <div class="app">DramaBox</div>
+        <div class="scr">Gamification coins (pub, FB, notif)</div>
+        <div class="verb">« +150 coins » pour activer notifs / suivre sur FB / regarder des pubs</div>
+        <div class="note"><b>Dark pattern sur enfant.</b> Pub et pistage déguisés en cadeaux. Réglementairement et éthiquement hors sujet pour Kidsono.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== IMPLICATIONS ====================== -->
+  <h2 class="section">Ce que ça donne pour l'écran 8 de Kidsono</h2>
+  <div class="impl">
+    <h3>La recommandation (à valider, puis je rédigerai le brief complet)</h3>
+    <ul>
+      <li><b>Un seul écran</b>, modèle dose / freemium, sans essai, sans carte.</li>
+      <li><b>Héros = le contenu offert, mis en scène (orchestré)</b> : plusieurs belles couvertures d'histoires offertes, signées d'éditeurs reconnus, poussées et non posées. C'est ce qui matérialise « plusieurs histoires offertes » sans dire « 30 minutes » ni un nombre. Modèle : KiLi (contenus complets offerts) et ABCmouse (gratuit en hero), pas le gratuit posé des perdants F1b.</li>
+      <li><b>Le wording de l'offre</b>, voix parent (vouvoiement, espiègle-premium) : « Vos premières histoires sont offertes. » Pas de quantité. Réassurance directe : <b>« Sans carte. »</b> (réf. Reading.com « No payment now », Moshi « on us »).</li>
+      <li><b>Réassurance fine, 1 ligne</b> : sécurité / sans pub + caution éditeurs. <b>Pas de re-pitch</b> du carrousel de valeur.</li>
+      <li><b>CTA unique</b> qui envoie dans l'aha (« Écouter maintenant » / « Découvrir »). Le compte se crée juste après (écran 9), pas avant l'envie.</li>
+      <li><b>Ce qu'on ne met pas</b> : prix (écran 17), preuve sociale de masse (on ne l'a pas), urgence, mur sec.</li>
+    </ul>
+    <p style="font-size:13px;color:#7a5b12;margin-top:4px;"><b>Question ouverte (à trancher avec toi)</b> : montre-t-on les histoires offertes <b>en hero sur cet écran 8</b> (façon vitrine), ou cet écran 8 est-il un écran de transition court qui <b>envoie directement dans la home</b> où les histoires offertes sont éditorialisées (façon Souffleur) ? Les deux marchent ; le second est plus fluide et colle au flow actuel de Kidsono.</p>
+  </div>
+
+  <!-- ====================== AVIS ====================== -->
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco s'aligne sur les apps qui réussissent l'offre gratuite par le contenu (Capitaine, Souffleur, Quelle Histoire) et sur le seul vrai quick win FR (la réassurance « sans carte »). Elle respecte la contrainte « plusieurs histoires, sans quantifier ».</p>
+    <p><b>Risques</b> : montrer des couvertures suppose que les visuels du catalogue soient assez beaux et lisibles en vignette (vrai chez Kidsono, vu les fiches). Et « plusieurs histoires offertes » sans nombre peut sembler flou si l'écran ne montre pas au moins 2-3 couvertures concrètes : le montré doit compenser le non-quantifié.</p>
+    <p><b>Position vs standard</b> : au standard sur la mécanique de dose, en avance sur le marché FR par la réassurance explicite, contrarian assumé sur l'absence de chiffre (« 30 min » / « X histoires ») au profit du montré.</p>
+  </div>
+
+  <p class="ftnote">Document de travail, mission conseil Kidsono. Vignettes = captures réelles du benchmark (référencées par chemin relatif, lecture seule). Source : les 37 analyses écran par écran. Établi le 2026-06-15.</p>
+
+</div>
+</body>
+</html>

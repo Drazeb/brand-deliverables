@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit · Écrans de profil enfant · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card.wide{width:330px;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;display:flex;justify-content:space-between;align-items:center;}
+  .stars{color:#e6a700;font-size:12px;letter-spacing:1px;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:3px;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  .rhythm{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:16px;}
+  .rhythm .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 4px;}
+  .rhythm .step{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:11px 13px;position:relative;}
+  .rhythm .step .lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .rhythm .step .big{font-size:13.5px;font-weight:800;margin:3px 0 4px;color:#111;}
+  .rhythm .step .d{font-size:11.5px;color:#444;line-height:1.45;}
+  .rhythm .arrow{align-self:center;font-size:20px;color:#bbb;font-weight:700;}
+  @media(max-width:760px){.rhythm .arrow{display:none;}}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid rgba(0,0,0,.18);vertical-align:-1px;margin-right:3px;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Profil enfant · Audit + benchmark</div>
+    <h1>Les écrans de profil enfant : prénom, âge, avatar, préférences</h1>
+    <div class="standfirst">Kidsono a figé trois écrans de personnalisation après la création de compte, avant le paywall : <b>Écran A</b> (prénom + tranche d'âge), <b>Écran B</b> (avatar, le moment ludique), <b>Écran C</b> (préférences de catégories, 16 cases multi-select). Ce rapport ne rediscute pas ces choix : il les <b>éclaire</b> par ce que font les concurrents, écrans lus un par un. On répond à 7 questions : qui demande quoi et qui remplit (parent ou enfant) ; condenser ou découper une décision par écran ; libellés d'âge (chiffres vs niveaux scolaires) ; type d'avatar (galerie de mascottes vs builder vs initiale) ; registre de voix ; multi-profil dès l'onboarding ou différé ; place et rythme dans le flow.</div>
+    <div class="meta">
+      <span><b>Panel</b> · 18 apps lues sur captures (FR audio/histoires + lecture/apprentissage + l'existant Kidsono)</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs clés</b> · Aumio, Pickatale, Reading.com (séquence profil) · Reading Eggs, Skybrary (multi-profil)</span>
+    </div>
+  </header>
+
+  <!-- ============ SYNTHESE ============ -->
+  <h2 class="section">La réponse aux 7 questions</h2>
+  <p class="chapeau">Synthèse d'abord : un verdict par question, avec niveau de confiance. Les écrans qui les fondent suivent, lus un par un, puis les implications par écran Kidsono.</p>
+
+  <div class="qa">
+    <h3>1 · Qui demande quoi, et qui remplit (parent ou enfant) ?</h3>
+    <div class="verdict">Le parent renseigne prénom + âge. L'enfant choisit l'avatar et les goûts. Voix parent sur les champs sérieux, voix enfant invitée sur le ludique.</div>
+    <p><span class="conf o">Observé</span> Le pattern dominant du panel : <b>prénom et âge sont des champs de paramétrage adressés au parent</b> (Aumio « Quel est le nom de votre enfant », Reading.com « What is your child's name », Reading Eggs « Add your child », Homer « Let's start your child's learning profile »). L'enfant, lui, est explicitement <b>invité à intervenir sur le ludique</b> : Pickatale « Have your child pick a fun avatar », Skybrary « letting them help set up their profile, they can make Skybrary their own », Hooked on Phonics « Welcome Thelma, let's create your own special avatar ». Le moment avatar est le passage de relais parent vers enfant.</p>
+    <p><span class="conf o">Observé</span> Le <b>genre n'est quasiment jamais demandé explicitement</b> sur le panel ; il est laissé implicite via le choix d'avatar (galeries mixtes animaux/personnages). Les préférences de catégories, quand elles existent, sont un écran à part, souvent côté goûts enfant.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · Condenser plusieurs décisions sur un écran, ou une décision par écran ?</h3>
+    <div class="verdict">Les deux écoles existent. Une décision par écran (Aumio, Reading.com) rend chaque pas trivial ; le condensé (Alma, Pickatale) va plus vite mais charge l'écran.</div>
+    <ul>
+      <li><b>Une décision par écran</b> : Aumio (nom seul, puis âge seul, avec points de progression), Reading.com (âge, puis avatar, puis nom, barre de progression). Chaque écran respire, la charge cognitive est minimale, c'est lisible pour un public peu expert.</li>
+      <li><b>Condensé</b> : Alma Studio (avatar + prénom + âge + langue sur un écran scrollable), Pickatale (prénom + année + réglage IA), Reading Eggs (prénom + année). Plus rapide, moins de taps, mais l'écran est dense.</li>
+      <li><span class="conf s">Solide</span> L'existant Kidsono est <b>condensé à l'extrême</b> : prénom + tranche d'âge + galerie d'avatars sur un seul écran scrollable. C'est faisable, mais ça écrase le moment avatar (le ludique) sous deux champs de formulaire.</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>3 · Libellés de la tranche d'âge : chiffres, niveaux scolaires, ou date de naissance ?</h3>
+    <div class="verdict">Trois familles. Âge chiffré (le plus courant et le plus clair), date de naissance précise (apps qui veulent calculer), niveau scolaire (rare et ambigu).</div>
+    <ul>
+      <li><b>Âge chiffré</b> : ABCmouse (2 à 9+ en pastilles), Reading.com (Under 3, 3, 3½, 4½… jusqu'à 8+, très granulaire), Lingokids (1 à 9, chiffres écrits en toutes lettres), Okoo (slider sur un âge unique). Net, universel, pas d'interprétation.</li>
+      <li><b>Date de naissance / année</b> : Aumio et Alma (roue mois + année, l'app affiche l'âge calculé), Pickatale et Reading Eggs (année de naissance), Epic (« enter your birth year » en numpad, pour la barrière COPPA). Plus précis pour adapter le contenu, mais un cran plus lourd à saisir.</li>
+      <li><b>Tranche par bandes</b> : Bayam (3-5 / 6-8 ans, mais c'est un choix de <b>catalogue</b>, pas l'âge de l'enfant). Le niveau scolaire pur (« maternelle / grands / collège ») n'apparaît que chez Kidsono dans le panel : <span class="conf e">Estim.</span> formulation ambiguë (un CP a 6 ans mais n'est pas « chez les grands » partout), et qui vieillit mal pour le multi-âge.</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>4 · Type d'avatar : galerie de mascottes, builder riche, ou initiale ?</h3>
+    <div class="verdict">La galerie de mascottes prête à choisir est le standard. Le builder couche-par-couche est un pic d'engagement (mais lourd). L'initiale est un repli pauvre.</div>
+    <ul>
+      <li><b>Galerie de mascottes / personnages</b> (standard) : Pickatale (12 animaux ronds), Reading.com (12 visages d'enfants illustrés), Bayam (carrousel de héros), Skybrary (montgolfière). Choix immédiat, un tap, ludique sans friction. C'est la voie majoritaire.</li>
+      <li><b>Builder riche couche par couche</b> : Hooked on Phonics (corps, vêtements, accessoires, aperçu live, certains items verrouillés premium). Très engageant, c'est un vrai moment de jeu, mais lourd à produire et long pour l'enfant. Moshi mêle galerie + personnalité nommée (« Snoozy Koala, loves lilac rain »).</li>
+      <li><span class="conf s">Solide</span> L'existant Kidsono propose une galerie de la mascotte ourson en variantes (poses), <b>plus une initiale colorée par défaut</b> (le « T » de Thelma sur pastille). L'initiale seule est le degré zéro : à garder comme repli, pas comme proposition principale.</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>5 · Registre / voix : enfant (tutoiement) ou parent (vouvoiement) ?</h3>
+    <div class="verdict">Le panel parle massivement au PARENT sur prénom/âge. Le tutoiement enfant est minoritaire et porté surtout par des perdants. À surveiller pour Kidsono qui a tranché « voix enfant ».</div>
+    <p><span class="conf o">Observé</span> Sur les apps solides, <b>les écrans de profil sont en voix parent</b> : « Quel est le nom de votre enfant » (Aumio), « What is your child's name » (Reading.com), « Add your child » (Reading Eggs), « Let's start your child's learning profile » (Homer). Logique : c'est le parent qui tient le téléphone à la création de compte.</p>
+    <p><span class="conf s">Solide</span> Le <b>tutoiement enfant sur ces écrans est rare</b>, et dans le panel il est surtout porté par des contre-exemples (Capitaine Aventure : « Quel est ton prénom, jeune aventurier ? »). Kidsono actuel est déjà en voix enfant (« Qui es-tu ? », « Choisis ton personnage ! »). <span class="conf e">Estim.</span> La décision Kidsono « voix enfant » est donc <b>contrarian sur les champs prénom/âge</b> : tenable si le parent et l'enfant sont côte à côte, mais le champ âge en tutoiement (« Tu es en maternelle… ») reste bancal car c'est le parent qui sait répondre. Le tutoiement est plus naturel sur l'avatar et les goûts.</p>
+  </div>
+
+  <div class="qa">
+    <h3>6 · Multi-profil : géré dès l'onboarding ou différé ?</h3>
+    <div class="verdict">Un seul profil suffit pour démarrer ; le multi-profil est presque toujours signalé mais reporté (« plus tard »). Un écran « Qui regarde ? » arrive à l'ouverture des sessions suivantes.</div>
+    <p><span class="conf o">Observé</span> Le pattern net : <b>on crée un profil, on rassure que d'autres viendront plus tard</b>. Aumio « ajouter des profils supplémentaires plus tard », Reading.com « You can add more child profiles later », Alma « vous pouvez créer d'autres profils plus tard », Moshi « create additional child profiles later », Pickatale « up to 4 profiles » mais 1 suffit, Skybrary « Just 1 is needed to get started ». L'écran récap final propose un « + Créer un profil » optionnel (Pickatale, Reading Eggs).</p>
+    <p><span class="conf o">Observé</span> Le <b>sélecteur multi-profil de type « Who is watching ? »</b> (Vooks, Reading Eggs « Who's learning? », Skybrary) est un écran de <b>retour</b>, à l'ouverture des sessions, pas un passage obligé de l'onboarding initial. Cohérent avec la décision Kidsono (multi-profil optionnel).</p>
+  </div>
+
+  <div class="qa" style="border-left-color:var(--accent-dark);">
+    <h3 style="color:#a3261f;">7 · Place dans le flow + rythme : ludique ou neutre dans la courbe ?</h3>
+    <div class="verdict" style="background:var(--accent-dark);color:#fff;">Le profil arrive après le compte, avant le paywall. Prénom/âge = creux fonctionnel neutre. Avatar = le seul vrai pic ludique. Le « profil créé » festif relance avant le paywall.</div>
+    <p><span class="conf o">Observé</span> Dans la courbe de densité de l'onboarding, la zone profil est <b>globalement un creux fonctionnel</b> : fonds sobres, formulaires (Reading.com sur blanc étoilé léger, Reading Eggs sur blanc, Aumio sur navy uni). <b>L'avatar est l'exception qui remonte l'intensité</b> : galerie colorée, aperçu animé, c'est le moment où l'enfant joue. Puis un écran de célébration referme la séquence avant l'étape commerciale : Reading.com « Woohoo! Thelma's profile is all set up » avec confettis sur fond navy, Pickatale « And, you're done! ».</p>
+    <p><span class="conf e">Estim.</span> Pour Kidsono, ça valide l'ordre A (prénom+âge, neutre) puis B (avatar, le pic ludique) puis C (préférences). L'écran de fin festif est une <b>rampe de lancement vers le paywall</b> : on referme sur une émotion positive juste avant de demander de payer.</p>
+  </div>
+
+  <!-- ============ EXEMPLES PAR AXE ============ -->
+  <h2 class="section">Les écrans, lus un par un</h2>
+  <p class="chapeau">Captures réelles, groupées par axe. Chaque carte : ce que je repère, et le niveau de confiance. Les apps de la famille des perdants ne servent que de repoussoir, signalées comme tel.</p>
+
+  <!-- AXE: découpage + qui remplit -->
+  <div class="approach">
+    <div class="atag a-blue">Découpage &amp; qui remplit · une décision par écran</div>
+    <h3>Le profil découpé : un pas, une décision (voix parent)</h3>
+    <p class="lead">Chaque champ a son écran, avec progression visible. Lisible, peu de charge cognitive. Prénom et âge adressés au parent.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/14-aumio/captures/03-perso-nom-enfant.png" alt="Aumio nom">
+        <div class="app">Aumio · prénom <span class="stars">★★★★★</span></div>
+        <div class="scr">03-perso-nom-enfant</div>
+        <div class="note"><span class="conf s">Solide</span> Écran dédié au prénom seul. « Quel est le nom de votre enfant ? » (<b>voix parent</b>), sous-titre « Ou choisissez un surnom » + rassurance multi-profil. Points de progression en haut. Beaucoup de vide : un pas trivial.</div>
+      </div>
+      <div class="card">
+        <img src="apps/14-aumio/captures/04-perso-age-enfant.png" alt="Aumio age">
+        <div class="app">Aumio · âge <span class="stars">★★★★★</span></div>
+        <div class="scr">04-perso-age-enfant</div>
+        <div class="note"><span class="conf s">Solide</span> Écran séparé pour l'âge. Roue <b>date de naissance</b> ; l'app affiche « Âge : 6 » calculé sous la roue. Justification explicite « pour obtenir le contenu adapté à son âge ». Le découpage rend chaque champ digeste.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/13-input-child-name.png" alt="Reading.com nom">
+        <div class="app">Reading.com · prénom <span class="stars">★★★★☆</span></div>
+        <div class="scr">13-input-child-name</div>
+        <div class="note"><span class="conf s">Solide</span> « What is your child's name ? » + « Child's first name or nickname » + rassurance « add more child profiles later ». <b>Voix parent</b>, barre de progression, fond blanc étoilé léger. Le surnom autorisé protège la vie privée.</div>
+      </div>
+      <div class="card">
+        <img src="apps/19-homer/captures/03-perso-prenom-enfant-kidsafe.png" alt="Homer prénom">
+        <div class="app">Homer · prénom <span class="stars">★★★★☆</span></div>
+        <div class="scr">03-perso-prenom-enfant-kidsafe</div>
+        <div class="note"><span class="conf s">Solide</span> « Let's start your child's learning profile / We'll use their name to make learning feel special! ». Prénom OU surnom. <b>Sceau kidSAFE COPPA en pied</b> + « we never share » : réassurance données au moment sensible.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AXE: condensé -->
+  <div class="approach">
+    <div class="atag a-amber">Découpage · écran condensé</div>
+    <h3>Le profil condensé : plusieurs champs d'un coup</h3>
+    <p class="lead">Tout sur un écran scrollable. Plus rapide, mais l'écran est dense et le ludique se dilue dans le formulaire.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/02-alma-studio/captures/04-profil-age-langue-continuer.png" alt="Alma profil complet">
+        <div class="app">Alma Studio · profil <span class="stars">★★★★☆</span></div>
+        <div class="scr">04-profil-age-langue-continuer</div>
+        <div class="note"><span class="conf s">Solide</span> Un écran : avatar mascotte (mangue, crayon d'édition) + prénom + roue date de naissance + langue + Continuer. <b>Voix parent</b>, rassurance multi-profil en pied. Dense mais cohérent : concurrent FR audio direct.</div>
+      </div>
+      <div class="card">
+        <img src="apps/02-alma-studio/captures/02-profil-enfant-prenom-clavier.png" alt="Alma clavier">
+        <div class="app">Alma Studio · saisie <span class="stars">★★★★☆</span></div>
+        <div class="scr">02-profil-enfant-prenom-clavier</div>
+        <div class="note"><span class="conf s">Solide</span> Même écran, clavier ouvert : « Prénom de votre enfant ». L'avatar mascotte 3D trône en haut, éditable. Montre le risque du condensé : avec le clavier, l'âge et la langue passent sous la ligne de flottaison.</div>
+      </div>
+      <div class="card">
+        <img src="apps/16-pickatale/captures/13-bonus-profil-enfant-prenom-annee.png" alt="Pickatale profil">
+        <div class="app">Pickatale · profil <span class="stars">★★★★☆</span></div>
+        <div class="scr">13-bonus-profil-enfant-prenom-annee</div>
+        <div class="note"><span class="conf s">Solide</span> « Welcome to Pickatale / make up to 4 profiles » : prénom + <b>année de naissance</b> + toggle « AI for Kids » (création d'histoires IA on/off). Condensé, mais l'avatar est sorti sur un écran suivant dédié.</div>
+      </div>
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/20-add-child-perso.png" alt="Reading Eggs add child">
+        <div class="app">Reading Eggs · profil <span class="stars">★★★★☆</span></div>
+        <div class="scr">20-add-child-perso</div>
+        <div class="note"><span class="conf s">Solide</span> « Add your child » : prénom + <b>année de naissance</b> (champs obligatoires *). <b>Sceau kidSAFE COPPA</b> + justification « collected to create their profile and save learning progress ». Voix parent, sobre.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AXE: libellés d'age -->
+  <div class="approach">
+    <div class="atag a-violet">Libellés d'âge · les trois familles</div>
+    <h3>Comment l'âge est demandé</h3>
+    <p class="lead">Âge chiffré (le plus clair), date de naissance (plus précis), bande / niveau scolaire (ambigu). Du plus net au plus discutable.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/21-abcmouse/captures/04-choose-child-age.png" alt="ABCmouse age">
+        <div class="app">ABCmouse · âge chiffré <span class="stars">★★★★☆</span></div>
+        <div class="scr">04-choose-child-age</div>
+        <div class="note"><span class="conf s">Solide</span> « Choose your Child's Age / We will customise their learning experience. » Pastilles colorées <b>2 à 9+</b>. Un tap, zéro ambiguïté, la couleur fait le ludique sans surcharge.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/09-quiz-how-old-is-child.png" alt="Reading.com age">
+        <div class="app">Reading.com · âge granulaire <span class="stars">★★★★☆</span></div>
+        <div class="scr">09-quiz-how-old-is-child</div>
+        <div class="note"><span class="conf s">Solide</span> « About how old is your child ? » : <b>Under 3, 3, 3½, 4, 4½, 5, 6, 7, 8+</b>. Demi-années sur les petits (où une demi-année change tout en lecture). Grille de cartes, voix parent.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/07-perso-age-enfant.png" alt="Lingokids age">
+        <div class="app">Lingokids · âge en lettres <span class="stars">★★★★☆</span></div>
+        <div class="scr">07-perso-age-enfant</div>
+        <div class="note"><span class="conf o">Observé</span> « Quel âge a votre enfant ? » : liste <b>Un, Deux, Trois…</b> (chiffres écrits en toutes lettres, avec un chiffre stylisé). Original, lisible, mais une liste à scroller (moins immédiat qu'une grille).</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/11-verify-age-birth-year.png" alt="Epic verify age">
+        <div class="app">Epic · année (COPPA) <span class="stars">★★★★☆</span></div>
+        <div class="scr">11-verify-age-birth-year</div>
+        <div class="note"><span class="conf s">Solide</span> « Verify Age / enter your birth year » sur numpad. Ce n'est pas le profil enfant mais la <b>barrière d'âge réglementaire</b> côté parent. À ne pas confondre avec le choix d'âge du contenu.</div>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:14px;">
+      <div class="card">
+        <img src="apps/10-okoo/captures/01-choisir-un-age.png" alt="Okoo age slider">
+        <div class="app">Okoo · slider d'âge <span class="stars">★★★☆☆</span></div>
+        <div class="scr">01-choisir-un-age</div>
+        <div class="note"><span class="conf o">Observé</span> « Choisir un âge » : <b>slider vertical</b> avec un seul âge affiché (« 3 ans ») et la mascotte souris. Ludique mais imprécis (un slider est plus dur à régler finement qu'un tap sur une valeur).</div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/05-choix-catalogue-age.png" alt="Bayam catalogue age">
+        <div class="app">Bayam · bande de catalogue <span class="stars">★★★★☆</span></div>
+        <div class="scr">05-choix-catalogue-age</div>
+        <div class="note"><span class="conf s">Solide</span> « Choisissez le catalogue auquel Thelma pourra accéder » : cartes <b>3-5 ans / 6-8 ans</b> avec descriptif de contenu. Ce n'est pas l'âge de l'enfant mais un <b>filtre de catalogue</b>, présenté comme tel.</div>
+      </div>
+      <div class="card">
+        <img src="apps/00-kidsono/captures/08-creer-profil-vide.png" alt="Kidsono niveau scolaire">
+        <div class="app">Kidsono (actuel) · niveau scolaire <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">08-creer-profil-vide</div>
+        <div class="note"><span class="bad">À surveiller.</span> « Tu es en maternelle, chez les grands ou au collège ? » : 3 bandes <b>3-6 / 7-9 / 10-12</b>. Le wording <b>niveau scolaire</b> est ambigu (« chez les grands » n'est pas standard) ; les chiffres en pied sauvent la lisibilité. Préférer l'âge chiffré seul.</div>
+      </div>
+      <div class="card">
+        <img src="apps/15-kidjo-stories/captures/02-perso-age-3-6-7-10.png" alt="Kidjo bandes age">
+        <div class="app">Kidjo (perdant F1b) · repoussoir <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">02-perso-age-3-6-7-10</div>
+        <div class="note"><span class="bad">Contre-exemple.</span> Bandes larges « 3-6 ANS / 7-10 ANS ». Famille des perdants, cité <b>uniquement comme repoussoir</b> : des bandes aussi larges ne permettent pas d'adapter finement le contenu (un 3 ans et un 6 ans n'écoutent pas la même chose).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AXE: avatar -->
+  <div class="approach">
+    <div class="atag a-green">Avatar · le moment ludique</div>
+    <h3>Galerie de mascottes vs builder riche vs initiale</h3>
+    <p class="lead">La galerie prête à choisir est le standard rapide. Le builder couche-par-couche est le pic d'engagement. L'écran avatar est souvent le seul où l'enfant prend la main.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/16-pickatale/captures/14-bonus-selection-avatar.png" alt="Pickatale avatar">
+        <div class="app">Pickatale · galerie <span class="stars">★★★★★</span></div>
+        <div class="scr">14-bonus-selection-avatar</div>
+        <div class="note"><span class="conf s">Solide</span> « Select an avatar / Have your child pick a fun avatar! They can change it at any time. » 12 mascottes animales rondes, un tap. <b>Passage de relais à l'enfant</b> explicite + réversibilité rassurante. Le modèle propre.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/12-select-avatar-child.png" alt="Reading.com avatar">
+        <div class="app">Reading.com · galerie <span class="stars">★★★★☆</span></div>
+        <div class="scr">12-select-avatar-child</div>
+        <div class="note"><span class="conf s">Solide</span> « Select an avatar for your child » : 12 <b>visages d'enfants illustrés</b> (peaux et coiffures variées) plutôt que des animaux. Inclusif, identification directe. Choix unique en un tap, fond blanc étoilé léger.</div>
+      </div>
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/15-avatar-perso-corps.png" alt="Hooked on Phonics builder">
+        <div class="app">Hooked on Phonics · builder <span class="stars">★★★★☆</span></div>
+        <div class="scr">15-avatar-perso-corps</div>
+        <div class="note"><span class="conf s">Solide</span> Builder plein écran (paysage) : barre d'onglets corps / vêtements / accessoires, <b>aperçu live</b> à droite. Très engageant, vrai moment de jeu. Lourd à produire et long pour l'enfant.</div>
+      </div>
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/16-avatar-perso-vetements.png" alt="Hooked on Phonics vetements">
+        <div class="app">Hooked on Phonics · vêtements <span class="stars">★★★★☆</span></div>
+        <div class="scr">16-avatar-perso-vetements</div>
+        <div class="note"><span class="conf s">Solide</span> Onglet vêtements : plusieurs items <b>verrouillés (cadenas)</b> derrière le premium. Le builder devient un <b>levier de conversion</b> (débloquer plus d'items en s'abonnant). Attention au goût amer du « verrouillé » sur l'enfant.</div>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:14px;">
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/14-avatar-intro-welcome.png" alt="Hooked on Phonics intro">
+        <div class="app">Hooked on Phonics · intro <span class="stars">★★★★☆</span></div>
+        <div class="scr">14-avatar-intro-welcome</div>
+        <div class="note"><span class="conf s">Solide</span> Modal « Welcome, Thelma! Before we start playing, let's create your own special avatar. » + bouton « Create Avatar ». <b>Voix enfant assumée</b> sur l'avatar : c'est le moment où le tutoiement est naturel.</div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/04-profil-enfant-prenom.png" alt="Bayam avatar carrousel">
+        <div class="app">Bayam · carrousel héros <span class="stars">★★★★☆</span></div>
+        <div class="scr">04-profil-enfant-prenom</div>
+        <div class="note"><span class="conf s">Solide</span> Avatar d'abord : <b>carrousel de personnages BD</b> en haut, prénom dessous. Concurrent FR direct. Le perso est mis en avant comme accroche identitaire avant même la saisie.</div>
+      </div>
+      <div class="card">
+        <img src="apps/00-kidsono/captures/09-creer-profil-thelma.png" alt="Kidsono avatar">
+        <div class="app">Kidsono (actuel) · galerie ourson <span class="stars">★★★☆☆</span></div>
+        <div class="scr">09-creer-profil-thelma</div>
+        <div class="note"><span class="conf s">Solide</span> Galerie de la <b>mascotte ourson en poses variées</b> + une <b>initiale colorée</b> (« T ») par défaut. La galerie est bonne, mais elle est <b>coincée en bas d'un écran formulaire</b> : le ludique passe après prénom et niveau scolaire, il n'a pas son moment.</div>
+      </div>
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/03-choose-moshling-name-age-thelma.png" alt="Moshi moshling">
+        <div class="app">Moshi · perso à personnalité <span class="stars">★★★☆☆</span></div>
+        <div class="scr">03-choose-moshling-name-age-thelma</div>
+        <div class="note"><span class="conf o">Observé</span> « Choose your Moshling » : carrousel de créatures <b>avec une personnalité nommée</b> (« SleepyPaws, Snoozy Koala, loves lilac rain »). Donne une âme à l'avatar. Mais ici mêlé au prénom+âge dans le même écran (sheet en bas), c'est chargé.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AXE: voix -->
+  <div class="approach">
+    <div class="atag a-red">Registre / voix · parent dominant, enfant minoritaire</div>
+    <h3>Qui parle sur l'écran de profil</h3>
+    <p class="lead">Le panel solide parle au parent sur prénom/âge. Le tutoiement enfant est minoritaire et porté par des perdants. La décision Kidsono (voix enfant) est contrarian, à doser.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/02-alma-studio/captures/03-profil-prenom-en-cours-saisie.png" alt="Alma voix parent">
+        <div class="app">Alma Studio · voix parent <span class="stars">★★★★☆</span></div>
+        <div class="scr">03-profil-prenom-en-cours-saisie</div>
+        <div class="note"><span class="conf s">Solide</span> « Prénom de votre enfant », « Quel âge a votre enfant ? », « Dans quelle langue votre enfant écoute-t-il ? » <b>Vouvoiement parent</b> de bout en bout. Concurrent FR audio direct : c'est la norme du segment.</div>
+      </div>
+      <div class="card">
+        <img src="apps/29-skybrary/captures/10-child-profile-setup-intro.png" alt="Skybrary intro">
+        <div class="app">Skybrary · parent + enfant <span class="stars">★★★★☆</span></div>
+        <div class="scr">10-child-profile-setup-intro</div>
+        <div class="note"><span class="conf s">Solide</span> « Child Profile Setup / We'd love for your child to join you in this next step! It's optional, but we recommend sitting with your child... they can make Skybrary their own. » <b>Parle au parent, invite l'enfant</b> : le bon entre-deux.</div>
+      </div>
+      <div class="card">
+        <img src="apps/00-kidsono/captures/10-preferences-categories.png" alt="Kidsono préférences">
+        <div class="app">Kidsono (actuel) · voix enfant <span class="stars">★★★☆☆</span></div>
+        <div class="scr">10-preferences-categories</div>
+        <div class="note"><span class="conf s">Solide</span> « Que préfères-tu ? » : 16 catégories multi-select (Amitié, Aventures, Contes, Frissons…) avec émojis, cases cochées en vert, CTA « Crée ton profil ». <b>Tutoiement enfant</b>. Sur les goûts, le tutoiement est cohérent (c'est l'enfant qui aime).</div>
+      </div>
+      <div class="card">
+        <img src="apps/08-capitaine-aventure/captures/12-bonus-modal-prenom.png" alt="Capitaine Aventure prénom">
+        <div class="app">Capitaine Aventure (perdant F1b) · repoussoir <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">12-bonus-modal-prenom</div>
+        <div class="note"><span class="bad">Contre-exemple.</span> Modal « Quel est ton prénom, jeune aventurier ? / Le prénom apparaîtra dans l'histoire. » <b>Tutoiement enfant</b> sur le prénom. Famille des perdants, cité <b>uniquement comme repoussoir</b> : montre que demander le prénom à l'enfant en tutoiement existe, mais chez les apps les plus faibles.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AXE: multi-profil -->
+  <div class="approach">
+    <div class="atag a-blue">Multi-profil · 1 suffit, le reste plus tard</div>
+    <h3>Multi-profil dès l'onboarding ou différé</h3>
+    <p class="lead">Un profil suffit pour démarrer, on signale qu'on pourra en ajouter. Le sélecteur « Qui regarde ? » est un écran de retour, pas un passage obligé initial.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/29-skybrary/captures/11-add-child-profiles.png" alt="Skybrary add profiles">
+        <div class="app">Skybrary · 1 suffit <span class="stars">★★★★☆</span></div>
+        <div class="scr">11-add-child-profiles</div>
+        <div class="note"><span class="conf s">Solide</span> « Add Child Profiles / for up to 5 children. <b>Just 1 is needed to get started!</b> You can always edit or add more later. » Le multi-profil est offert mais explicitement non bloquant. Modèle clair.</div>
+      </div>
+      <div class="card">
+        <img src="apps/16-pickatale/captures/15-bonus-profil-cree.png" alt="Pickatale done">
+        <div class="app">Pickatale · récap + ajout <span class="stars">★★★★☆</span></div>
+        <div class="scr">15-bonus-profil-cree</div>
+        <div class="note"><span class="conf s">Solide</span> « And, you're done! » : avatar + prénom créés, gros bouton « + Create a child's profile » optionnel, puis « Save ». Le multi-profil est une <b>option à l'écran de clôture</b>, pas une étape forcée.</div>
+      </div>
+      <div class="card">
+        <img src="apps/18-vooks/captures/12-bonus-who-is-watching-profil.png" alt="Vooks who is watching">
+        <div class="app">Vooks · sélecteur retour <span class="stars">★★★★☆</span></div>
+        <div class="scr">12-bonus-who-is-watching-profil</div>
+        <div class="note"><span class="conf s">Solide</span> « Who is watching ? » façon Netflix : avatars + « Add Profile ». C'est un écran de <b>sélection à l'ouverture</b> des sessions suivantes, pas de l'onboarding initial. Le multi-profil vit surtout ici.</div>
+      </div>
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/22-whos-learning-profils.png" alt="Reading Eggs who's learning">
+        <div class="app">Reading Eggs · sélecteur retour <span class="stars">★★★★☆</span></div>
+        <div class="scr">22-whos-learning-profils</div>
+        <div class="note"><span class="conf s">Solide</span> « Who's learning ? » : profil créé + « Add a Child ». Même logique que Vooks. Le sélecteur multi-profil est un objet d'usage répété, distinct de la création initiale.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AXE: rythme / clôture festive -->
+  <div class="approach">
+    <div class="atag a-amber">Place dans le flow · clôture festive avant le paywall</div>
+    <h3>Le « profil créé ! » qui relance avant l'étape commerciale</h3>
+    <p class="lead">Après le creux fonctionnel du profil, un écran de célébration referme la séquence sur une émotion positive, juste avant de demander de payer.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/27-reading-com/captures/27-woohoo-profile-set-up.png" alt="Reading.com woohoo">
+        <div class="app">Reading.com · célébration <span class="stars">★★★★★</span></div>
+        <div class="scr">27-woohoo-profile-set-up</div>
+        <div class="note"><span class="conf s">Solide</span> « Woohoo! Thelma's profile is all set up. » Avatar + check vert + <b>confettis sur fond navy</b>, CTA « Continue ». Pic émotionnel de clôture : on referme positif avant le paywall.</div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/10-bienvenue-profil.png" alt="Bayam bienvenue">
+        <div class="app">Bayam · bienvenue + offre <span class="stars">★★★★☆</span></div>
+        <div class="scr">10-bienvenue-profil</div>
+        <div class="note"><span class="conf s">Solide</span> « Bienvenue ! / Vos profils » : profil Thelma avec badges d'âge, + Nouveau profil, et <b>encart « 7 jours d'essai gratuit, c'est le moment de tester »</b>. La clôture profil enchaîne directement sur l'amorce commerciale.</div>
+      </div>
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/02-choose-moshling-name-age-empty.png" alt="Moshi sheet">
+        <div class="app">Moshi · profil ludique <span class="stars">★★★☆☆</span></div>
+        <div class="scr">02-choose-moshling-name-age-empty</div>
+        <div class="note"><span class="conf o">Observé</span> Profil traité comme un <b>moment de jeu</b> (Moshling animé sous projecteur), prénom+âge en sheet bas, « 1 of 3 ». Remonte l'intensité au lieu de la laisser plate. Mais condensé chargé.</div>
+      </div>
+      <div class="card">
+        <img src="apps/00-kidsono/captures/11-mes-profils-thelma.png" alt="Kidsono mes profils">
+        <div class="app">Kidsono (actuel) · récap profils <span class="stars">★★★☆☆</span></div>
+        <div class="scr">11-mes-profils-thelma</div>
+        <div class="note"><span class="conf s">Solide</span> « Mes Profils » : Thelma actif (avatar + crayon d'édition) + « Ajouter un profil ». Récap fonctionnel correct, mais <b>neutre, sans moment festif</b> de clôture. Une célébration type Reading.com manque avant le paywall.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LE RYTHME ============ -->
+  <h2 class="section">Le rythme de la séquence profil</h2>
+  <p class="chapeau">Où se place le profil dans l'onboarding, et comment l'intensité varie écran par écran. C'est le creux fonctionnel de la courbe, avec un seul vrai pic (l'avatar) et une clôture festive.</p>
+
+  <div class="rhythm">
+    <div style="font-size:13.5px;font-weight:800;margin-bottom:9px;">La courbe sur la zone profil : compte -&gt; A neutre -&gt; B pic -&gt; C neutre -&gt; clôture festive -&gt; paywall</div>
+    <div class="seq">
+      <div class="step" style="border-top:4px solid #cbd5e1;">
+        <div class="lab">Écran A · prénom + âge</div>
+        <div class="big">Creux fonctionnel</div>
+        <div class="d">Champs de paramétrage adressés au parent. Fond sobre, formulaire. On fait travailler l'adulte, sans surcharge.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid var(--accent-dark);">
+        <div class="lab">Écran B · avatar</div>
+        <div class="big">Le pic ludique</div>
+        <div class="d">Galerie colorée, aperçu animé, passage de relais à l'enfant. Le seul écran de la zone où l'intensité remonte.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #cbd5e1;">
+        <div class="lab">Écran C · préférences</div>
+        <div class="big">Redescente structurée</div>
+        <div class="d">16 catégories multi-select. Goûts de l'enfant, voix enfant cohérente. Coloré mais c'est une grille de choix, pas un pic.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #d4c5a0;">
+        <div class="lab">Clôture</div>
+        <div class="big">Célébration -&gt; paywall</div>
+        <div class="d">« Profil créé ! » festif (confettis, avatar fier). Referme positif, sert de rampe vers l'étape commerciale.</div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:#444;margin-top:12px;line-height:1.55;"><b>Ce qui CHANGE</b> dans la zone : l'intensité (neutre sur A et C, pic sur B), qui parle (parent sur A, enfant sur B et C). <b>Ce qui RESTE</b> : la couleur d'accent et la mascotte de marque comme fil rouge, le sentiment d'app unique. <span class="conf e">Estim.</span> Le profil est globalement un creux assumé ; l'erreur serait de le rendre plat partout (aucun pic) ou chargé partout (tout sur un écran condensé sans respiration).</p>
+  </div>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Implications pour les 3 écrans Kidsono</h2>
+
+  <div class="impl">
+    <h3>Écran A · prénom + tranche d'âge</h3>
+    <ul>
+      <li><b>Découpage</b> : l'existant condense prénom + niveau scolaire + avatar sur un seul écran ; <span class="conf o">Observé</span> les apps solides découpées (Aumio, Reading.com) sont plus lisibles. A minima, <b>sortir l'avatar de cet écran</b> (c'est l'Écran B). Prénom + âge peuvent rester ensemble (court), mais l'avatar coincé en bas perd son moment.</li>
+      <li><b>Libellé d'âge</b> : <span class="conf s">Solide</span> remplacer le wording <b>niveau scolaire ambigu</b> (« maternelle / chez les grands / collège ») par de l'<b>âge chiffré</b> (le standard : ABCmouse, Reading.com). Garder 3 bandes si le contenu n'en demande pas plus, mais les nommer en âges (« 3-6 / 7-9 / 10-12 ans »), pas en niveaux scolaires. <span class="conf e">Estim.</span> L'âge chiffré évite l'ambiguïté et vieillit mieux à l'international.</li>
+      <li><b>Voix</b> : <span class="conf o">Observé</span> le panel parle au parent sur prénom/âge. Kidsono a tranché voix enfant. Tenable sur le prénom (« Comment veux-tu qu'on t'appelle ? »), mais le champ âge en tutoiement (« Tu es en maternelle… ») est bancal car c'est le parent qui répond. <span class="conf e">Estim.</span> Soit assumer le parent-et-enfant côte à côte, soit garder l'âge factuel et neutre.</li>
+      <li><b>Multi-profil + rassurance</b> : <span class="conf o">Observé</span> ajouter une mention « tu pourras en créer d'autres plus tard » (Aumio, Reading.com, Skybrary le font tous). L'existant a déjà « Créer un autre profil », mais sans rassurer que 1 suffit.</li>
+    </ul>
+  </div>
+
+  <div class="impl">
+    <h3>Écran B · avatar (le moment ludique)</h3>
+    <ul>
+      <li><b>Lui donner son propre écran</b> : <span class="conf s">Solide</span> c'est le seul pic de la zone profil. Pickatale et Reading.com le sortent sur un écran dédié « Select an avatar », avec passage de relais explicite à l'enfant. L'existant l'enterre en bas du formulaire : à isoler.</li>
+      <li><b>Galerie de mascottes, pas builder</b> : <span class="conf o">Observé</span> la galerie en un tap est le standard rapide ; le builder couche-par-couche (Hooked on Phonics) est plus engageant mais lourd à produire et long. Pour un lancement à budget limité, la <b>galerie de l'ourson en variantes</b> est le bon niveau. <span class="conf e">Estim.</span> L'initiale colorée (le « T ») est un repli, pas la proposition principale.</li>
+      <li><b>Voix enfant ici = naturelle</b> : <span class="conf s">Solide</span> c'est l'écran où le tutoiement Kidsono colle (Hooked on Phonics « let's create your own special avatar », Pickatale « Have your child pick »). « Choisis ton personnage ! » est juste, à garder.</li>
+      <li><b>Réversibilité</b> : <span class="conf o">Observé</span> mentionner « tu pourras le changer quand tu veux » (Pickatale) lève la peur de mal choisir et fluidifie. Ne pas verrouiller d'avatars derrière le premium au lancement (le goût amer du cadenas chez Hooked on Phonics).</li>
+    </ul>
+  </div>
+
+  <div class="impl">
+    <h3>Écran C · préférences de catégories (conservé tel quel)</h3>
+    <ul>
+      <li><b>Voix enfant cohérente</b> : <span class="conf s">Solide</span> « Que préfères-tu ? » en tutoiement est légitime ici, ce sont les goûts de l'enfant. C'est l'écran où la décision voix enfant est la plus solide du trio.</li>
+      <li><b>Place dans le rythme</b> : <span class="conf e">Estim.</span> 16 cases multi-select, c'est une grille de travail (redescente structurée), pas un pic. Le placer <b>après</b> l'avatar (le pic) est cohérent avec la courbe observée. L'ordre A -&gt; B -&gt; C tient.</li>
+      <li><b>Skippable</b> : <span class="conf o">Observé</span> la décision Kidsono (profil skippable) est alignée avec le panel (« optional », « 1 suffit »). S'assurer que C soit skippable sans bloquer l'accès, pour ne pas perdre les pressés avant le paywall.</li>
+      <li><b>Manque : la clôture festive</b> : <span class="conf s">Solide</span> aucun écran « profil créé ! » festif n'existe aujourd'hui (l'existant finit sur « Mes Profils » neutre). <span class="conf e">Estim.</span> Ajouter une micro-célébration type Reading.com (confettis, avatar fier, « C'est prêt ! ») entre C et le paywall : referme sur du positif juste avant de demander de payer, ce qui sert la conversion.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : les trois écrans Kidsono (A prénom+âge, B avatar, C préférences) sont <b>au standard du segment dans leur principe</b> : tous les concurrents solides demandent prénom + âge + avatar, et la galerie de mascottes est la voie majoritaire. La décision « avatar = moment ludique » est <b>directement validée</b> par Pickatale, Reading.com, Hooked on Phonics qui en font le pic d'engagement et le passage de relais à l'enfant. <span class="conf s">Solide</span></p>
+    <p><b>Risques</b> : deux frictions repérées sur l'existant. (1) Le <b>condensé tout-sur-un-écran</b> écrase le moment avatar sous le formulaire prénom/âge : c'est le défaut principal à corriger en isolant l'avatar. (2) Le <b>niveau scolaire</b> comme libellé d'âge est ambigu et contrarian (aucune app solide ne l'utilise) ; l'âge chiffré est plus sûr. <span class="conf o">Observé</span> Côté voix, le tutoiement enfant sur le champ âge est bancal et minoritaire (porté surtout par un perdant, Capitaine Aventure) ; il colle bien en revanche sur l'avatar et les goûts. <span class="conf e">Estim.</span></p>
+    <p><b>Position vs standard</b> : au standard sur l'architecture (prénom + âge + avatar + préférences, multi-profil différé, profil skippable, clôture avant paywall). Les écarts Kidsono (voix enfant partout, niveau scolaire, condensé) sont <b>contrarian sur les champs sérieux</b> : tenables si parent et enfant sont côte à côte, mais l'âge chiffré et l'isolement de l'avatar sont les deux ajustements à bas coût et fort impact. Le seul vrai manque par rapport au standard est la <b>célébration festive de fin de profil</b>, absente aujourd'hui.</p>
+  </div>
+
+  <p class="ftnote">Audit construit à partir de 18 apps du corpus benchmark (concurrents FR audio/histoires, apps de lecture et d'apprentissage, plus l'existant Kidsono), captures lues une par une en pleine résolution. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern récurrent du panel · <span class="conf e">Estim.</span> projection directionnelle. Apps de la famille des perdants (Kidjo, Capitaine Aventure) citées en contre-exemple uniquement. Décisions Kidsono (3 écrans A/B/C, skippable, multi-profil optionnel, voix enfant) figées : éclairées, non rediscutées. Mission conseil Kidsono, 2026-06-17.</p>
+
+</div>
+</body>
+</html>

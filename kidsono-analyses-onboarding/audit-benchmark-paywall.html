@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark · Paywall (enchaînement, offre à paliers, paiement) · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card.wide{width:330px;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .verb{font-size:11px;color:#3a3a3a;font-style:italic;background:#fff;border:1px solid #eee;border-radius:7px;padding:5px 7px;margin-bottom:6px;line-height:1.4;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  /* sequence strip */
+  .seqwrap{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:14px;}
+  .seqwrap h3{font-size:16px;margin-bottom:4px;}
+  .seqwrap .lead{font-size:12.5px;color:#555;margin-bottom:13px;max-width:900px;}
+  .seqrow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;}
+  .seqcol{width:170px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:8px;display:flex;flex-direction:column;}
+  .seqcol img{width:100%;border-radius:7px;border:1px solid #ddd;display:block;}
+  .seqcol .st{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--accent-dark);margin-top:7px;}
+  .seqcol .nm{font-size:12px;font-weight:800;color:#111;margin:1px 0 3px;}
+  .seqcol .ds{font-size:11px;color:#333;line-height:1.4;}
+  .seqarrow{align-self:center;font-size:22px;color:#bbb;font-weight:800;}
+  @media(max-width:760px){.seqarrow{display:none;}}
+
+  .focus{background:#0f1115;border:1px solid #000;border-radius:16px;padding:22px 24px;margin-top:16px;color:#f1efe6;}
+  .focus .ft{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent);}
+  .focus h3{font-family:Georgia,serif;font-size:22px;margin:6px 0 12px;color:#fff;}
+  .focus p{font-size:13.5px;color:#d6d3c8;margin-bottom:9px;line-height:1.6;}
+  .focus b{color:#fff;}
+  .focus .seqcol{background:#1b1d23;border-color:#2a2c33;}
+  .focus .seqcol .nm{color:#fff;} .focus .seqcol .ds{color:#cfccc2;} .focus .seqcol .st{color:var(--accent);}
+  .focus .seqarrow{color:#555;}
+  .focus .lesson{background:#1b1d23;border:1px solid #2a2c33;border-left:4px solid var(--accent);border-radius:11px;padding:13px 16px;margin-top:14px;}
+  .focus .lesson li{font-size:13px;color:#e3e0d6;margin:0 0 7px 18px;line-height:1.5;}
+  .focus .lesson b{color:var(--accent);}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+  .kseq{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:6px 0 14px;}
+  .kstep{flex:1;min-width:120px;background:#fff;border:1px solid #ecdca6;border-radius:11px;padding:9px 11px;}
+  .kstep .n{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:#9a6200;}
+  .kstep .t{font-size:12.5px;font-weight:800;color:#111;margin:2px 0 3px;}
+  .kstep .d{font-size:11px;color:#444;line-height:1.4;}
+  .karrow{align-self:center;color:#d6b34e;font-weight:800;font-size:16px;}
+  @media(max-width:760px){.karrow{display:none;}}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Conception onboarding · Le paywall (écrans 14 à 18)</div>
+    <h1>Le paywall best-in-class : comment s'articule l'enchaînement, écran par écran</h1>
+    <div class="standfirst">La mission de Charles porte sur l'<b>articulation</b> du paywall : y a-t-il un écran « voici notre offre » avant le choix de formule ? Où passe la réassurance, écran dédié ou couche ? Combien d'écrans, dans quel ordre, jusqu'à la modale de paiement ? Balayage des séquences de paywall du corpus, ciblé sur les modèles <b>à paliers / quotas</b> (Storytel en tête, la référence de Charles sur l'architecture d'offre), les modèles audio/livre, et les top-tier. Lecture pleine résolution, séquence par séquence, pour reconstituer l'enchaînement réel et non des écrans isolés. <b>Singularité Kidsono</b> : on a déjà fait écouter ~30 min gratuitement en amont, donc <b>pas d'essai à désamorcer</b> ; l'enjeu est de faire sortir la carte sur une offre à quota d'heures lisible.</div>
+    <div class="meta">
+      <span><b>Corpus</b> · 38 apps · 18 captures de paywall lues en pleine résolution</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs clés</b> · Storytel (paliers d'heures), Mangas.io, Libro.fm, Vooks, Audible, Bayam</span>
+    </div>
+  </header>
+
+  <!-- ============ LA REPONSE ============ -->
+  <h2 class="section">La réponse</h2>
+  <p class="chapeau">Quatre verdicts d'abord : l'enchaînement type, l'architecture d'offre à paliers, la réassurance dans le paywall, le moment de paiement. Les séquences qui les fondent suivent. Honnêteté : je liste aussi les absences et ce qu'on écarte sciemment.</p>
+
+  <div class="qa">
+    <h3>1 · L'ENCHAÎNEMENT : comment s'articule un paywall best-in-class ?</h3>
+    <div class="verdict">Le standard tient en 1 seul écran de paywall. Le seul cas qui en justifie 2-3, c'est l'offre à paliers (Storytel).</div>
+    <p><span class="conf s">Solide</span> La très large majorité du corpus (Vooks, Homer, Bayam, Reading.com, Readmio, Cosmic Kids, Audible, Pinkfong, Mangas.io) <b>condense tout sur UN écran de paywall</b> : valeur (titre + liste de bénéfices à coches), choix de formule (cartes de prix), réassurance (sous le CTA) et bouton d'achat, le tout scrollable. Il n'y a <b>pas d'écran « voici notre super offre » séparé du choix de formule</b> : la présentation de la valeur et le choix de prix cohabitent sur le même écran, la valeur en haut, les prix en bas. Le seul écran qui suit, c'est la modale native Apple/Google.</p>
+    <p><span class="conf s">Solide</span> <b>L'exception, et c'est exactement notre modèle, c'est Storytel.</b> Lui éclate le paywall en une séquence de 2 à 3 écrans <b>parce que l'offre est à paliers d'heures</b> : (1) un paywall de valeur avec UNE offre mise en avant, (2) un écran dédié « combien d'heures par mois ? » qui présente les 3 paliers, (3) un écran de confirmation. Le choix du quota mérite son propre écran ; la valeur et la confirmation l'encadrent. <span class="conf o">Observé</span> <b>Conséquence pour Kidsono</b> : notre séquence prévue (14 présentation, 15-16 réassurance, 17 options, 18 Apple) est trop longue par le milieu. Le standard à paliers est <b>2 écrans de contenu</b> (présentation de valeur + choix du palier) puis la modale Apple. La réassurance n'est pas un écran, c'est une couche (verdict 3). On passe de 5 à 3 écrans.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · L'ARCHITECTURE D'OFFRE à paliers / quotas : comment présenter les formules ?</h3>
+    <div class="verdict">Une carte par palier, empilées verticalement, le palier recommandé mis en avant (bordure + badge). Le quota nommé par usage, pas par chiffre brut.</div>
+    <ul>
+      <li><b>Nombre de formules affichées : 2 à 3, jamais plus</b> <span class="conf s">Solide</span> Storytel 3 paliers d'heures (15/30/45 h), Mangas.io 3 tiers (Basic/Premium/Family), Libro.fm 2 (1 ou 2 crédits/mois), Vooks/Homer/Cosmic Kids/Reading.com 2 (annuel/mensuel). Au-delà de 3, le choix paralyse.</li>
+      <li><b>Disposition : cartes empilées verticalement, pleine largeur</b> <span class="conf s">Solide</span> Le standard dominant. Chaque carte = nom du palier + quota + prix + (badge). Pas de tableau comparatif à colonnes serrées (illisible sur mobile).</li>
+      <li><b>La formule recommandée se signale par 3 marqueurs</b> <span class="conf s">Solide</span> 1/ une <b>bordure colorée</b> qui l'entoure (Storytel coral, Vooks vert, Reading.com), 2/ un <b>badge d'économie</b> (« Save 56% », « Économisez 25% », « Most popular »), 3/ la <b>présélection</b> (radio déjà coché). Storytel met en avant son palier le plus bas (15 h, le plus accessible) ; les autres mettent en avant l'annuel (le plus rentable). Le choix de ce qu'on pousse est stratégique.</li>
+      <li><b>Lisibilité du quota : le nommer par usage, pas par chiffre</b> <span class="conf s">Solide</span> C'est la leçon Storytel : chaque palier porte un <b>libellé d'usage</b> (« pour écouter tous les jours » = 45 h, « pour vos trajets » = 30 h, « pour vos loisirs » = 15 h) au-dessus du chiffre. Le chiffre seul (« 15 heures ») est abstrait ; le libellé le rend tangible et désamorce le « est-ce assez ? ». Audible fait pareil sur le crédit (« 1 livre audio par mois, il vous appartient »).</li>
+      <li><b>Mensuel vs annuel : un toggle haut de paywall OU deux cartes</b> <span class="conf o">Observé</span> Deux écoles. Toggle / bascule (Bayam : annuel à gauche barré « 25% » / mensuel à droite) ; ou deux cartes empilées (Vooks, Homer, Cosmic Kids, Reading.com). Pour un quota d'heures à paliers, le mensuel domine (Storytel n'affiche que du mensuel sur ses 3 paliers) : on ne croise pas paliers d'heures ET mensuel/annuel sur le même écran, ce serait illisible.</li>
+      <li><b>Ancrage de prix : prix mensualisé + prix total, et le « barré »</b> <span class="conf s">Solide</span> Reading.com « Yearly 79,99 € » + « 6,67 €/mo » + « Save 56% » : on affiche le gros prix mensualisé (petit) à côté du total (rassure sur l'engagement). Le barré (« 13,49 € » barré chez Homer) ancre l'économie. <span class="conf o">Observé</span> Pour nous sans annuel, l'ancrage se fait <b>entre paliers</b> (le palier du milieu paraît raisonnable entre le petit et le gros).</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>3 · La RÉASSURANCE dans le paywall : écran dédié ou couche ?</h3>
+    <div class="verdict">Une COUCHE du paywall, jamais un écran dédié (sans essai). Verdict confirmé par le bench réassurance, prolongé ici.</div>
+    <p><span class="conf s">Solide</span> Le bench réassurance dédié (<b>audit-benchmark-reassurance.html</b>) a déjà tranché : dans tout le corpus, la réassurance n'est un écran à part <b>que pour désamorcer un essai</b> (timeline J0/J5/J7 façon Moshi, Reading.com). Nous n'avons pas d'essai, donc cette raison d'être disparaît. <b>Ce bench paywall le confirme et précise OÙ la couche s'insère</b> : la réassurance est <b>distribuée sur l'écran de présentation de l'offre</b>, à trois endroits. 1/ En <b>sous-titre</b> du paywall (Storytel « Don't worry, it's easy to cancel anytime » ; Vooks « cancel any time »). 2/ Comme <b>dernier item de la liste de bénéfices</b> (Storytel « Cancel anytime » coché parmi les avantages : la résiliation devient une feature, pas une excuse). 3/ En <b>ligne sous le CTA</b> (Bayam « Sans engagement, annulez à tout moment » ; Cosmic Kids le bloc conditions sobre). <span class="conf o">Observé</span> Le contenu de la couche (priorisé dans le bench dédié) : sans engagement &gt; transparence du renouvellement &gt; quota lisible &gt; paiement sécurisé App Store &gt; sans pub. À cela s'ajoute, propre au paywall, l'<b>autorité au moment de décider</b> (logos éditeurs condensés + tampon Éducation nationale, réservé à ce point).</p>
+  </div>
+
+  <div class="qa">
+    <h3>4 · LE MOMENT DE PAIEMENT : comment on amène à sortir la carte ?</h3>
+    <div class="verdict">Un CTA d'action unique, dominant, qui déclenche directement la modale native. Rien entre le CTA et la carte.</div>
+    <p><span class="conf s">Solide</span> Sur tout le corpus, le bouton d'achat est <b>un seul CTA pleine largeur, couleur d'accent, verbe d'action</b> (« Je m'abonne », « Start your membership », « Continue », « Activer mon essai »). Il est <b>collé au choix de formule</b> (même écran), et son clic ouvre <b>immédiatement la modale système Apple Pay / Google Play</b> qui récapitule produit, prix, rythme et conditions (Readmio : la modale Apple Pay reprend « Essai gratuit pendant 3 jours, 6,99 € par mois », « Sans engagement. Vous pouvez résilier à tout moment. À partir du 13 juin 2026 »). <span class="conf o">Observé</span> Il n'y a <b>aucun écran intermédiaire entre le CTA et la modale native</b> : la transparence du débit (« 9,99 € aujourd'hui, puis chaque mois ») se met <b>sous le CTA</b>, pas sur un écran à part, parce que la modale Apple la répète déjà. <b>Pour Kidsono</b> : le verbe ne peut pas être « Démarrer l'essai » (on n'en a pas) ; c'est « Je m'abonne » / « Débloquer tout le catalogue ». La modale Apple (notre écran 18) est donc l'écran qui suit directement le choix du palier (notre écran 17), sans 15-16 entre les deux.</p>
+  </div>
+
+  <!-- ============ FOCUS STORYTEL ============ -->
+  <h2 class="section">Focus Storytel · l'architecture d'offre décortiquée</h2>
+  <p class="chapeau">La référence de Charles, et le modèle le plus proche du nôtre (quota d'heures à paliers, mensuel, pas d'illimité). Sa séquence de paywall lue écran par écran.</p>
+
+  <div class="focus">
+    <div class="ft">Focus · le seul modèle à paliers d'heures du corpus</div>
+    <h3>Storytel éclate son paywall en 3 écrans parce que le quota mérite son propre choix</h3>
+    <p>Storytel est le <b>seul</b> du corpus à vendre par <b>quota d'heures mensuel à paliers</b>, exactement notre modèle imposé par les éditeurs. Là où les autres condensent tout sur un écran, lui sépare en trois temps, parce que <b>choisir son palier d'heures est une décision à part entière</b> qui ne tient pas sous un CTA. Voici la séquence réelle.</p>
+    <div class="seqrow">
+      <div class="seqcol">
+        <img src="apps/31-storytel/captures/14-paywall-apres-listen.png" alt="Storytel paywall valeur">
+        <div class="st">Écran 1 · valeur</div>
+        <div class="nm">Le paywall de valeur</div>
+        <div class="ds">« Subscribe now and step into a world of stories ». UNE offre mise en avant (9,99 €/mois), sous-titre réassurance « easy to cancel anytime ». Puis « Always with Storytel » : liste de 5 bénéfices à coches, dont « Cancel anytime » en dernier. Vend AVANT de faire choisir.</div>
+      </div>
+      <div class="seqarrow">›</div>
+      <div class="seqcol">
+        <img src="apps/31-storytel/captures/15-tiers-heures-15-30-45.png" alt="Storytel paliers d'heures">
+        <div class="st">Écran 2 · le choix du palier</div>
+        <div class="nm">« Combien d'heures par mois ? »</div>
+        <div class="ds">3 cartes empilées. Chacune : un <b>libellé d'usage</b> (« pour écouter tous les jours », « pour vos trajets », « pour vos loisirs »), le quota (45 / 30 / 15 h), le prix (17,99 / 14,99 / 9,99 €). Le palier 15 h est <b>présélectionné et bordé coral</b>. CTA « Continue ». Le cœur du modèle.</div>
+      </div>
+      <div class="seqarrow">›</div>
+      <div class="seqcol">
+        <img src="apps/31-storytel/captures/16-confirm-plan-reverse-trial.png" alt="Storytel confirmation">
+        <div class="st">Écran 3 · confirmation</div>
+        <div class="nm">« Confirm your plan »</div>
+        <div class="ds">Très épuré, beaucoup de vide. Récap : « 1 compte, jusqu'à 15 heures par mois », « renews at 9,99 € every month until you cancel », case CGU à cocher, CTA « Continue ». Transparence totale avant la modale Apple.</div>
+      </div>
+    </div>
+    <div class="lesson">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:8px;">Ce que Storytel apprend sur l'architecture d'offre</div>
+      <ul>
+        <li><b>Le quota se nomme par l'usage, pas par le chiffre.</b> « Pour vos trajets / 30 h » bat « 30 heures » seul : le libellé répond à « est-ce assez pour moi ? » et transforme une grille de prix en aide à la décision.</li>
+        <li><b>Séparer la valeur du choix.</b> Écran 1 = pourquoi s'abonner (bénéfices). Écran 2 = quel palier. On ne mélange pas les deux : on convainc d'abord, on fait choisir ensuite.</li>
+        <li><b>Pousser le palier le plus accessible, pas le plus cher.</b> Storytel présélectionne 15 h / 9,99 € (l'entrée de gamme), pas 45 h. Le réflexe « pousser l'annuel » des autres apps ne s'applique pas à un quota : on rassure en mettant en avant le ticket le plus bas, les paliers hauts captent ceux qui en veulent plus.</li>
+        <li><b>La confirmation fait la transparence, la case CGU remplace le pavé légal.</b> Un écran sobre « voici ce que vous payez, quand, jusqu'à résiliation » + une checkbox suffit. Pas de bloc de conditions en gris (modèle KiLi écarté).</li>
+        <li><b>Mono-format mensuel.</b> Storytel ne croise jamais paliers d'heures ET annuel/mensuel : ses 3 paliers sont tous mensuels. Pour nous, c'est la voie lisible (un seul axe de choix : le volume d'heures).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============ LES EXEMPLES PAR ENCHAINEMENT ============ -->
+  <h2 class="section">Les exemples, par enchaînement</h2>
+  <p class="chapeau">Les séquences et écrans qui fondent les verdicts, lus un par un. D'abord les modèles à paliers (notre cas), puis le paywall mono-écran standard, puis la réassurance en couche et le moment de paiement.</p>
+
+  <!-- modeles a paliers -->
+  <div class="approach">
+    <div class="atag a-green">Architecture d'offre · les modèles à plusieurs paliers (notre cas)</div>
+    <h3>Plusieurs formules : cartes empilées, recommandé mis en avant</h3>
+    <p class="lead">Comment le marché présente 2-3 formules. La règle est constante : cartes verticales, une seule mise en avant par bordure + badge + présélection. À reprendre directement pour nos paliers d'heures.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/30-mangas-io/captures/06-paywall-offres-basic-premium-family.png" alt="Mangas.io 3 tiers">
+        <div class="app">Mangas.io</div>
+        <div class="scr">3 tiers · Basic / Premium / Family</div>
+        <div class="verb">« Tout ça, au prix d'un manga par mois ! » 3 cartes empilées : Basic 6,99 € / Premium 8,99 € / Family 15,99 €.</div>
+        <div class="note">3 paliers nommés, empilés, prix lisible. <b>La structure exacte à viser</b> (nommer les paliers, les empiler). <span class="bad">À doser :</span> le fond violet saturé + 12 pastilles flottantes surchargent (notre crème sera plus calme).</div>
+      </div>
+      <div class="card">
+        <img src="apps/33-libro-fm/captures/12-web-paywall-pricing-1-2-credits.png" alt="Libro.fm crédits">
+        <div class="app">Libro.fm</div>
+        <div class="scr">2 paliers · 1 ou 2 crédits/mois</div>
+        <div class="verb">« 1 credit/month · 9,99 € » badge « Most popular » ; « 2 credits/month · 17,99 € ». CTA par carte.</div>
+        <div class="note"><b>Le modèle quota le plus proche du nôtre</b> : on vend un volume (crédits = nos heures), 2 paliers, le plus accessible badgé « Most popular ». Lisible, sobre. La logique à transposer aux heures.</div>
+      </div>
+      <div class="card">
+        <img src="apps/37-dramabox/captures/07-paywall-coins-packs-et-abonnement.png" alt="DramaBox coins">
+        <div class="app">DramaBox</div>
+        <div class="scr">Packs de coins + abonnement</div>
+        <div class="verb">Grille de packs de jetons (300/700/1300/2500) + 2 abonnements (9,99 € / 129,99 €) avec « Durée limitée » en compte à rebours.</div>
+        <div class="note"><span class="bad">Contre-modèle de lisibilité.</span> Mélange jetons one-shot ET abonnement sur un écran : trop dense, fausse urgence (compte à rebours). Montre le piège à éviter : ne pas croiser deux logiques d'achat.</div>
+      </div>
+      <div class="card">
+        <img src="apps/26-pinkfong-baby-shark/captures/11-paywall-choix-abonnement-vs-achat-unique.png" alt="Pinkfong abonnement vs achat">
+        <div class="app">Pinkfong</div>
+        <div class="scr">Abonnement vs achat unique</div>
+        <div class="verb">« Débloquez tout le contenu » : 2 colonnes face à face, « Abonnement (toutes les 30+ applis, résiliable) » VS « Achat unique (cette appli, accès permanent) ».</div>
+        <div class="note">Bonne idée d'<b>opposer 2 logiques en VS</b> quand elles sont vraiment différentes. Mais pour nous (un seul modèle, l'abonnement à paliers), le VS n'a pas lieu d'être. Référence d'articulation, pas à copier.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- paywall mono ecran standard -->
+  <div class="approach">
+    <div class="atag a-blue">Enchaînement · le paywall mono-écran (le standard du corpus)</div>
+    <h3>Valeur + formules + réassurance + CTA, tout sur un écran scrollable</h3>
+    <p class="lead">La forme dominante hors paliers : un seul écran fait tout. Titre, liste de bénéfices, 2 cartes de prix (recommandé en avant), réassurance sous le CTA. C'est le squelette dont Storytel s'écarte uniquement pour insérer le choix du palier.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/18-vooks/captures/09-paywall-choose-subscription.png" alt="Vooks paywall">
+        <div class="app">Vooks</div>
+        <div class="scr">« Choose your subscription »</div>
+        <div class="verb">Logo + « 7 days free, cancel any time! » + 6 bénéfices à coches + carte Annual bordée vert « Save 41% » au-dessus de Monthly + CTA + conditions sobres.</div>
+        <div class="note"><b>Le squelette de référence.</b> Valeur en haut (coches), choix en bas (annuel mis en avant), réassurance en sous-titre ET sous le CTA. Tout tient sur un écran. À reprendre, en y insérant notre écran « paliers » à la Storytel.</div>
+      </div>
+      <div class="card">
+        <img src="apps/19-homer/captures/17-paywall-plans.png" alt="Homer paywall">
+        <div class="app">Homer</div>
+        <div class="scr">Paywall · 2 plans</div>
+        <div class="verb">« Save 48% » sur Annual (prix barré 13,49 € → 7,00 €/mo, présélectionné radio) au-dessus de Monthly. CTA + « Compare Plans ».</div>
+        <div class="note">Modèle de la <b>carte recommandée</b> : badge + prix barré + radio présélectionné. L'ancrage par le barré est net. <span class="bad">Le « 7-Day Free Trial » :</span> sans objet pour nous.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/58-bonus-total-paywall-yearly-monthly.png" alt="Reading.com paywall">
+        <div class="app">Reading.com</div>
+        <div class="scr">Paywall complet · yearly/monthly</div>
+        <div class="verb">« Yearly 79,99 € · 6,67 €/mo » badge « Save 56% » + « Monthly 14,99 € ». Sous le CTA : « 0,00 € due today, then 79,99 € billed every year ».</div>
+        <div class="note"><b>L'ancrage de prix de référence</b> : prix total + mensualisé + badge d'économie. Et la <b>transparence du débit en une ligne</b> sous le CTA. <span class="bad">On retire</span> le « 0 € today » (lié à l'essai) : pour nous « 9,99 € aujourd'hui, puis chaque mois ».</div>
+      </div>
+      <div class="card">
+        <img src="apps/24-cosmic-kids-yoga/captures/11-choose-plan-annuel-mensuel-14j.png" alt="Cosmic Kids choose plan">
+        <div class="app">Cosmic Kids</div>
+        <div class="scr">« Choose your plan »</div>
+        <div class="verb">2 cartes (56,99 €/an / 7,99 €/mois), puis un bloc de conditions sobre (résiliation, renouvellement, lien CGU).</div>
+        <div class="note">Variante minimaliste : 2 cartes + bloc conditions discret. Propre mais sans hiérarchie de recommandation (pas de badge, pas de bordure). Montre qu'<b>il faut signaler le palier poussé</b>, sinon le choix flotte.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- reassurance en couche -->
+  <div class="approach">
+    <div class="atag a-green">Réassurance · la couche, pas l'écran (confirmation du bench dédié)</div>
+    <h3>Où la réassurance s'insère dans le paywall</h3>
+    <p class="lead">Le bench réassurance a tranché « couche, pas écran ». Voici où elle se pose concrètement dans l'enchaînement : sous-titre du paywall, item de la liste de bénéfices, ligne sous le CTA, et la « valeur » explicitée façon Audible.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/31-storytel/captures/07-paywall-subscribe-now-45h.png" alt="Storytel paywall valeur bis">
+        <div class="app">Storytel</div>
+        <div class="scr">Réassurance distribuée</div>
+        <div class="verb">Sous-titre « Don't worry, it's easy to cancel anytime in your profile ». Et « Cancel anytime » en dernière coche des bénéfices.</div>
+        <div class="note"><b>La résiliation distribuée</b> : en sous-titre ET en bénéfice. Ce n'est pas une excuse en pied de page, c'est une feature assumée. Le placement exact à reprendre.</div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/07-paywall-premium.png" alt="Bayam paywall">
+        <div class="app">Bayam <span style="font-weight:400;color:#888">(FR)</span></div>
+        <div class="scr">Paywall · réassurance en pied</div>
+        <div class="verb">Bénéfices à coches + bascule annuel/mensuel (annuel « Économisez 25% ») + CTA « Je m'abonne » + « Sans engagement, annulez à tout moment ».</div>
+        <div class="note"><b>Le réflexe FR propre</b> : la ligne résiliation sous le CTA, la bascule annuel/mensuel claire. Le modèle d'articulation FR à suivre. Voix parent, vouvoiement.</div>
+      </div>
+      <div class="card">
+        <img src="apps/32-audible/captures/10-capture.png" alt="Audible ce que vous obtenez">
+        <div class="app">Audible</div>
+        <div class="scr">« Ce que vous obtenez »</div>
+        <div class="verb">« Choisissez 1 livre audio par mois… il vous appartient définitivement » + « Des milliers de titres inclus ».</div>
+        <div class="note"><b>La valeur du quota explicitée</b> : on dit ce qu'on obtient pour son argent, simplement. Modèle de clarté à appliquer à « ce que vaut votre quota d'heures ». Rassure par la lisibilité, pas par la promo.</div>
+      </div>
+      <div class="card">
+        <img src="apps/13-readmio/captures/15-paywall-plans-unlock.png" alt="Readmio unlock">
+        <div class="app">Readmio</div>
+        <div class="scr">« Unlock all stories »</div>
+        <div class="verb">Bénéfices courts (« 500+ stories », « new stories every week ») + 3 options (an/mois/à vie) en pilules sobres bordées vert.</div>
+        <div class="note">Variante épurée : 3 options en pilules fines, sans surcharge. <span class="bad">On retire</span> « 1 million happy parents » (preuve de masse qu'on n'a pas). La sobriété des pilules est bonne à voir.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- moment de paiement -->
+  <div class="approach">
+    <div class="atag a-violet">Moment de paiement · ce qui précède immédiatement la carte</div>
+    <h3>Le CTA déclenche directement la modale native, sans écran intermédiaire</h3>
+    <p class="lead">Entre le choix de formule et la carte bancaire, il n'y a rien : le CTA d'action ouvre la modale système qui récapitule tout. La confirmation (Storytel, Bayam) reste dans l'app, juste avant ou juste après.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/13-readmio/captures/16-paywall-apple-pay.png" alt="Readmio Apple Pay">
+        <div class="app">Readmio</div>
+        <div class="scr">La modale Apple Pay (l'écran 18)</div>
+        <div class="verb">Apple Pay : « Monthly Subscription », « Essai gratuit pendant 3 jours, 6,99 € par mois », « Sans engagement. Vous pouvez résilier à tout moment. À partir du 13 juin ». « Confirmez avec le bouton latéral ».</div>
+        <div class="note"><b>Ce qu'on ne designe pas mais qui suit le CTA</b> : la modale native récapitule produit, prix, rythme, résiliation. C'est pour ça qu'<b>aucun écran de réassurance n'est nécessaire avant</b> : Apple le redit déjà.</div>
+      </div>
+      <div class="card">
+        <img src="apps/30-mangas-io/captures/07-paywall-offres-decouvrir-app-dabord.png" alt="Mangas.io decouvrir d'abord">
+        <div class="app">Mangas.io</div>
+        <div class="scr">L'échappatoire sous le CTA</div>
+        <div class="verb">CTA principal « Activer mon essai gratuit » + dessous, en secondaire discret, « Découvrir l'app d'abord ».</div>
+        <div class="note"><b>Le paywall fermable géré proprement</b> : un CTA primaire fort, et une sortie en lien secondaire discret (notre « accès limité »). Pas de croix agressive seule : on offre une porte de sortie nommée, moins frustrante.</div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/16-confirmation-achat.png" alt="Bayam confirmation">
+        <div class="app">Bayam <span style="font-weight:400;color:#888">(FR)</span></div>
+        <div class="scr">Confirmation post-achat</div>
+        <div class="verb">Modale native « Tout est prêt · Votre achat a bien été effectué » + « OK », sur l'écran des profils.</div>
+        <div class="note">La <b>confirmation minimale post-paiement</b> : une modale courte, pas un écran. Suffit. On enchaîne direct sur l'accès complet (catalogue / profils), sans écran de félicitations lourd.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="impl">
+    <h3>La séquence de paywall recommandée : 3 écrans (au lieu de 5)</h3>
+    <div class="kseq">
+      <div class="kstep">
+        <div class="n">Écran 14</div>
+        <div class="t">Présentation de l'offre (valeur)</div>
+        <div class="d">Titre voix parent + liste de bénéfices à coches (catalogue d'éditeurs, sans pub, espace sûr, résiliable). Réassurance en sous-titre + dernière coche. Autorité ici : logos éditeurs condensés + tampon Éducation nationale. CTA « Choisir ma formule ».</div>
+      </div>
+      <div class="karrow">›</div>
+      <div class="kstep">
+        <div class="n">Écran 17 (devient 15)</div>
+        <div class="t">Choix du palier d'heures</div>
+        <div class="d">« Combien d'heures par mois ? » 3 cartes empilées, chacune nommée par usage (à la Storytel) + quota (~5/10/15 h) + prix mensuel. Palier le plus accessible présélectionné + bordé jaune. CTA « Je m'abonne ».</div>
+      </div>
+      <div class="karrow">›</div>
+      <div class="kstep">
+        <div class="n">Écran 18</div>
+        <div class="t">Modale Apple (native)</div>
+        <div class="d">On ne la designe pas. Elle récapitule produit, prix, rythme, résiliation. Le CTA de l'écran précédent l'ouvre directement.</div>
+      </div>
+    </div>
+    <ul>
+      <li><b>Supprimer les écrans 15 et 16 (« réassurance 1 et 2 »).</b> Le benchmark ne justifie un écran de réassurance que pour désamorcer un essai, qu'on n'a pas. La réassurance devient une <b>couche</b> de l'écran 14 (sous-titre + dernière coche + ligne sous le CTA). On passe de 5 écrans à 3.</li>
+      <li><b>Garder la séparation valeur / choix du palier (la leçon Storytel).</b> Écran 14 convainc (pourquoi s'abonner) ; écran « paliers » fait choisir (combien d'heures). C'est le seul cas où éclater le paywall est justifié, et c'est précisément le nôtre. Ne pas tout fondre sur un seul écran : le quota mérite son écran.</li>
+      <li><b>Présenter les paliers nommés par l'usage, pas par le chiffre nu.</b> « Pour les trajets du quotidien · 10 h » plutôt que « 10 heures ». Le libellé répond à « est-ce assez ? » et fait du quota un argument de réassurance, pas une grille de prix. En crème néo-brutaliste : 3 cartes bordées noir épais, ombre décalée, le palier poussé en jaune #FFCB02.</li>
+      <li><b>Pousser le palier le plus accessible, présélectionné.</b> Comme Storytel (15 h / 9,99 €, pas 45 h) : on présélectionne et on borde le ticket le plus bas. Les paliers hauts captent ceux qui en veulent plus, sans effrayer l'entrée.</li>
+      <li><b>Mono-axe : que des paliers mensuels.</b> Ne pas croiser paliers d'heures ET annuel/mensuel (illisible). Un seul axe de choix : le volume d'heures. Si un annuel est voulu plus tard, il se gère ailleurs, pas sur cet écran.</li>
+      <li><b>Le CTA est « Je m'abonne » / « Débloquer le catalogue », jamais « Démarrer l'essai ».</b> Pas d'essai chez nous. Son clic ouvre directement la modale Apple. Sous le CTA : la transparence du débit (« 9,99 €/mois, résiliable quand vous voulez »).</li>
+      <li><b>Paywall fermable, sortie nommée.</b> Façon Mangas.io : à côté de la croix, un lien secondaire discret (« Continuer avec les extraits ») plutôt qu'une croix seule. Moins frustrant, et cohérent avec notre accès limité qui rouvre le paywall au clic « Lecture ».</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco s'appuie sur une régularité nette (le paywall standard tient sur un écran ; l'unique exception qui en justifie plusieurs est le modèle à paliers) et surtout sur <b>Storytel, seule app du corpus au modèle identique au nôtre</b> (quota d'heures mensuel à paliers). On ne projette pas : on copie une structure qui existe et qui marche sur exactement notre contrainte. La séparation valeur / choix du palier et le quota nommé par usage sont directement transposables.</p>
+    <p><b>Risques</b> : 1/ supprimer les écrans 15-16 contredit la décision de réunion (« réassurance au paiement : deux écrans, confirmé ») ; à assumer explicitement avec le Président, en montrant que le benchmark ne les justifie que pour un essai. 2/ Storytel garde un essai (« 1 month for free ») sur ses écrans : on copie son <b>architecture</b> (3 temps, paliers nommés, confirmation sobre), pas son mécanisme d'essai. 3/ Les libellés d'usage des paliers sont à inventer sans paraître condescendants pour des heures d'écoute enfant (Charles donnera les chiffres et tranchera les libellés). 4/ Le palier à pousser (le plus bas) suppose que l'entrée de gamme reste rentable côté éditeurs ; à valider.</p>
+    <p><b>Position vs standard</b> : <b>au standard sur le fond</b> (un écran de valeur, choix de formule clair, réassurance en couche, CTA unique vers la modale native) ; <b>contrarian assumé sur le nombre d'écrans</b> (3 et non 5 : on supprime les deux écrans de réassurance que le marché ne met que pour un essai). L'architecture à paliers d'heures nommés par usage est <b>en avance sur le marché FR</b>, qui vend mal le quota ; Storytel est la seule preuve qu'elle fonctionne, ce qui est à la fois sa force (modèle identique) et sa limite (un seul point de comparaison).</p>
+  </div>
+
+  <p class="ftnote">Document de travail, mission conseil Kidsono. 18 captures de paywall lues en pleine résolution (Storytel ×4, Mangas.io ×2, Libro.fm, DramaBox, Pinkfong, Bayam ×2, Homer, Vooks, Audible, Reading.com, Cosmic Kids, Readmio ×2). Prolonge et ne refait pas le bench réassurance (<b>audit-benchmark-reassurance.html</b> : réassurance = couche, confirmé ici, placement précisé). Refs positives limitées aux gagnants du corpus ; famille des perdants citée en contre-exemple uniquement. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern récurrent du panel · <span class="conf e">Estim.</span> projection directionnelle. 2026-06-16.</p>
+
+</div>
+</body>
+</html>

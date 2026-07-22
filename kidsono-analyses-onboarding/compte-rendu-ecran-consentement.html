@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'écran de consentement : quoi demander, comment le designer, comment le placer tôt · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea; --gold:#9a6200; --amber-soft:#fdf3cf;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 34px 24px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,serif;font-size:27px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;} .standfirst b{color:#191919;}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;}
+
+  h2.section{font-family:Georgia,serif;font-size:22px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.6;margin:10px 0 16px;}
+
+  .do{display:flex;gap:16px;flex-wrap:wrap;}
+  .col{flex:1;min-width:300px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;}
+  .col.good{border-left:5px solid var(--green);} .col.bad{border-left:5px solid var(--red);}
+  .col h3{font-size:15px;margin-bottom:8px;} .col ul{margin:0 0 0 18px;} .col li{font-size:13px;margin-bottom:7px;line-height:1.45;} .col b{color:#111;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:200px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:3px;} .card .note b{color:#1f7d45;} .card .note .bad{color:#a3261f;}
+
+  .mock{width:300px;background:var(--surface);border:3px solid #222;border-radius:24px;padding:18px 16px 16px;box-shadow:5px 6px 0 rgba(0,0,0,.12);}
+  .mock .pgrab{width:42px;height:5px;border-radius:3px;background:#ddd;margin:0 auto 12px;}
+  .mock .ptag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-dark);}
+  .mock .pt{font-family:Georgia,serif;font-size:19px;font-weight:800;margin:6px 0 8px;line-height:1.2;}
+  .mock .pd{font-size:12.5px;color:#444;line-height:1.5;margin-bottom:10px;}
+  .mock .plink{font-size:12px;color:var(--blue);text-decoration:underline;margin-bottom:14px;display:inline-block;}
+  .mock .pbtns{display:flex;gap:10px;}
+  .mock .pbtn{flex:1;text-align:center;padding:12px;border-radius:12px;font-size:13.5px;font-weight:800;border:2px solid #222;}
+  .mock .pbtn.acc{background:var(--accent);color:#3a2c00;} .mock .pbtn.ref{background:#fff;color:#222;}
+  .mock .pfoot{font-size:11px;color:var(--muted);text-align:center;margin-top:11px;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;} .impl ul,.impl ol{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;} .impl b{color:#111;}
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:24px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .warn-box{background:var(--amber-soft);border:1px solid #ecdca6;border-radius:12px;padding:12px 16px;margin-top:14px;font-size:12.5px;color:#7a5b12;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;} .ftnote a{color:var(--blue);}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Consentement · L'écran</div>
+    <h1>L'écran de consentement : quoi demander, comment le designer, comment le placer tôt</h1>
+    <div class="standfirst">On part sur <b>un seul écran de consentement</b>, placé tôt (pour capter la data d'activation). Ce rapport couvre trois choses : <b>ce qu'on demande</b>, les <b>bonnes pratiques de design</b> (avec exemples), et l'<b>analyse du placement précoce</b> (comment limiter la friction). Pas d'ATT (Made for Kids), pas de gate dédié (le contexte premier-lancement suffit).</div>
+    <div class="meta">
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> best practices documentées + écrans benchmark · <span class="conf o">Observé</span> chiffres d'opt-in</span>
+      <span><b>Avertissement</b> · le wording final est à valider par l'avocat</span>
+    </div>
+  </header>
+
+  <h2 class="section">1 · Ce qu'on demande (le contenu)</h2>
+  <p class="chapeau">Sûr, d'après votre politique de confidentialité. Le consentement porte sur la mesure d'usage comportementale.</p>
+  <div class="do">
+    <div class="col good">
+      <h3>À mettre (sûr)</h3>
+      <ul>
+        <li><b>L'objet</b> : la mesure de l'usage (ce qui est écouté, la navigation) rattachée à un identifiant, <b>pour analyser l'activation et améliorer les recommandations</b>.</li>
+        <li><b>Accepter / Refuser à égalité</b> (pas de bouton refus minimisé).</li>
+        <li><b>« Ça n'empêche pas d'écouter »</b> (le refus ne bloque rien : consentement libre).</li>
+        <li><b>Lien</b> vers la politique de confidentialité.</li>
+        <li><b>Réversible</b> (modifiable dans les réglages).</li>
+        <li><b>Ton « parents »</b> : l'écran s'adresse au parent qui décide.</li>
+      </ul>
+    </div>
+    <div class="col bad">
+      <h3>Doutes (à faire préciser CTO/avocat)</h3>
+      <ul>
+        <li><b>AppsFlyer actif ?</b> Si oui, couvrir l'attribution et le nommer (absent de la policy aujourd'hui).</li>
+        <li><b>Granularité</b> : un seul consentement « mesure d'usage », ou 2 cases (analyse / attribution) ?</li>
+        <li><b>Base légale</b> : la policy dit « intérêt légitime » ; il faut la basculer sur « consentement » et le refléter.</li>
+        <li><b>Wording exact</b> : à valider par l'avocat (il pilote la conformité).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section">2 · Bonnes pratiques de design (et exemples)</h2>
+  <p class="chapeau">Ce que disent les références du domaine, et ce qu'on voit dans le benchmark.</p>
+  <div class="do">
+    <div class="col good">
+      <h3>À faire</h3>
+      <ul>
+        <li><b>Consentement « en couche »</b> : un message court et clair, le détail derrière un lien (politique). Pas de mur de texte. <span class="conf s">Solide</span></li>
+        <li><b>2-3 phrases max</b>, langage simple, zéro jargon juridique.</li>
+        <li><b>Boutons Accepter / Refuser identiques</b> (même taille, même poids). Pas de case pré-cochée.</li>
+        <li><b>Écran plein ou feuille généreuse aligné à votre DA</b> (les pleins écrans convertissent mieux que les petits bandeaux), pas un bandeau cookie générique.</li>
+        <li><b>Dire précisément à quoi servent les données</b> (le bénéfice concret).</li>
+      </ul>
+    </div>
+    <div class="col bad">
+      <h3>À éviter</h3>
+      <ul>
+        <li>Le <b>bandeau cookie web</b> anxiogène transposé tel quel.</li>
+        <li>Le <b>refus caché</b> (petit lien gris) ou la case pré-cochée : dark pattern, interdit, et pire sur une app enfants.</li>
+        <li>Le <b>jargon</b> (« traceurs », « finalités », « responsable de traitement ») en façade.</li>
+        <li>Conditionner l'usage de l'app à l'acceptation.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="chapeau">Exemples du benchmark (le plus abouti chez nous = Lili) :</p>
+  <div class="grid">
+    <div class="card">
+      <img src="apps/06-lili/captures/08-consentement-cookies.png" alt="">
+      <div class="app">Lili</div>
+      <div class="scr">CMP maison</div>
+      <div class="note"><b>La meilleure réf du corpus.</b> Titre clair « Lili respecte votre vie privée », message court, lien Politique, Refuser / Autoriser présents. <span class="bad">À corriger</span> : « Autoriser » est plus saillant que « Refuser », à mettre à égalité.</div>
+    </div>
+    <div class="card">
+      <img src="apps/31-storytel/captures/08-att-allow-tracking.png" alt="">
+      <div class="app">Storytel</div>
+      <div class="scr">Framing bénéfice</div>
+      <div class="note"><b>Le bon ton.</b> « You're in control », orienté bénéfice (« tailor your experience »), rassurant (« vous pouvez changer d'avis »). Exactement le framing à reprendre.</div>
+    </div>
+    <div class="card">
+      <img src="apps/14-aumio/captures/07-notif-opt-in.png" alt="">
+      <div class="app">Aumio</div>
+      <div class="scr">Contexte avant la demande</div>
+      <div class="note"><b>Le contexte d'abord.</b> Un écran qui explique le bénéfice avant de demander. Même logique à appliquer au consentement.</div>
+    </div>
+    <div class="card">
+      <img src="apps/26-pinkfong-baby-shark/captures/03-consentement-cgu-privacy.png" alt="">
+      <div class="app">Pinkfong</div>
+      <div class="scr">Variante à cases</div>
+      <div class="note">Cases à cocher granulaires. <span class="bad">Trop lourd</span> pour nous (3 cases + Read More), à ne reprendre que si l'avocat impose le granulaire.</div>
+    </div>
+  </div>
+
+  <h2 class="section">3 · Le placer tôt sans tuer l'opt-in (l'analyse)</h2>
+  <p class="chapeau">C'est le vrai arbitrage de ton placement précoce.</p>
+  <div class="impl" style="background:#fff;border-color:var(--border);border-left-color:var(--blue);">
+    <h3 style="color:#1d3f7a;">La tension à connaître</h3>
+    <ul>
+      <li><b>La best practice générale dit l'inverse de ton choix</b> [Solide] : les meilleurs taux d'opt-in viennent quand on demande <b>après avoir montré de la valeur</b> (moment d'engagement), pas au tout début. Demander tôt = opt-in plus bas.</li>
+      <li><b>Mais toi tu veux la data d'activation</b> sur l'onboarding (sinon pas de ratios). Donc tôt = assumé. <b>On compense par le framing.</b></li>
+      <li>Ordre de grandeur observé : un écran bien « primé » (contexte + bénéfice) peut monter à ~65% d'opt-in, contre ~15-37% pour un prompt brut. [Observé] Le soin apporté à l'écran compte plus que le moment.</li>
+    </ul>
+  </div>
+  <div class="impl">
+    <h3>Les leviers anti-friction (à appliquer à l'écran)</h3>
+    <ul>
+      <li><b>Ne pas le mettre en écran 1 nu</b> : juste après le splash/accroche, pour un minimum de contexte de marque.</li>
+      <li><b>Framing bénéfice, pas juridique</b> : « pour vous recommander les bonnes histoires et améliorer l'app » plutôt que « nous utilisons des traceurs ». Le « pourquoi » avant le « quoi ».</li>
+      <li><b>Court, lisible en 5 secondes.</b> Le détail derrière le lien.</li>
+      <li><b>Rassurer</b> : « sans pub, vos données ne sont pas vendues », « vous pouvez changer d'avis ». (cohérent avec votre engagement « pas de régie pub »).</li>
+      <li><b>Refus sans punition</b> : on continue normalement. Ça réduit l'anxiété et c'est obligatoire.</li>
+      <li><b>Habillage DA Kidsono</b> (crème, ton parent), pas un bandeau système froid.</li>
+    </ul>
+  </div>
+
+  <h2 class="section">4 · À quoi ça ressemble (proposition)</h2>
+  <p class="chapeau">La structure recommandée, à habiller par Claude Design et à valider par l'avocat pour le wording.</p>
+  <div class="grid" style="align-items:flex-start;">
+    <div class="mock">
+      <div class="pgrab"></div>
+      <div class="ptag">★ Pour les parents</div>
+      <div class="pt">On aimerait recommander les bonnes histoires à votre enfant</div>
+      <div class="pd">Pour ça, on mesure ce qui est écouté et comment l'app est utilisée. C'est pour améliorer Kidsono, rien d'autre : pas de pub, vos données ne sont jamais vendues.</div>
+      <a class="plink">Notre politique de confidentialité</a>
+      <div class="pbtns">
+        <div class="pbtn ref">Non merci</div>
+        <div class="pbtn acc">Accepter</div>
+      </div>
+      <div class="pfoot">Ça n'empêche pas d'écouter. Modifiable à tout moment dans les réglages.</div>
+    </div>
+    <div style="flex:1;min-width:300px;">
+      <div class="impl" style="margin-top:0;">
+        <h3>Pourquoi cette structure</h3>
+        <ul>
+          <li><b>Bandeau « Pour les parents »</b> = matérialise que c'est le parent qui décide (notre alternative au gate dédié).</li>
+          <li><b>Titre orienté bénéfice enfant</b> (« recommander les bonnes histoires ») = le framing qui réduit la friction.</li>
+          <li><b>1 phrase</b> sur ce qu'on mesure + le « pas de pub, jamais vendu » qui rassure.</li>
+          <li><b>Refus et Accepter à égalité</b> (« Non merci » n'est pas un lien gris caché).</li>
+          <li><b>Pied</b> : ne bloque pas + réversible.</li>
+          <li>Wording <b>à faire valider par l'avocat</b> (notamment si AppsFlyer doit être nommé).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : un écran clair, court, orienté bénéfice et habillé « parents » coche la conformité (choix libre, refus à égalité, transparence) ET limite la casse sur l'opt-in malgré le placement précoce.</p>
+    <p><b>Risques</b> : placer tôt fait mécaniquement baisser l'opt-in (donc une partie des users sera en « refus » et non trackée). C'est le prix de la data d'activation complète. Et le wording dépend de la base légale que l'avocat doit figer.</p>
+    <p><b>Position vs standard</b> : le framing « bénéfice + parent + rassurance » est exactement la pratique des apps qui réussissent leur opt-in. Le placement précoce est contrarian (le standard préfère après la valeur), assumé pour la data.</p>
+  </div>
+
+  <p class="ftnote">Synthèse conseil, wording à valider par l'avocat. Captures du benchmark lues en pleine résolution (Lili = meilleure CMP du corpus). Sources : <a href="https://usercentrics.com/knowledge-hub/best-practices-for-mobile-app-consent/">Usercentrics, best practices consent mobile</a> · <a href="https://www.adjust.com/blog/opt-in-design-for-apple-app-tracking-transparency-att-ios14/">Adjust, opt-in design</a> · <a href="https://www.appcues.com/blog/mobile-permission-priming">Appcues, permission priming</a> · <a href="https://secureprivacy.ai/blog/gdpr-compliance-mobile-apps">Secure Privacy, GDPR mobile 2026</a>.</p>
+
+</div>
+</body>
+</html>

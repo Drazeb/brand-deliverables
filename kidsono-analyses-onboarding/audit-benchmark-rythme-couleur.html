@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit · Rythme et couleur de fond entre carrousel et écran d'autorité · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .standfirst a{color:var(--blue);}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .prior{background:#f3f0ff;border:1px solid #ddd3f7;border-left:5px solid var(--violet);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .prior h3{font-size:15.5px;color:#5b34b8;margin-bottom:7px;}
+  .prior p{font-size:13px;color:#333;margin-bottom:7px;}
+  .prior b{color:#111;}
+  .prior a{color:var(--blue);}
+  .prior .gap{background:#fff;border:1px dashed #c8bbef;border-radius:9px;padding:9px 12px;font-size:12.5px;color:#4a3a82;margin-top:8px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:206px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .swap{font-size:11px;font-weight:800;margin:2px 0 6px;}
+  .card .swap .chg{color:#a3261f;} .card .swap .same{color:#1f7d45;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:3px;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  .swatchrow{display:flex;gap:5px;align-items:center;margin:5px 0 4px;}
+  .swatch{display:inline-block;width:24px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.2);}
+  .swatchrow .ar{color:#999;font-weight:700;font-size:13px;}
+
+  .rhythm{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:16px;}
+  .rhythm .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 4px;}
+  .rhythm .step{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:11px 13px;position:relative;}
+  .rhythm .step .lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .rhythm .step .big{font-size:13.5px;font-weight:800;margin:3px 0 4px;color:#111;}
+  .rhythm .step .d{font-size:11.5px;color:#444;line-height:1.45;}
+  .rhythm .arrow{align-self:center;font-size:20px;color:#bbb;font-weight:700;}
+  @media(max-width:760px){.rhythm .arrow{display:none;}}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+  .impl .chip{display:inline-block;width:15px;height:15px;border-radius:4px;border:1px solid rgba(0,0,0,.25);vertical-align:-2px;margin:0 2px;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+  .ftnote a{color:var(--blue);}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Le rythme entre écrans (composition ET couleur de fond)</div>
+    <h1>Faut-il changer la couleur de fond entre le carrousel et l'écran d'autorité ?</h1>
+    <div class="standfirst">Question bornée, une seule. Les analyses précédentes ont tranché la <b>composition</b> de l'écran d'autorité et l'idée d'une <b>rupture de rythme</b> après le carrousel. Restait un angle non couvert : la <b>couleur de fond</b>. Changer de fond d'un écran au suivant est-il un levier courant pour créer une respiration, et précisément entre le carrousel de valeur et l'écran de preuve ? Kidsono a déjà fait varier la <b>composition</b> (carrousel crème dynamique, écran D autorité crème centré et calme) mais garde le crème partout. Faut-il aller plus loin et changer aussi la <b>couleur</b> ? Captures relues une par une en pleine résolution, fond contrôlé écran par écran.</div>
+    <div class="meta">
+      <span><b>Captures lues</b> · 14 (transitions value -&gt; preuve)</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs clés</b> · Reading Eggs, Epic, ahead (rupture de couleur) · Flo, Hooked on Phonics (continuité)</span>
+    </div>
+  </header>
+
+  <!-- ============ CE QUI EST DEJA DIT ============ -->
+  <h2 class="section">Ce que les analyses existantes disent déjà</h2>
+  <p class="chapeau">On ne refait pas. Deux documents ont déjà posé une partie de la réponse. On part de là, on comble le trou qu'ils laissent : la couleur.</p>
+
+  <div class="prior">
+    <h3>1 · <a href="audit-benchmark-splash-claim.html">audit-benchmark-splash-claim.html</a> a posé la règle de rythme générale</h3>
+    <p><b>La courbe de densité en cloche</b> : splash minimal -&gt; claim = le pic émotionnel et coloré -&gt; carrousel densité moyenne -&gt; compte / questions au neutre. Et surtout : <b>« la couleur d'accent est le fil rouge »</b>, ce qui ne change jamais d'un écran à l'autre, c'est la couleur signature (ici le jaune), qui voyage du splash au CTA de chaque écran. <span class="conf o">Observé</span> Conclusion déjà actée : <b>« le décor peut varier librement tant que l'accent voyage de bout en bout »</b>.</p>
+    <div class="gap">Ce que ce doc ne tranche pas : il parle de la couleur d'ACCENT (le fil rouge) et de la densité, mais pas de la couleur de FOND de chaque écran comme outil de rythme. Le pic colore le claim ; reste à savoir si un second beat (la preuve) mérite, lui aussi, son propre fond.</div>
+  </div>
+
+  <div class="prior">
+    <h3>2 · <a href="synthese-ecran-autorite.html">synthese-ecran-autorite.html</a> a tranché la transition carrousel -&gt; autorité</h3>
+    <p><b>Deux écoles montrées</b> : ahead (« l'autorité casse le rythme », bascule en fond blanc + retire la mascotte + liste symétrique de crédentiels à lauriers) et Flo (« l'autorité escalade le message », exactement la même composition, seul le texte monte d'un cran). <span class="conf s">Solide</span> La reco déjà écrite : <b>« changer le rythme par la composition, pas par la marque »</b>, garder le crème et la DA, ne PAS basculer en blanc comme ahead (« ça ferait autre app »), faire la rupture par la composition (carrousel asymétrique -&gt; autorité centrée, calme, symétrique, beaucoup d'air).</p>
+    <div class="gap">Ce que ce doc tranche déjà : NON au blanc d'ahead. Ce qu'il ne pose pas explicitement : entre « tout crème » (Flo) et « bascule en blanc » (ahead), il existe une troisième voie, garder la famille crème/jaune mais teinter le fond de l'écran autorité. C'est précisément la question de Charles. On la traite ici.</div>
+  </div>
+
+  <!-- ============ LA REPONSE ============ -->
+  <h2 class="section">La réponse</h2>
+  <p class="chapeau">Trois verdicts. Les écrans qui les fondent suivent, lus un par un, fond contrôlé à chaque transition.</p>
+
+  <div class="qa">
+    <h3>1 · Changer la couleur de fond entre écrans d'onboarding pour faire du rythme, est-ce fréquent ?</h3>
+    <div class="verdict">Oui, c'est un levier courant et assumé, mais ce n'est pas la majorité : les deux écoles coexistent.</div>
+    <p><span class="conf s">Solide</span> Vu sur captures, deux familles nettes. <b>Famille « fond mobile »</b> : Epic donne à chaque slide du carrousel un fond de couleur différent (bleu -&gt; vert -&gt; rouge) ; Reading Eggs garde un carrousel bleu mais bascule UN seul slide (le slide de trust/awards) en magenta avant de revenir au bleu. <b>Famille « fond tenu »</b> : Hooked on Phonics garde exactement le même bleu clair sur tout son carrousel (seule la mascotte change) ; Flo garde le même fond blanc fleuri de l'accueil à l'écran d'autorité.</p>
+    <p><span class="conf o">Observé</span> Donc : changer le fond pour rythmer est <b>un outil reconnu et fréquent</b>, mais pas une obligation. Le facteur qui décide n'est pas « est-ce permis » (ça l'est) mais <b>« la marque a-t-elle une identité de fond forte à préserver »</b>. Les marques à fond signature unique (Flo en blanc, Hooked en bleu) le tiennent ; celles à palette multicolore (Epic) le font danser.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · Entre carrousel et écran d'autorité, qu'est-ce qui change chez les standards ?</h3>
+    <div class="verdict">La composition change presque toujours. La couleur de fond change souvent, mais pas systématiquement.</div>
+    <ul>
+      <li><b>La composition change quasi à chaque fois</b> <span class="conf s">Solide</span> : c'est le signal de base du « temps de preuve ». ahead retire la mascotte et passe à une liste symétrique de crédentiels à lauriers ; Reading Eggs remplace la photo d'enfant par une grille de badges ; Flo garde le décor mais remplace « Hello, I'm Flo » par le claim « #1 OB-GYN-recommended » + une ligne de source minuscule. La rupture de composition est le dénominateur commun.</li>
+      <li><b>La couleur de fond, elle, est à 50/50</b> <span class="conf s">Solide</span> : ahead bascule du lavande au blanc pour son écran de preuve ; Reading Eggs bascule du bleu au magenta pour son slide de trust ; Reading.com pose sa preuve sociale (Apple, 4.7, 2,5 M) sur un fond violet sombre pleine image, distinct des écrans clairs autour. À l'inverse, Flo tient le même fond, et Hooked on Phonics aussi. <span class="conf o">Observé</span> Quand le fond change, c'est <b>toujours pour marquer le beat de preuve</b>, jamais au hasard, et souvent <b>juste le temps de cet écran</b> (Reading Eggs revient au bleu juste après).</li>
+    </ul>
+  </div>
+
+  <div class="qa" style="border-left-color:var(--accent-dark);">
+    <h3 style="color:#a3261f;">3 · Kidsono a déjà changé la composition (crème -&gt; crème) : faut-il changer AUSSI la couleur ?</h3>
+    <div class="verdict" style="background:var(--accent-dark);color:#fff;">Oui, une teinte de fond légèrement différente sur l'écran autorité, dans la famille crème/jaune. Recommandé, sans casser le fil rouge.</div>
+    <p><span class="conf e">Estim.</span> La rupture de composition seule (carrousel crème animé -&gt; autorité crème centrée) <b>fonctionne, mais sous-exploite un levier gratuit</b>. Le standard montre que le beat de preuve gagne à être doublement signalé : composition + couleur. Le risque acté par <a href="synthese-ecran-autorite.html">synthese-ecran-autorite.html</a> (ne pas faire « autre app » comme le blanc d'ahead) reste valable, mais il vise un changement <b>radical de famille</b> (crème -&gt; blanc clinique). Une <b>teinte voisine</b> dans la DA (crème -&gt; jaune doux, ou crème -&gt; un pâle accent) n'est pas une rupture de marque : c'est exactement ce que fait Reading Eggs (reste dans sa palette, juste un slide teinté) sans jamais cesser d'être Reading Eggs.</p>
+    <p><span class="conf e">Estim.</span> Condition pour que ça ne casse rien : <b>le jaune reste le fil rouge</b> (déjà acté), le décor néo-brutaliste (contours noirs, Cooper Black, encre) reste constant, et le fond autorité reste <b>dans la famille chaude</b> (pas de bleu froid, pas de blanc). On ne change pas d'univers, on respire d'un ton.</p>
+  </div>
+
+  <!-- ============ LES EXEMPLES ============ -->
+  <h2 class="section">Les exemples, par enchaînement</h2>
+  <p class="chapeau">Chaque transition lue de gauche à droite, fond contrôlé écran par écran. La pastille de chaque carte dit ce qui change : <span style="color:#a3261f;font-weight:800;">fond ✕</span> = la couleur de fond change, <span style="color:#1f7d45;font-weight:800;">fond ✓</span> = elle est tenue. La composition, elle, change presque partout.</p>
+
+  <!-- RUPTURE -->
+  <div class="approach">
+    <div class="atag a-red">École rupture · le beat de preuve change la couleur de fond</div>
+    <h3>Quand l'app teinte un écran pour dire « pause, voici la preuve »</h3>
+    <p class="lead">Le fond bascule sur l'écran de trust, souvent le temps d'un seul écran, puis revient. La couleur fait le signal autant que la composition. C'est le cœur de la réponse à Charles.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/11-carrousel-2-phonics-fun.png" alt="Reading Eggs slide phonics, fond bleu">
+        <div class="app">Reading Eggs</div>
+        <div class="scr">Carrousel · slide « phonics fun »</div>
+        <div class="swatchrow"><span class="swatch" style="background:#5aa8e0;"></span></div>
+        <div class="note"><span class="conf s">Solide</span> Slide de valeur ordinaire : <b>fond bleu</b>, photo d'enfant, points de progression. Le bleu est la couleur de fond par défaut du carrousel.</div>
+      </div>
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/12-carrousel-3-awards-trust.png" alt="Reading Eggs slide awards, fond magenta">
+        <div class="app">Reading Eggs</div>
+        <div class="scr">Carrousel · slide trust / awards</div>
+        <div class="swatchrow"><span class="swatch" style="background:#5aa8e0;"></span><span class="ar">›</span><span class="swatch" style="background:#c0357f;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; compo ✕</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le beat de preuve.</b> Le fond bascule du bleu au <b>magenta</b>, « Trusted by teachers », mur de ~12 badges. Le fond magenta isole l'écran de trust comme un temps fort. <b>La démonstration la plus nette du levier couleur.</b></div>
+      </div>
+      <div class="card">
+        <img src="apps/22-reading-eggs/captures/13-carrousel-4-curriculum.png" alt="Reading Eggs slide curriculum, retour au bleu">
+        <div class="app">Reading Eggs</div>
+        <div class="scr">Carrousel · slide suivant</div>
+        <div class="swatchrow"><span class="swatch" style="background:#c0357f;"></span><span class="ar">›</span><span class="swatch" style="background:#5aa8e0;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; (retour)</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Et ça revient au bleu juste après.</b> Le magenta n'était QUE pour la preuve. Confirmé par le slide « proven results » plus loin, lui aussi de retour au bleu. La couleur teinte le beat, puis se range.</div>
+      </div>
+      <div class="card">
+        <img src="benchmark-top-tier-mobbin/autorite/mobbin-ahead-onboarding.png" alt="ahead onboarding, bascule lavande vers blanc">
+        <div class="app">ahead <span style="font-weight:400;color:#888">(top-tier)</span></div>
+        <div class="scr">Autour lavande · autorité blanc</div>
+        <div class="swatchrow"><span class="swatch" style="background:#e7defb;"></span><span class="ar">›</span><span class="swatch" style="background:#ffffff;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; compo ✕</div>
+        <div class="note"><span class="conf s">Solide</span> Écrans en <b>lavande + mascotte</b> ; l'écran d'autorité (3,5 M, Apple Design Award, #1) bascule en <b>blanc</b>, retire la mascotte, liste symétrique à lauriers. <span class="bad">Le cas « trop radical »</span> déjà écarté par la synthèse (ça fait « autre app »). Montre la borne haute à ne pas franchir.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/04-hook-science-plus-you-2-5m-parents.png" alt="Reading.com hook fond violet sombre">
+        <div class="app">Reading.com</div>
+        <div class="scr">Hook · preuve sociale</div>
+        <div class="swatchrow"><span class="swatch" style="background:#3a2766;"></span><span class="ar">›</span><span class="swatch" style="background:#f4f1fb;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; compo ✕</div>
+        <div class="note"><span class="conf s">Solide</span> La preuve sociale (Apple, 4,7★, 2,5 M parents) sur un <b>fond violet sombre pleine image</b> ; l'écran suivant repasse au clair. <span class="bad">Contenu interdit pour nous</span> (masse + étoiles, déjà acté). On ne retient QUE le mécanisme : le beat de preuve a son propre fond.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EPIC -->
+  <div class="approach">
+    <div class="atag a-violet">École fond mobile · chaque slide sa couleur</div>
+    <h3>Quand tout le carrousel change de fond à chaque écran</h3>
+    <p class="lead">Cas extrême : le fond danse de slide en slide, et le slide de preuve hérite naturellement de sa propre couleur. Montre qu'un fond mobile est un parti pris viable, pas une faute.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/17-epic/captures/02-slide-inspire-love-reading.png" alt="Epic slide 1 fond bleu">
+        <div class="app">Epic</div>
+        <div class="scr">Slide 1 · « love of reading »</div>
+        <div class="swatchrow"><span class="swatch" style="background:#1f7fe0;"></span></div>
+        <div class="note"><span class="conf s">Solide</span> Slide de valeur, <b>fond bleu</b> vif, illustration de lecture.</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/03-slide-personalized-journey.png" alt="Epic slide 2 fond vert">
+        <div class="app">Epic</div>
+        <div class="scr">Slide 2 · « personalized journey »</div>
+        <div class="swatchrow"><span class="swatch" style="background:#1f7fe0;"></span><span class="ar">›</span><span class="swatch" style="background:#1f5e3a;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> Slide suivant, <b>fond vert sombre</b>. Le fond change sans que ce soit un écran de preuve : chez Epic c'est le parti pris général.</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/04-slide-trusted-teachers-parents.png" alt="Epic slide 3 trust fond rouge">
+        <div class="app">Epic</div>
+        <div class="scr">Slide 3 · « trusted by teachers »</div>
+        <div class="swatchrow"><span class="swatch" style="background:#1f5e3a;"></span><span class="ar">›</span><span class="swatch" style="background:#d8536b;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> Le slide de trust hérite de son <b>fond rouge/corail</b>. <span class="bad">Copy vague déjà écartée</span> (« trusted by » sans nom, contre-exemple acté). Ici on ne lit QUE le rythme : la preuve a sa couleur dédiée, comme les autres.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTINUITE -->
+  <div class="approach">
+    <div class="atag a-green">École continuité · le fond ne bouge pas, seule la compo / le message change</div>
+    <h3>Quand l'app tient son fond et change le reste</h3>
+    <p class="lead">L'autre moitié du standard. Le fond signature est tenu de bout en bout ; la respiration se fait par la composition et l'escalade du message. C'est l'état actuel de Kidsono (tout crème).</p>
+    <div class="grid">
+      <div class="card">
+        <img src="benchmark-top-tier-mobbin/autorite/mobbin-flo-onboarding.png" alt="Flo accueil et autorité même fond blanc fleuri">
+        <div class="app">Flo <span style="font-weight:400;color:#888">(top-tier)</span></div>
+        <div class="scr">Accueil -&gt; autorité, même fond</div>
+        <div class="swatchrow"><span class="swatch" style="background:#ffffff;"></span><span class="ar">›</span><span class="swatch" style="background:#ffffff;"></span></div>
+        <div class="swap"><span class="same">fond ✓</span> &nbsp; compo ~</div>
+        <div class="note"><span class="conf s">Solide</span> « Hello, I'm Flo » et « #1 OB-GYN-recommended » partagent <b>exactement le même fond blanc fleuri</b>. Seul le message escalade + une ligne de source minuscule. <b>La preuve par continuité</b> : fond tenu, zéro rupture visuelle. La voie la plus sobre.</div>
+      </div>
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/03-carrousel-boost-academic.png" alt="Hooked on Phonics slide fond bleu clair">
+        <div class="app">Hooked on Phonics</div>
+        <div class="scr">Carrousel · slide valeur</div>
+        <div class="swatchrow"><span class="swatch" style="background:#bfe6f5;"></span></div>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>bleu clair</b> tenu, mascotte centrée. Le fond est l'identité du carrousel.</div>
+      </div>
+      <div class="card">
+        <img src="apps/28-hooked-on-phonics/captures/04-carrousel-educational-foundation.png" alt="Hooked on Phonics slide foundation même fond">
+        <div class="app">Hooked on Phonics</div>
+        <div class="scr">Carrousel · slide « foundation »</div>
+        <div class="swatchrow"><span class="swatch" style="background:#bfe6f5;"></span><span class="ar">›</span><span class="swatch" style="background:#bfe6f5;"></span></div>
+        <div class="swap"><span class="same">fond ✓</span></div>
+        <div class="note"><span class="conf s">Solide</span> Le slide pseudo-autorité (« Strong Educational Foundation ») garde <b>exactement le même bleu</b> : seule la mascotte change. <span class="bad">Et c'est sa faiblesse</span> : promesse de sérieux sans preuve ni signal de rupture, déjà notée comme contre-exemple. Le fond tenu n'aide pas à faire « beat ».</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/03-splash-oxford-kidscreen.png" alt="Lingokids caution en pied même orange">
+        <div class="app">Lingokids</div>
+        <div class="scr">Splash · caution en pied</div>
+        <div class="swatchrow"><span class="swatch" style="background:#f59300;"></span></div>
+        <div class="swap"><span class="same">fond ✓</span></div>
+        <div class="note"><span class="conf o">Observé</span> Oxford + Kidscreen posés en pied du <b>même orange</b> que le splash de marque. La caution n'a pas d'écran ni de couleur à elle : elle est greffée. <b>Trop faible si l'autorité est le pilier</b> (déjà acté). Montre l'option « zéro rupture », et sa limite.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="rhythm">
+    <div style="font-size:13.5px;font-weight:800;margin-bottom:9px;">La séquence, fond par fond : doubler le signal de l'écran autorité</div>
+    <div class="seq">
+      <div class="step" style="border-top:4px solid #f0e6b0;">
+        <div class="lab">Splash</div>
+        <div class="big">Crème <span class="impl" style="all:unset;"><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FEF8D7;vertical-align:-2px;"></span></span></div>
+        <div class="d">Fond crème, un signe. Densité minimale.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid var(--accent);">
+        <div class="lab">Claim</div>
+        <div class="big">Pic jaune <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FFCB02;vertical-align:-2px;"></span></div>
+        <div class="d">Le pic coloré acté (flux rupture). Haut jaune, bas crème.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #f0e6b0;">
+        <div class="lab">Carrousel A/B/C</div>
+        <div class="big">Crème <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FEF8D7;vertical-align:-2px;"></span></div>
+        <div class="d">Retour au crème, densité moyenne, compo dynamique (bande, frontière, avatars).</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #e9d27a;">
+        <div class="lab">Écran D · autorité</div>
+        <div class="big">Crème teinté <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FBEFA8;vertical-align:-2px;"></span></div>
+        <div class="d"><b>Le 2e beat.</b> Compo calme + un fond légèrement teinté (jaune doux). Respiration, sans changer d'univers.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="impl">
+    <h3>La reco (à trancher avec Charles avant le brief Claude Design)</h3>
+    <ul>
+      <li><b>Oui, teinter le fond de l'écran D</b>, mais dans la famille crème/jaune. Direction : un <b>jaune doux / crème plus chaud</b> <span class="chip" style="background:#FBEFA8;"></span> que le crème de base <span class="chip" style="background:#FEF8D7;"></span>, ou un aplat <b>jaune signature en bandeau haut</b> derrière le claim « Le meilleur de l'édition jeunesse », le reste des logos sur crème. Pas de bleu, pas de blanc, pas de couleur froide : on reste dans le chaud.</li>
+      <li><b>Pourquoi un changement léger suffit</b> : Reading Eggs ne change pas de marque en teintant son slide trust en magenta, il reste Reading Eggs. Une teinte voisine signale le beat sans le coût d'un « autre app » (la borne que la synthèse a raison d'interdire, mais qui ne vise que les ruptures radicales type blanc d'ahead).</li>
+      <li><b>Le fil rouge est préservé</b> : le jaune signature reste l'accent partout (acté), le décor néo-brutaliste (contours noirs, Cooper Black, encre) ne bouge pas, donc l'écran D reste évidemment Kidsono. On respire d'un ton, on ne change pas de monde.</li>
+      <li><b>Double signal = beat plus lisible</b> : la rupture de composition (carrousel asymétrique -&gt; autorité centrée et calme, déjà actée par <a href="synthese-ecran-autorite.html">synthese-ecran-autorite.html</a>) PLUS la teinte de fond. Les deux ensemble disent « pause, voici la preuve » mieux que la composition seule. C'est exactement le doublon composition+couleur que font ahead et Reading Eggs.</li>
+      <li><b>Garde-fou exécution</b> : la teinte doit rester subtile (un cran, pas un saut). Trop forte, elle concurrence le pic du claim et aplatit la courbe ; le claim doit rester le pic émotionnel, l'écran D un beat de gravité (preuve), pas un second feu d'artifice. Si le jaune bandeau est trop proche du claim, préférer le crème-chaud uni.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco s'appuie sur un pattern vu sur captures et convergent (Reading Eggs, ahead, Reading.com teintent le beat de preuve), et elle respecte les deux décisions déjà actées (jaune fil rouge, pas de bascule radicale type blanc d'ahead). Elle comble précisément le trou que les deux docs antérieurs laissaient : ils traitaient densité, accent et composition, jamais la couleur de fond de l'écran autorité. C'est un levier gratuit, zéro coût d'acquisition, qui rend le beat de preuve plus lisible.</p>
+    <p><b>Risques</b> : 1/ <span class="conf e">Estim.</span> tout le verdict 3 est directionnel, pas vu sur une app crème/jaune comparable (aucune app du corpus n'a la DA Kidsono ; Reading Eggs change BEAUCOUP plus violemment, bleu -&gt; magenta, que ce qu'on propose). 2/ La frontière « teinte qui respire » / « teinte qui fait autre app » est une affaire d'exécution fine, qui ne se juge qu'en maquette : à tester en rendu, pas à décréter. 3/ Concurrence avec le pic du claim : si l'écran D est trop coloré, on a deux pics et la courbe en cloche se casse. 4/ Le standard est à 50/50 : une part respectable d'apps tient son fond (Flo, Hooked) ; donc « ne rien teinter » n'est pas une faute, juste une occasion manquée. Le gain est réel mais modeste.</p>
+    <p><b>Position vs standard</b> : au standard sur le principe (teinter un beat de preuve est courant), prudent sur l'amplitude (on reste dans la famille chaude, là où Epic ou Reading Eggs sautent de famille). On prend le mécanisme du marché en l'amortissant à la DA : la respiration d'ahead sans son reniement de marque, la discipline de Flo sans son immobilité.</p>
+  </div>
+
+  <p class="ftnote">Document de travail, mission conseil Kidsono. 14 captures lues en pleine résolution, fond contrôlé écran par écran : Reading Eggs 11/12/13/15, Epic 02/03/04, Hooked on Phonics 03/04, Reading.com 04/05, Lingokids 03, ahead et Flo (planches top-tier Mobbin). Complète <a href="audit-benchmark-splash-claim.html">audit-benchmark-splash-claim.html</a> (règle de rythme générale) et <a href="synthese-ecran-autorite.html">synthese-ecran-autorite.html</a> (transition carrousel -&gt; autorité), sans les répéter : seul l'angle couleur de fond est neuf. Epic « trusted by », Reading.com masse/étoiles, Hooked « foundation » apparaissent en contre-exemples de COPY mais sont lus ici uniquement pour leur mécanique de rythme. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern · <span class="conf e">Estim.</span> projection directionnelle. Famille des perdants non sollicitée. 2026-06-16.</p>
+
+</div>
+</body>
+</html>

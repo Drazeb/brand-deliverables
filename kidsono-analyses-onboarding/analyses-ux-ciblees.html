@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analyses UX ciblées pour l'onboarding · Kidsono</title>
+<style>
+:root{--bg:#f6f6f2;--surface:#fff;--border:#e6e6e0;--text:#191919;--muted:#6e6e6e;--red:#e2492f;--yellow:#f6c944;--blue:#2563c9;--teal:#127a68;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+.wrap{max-width:760px;margin:0 auto;padding:38px 22px 60px;}
+.home{display:inline-block;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;margin-bottom:18px;}
+.home:hover{color:var(--blue);}
+.cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:40px 38px 28px;margin-bottom:26px;}
+.kicker{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--teal);}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:32px;line-height:1.18;font-weight:700;margin:12px 0 14px;}
+.standfirst{font-size:15px;color:#444;line-height:1.65;}
+.figures{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:22px;border-top:1px solid var(--border);padding-top:16px;}
+.fig{display:flex;align-items:baseline;gap:8px;}
+.fig .v{font-family:Georgia,serif;font-size:26px;font-weight:700;color:var(--teal);}
+.fig .l{font-size:12px;color:var(--muted);max-width:130px;line-height:1.25;}
+.section-t{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:26px 0 12px 4px;}
+a.card{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--teal);border-radius:14px;padding:16px 20px;margin-bottom:11px;text-decoration:none;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:border-color .12s, box-shadow .12s;}
+a.card:hover{border-color:var(--blue);box-shadow:0 3px 12px rgba(37,99,201,.13);}
+a.card .ico{font-size:20px;line-height:1.2;min-width:26px;}
+a.card .t{font-size:16px;font-weight:800;margin-bottom:3px;line-height:1.3;}
+a.card .d{font-size:13px;color:var(--muted);}
+.note{font-size:12px;color:var(--muted);margin-top:22px;line-height:1.6;}
+</style>
+</head>
+<body><div class="wrap">
+
+<a class="home" href="index.html">← Retour à l'accueil</a>
+
+<header class="cover">
+  <div class="kicker">Mission Kidsono · Analyses UX ciblées · benchmark des 37 applications</div>
+  <h1>L'onboarding décomposé écran par écran, audité à la lumière du benchmark</h1>
+  <div class="standfirst">Chaque brique de l'onboarding a fait l'objet d'une analyse dédiée : ce que fait le marché sur cet écran précis, les captures comparées côte à côte, et l'enseignement pour Kidsono. À utiliser comme bibliothèque de référence, écran par écran, pour concevoir et arbitrer.</div>
+  <div class="figures">
+    <div class="fig"><span class="v">15</span><span class="l">analyses ciblées</span></div>
+    <div class="fig"><span class="v">7</span><span class="l">étapes de l'onboarding couvertes</span></div>
+  </div>
+</header>
+
+<div class="section-t">Ouverture : splash et claim</div>
+<a class="card" href="audit-benchmark-splash.html"><span class="ico">🚀</span><span><span class="t">Le splash</span><br><span class="d">Le premier écran : ce que le marché affiche à l'ouverture de l'app.</span></span></a>
+<a class="card" href="audit-benchmark-splash-claim.html"><span class="ico">✨</span><span><span class="t">Splash + claim + rythme d'ouverture</span><br><span class="d">L'enchaînement des tout premiers écrans et la promesse d'accueil.</span></span></a>
+
+<div class="section-t">Carrousel, rythme et fonds</div>
+<a class="card" href="audit-benchmark-carrousel.html"><span class="ico">🎠</span><span><span class="t">Les carrousels d'onboarding entiers</span><br><span class="d">Les carrousels de conviction du marché, slide par slide.</span></span></a>
+<a class="card" href="audit-benchmark-rythme-couleur.html"><span class="ico">🎨</span><span><span class="t">Rythme et couleur de fond</span><br><span class="d">La respiration visuelle entre le carrousel et l'écran d'autorité.</span></span></a>
+<a class="card" href="audit-benchmark-fonds-travailles.html"><span class="ico">🖼️</span><span><span class="t">Fonds travaillés vs aplats unis</span><br><span class="d">Le traitement des arrière-plans sur l'onboarding et le paywall.</span></span></a>
+
+<div class="section-t">Autorité et réassurance</div>
+<a class="card" href="audit-benchmark-autorite.html"><span class="ico">🏛️</span><span><span class="t">L'écran d'autorité (mur des éditeurs)</span><br><span class="d">Comment le marché installe la caution tierce et la crédibilité.</span></span></a>
+<a class="card" href="audit-benchmark-reassurance.html"><span class="ico">🛟</span><span><span class="t">La réassurance au paiement</span><br><span class="d">Les éléments qui rassurent le parent au moment de payer.</span></span></a>
+
+<div class="section-t">Compte et profil enfant</div>
+<a class="card" href="audit-benchmark-creation-compte.html"><span class="ico">🔑</span><span><span class="t">La création de compte / connexion</span><br><span class="d">Le moment du compte : quand, comment, avec quels fournisseurs.</span></span></a>
+<a class="card" href="audit-benchmark-profil-enfant.html"><span class="ico">🧒</span><span><span class="t">Les écrans de profil enfant</span><br><span class="d">Prénom, âge, avatar : la personnalisation à l'entrée.</span></span></a>
+
+<div class="section-t">Consentement et permissions</div>
+<a class="card" href="benchmark-ecrans-consentement.html"><span class="ico">✅</span><span><span class="t">Les écrans de consentement / permission</span><br><span class="d">Comment les apps top-tier demandent le consentement.</span></span></a>
+<a class="card" href="benchmark-consentement-placement-composition.html"><span class="ico">🧩</span><span><span class="t">Typologie des écrans de consentement</span><br><span class="d">Placement et composition, sur un corpus élargi.</span></span></a>
+
+<div class="section-t">Paywall et offre</div>
+<a class="card" href="audit-benchmark-paywall.html"><span class="ico">💳</span><span><span class="t">Le paywall</span><br><span class="d">Enchaînement, offre à paliers, écran de paiement.</span></span></a>
+<a class="card" href="audit-benchmark-paywall-rythme.html"><span class="ico">📈</span><span><span class="t">Le rythme à l'arrivée au paywall</span><br><span class="d">La montée en richesse visuelle juste avant de demander de payer.</span></span></a>
+<a class="card" href="benchmark-offre-gratuite-ecran8.html"><span class="ico">🎁</span><span><span class="t">Présenter l'offre gratuite</span><br><span class="d">Comment le marché met en scène la dose de gratuit (écran 8).</span></span></a>
+
+<div class="section-t">Copy et CTA</div>
+<a class="card" href="benchmark-cta-premiere-personne.html"><span class="ico">🗣️</span><span><span class="t">Le CTA à la première personne « Je… »</span><br><span class="d">Formulation des boutons d'action, benchmark de copy.</span></span></a>
+
+<p class="note">Analyses de travail confidentielles, mission conseil Kidsono. Chaque analyse compare les captures réelles du benchmark sur un écran ou une mécanique précise. Les pastilles et vignettes d'applications sont cliquables dans chaque document.</p>
+</div></body></html>

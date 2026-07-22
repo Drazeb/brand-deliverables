@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit · Le paywall pète-t-il ? Rythme visuel et richesse à l'arrivée au paywall · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .standfirst a{color:var(--blue);}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .prior{background:#f3f0ff;border:1px solid #ddd3f7;border-left:5px solid var(--violet);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .prior h3{font-size:15.5px;color:#5b34b8;margin-bottom:7px;}
+  .prior p{font-size:13px;color:#333;margin-bottom:7px;}
+  .prior b{color:#111;}
+  .prior a{color:var(--blue);}
+  .prior .gap{background:#fff;border:1px dashed #c8bbef;border-radius:9px;padding:9px 12px;font-size:12.5px;color:#4a3a82;margin-top:8px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  /* PAIRE avant -> paywall */
+  .pairs{display:flex;flex-wrap:wrap;gap:18px;}
+  .pair{width:354px;background:#fbfbf8;border:1px solid var(--border);border-radius:14px;padding:13px;}
+  .pair .ttl{font-size:14px;font-weight:800;color:#111;display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+  .pair .ttl .stars{color:#e6a700;font-size:12px;letter-spacing:1px;}
+  .pair .ttl .ctx{font-size:10px;font-weight:700;color:#888;}
+  .pair .duo{display:flex;gap:8px;align-items:flex-start;margin:8px 0 4px;}
+  .pair .shot{flex:1;display:flex;flex-direction:column;}
+  .pair .shot img{width:100%;border-radius:8px;border:1px solid #ddd;background:#fff;display:block;}
+  .pair .shot .lab{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-top:6px;}
+  .pair .shot .lab.av{color:var(--muted);} .pair .shot .lab.pw{color:var(--accent-dark);}
+  .pair .shot .sc{font-size:9.5px;color:#999;}
+  .pair .midarrow{align-self:center;font-size:20px;color:#bbb;font-weight:800;padding-top:34px;}
+  .pair .swatchrow{display:flex;gap:5px;align-items:center;margin:7px 0 5px;flex-wrap:wrap;}
+  .swatch{display:inline-block;width:26px;height:15px;border-radius:4px;border:1px solid rgba(0,0,0,.2);}
+  .swatchrow .ar{color:#999;font-weight:700;font-size:13px;}
+  .pair .swap{font-size:11px;font-weight:800;margin:2px 0 6px;}
+  .pair .swap .chg{color:#a3261f;} .pair .swap .same{color:#1f7d45;}
+  .pair .note{font-size:11.5px;color:#222;line-height:1.5;}
+  .pair .note b{color:#1f7d45;} .pair .note .bad{color:#a3261f;}
+
+  .rhythm{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:16px;}
+  .rhythm .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 4px;}
+  .rhythm .step{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:11px 13px;position:relative;}
+  .rhythm .step .lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .rhythm .step .big{font-size:13.5px;font-weight:800;margin:3px 0 4px;color:#111;}
+  .rhythm .step .d{font-size:11.5px;color:#444;line-height:1.45;}
+  .rhythm .arrow{align-self:center;font-size:20px;color:#bbb;font-weight:700;}
+  @media(max-width:760px){.rhythm .arrow{display:none;}}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+  .impl .chip{display:inline-block;width:15px;height:15px;border-radius:4px;border:1px solid rgba(0,0,0,.25);vertical-align:-2px;margin:0 2px;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+  .ftnote a{color:var(--blue);}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Le paywall comme pic de la courbe de rythme</div>
+    <h1>Le paywall « pète »-t-il visuellement ? Rupture de couleur et de composition à l'arrivée au paywall</h1>
+    <div class="standfirst">Intuition de Charles à trancher : un paywall best-in-class <b>« pète »</b> visuellement, il rompt en <b>couleur de fond ET en composition</b> par rapport aux écrans d'avant, parce qu'il est le <b>haut de la courbe de rythme</b>. On ne refait ni l'enchaînement ni le pricing (déjà traités dans <a href="audit-benchmark-paywall.html">audit-benchmark-paywall.html</a>) : on complète sur la seule <b>richesse visuelle</b>. Pour chaque app, on lit l'écran <b>juste AVANT</b> le paywall et le <b>paywall</b> lui-même, en pleine résolution, et on mesure la rupture : la couleur de fond change-t-elle, la composition se densifie-t-elle, le titre grossit-il, un hero arrive-t-il ? Apports de Charles en tête (Zero passe à un navy profond ; Lifesum à une photo lifestyle plein cadre).</div>
+    <div class="meta">
+      <span><b>Paires lues</b> · 8 (écran avant + paywall) · 17 captures en pleine résolution</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs clés</b> · Zero, Lifesum (rupture forte) · Moshi, Pickatale, Bayam (rupture enfant) · Vooks, Epic, Cosmic Kids (faible rupture)</span>
+    </div>
+  </header>
+
+  <!-- ============ CE QUI EST DEJA DIT ============ -->
+  <h2 class="section">Ce que les analyses existantes disent déjà</h2>
+  <p class="chapeau">On ne refait pas. Deux docs ont déjà posé la structure du paywall et la couleur du beat de preuve. On part de là, on comble le trou : la <b>richesse visuelle du paywall lui-même</b>, à son arrivée.</p>
+
+  <div class="prior">
+    <h3>1 · <a href="audit-benchmark-paywall.html">audit-benchmark-paywall.html</a> a posé la structure et le pricing</h3>
+    <p><b>Verdict acté</b> : paywall en <b>3 écrans</b> (valeur, choix du palier d'heures à la Storytel, modale Apple), cartes empilées, palier accessible présélectionné, réassurance en couche. <span class="conf s">Solide</span> Ce doc a noté en passant que la structure best-in-class est plutôt <b>sobre</b> (façon Storytel), mais il a regardé l'<b>articulation</b>, pas le rendu visuel.</p>
+    <div class="gap">Ce que ce doc ne tranche pas : il décrit où vont les cartes et les prix, jamais si le paywall doit faire un <b>pic visuel</b> (rupture de couleur de fond, hero, densité) par rapport à l'écran d'avant. C'est l'intuition de Charles, traitée ici.</div>
+  </div>
+
+  <div class="prior">
+    <h3>2 · <a href="audit-benchmark-rythme-couleur.html">audit-benchmark-rythme-couleur.html</a> a tranché la couleur du beat de preuve (carrousel → autorité)</h3>
+    <p><b>Verdict acté</b> : teinter le fond de l'écran d'autorité d'un ton (crème → crème chaud / jaune doux) double le signal du beat, sans changer d'univers. <span class="conf s">Solide</span> La règle générale : <b>« le décor peut varier librement tant que l'accent voyage de bout en bout »</b>.</p>
+    <div class="gap">Ce que ce doc traitait : la respiration d'<b>un ton</b> entre deux écrans d'argumentaire. Ce qu'il ne traite pas : le paywall n'est pas un beat parmi d'autres, c'est <b>le second pic</b> de la courbe (avec le claim). La question ici n'est plus « respirer d'un ton » mais « faire un PIC ». On prolonge donc la même logique de rythme, mais au sommet de la courbe.</div>
+  </div>
+
+  <!-- ============ LA REPONSE ============ -->
+  <h2 class="section">La réponse</h2>
+  <p class="chapeau">Trois verdicts. Les paires avant → paywall qui les fondent suivent, lues une par une, fond contrôlé de l'écran d'avant au paywall. Honnêteté d'abord : la rupture n'est PAS universelle, et je liste les cas où le paywall pète moins que l'écran d'avant.</p>
+
+  <div class="qa">
+    <h3>1 · À l'arrivée au paywall, le FOND change-t-il de couleur ?</h3>
+    <div class="verdict">Souvent oui, et c'est le levier le plus net quand ça pète. Mais ce n'est pas systématique : deux écoles coexistent.</div>
+    <p><span class="conf s">Solide</span> <b>École « rupture de fond »</b>, vue sur captures : <b>Zero</b> bascule d'un écran clair gris-perle à un <b>navy/sarcelle profond</b> ; <b>Lifesum</b> d'une liste sur crème à une <b>photo lifestyle plein cadre</b> ; <b>Moshi</b> d'une grille menthe à un <b>hero orange / lever de soleil</b> ; <b>Pickatale</b> d'un slide vert d'eau à un <b>vert sapin saturé plein écran</b>. Dans ces cas, le fond fait le pic : on quitte le clair fonctionnel pour une couleur dense, chaude ou sombre, qui dit « moment important ».</p>
+    <p><span class="conf s">Solide</span> <b>École « continuité de fond »</b> : <b>Vooks</b> et <b>Epic</b> restent en <b>blanc</b> de bout en bout (le paywall ne change pas de couleur, il monte en modale ou densifie le contenu) ; <b>Bayam</b> garde son <b>univers navy/violet</b> du pitch au paywall (la rupture se fait par la richesse du contenu, pas par la teinte). <span class="conf o">Observé</span> Le facteur qui décide : les marques à <b>fond clair fonctionnel</b> gagnent à basculer sur une couleur dense au paywall (le contraste fait le pic) ; les marques qui ont <b>déjà un fond riche</b> (Bayam navy) n'ont pas besoin de changer la teinte, elles densifient le contenu.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · La COMPOSITION se densifie-t-elle ? (hero, titre plus gros, plein cadre)</h3>
+    <div class="verdict">Oui, presque toujours, et c'est le dénominateur commun, plus fiable que la couleur. Le paywall arrive avec un hero et une densité que les écrans neutres d'avant n'avaient pas.</div>
+    <ul>
+      <li><b>L'arrivée d'un hero visuel</b> <span class="conf s">Solide</span> : Zero pose un <b>énorme wordmark « Zero »</b> en filigrane derrière une feuille verte ; Lifesum une <b>grande photo</b> de visage souriant ; Moshi la <b>mascotte koala</b> sur un ciel orangé ; Bayam un <b>mur de couvertures</b> de livres audio en haut. L'écran d'avant n'avait que des pictos ou une liste ; le paywall ouvre sur une image forte.</li>
+      <li><b>La densité monte d'un cran</b> <span class="conf s">Solide</span> : l'écran d'avant est souvent <b>aéré et fonctionnel</b> (une liste de bénéfices à coches, une grille de choix, un réglage). Le paywall <b>empile</b> : hero + titre de valeur + bénéfices + cartes de prix + CTA + réassurance. Il est l'écran le <b>plus chargé</b> de la séquence, ce qui en fait visuellement un sommet.</li>
+      <li><b>Le titre grossit et devient une promesse</b> <span class="conf s">Solide</span> : « Proven sleep benefits for kids » (Moshi), « Trust your gut with Zero », « be 3x more likely to succeed » (Lifesum), « Tout l'univers du livre audio » (Bayam). Le titre du paywall est plus gros et plus chargé émotionnellement que les libellés des écrans d'avant.</li>
+      <li><span class="conf o">Observé</span> <b>Contre-exemple honnête</b> : la densification n'est pas garantie. Cosmic Kids fait l'<b>inverse</b> : l'écran d'avant (fiche locked) a une belle photo hero, et le paywall « Choose your plan » est <b>plus pauvre</b> (gradient bleu nu, deux cartes, beaucoup de vide). Quand le paywall retombe sous l'écran d'avant, il rate son pic.</li>
+    </ul>
+  </div>
+
+  <div class="qa" style="border-left-color:var(--accent-dark);">
+    <h3 style="color:#a3261f;">3 · Comment un paywall « pète » TOUT EN restant lisible et propre ?</h3>
+    <div class="verdict" style="background:var(--accent-dark);color:#fff;">La hiérarchie qui marche : un hero qui pète en HAUT, une zone de prix nette et claire en BAS. On sépare le pic émotionnel de la zone de décision.</div>
+    <p><span class="conf s">Solide</span> Le pattern des paywalls qui pètent sans se charger, c'est la <b>séparation verticale en deux zones</b>. <b>En haut</b> : le pic visuel (fond dense, hero, titre-promesse, couleur saturée) qui crée l'émotion et marque le sommet de rythme. <b>En bas</b> : la <b>zone de décision</b> posée sur un fond clair ou un panneau net (cartes de prix lisibles, CTA franc, réassurance). Zero le fait à la perfection : <b>moitié haute navy</b> avec le wordmark géant + 3 bénéfices, <b>moitié basse</b> avec la carte de prix blanche « For only 1,35 € per week » et le CTA vert. Lifesum aussi : <b>photo plein cadre en haut</b>, <b>cartes de prix sur blanc en bas</b>. Le pic ne mange jamais les prix.</p>
+    <p><span class="conf s">Solide</span> <b>Ce qui rate quand c'est trop chargé</b> : quand le décor saturé envahit aussi la zone de prix, la lisibilité s'effondre. Pinkfong étale ses prix sur des cartes pâles au-dessus d'un home étoilé scintillant (modale « VS ») : ça scintille, mais les prix se noient. La règle est nette : <b>le fond dense reste dans la zone hero ; la zone de prix se pose sur du calme</b> (blanc, panneau uni, contour franc). Le pic est en haut, la lecture du prix en bas, et les deux ne se chevauchent pas.</p>
+  </div>
+
+  <!-- ============ LES EXEMPLES, AVANT vs PAYWALL ============ -->
+  <h2 class="section">Les exemples, avant vs paywall</h2>
+  <p class="chapeau">Chaque paire : l'écran <b>juste avant</b> le paywall (gauche) et le <b>paywall</b> (droite), lus en pleine résolution. La pastille dit ce qui change : <span style="color:#a3261f;font-weight:800;">fond ✕</span> = la couleur de fond bascule, <span style="color:#1f7d45;font-weight:800;">fond ✓</span> = elle est tenue ; <span style="color:#a3261f;font-weight:800;">compo ✕</span> = la composition se densifie / un hero arrive. On commence par les deux apports de Charles.</p>
+
+  <!-- RUPTURE FORTE -->
+  <div class="approach">
+    <div class="atag a-red">Rupture forte · le paywall change de monde (apports de Charles)</div>
+    <h3>Quand le fond bascule sur une couleur dense ou une photo plein cadre</h3>
+    <p class="lead">Le paywall quitte le clair fonctionnel des écrans d'avant pour une couleur saturée ou une grande image. Le contraste fait le pic. C'est la démonstration directe de l'intuition de Charles.</p>
+    <div class="pairs">
+
+      <div class="pair">
+        <div class="ttl">Zero <span class="stars">★★★★★</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="benchmark-top-tier-mobbin/paywall/zero-onboarding-paywall.png" alt="Zero, écran avant clair (gauche) + paywall navy (droite)">
+            <div class="lab pw">Avant → paywall (planche)</div><div class="sc">« Your Goals » clair → paywall navy</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#eceae6;"></span><span class="ar">›</span><span class="swatch" style="background:#2f4a52;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; <span class="chg">compo ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le cas d'école.</b> L'écran d'avant est clair, fonctionnel (loupe + boîtes de Petri, liste, CTA « Next »). Le paywall bascule sur un <b>navy/sarcelle profond</b>, avec un <b>wordmark « Zero » géant en filigrane</b> derrière une feuille verte = le hero. En bas, la <b>carte de prix blanche</b> « For only 1,35 € per week » + CTA vert « Subscribe to Zero Plus ». <b>Pic en haut, prix au calme en bas</b> : la maquette modèle de « péter sans nuire à la lisibilité ».</div>
+      </div>
+
+      <div class="pair">
+        <div class="ttl">Lifesum <span class="stars">★★★★☆</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="benchmark-top-tier-mobbin/paywall/lifesum-onboarding-paywall.png" alt="Lifesum, liste crème (gauche) + paywall photo (droite)">
+            <div class="lab pw">Avant → paywall (planche)</div><div class="sc">liste crème → photo plein cadre</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#efece6;"></span><span class="ar">›</span><span class="swatch" style="background:#6f7b62;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; <span class="chg">compo ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> Avant : « How to reach your goals », liste sobre d'aquarelles sur <b>crème</b>, CTA vert « Get started ». Paywall : rupture sur une <b>grande photo lifestyle</b> (homme souriant, lumière dorée, « John, be 3x more likely to succeed »). Sous la photo, les <b>cartes de prix sur blanc</b> (3 / 6 / 12 mois, « Most popular » en vert). <b>Même hiérarchie que Zero</b> : photo hero en haut, prix nets en bas. Le vert reste le fil rouge.</div>
+      </div>
+
+      <div class="pair">
+        <div class="ttl">Moshi <span class="stars">★★★★☆</span> <span class="ctx">enfant</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/12-moshi-kids/captures/06-pick-favorite-world-full.png" alt="Moshi grille menthe avant">
+            <div class="lab av">Avant</div><div class="sc">06 · « Pick your favorite »</div>
+          </div>
+          <div class="midarrow">›</div>
+          <div class="shot">
+            <img src="apps/12-moshi-kids/captures/07-paywall-trial-7days.png" alt="Moshi paywall hero orange">
+            <div class="lab pw">Paywall</div><div class="sc">07 · « Almost there! »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#cfeede;"></span><span class="ar">›</span><span class="swatch" style="background:#f5b06a;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; <span class="chg">compo ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> <b>La rupture côté enfant.</b> Avant : grille <b>menthe</b> de mondes à choisir, dense mais froide-douce. Paywall : bascule sur un <b>ciel orange / lever de soleil</b>, la <b>mascotte koala</b> en hero, titre-promesse « Proven sleep, relaxation &amp; cognitive benefits ». La carte recommandée (49,99 €) est bordée + badge « Best value! » jaune. <b>Le hero mascotte + la couleur chaude font le pic</b> ; les cartes restent lisibles sur fond pâle. Le plus proche de notre registre (mascotte + chaleur).</div>
+      </div>
+
+      <div class="pair">
+        <div class="ttl">Pickatale <span class="stars">★★★★☆</span> <span class="ctx">enfant</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/16-pickatale/captures/06-onboarding-slide5-fun-quizzes.png" alt="Pickatale slide vert d'eau avant">
+            <div class="lab av">Avant</div><div class="sc">06 · slide « Fun Quizzes »</div>
+          </div>
+          <div class="midarrow">›</div>
+          <div class="shot">
+            <img src="apps/16-pickatale/captures/09-paywall-1-month-trial.png" alt="Pickatale paywall vert sapin">
+            <div class="lab pw">Paywall</div><div class="sc">09 · « Start your 1 month »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#d6ece0;"></span><span class="ar">›</span><span class="swatch" style="background:#1f5a3f;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; <span class="chg">compo ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> Avant : slide sur <b>vert d'eau pâle</b>, mockup téléphone, carrefour parent/éducateur sur blanc. Paywall : rupture sur un <b>vert sapin saturé plein écran</b>, hero illustré en filigrane, titre blanc « Start your 1 month free trial! » + bénéfices à coches blanches. Les <b>cartes de prix posées sur blanc</b> en bas. <b>Même couleur de marque, mais saturée et plein cadre</b> : le fond fait le pic, le prix reste sur un panneau clair.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RUPTURE PAR LE CONTENU, fond tenu -->
+  <div class="approach">
+    <div class="atag a-violet">Rupture par le contenu · le fond riche est tenu, c'est la densité qui pète</div>
+    <h3>Quand l'univers est déjà coloré : le pic se fait par le hero et la profusion</h3>
+    <p class="lead">Bayam ne change pas de teinte (navy du pitch au paywall) mais densifie violemment : couvertures, cartes de prix bordées, CTA jaune. La rupture est réelle, elle passe par la richesse, pas par la couleur.</p>
+    <div class="pairs">
+      <div class="pair">
+        <div class="ttl">Bayam <span class="stars">★★★★☆</span> <span class="ctx">FR · enfant</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/01-bayam/captures/06-pitch-chronometre-temps-ecran.png" alt="Bayam pitch navy avant">
+            <div class="lab av">Avant</div><div class="sc">06 · pitch chronomètre</div>
+          </div>
+          <div class="midarrow">›</div>
+          <div class="shot">
+            <img src="apps/01-bayam/captures/07-paywall-premium.png" alt="Bayam paywall premium navy + couvertures">
+            <div class="lab pw">Paywall</div><div class="sc">07 · « Tout l'univers »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#2b2f63;"></span><span class="ar">›</span><span class="swatch" style="background:#2b2f63;"></span></div>
+        <div class="swap"><span class="same">fond ✓</span> &nbsp; <span class="chg">compo ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> Avant : pitch sobre, un <b>panneau bordé</b> sur navy, 3 coches. Paywall : <b>même navy</b>, mais il <b>explose en richesse</b> : mur de <b>couvertures de livres</b> en hero, carte magenta « + de 100 livres audio », 4 bénéfices, deux cartes de prix (annuel bordé jaune « Économisez 25% »), CTA <b>jaune</b> « Je m'abonne ». <b>Le pic se fait par la profusion + le CTA jaune franc</b>, pas par la teinte. Modèle néo-ish : aplats francs, CTA jaune, cartes nettes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAIBLE / PAS DE RUPTURE -->
+  <div class="approach">
+    <div class="atag a-green">Faible rupture · le paywall ne pète pas (honnêteté)</div>
+    <h3>Quand le paywall reste neutre, ou retombe sous l'écran d'avant</h3>
+    <p class="lead">L'intuition de Charles n'est PAS universelle. Une part du corpus garde un paywall en blanc neutre, ou même moins riche que l'écran d'avant. C'est la borne basse, et ce que ces cas ratent.</p>
+    <div class="pairs">
+
+      <div class="pair">
+        <div class="ttl">Vooks <span class="stars">★★★★☆</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/18-vooks/captures/05-slide-vooks-storyteller.png" alt="Vooks slide blanc avant">
+            <div class="lab av">Avant</div><div class="sc">05 · slide « Storyteller »</div>
+          </div>
+          <div class="midarrow">›</div>
+          <div class="shot">
+            <img src="apps/18-vooks/captures/09-paywall-choose-subscription.png" alt="Vooks paywall blanc modale">
+            <div class="lab pw">Paywall</div><div class="sc">09 · « Choose subscription »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#ffffff;"></span><span class="ar">›</span><span class="swatch" style="background:#ffffff;"></span></div>
+        <div class="swap"><span class="same">fond ✓</span> &nbsp; compo ~</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Zéro rupture de couleur</b> : blanc avant, blanc après. Le seul signal de pic, c'est que le paywall <b>monte en modale</b> (coin arrondi, croix) et densifie (6 coches + carte annuelle bordée vert « Save 41% »). <span class="bad">Le pic est faible</span> : sans hero ni changement de fond, le paywall ressemble aux écrans d'avant. Propre, mais plat. Montre que « tenir le blanc » n'aide pas à faire un sommet.</div>
+      </div>
+
+      <div class="pair">
+        <div class="ttl">Epic <span class="stars">★★★★☆</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/17-epic/captures/08-benefices-try-for-free.png" alt="Epic benefices blanc avant">
+            <div class="lab av">Avant</div><div class="sc">08 · bénéfices « Try for Free »</div>
+          </div>
+          <div class="midarrow">›</div>
+          <div class="shot">
+            <img src="apps/17-epic/captures/09-paywall-plans-trial-timeline.png" alt="Epic paywall blanc plans">
+            <div class="lab pw">Paywall</div><div class="sc">09 · « Choose a plan »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#ffffff;"></span><span class="ar">›</span><span class="swatch" style="background:#ffffff;"></span></div>
+        <div class="swap"><span class="same">fond ✓</span> &nbsp; <span class="chg">compo ✕</span></div>
+        <div class="note"><span class="conf s">Solide</span> Avant : bénéfices à pictos colorés sur blanc, très aéré. Paywall : <b>même blanc</b>, mais densifie nettement (carte « Best value » bordée bleu + badge magenta + timeline J0/J5/J7). <b>La rupture est dans la compo (la grosse carte bordée), pas dans la couleur.</b> Lisible, mais le pic reste tiède : le blanc empêche le sommet émotionnel que Zero ou Moshi obtiennent par la couleur.</div>
+      </div>
+
+      <div class="pair">
+        <div class="ttl">Cosmic Kids <span class="stars">★★★☆☆</span> <span class="ctx">enfant</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/24-cosmic-kids-yoga/captures/08-detail-snowy-snuggles-play-locked-cta.png" alt="Cosmic Kids fiche locked photo avant">
+            <div class="lab av">Avant</div><div class="sc">08 · fiche locked (hero photo)</div>
+          </div>
+          <div class="midarrow">›</div>
+          <div class="shot">
+            <img src="apps/24-cosmic-kids-yoga/captures/11-choose-plan-annuel-mensuel-14j.png" alt="Cosmic Kids paywall bleu pauvre">
+            <div class="lab pw">Paywall</div><div class="sc">11 · « Choose your plan »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#d8b8d8;"></span><span class="ar">›</span><span class="swatch" style="background:#cfe0ec;"></span></div>
+        <div class="swap"><span class="chg">fond ✕</span> &nbsp; <span class="bad">compo ↓</span></div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le contre-exemple net.</b> L'écran d'avant a un <b>hero photo riche</b> (oursons, lilas). Le paywall bascule sur un <b>gradient bleu froid nu</b>, deux cartes roses, beaucoup de vide, un pavé de conditions. <span class="bad">Le paywall est PLUS PAUVRE que l'écran d'avant</span> : le pic retombe. La leçon inverse : changer de couleur ne suffit pas si on <b>vide</b> la composition au lieu de la densifier.</div>
+      </div>
+
+      <div class="pair">
+        <div class="ttl">Pinkfong <span class="stars">★★★☆☆</span> <span class="ctx">enfant</span></div>
+        <div class="duo">
+          <div class="shot">
+            <img src="apps/26-pinkfong-baby-shark/captures/12-paywall-pinkfong-plus-sans-essai.png" alt="Pinkfong paywall blanc surchargé">
+            <div class="lab pw">Paywall (richesse mal placée)</div><div class="sc">12 · « Pinkfong Plus »</div>
+          </div>
+        </div>
+        <div class="swatchrow"><span class="swatch" style="background:#ffffff;"></span><span class="ar">›</span><span class="swatch" style="background:#ffe3ef;"></span></div>
+        <div class="swap"><span class="bad">lisibilité ↓</span></div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le piège du « trop chargé ».</b> Pinkfong met de la couleur (rose vif, vignettes d'apps, badge « SALE 47% ») <b>dans la zone de prix elle-même</b>. Résultat : les prix se disputent l'attention avec les vignettes et les bandeaux roses. <b>La richesse n'est pas dans une zone hero séparée</b>, elle envahit la décision. Montre exactement ce qu'il faut éviter : le pic doit rester au-dessus, pas dans la grille de prix.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="rhythm">
+    <div style="font-size:13.5px;font-weight:800;margin-bottom:9px;">La courbe de rythme complète : deux pics (le claim, le paywall)</div>
+    <div class="seq">
+      <div class="step" style="border-top:4px solid var(--accent);">
+        <div class="lab">Claim</div>
+        <div class="big">Pic 1 · jaune <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FFCB02;vertical-align:-2px;"></span></div>
+        <div class="d">Le 1er sommet (flux rupture acté). Haut jaune, mascotte, claim voix parent.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #f0e6b0;">
+        <div class="lab">Carrousel A/B/C</div>
+        <div class="big">Crème <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FEF8D7;vertical-align:-2px;"></span></div>
+        <div class="d">Densité moyenne, on argumente plus calmement.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #e9d27a;">
+        <div class="lab">Écran D · autorité</div>
+        <div class="big">Crème teinté <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FBEFA8;vertical-align:-2px;"></span></div>
+        <div class="d">Beat de preuve, respiration d'un ton (acté).</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid var(--accent-dark);">
+        <div class="lab">Paywall</div>
+        <div class="big">Pic 2 · le sommet <span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.25);background:#FFCB02;vertical-align:-2px;"></span></div>
+        <div class="d"><b>Le second pic.</b> Hero qui pète en haut (jaune signature + mascotte/couvertures + autorité), zone de prix nette en bas.</div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:#444;margin-top:12px;line-height:1.55;"><b>L'intuition de Charles est juste, mais à amortir à notre DA.</b> Le paywall doit être un pic, oui ; mais le crème est clair et calme, on ne peut pas « basculer en navy » comme Zero sans renier la marque. On fait le pic <b>par les leviers néo-brutalistes</b>, pas par un fond sombre.</p>
+  </div>
+
+  <div class="impl">
+    <h3>Comment faire péter le paywall en crème néo-brutaliste : les leviers concrets</h3>
+    <ul>
+      <li><b>1 · Le fond : bandeau ou hero jaune signature en HAUT</b> <span class="chip" style="background:#FFCB02;"></span>, pas un navy. Le pic de couleur se fait avec <b>le jaune #FFCB02 en aplat franc</b> sur la zone hero (haut du paywall), pas en changeant tout le fond. C'est la transposition de Zero (zone hero dense en haut) à notre palette chaude : le jaune EST notre « couleur de pic », il a déjà servi de pic au claim, il revient ici en fil rouge. La zone du bas (prix) repasse sur <b>crème</b> <span class="chip" style="background:#FEF8D7;"></span> ou blanc cassé pour la lisibilité.</li>
+      <li><b>2 · Le hero : mascotte ou couvertures, en grand</b>. Comme Moshi (koala hero) et Bayam (mur de couvertures), le paywall s'ouvre sur un <b>visuel fort</b> que les écrans neutres d'avant n'avaient pas : la mascotte Kidsono en pose engageante, OU un <b>mur de couvertures d'éditeurs</b> (qui sert double : hero + preuve de richesse du catalogue). Le titre grossit et devient promesse (voix parent).</li>
+      <li><b>3 · L'autorité éditeurs / Éducation nationale en GRAND</b>. C'est notre munition forte, réservée à ce moment (acté). Au paywall, les <b>logos éditeurs condensés</b> + le <b>tampon Éducation nationale</b> deviennent un élément de richesse ET de réassurance au moment de décider. C'est notre équivalent du « 90k 5-star reviews » de Moshi, mais en plus crédible (caution institutionnelle, pas masse).</li>
+      <li><b>4 · Aplats francs cernés, pas dégradé mou</b>. La DA néo-brutaliste interdit le dégradé (le piège « dégradé mou » que Charles veut éviter). Le pic se fait par <b>aplats de couleur pleins, cernés de noir épais, ombres décalées</b> : un bandeau jaune cerné en hero, des cartes de prix à contour noir épais et ombre portée, un CTA jaune cerné. La richesse vient des <b>contrastes francs</b>, pas de la profondeur d'un dégradé.</li>
+      <li><b>5 · La hiérarchie qui marche (la règle d'or de Zero)</b> : <b>pic en haut, prix au calme en bas</b>. Le hero jaune + mascotte + autorité occupent la moitié haute ; les <b>3 cartes de paliers d'heures</b> (déjà actées) se posent sur un fond clair en bas, contours nets, palier accessible présélectionné en jaune. Le pic ne mange JAMAIS la grille de prix (l'erreur Pinkfong).</li>
+      <li><b>À éviter</b> : 1/ le <b>dégradé</b> (interdit par la DA, et « mou ») ; 2/ mettre la couleur saturée <b>dans</b> la zone de prix (Pinkfong : prix illisibles) ; 3/ <b>vider</b> la compo en croyant faire « propre » (Cosmic Kids : paywall plus pauvre que l'écran d'avant, le pic retombe) ; 4/ un <b>navy / bleu froid</b> qui ferait « autre app » (le crème/jaune est l'identité, on ne change pas de monde, on intensifie le jaune).</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : l'intuition de Charles est <b>vérifiée sur captures</b>, pas projetée. Le pattern « pic en haut (fond dense + hero + titre-promesse), prix au calme en bas » est convergent sur des apps indépendantes et de registres différents (Zero, Lifesum côté wellness ; Moshi, Pickatale, Bayam côté enfant). Surtout, on a une transposition crédible à la DA : <b>Bayam prouve qu'on peut faire péter un paywall sans dégradé</b>, par aplats francs + CTA jaune + profusion de couvertures, ce qui est exactement notre langage néo-brutaliste. Et le jaune comme « couleur de pic » est cohérent avec le rôle déjà acté du jaune (fil rouge, pic du claim). <span class="conf s">Solide</span> sur le pattern, <span class="conf o">Observé</span> sur la transposition.</p>
+    <p><b>Risques</b> : 1/ <span class="conf e">Estim.</span> <b>deux pics rapprochés</b> (claim ET paywall en jaune) peut aplatir la courbe si les deux se ressemblent trop ; le paywall doit péter <b>différemment</b> du claim (hero couvertures + autorité, pas la même mascotte au même endroit), sinon on a deux fois le même sommet. 2/ Le <b>crème est clair</b> : le contraste de pic est mécaniquement moins fort qu'un navy (Zero) ou une photo (Lifesum) ; le jaune en aplat franc + le noir des contours devront porter le pic seuls, ce qui ne se juge qu'en maquette. 3/ La frontière « pète » / « surchargé » est une affaire d'exécution fine (l'erreur Pinkfong est facile à reproduire avec une DA déjà très graphique). 4/ Aucune app du corpus n'a la DA crème/jaune néo-brutaliste : la reco est <b>directionnelle</b>, à valider en rendu, pas à décréter.</p>
+    <p><b>Position vs standard</b> : <b>au standard sur le principe</b> (le paywall best-in-class fait un pic visuel : fond dense + hero + titre-promesse, prix séparés au calme). <b>Contrarian assumé sur le moyen</b> : là où le marché fait le pic par un <b>fond sombre ou une photo</b>, nous le ferons par un <b>aplat jaune franc cerné + mascotte/couvertures + autorité institutionnelle</b>, sans dégradé ni bascule de famille. On prend le mécanisme du marché (la courbe à deux pics) en l'amortissant à une DA claire et graphique, là où la plupart des apps s'appuient sur l'obscurcissement pour créer le contraste.</p>
+  </div>
+
+  <p class="ftnote">Document de travail, mission conseil Kidsono. 17 captures lues en pleine résolution, par paires écran-avant → paywall : Zero (planche), Lifesum (planche, crop x3 pour la résolution), Moshi 06/07, Pickatale 06/09, Bayam 06/07, Vooks 05/09, Epic 08/09, Cosmic Kids 08/11, Pinkfong 12. Complète <a href="audit-benchmark-paywall.html">audit-benchmark-paywall.html</a> (structure + pricing, non répété) et <a href="audit-benchmark-rythme-couleur.html">audit-benchmark-rythme-couleur.html</a> (couleur du beat de preuve carrousel → autorité, prolongé ici au sommet de la courbe). Seul l'angle <b>richesse visuelle / rupture à l'arrivée au paywall</b> est neuf. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern récurrent du panel · <span class="conf e">Estim.</span> projection directionnelle. Famille des perdants non sollicitée. 2026-06-16.</p>
+
+</div>
+</body>
+</html>

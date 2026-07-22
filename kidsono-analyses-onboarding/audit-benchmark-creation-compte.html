@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit · Écran de création de compte / connexion · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card.wide{width:330px;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;display:flex;justify-content:space-between;align-items:center;}
+  .stars{color:#e6a700;font-size:12px;letter-spacing:1px;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:3px;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  .rhythm{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:16px;}
+  .rhythm .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 4px;}
+  .rhythm .step{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:11px 13px;position:relative;}
+  .rhythm .step .lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .rhythm .step .big{font-size:13.5px;font-weight:800;margin:3px 0 4px;color:#111;}
+  .rhythm .step .d{font-size:11.5px;color:#444;line-height:1.45;}
+  .rhythm .arrow{align-self:center;font-size:20px;color:#bbb;font-weight:700;}
+  @media(max-width:760px){.rhythm .arrow{display:none;}}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid rgba(0,0,0,.18);vertical-align:-1px;margin-right:3px;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+
+  table.tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  table.tbl th{background:#f3f1ea;text-align:left;padding:8px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#555;border-bottom:1px solid var(--border);}
+  table.tbl td{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top;color:#222;}
+  table.tbl tr:last-child td{border-bottom:none;}
+  table.tbl td.app{font-weight:800;color:#111;white-space:nowrap;}
+  table.tbl .y{color:#1f7d45;font-weight:700;} table.tbl .n{color:#a3261f;font-weight:700;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Audit + benchmark</div>
+    <h1>L'écran de création de compte / connexion (SSO, email, lien magique)</h1>
+    <div class="standfirst">Kidsono a aujourd'hui une auth <b>lien magique email + code OTP à 6 chiffres</b>, sans SSO, et veut ajouter <b>Apple + Google</b>. Quatre questions, dans l'ordre de priorité : (1) la <b>question du rythme</b> de Charles, l'écran de compte change-t-il de fond / couleur / composition par rapport à l'écran d'avant et d'après, ou reste-t-il neutre ; (2) la <b>structure standard</b> d'un écran de compte ; (3) l'<b>ordre et le traitement du SSO</b> Apple/Google ; (4) le <b>placement</b> de l'écran dans le flow. Réponses fondées sur 22 écrans de compte lus un par un en pleine résolution.</div>
+    <div class="meta">
+      <span><b>Panel</b> · 22 écrans de compte sur le corpus 38 apps + audiobook/wellness</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> projection</span>
+      <span><b>Refs SSO clés</b> · Readmio, Vooks, Epic, Storytel, Lingokids, Pickatale</span>
+    </div>
+  </header>
+
+  <!-- ============ LA REPONSE ============ -->
+  <h2 class="section">La réponse</h2>
+  <p class="chapeau">Les 4 verdicts d'abord, dans l'ordre de priorité de Charles. Le rythme en tête (la question centrale). Les écrans qui les fondent suivent, lus un par un.</p>
+
+  <!-- VERDICT 1 : RYTHME -->
+  <div class="qa" style="border-left-color:var(--accent-dark);">
+    <h3 style="color:#a3261f;">1 · LE RYTHME : l'écran de compte change-t-il vs l'écran d'avant et d'après ?</h3>
+    <div class="verdict" style="background:var(--accent-dark);color:#fff;">Oui, il rompt : c'est le creux de la courbe. La composition redescend systématiquement au sobre (formulaire). Le fond reste neutre OU dans la couleur de marque, jamais le pic coloré.</div>
+    <p><span class="conf s">Solide</span> L'hypothèse de Charles (« ça ne change pas, écran fonctionnel neutre ») est <b>juste sur la composition, à nuancer sur la couleur</b>. Sur les 22 écrans lus, <b>la composition rompt à chaque fois</b> : l'écran d'avant est riche (catalogue, scène immersive, carrousel coloré, quiz illustré), l'écran de compte redescend au <b>formulaire sobre</b> (champs + boutons, beaucoup de vide), l'écran d'après remonte (sélection de langue, paywall, résultats, catalogue). C'est exactement le <b>creux de la courbe de densité</b> posée dans l'audit splash/claim : minimal → pic (claim) → … → <b>compte = retour au neutre</b>. L'écran de compte ne se vend pas, il fait travailler : la composition le dit.</p>
+    <p><span class="conf o">Observé</span> Sur la <b>couleur de fond</b>, deux écoles nettes, selon que l'app est sur fond clair ou sur fond de marque sombre :</p>
+    <ul>
+      <li><b>Rupture vers le neutre (fond clair / blanc)</b> : l'app bascule sur un <b>blanc / crème sobre</b> pour le compte. <b>Epic</b> (coral immersif → blanc), <b>Storytel</b> (mur de couvertures sombre → feuille crème claire), <b>Pickatale</b> (carrousel vert menthe → blanc), <b>Readmio</b> (nuit étoilée → carte blanche). C'est l'école la plus fréquente et la plus lisible.</li>
+      <li><b>Continuité de marque (le fond ne change pas)</b> : les apps à thème sombre <b>gardent leur fond</b> et ne rompent que par la composition. <b>Aumio</b> (navy partout), <b>Pocket FM</b> (noir partout), <b>Mangas.io</b> (noir), <b>Skybrary</b> (bleu ciel partout, carte blanche posée dessus), <b>Lili</b> (turquoise). Le compte reste un formulaire sobre dans l'univers de marque.</li>
+    </ul>
+    <p><span class="conf e">Estim.</span> <b>Le fil rouge qui ne change jamais, c'est la couleur d'accent du CTA</b> (l'orange Readmio, le coral, le vert, le violet). Conclusion pour Kidsono : la composition <b>doit</b> redescendre au formulaire sobre (c'est universel) ; pour le fond, Kidsono est une app à <b>fond clair (crème)</b>, donc la voie naturelle est de <b>garder le crème</b> et de tenir le rythme par la <b>baisse de densité</b> (peu d'éléments, pas de carte exubérante, le jaune réduit au CTA), exactement ce que fait son écran OTP actuel. Pas besoin de virer au blanc : le crème EST déjà le « neutre » de Kidsono.</p>
+  </div>
+
+  <!-- VERDICT 2 : STRUCTURE -->
+  <div class="qa">
+    <h3>2 · La STRUCTURE standard d'un écran de compte</h3>
+    <div class="verdict">Un seul écran : un bloc SSO empilé, un séparateur « ou », un champ email. Lien magique rare, mot de passe dominant. Connexion = lien discret, pas un second écran.</div>
+    <p><span class="conf o">Observé</span> Quand le SSO existe, le standard est <b>un écran unique</b> qui réunit tout : <b>les boutons SSO empilés pleine largeur</b>, un <b>séparateur « ou » / « OU » / « or »</b> (présent sur Vooks, Epic, Pocket FM, Pickatale, Lingokids), et <b>un champ email</b>. L'ordre SSO-puis-email domine (Readmio, Vooks, Epic, Storytel, Lingokids), mais l'inverse email-puis-SSO existe (Pickatale : formulaire email/mot de passe en haut, « or », SSO dessous). Le carrefour « déjà un compte ? Se connecter » est un <b>lien discret en haut ou en bas</b>, jamais un écran séparé.</p>
+    <p><span class="conf s">Solide</span> Sur l'authentification email : le <b>mot de passe est dominant</b> (Pickatale, Homer, Lili, Alma, Mangas, Hooked on Phonics, Quelle Histoire, Skybrary). Le <b>lien magique / code OTP est rare</b> : seuls Kidsono et Aumio le font. Le lien magique a un vrai atout (zéro mot de passe à retenir, friction réduite) mais c'est un choix <b>contrarian</b> dans le panel. Quand l'email vaut deux écrans, c'est email → vérification (code OTP ou lien), comme Kidsono et Aumio.</p>
+  </div>
+
+  <!-- VERDICT 3 : SSO -->
+  <div class="qa">
+    <h3>3 · Le SSO Apple + Google : ordre et traitement visuel</h3>
+    <div class="verdict">Apple en premier, Google dessous, boutons pleine largeur empilés. Apple noir n'est PAS obligatoire : la plupart harmonisent les deux boutons. Le SSO est minoritaire dans le panel enfant.</div>
+    <p><span class="conf s">Solide</span> Quand Apple ET Google sont présents, <b>Apple est en premier dans la quasi-totalité des cas</b> : Readmio, Vooks, Epic, Storytel, Lingokids, Pickatale. <b>Une seule exception</b> : Pocket FM met Google en premier (sur fond noir). Toujours en <b>boutons pleine largeur empilés verticalement</b>, Apple au-dessus de Google. (Dramabox met Facebook/Google/Apple, Apple en dernier, mais c'est un pattern de croissance appâté au cadeau, pas un modèle à copier.)</p>
+    <p><span class="conf o">Observé</span> Sur le <b>traitement</b> : le « bouton Apple noir plein » des guidelines Apple n'est PAS la norme observée. La majorité <b>harmonise les deux boutons</b> dans un même style (Vooks : deux pilules gris clair ; Epic : deux pilules blanches contour fin ; Storytel : contour sombre ; Pickatale : contour vert de marque), et ne distingue Apple que par <b>sa position en haut</b> et son logo noir. Readmio est le seul à faire un Apple noir plein + Google blanc contour. Les deux marchent.</p>
+    <p><span class="conf s">Solide</span> <b>Absence à noter</b> : le SSO est <b>minoritaire dans le panel enfant</b>. Aucune app française enfant du corpus (Lili, Alma, Quelle Histoire, Whisperies, Gulli) n'offre de SSO, toutes en email/mot de passe. Le SSO est porté par les apps anglo-saxonnes (Epic, Vooks, Readmio, Pickatale, Lingokids) et les plateformes audio (Storytel, Pocket FM). Ajouter Apple + Google met donc Kidsono <b>au-dessus du standard du segment FR enfant</b>, au niveau du top-tier international.</p>
+  </div>
+
+  <!-- VERDICT 4 : PLACEMENT -->
+  <div class="qa">
+    <h3>4 · Le PLACEMENT de l'écran de compte dans le flow</h3>
+    <div class="verdict">Deux écoles : compte-tôt (gate d'entrée) ou compte-différé (déclenché par une action / au paywall). Le différé déclenché par un geste = exactement le modèle Kidsono.</div>
+    <ul>
+      <li><b>Compte-tôt (gate d'entrée, avant le contenu)</b> : Skybrary, Pocket FM, Readmio, Epic, Lili, Quelle Histoire. L'app force le compte d'emblée. Plus simple à coder, mais plus de friction avant la moindre valeur.</li>
+      <li><b>Compte-différé (après un teaser / au moment d'une action)</b> : Lingokids et Dramabox (feuille modale skippable déclenchée par favoris/abonnement), Kili (gate au moment de s'abonner), Storytel (après l'accroche, avant le paywall), Homer (après le quiz, avant les résultats), Mangas.io (après navigation libre + déclencheur d'essai), Libro.fm (compte optionnel, « explorer » d'abord).</li>
+      <li><span class="conf s">Solide</span> Le modèle acté Kidsono (compte créé <b>au déblocage de l'écoute gratuite</b>, après le teaser d'1h) est le <b>compte-différé déclenché par un geste</b>, exactement ce que font Lingokids, Dramabox et Kili via une <b>feuille modale qui glisse sur le contenu</b> (c'est déjà la mécanique du gate Kidsono « Connexion requise » / « Oups, tu n'es pas connecté »). On est au standard sur le placement : rien à changer, juste à habiller l'écran.</li>
+    </ul>
+  </div>
+
+  <!-- ============ LES EXEMPLES PAR ECRAN ============ -->
+  <h2 class="section">Les exemples, par écran</h2>
+  <p class="chapeau">D'abord le point de départ Kidsono. Puis les références SSO du standard, avec leur enchaînement pour juger le rythme. Puis les variantes email-seul et les contre-exemples. Chaque écran lu en pleine résolution.</p>
+
+  <!-- KIDSONO ACTUEL -->
+  <div class="approach">
+    <div class="atag a-amber">Point de départ · l'auth Kidsono actuelle</div>
+    <h3>Ce qu'on a aujourd'hui : lien magique + code OTP, sans SSO</h3>
+    <p class="lead">Une feuille modale crème qui glisse sur le contenu, déclenchée par un gate (« Connexion requise »). Lien magique email puis code à 6 chiffres. Cartes vert pâle, néo-brutalisme. Pas de SSO. C'est le rythme qu'on cherche à tenir, et la base à enrichir.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/00-kidsono/captures/25-gate-compte-oups-non-connecte.png" alt="Kidsono gate">
+        <div class="app">Kidsono · le gate <span class="stars">★★★☆☆</span></div>
+        <div class="scr">25-gate-compte-oups-non-connecte</div>
+        <div class="note">Le déclencheur : depuis une fiche, une action (favoris) ouvre une feuille corail « Oups, tu n'es pas connecté » + bouton Connexion. Modèle compte-différé correct, mais le wording « Oups » est brutal et tutoie.</div>
+      </div>
+      <div class="card">
+        <img src="Captures/kidsono-onboarding-20260609-105155/04-login.png" alt="Kidsono login lien magique">
+        <div class="app">Kidsono · lien magique <span class="stars">★★★☆☆</span></div>
+        <div class="scr">04-login (feuille modale)</div>
+        <div class="note">Feuille crème « Bienvenue ! », logo, carte vert pâle « Saisissez votre email » + « Envoyez-moi un lien magique ». <b>Composition sobre, fond crème : le rythme neutre est déjà bon.</b> Manque : le bloc SSO au-dessus.</div>
+      </div>
+      <div class="card">
+        <img src="apps/00-kidsono/captures/07-compte-code-email-otp.png" alt="Kidsono OTP">
+        <div class="app">Kidsono · code OTP <span class="stars">★★★☆☆</span></div>
+        <div class="scr">07-compte-code-email-otp</div>
+        <div class="note">Second temps : code à 6 chiffres dans 6 cases, carte vert pâle, CTA « Vérifier ». Auth en 2 écrans (email → code). Propre, mais l'auth contrarian (lien magique) sans SSO bride les parents pressés.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SSO STANDARD : SSO d'abord -->
+  <div class="approach">
+    <div class="atag a-green">Le standard SSO · Apple en premier, « ou », puis email</div>
+    <h3>La structure de référence : bloc SSO empilé, séparateur « ou », champ email</h3>
+    <p class="lead">L'écran de compte au standard international. Apple au-dessus de Google, boutons pleine largeur, séparateur « ou », email dessous. Fond clair sobre : le compte est le creux de la courbe.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/18-vooks/captures/07-compte-apple-google-email.png" alt="Vooks compte">
+        <div class="app">Vooks <span class="stars">★★★★★</span></div>
+        <div class="scr">07-compte-apple-google-email</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le gabarit le plus net.</b> Apple (1) puis Google (2) en pilules gris clair pleine largeur, « or », champ email, « Create account ». Fond blanc, mascotte minuscule. Apple distingué par la position, pas par un noir plein. À copier dans sa structure.</div>
+      </div>
+      <div class="card">
+        <img src="apps/13-readmio/captures/07-compte-apple-google-sans.png" alt="Readmio compte">
+        <div class="app">Readmio <span class="stars">★★★★★</span></div>
+        <div class="scr">07-compte-apple-google-sans</div>
+        <div class="note"><span class="conf s">Solide</span> Apple noir plein (1) + Google blanc contour (2) + « Continue without account » en lien. SSO-only, pas d'email ici. Le seul à faire l'Apple noir plein des guidelines. Tiers « sans compte » utile pour la friction.</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/05-compte-start-reading-sso.png" alt="Epic compte">
+        <div class="app">Epic <span class="stars">★★★★☆</span></div>
+        <div class="scr">05-compte-start-reading-sso</div>
+        <div class="note"><span class="conf o">Observé</span> Apple (1), Google (2), Facebook (3) en pilules <b>blanches contour fin identiques</b>, « or », champ email. Apple privilégié seulement par la position. Fond blanc franc après un teaser coral : rupture vers le neutre exemplaire.</div>
+      </div>
+      <div class="card">
+        <img src="apps/31-storytel/captures/05-compte-create-account.png" alt="Storytel compte">
+        <div class="app">Storytel <span class="stars">★★★★★</span></div>
+        <div class="scr">05-compte-create-account</div>
+        <div class="note"><span class="conf s">Solide</span> Feuille modale (croix) « Create account / Already have an account? Log in ». Apple (1), Google (2), « Create with E-mail » (3), contour sombre. Pas de « ou » (3 boutons d'égal poids). Modèle pertinent : Kidsono aussi est une feuille modale.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SSO : email-d'abord + différé -->
+  <div class="approach">
+    <div class="atag a-blue">Le standard SSO · variantes (email d'abord, ou compte différé)</div>
+    <h3>Les variantes valides du même standard</h3>
+    <p class="lead">Même ingrédients, agencement différent : email/mot de passe en haut puis SSO dessous (Pickatale), ou compte différé en feuille modale skippable déclenchée par une action (Lingokids).</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/16-pickatale/captures/07-create-parent-account.png" alt="Pickatale compte">
+        <div class="app">Pickatale <span class="stars">★★★★☆</span></div>
+        <div class="scr">07-create-parent-account</div>
+        <div class="note"><span class="conf o">Observé</span> Ordre <b>inversé</b> : email + mot de passe + « Sign up » d'abord, puis « or », puis Apple (1) / Google (2) dessous, contour vert de marque. « Create a parent account » = bon cadrage parent. Fond blanc : retour au neutre net.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/10-compte-differe-skippable.png" alt="Lingokids compte">
+        <div class="app">Lingokids <span class="stars">★★★★☆</span></div>
+        <div class="scr">10-compte-differe-skippable</div>
+        <div class="note"><span class="conf o">Observé</span> <b>Le modèle compte-différé.</b> Feuille modale skippable (croix) déclenchée après le paywall : champ email + « Se connecter », puis « OU », puis Apple (1) / Google (2) pilules blanches. En-tête illustré coloré + corps de feuille blanc sobre. Apple-first + « OU » : le plus proche de notre cible.</div>
+      </div>
+      <div class="card">
+        <img src="apps/34-pocket-fm/captures/04-cest-parti-signup-social.png" alt="Pocket FM compte">
+        <div class="app">Pocket FM <span class="stars">★★★★☆</span></div>
+        <div class="scr">04-cest-parti-signup-social</div>
+        <div class="note"><span class="conf o">Observé</span> <b>La contre-exception.</b> Google (1) puis Apple (2), « ou », « adresse mail ». Fond noir tenu du splash au compte (continuité de marque, pas de retour au blanc). Montre l'école « continuité » et l'inversion d'ordre possible.</div>
+      </div>
+      <div class="card">
+        <img src="apps/37-dramabox/captures/04-compte-differe-bottomsheet-150pieces.png" alt="Dramabox compte">
+        <div class="app">Dramabox <span class="stars">★★★☆☆</span></div>
+        <div class="scr">04-compte-differe-bottomsheet</div>
+        <div class="note"><span class="conf o">Observé</span> Feuille modale sur le catalogue, déclenchée par favoris (« Enregistrez votre liste »), appâtée d'un cadeau « 150 pièces ». Facebook / Google / Apple (Apple <b>dernier</b>). Bon mécanisme de déclenchement, mais l'ordre et l'appât ne sont pas à copier.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL SEUL / CONTINUITE -->
+  <div class="approach">
+    <div class="atag a-violet">Email seul · le compte dans la continuité de marque</div>
+    <h3>Quand l'app garde son fond et rompt seulement par la composition</h3>
+    <p class="lead">Apps à thème sombre ou très brandé : le compte est un formulaire sobre dans l'univers de marque, le fond ne change pas. Et l'auth email-seule (notre cas, façon lien magique), pour comparaison.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/14-aumio/captures/08-compte-email.png" alt="Aumio compte">
+        <div class="app">Aumio <span class="stars">★★★★★</span></div>
+        <div class="scr">08-compte-email</div>
+        <div class="note"><span class="conf s">Solide</span> <b>Le jumeau de notre lien magique.</b> Email seul → mot de passe temporaire envoyé par mail (OTP, « valide 10 min »), sans SSO. Fond navy tenu de bout en bout (continuité de marque). Prouve qu'un compte peut rester dans le fond de l'app, sobre, sans virer au blanc.</div>
+      </div>
+      <div class="card">
+        <img src="apps/29-skybrary/captures/04-create-account-families-schools.png" alt="Skybrary compte">
+        <div class="app">Skybrary <span class="stars">★★★★☆</span></div>
+        <div class="scr">04-create-account-families-schools</div>
+        <div class="note"><span class="conf o">Observé</span> Fond bleu ciel de marque tenu, carte blanche posée dessus. Split « Familles / Écoles » (non pertinent pour Kidsono). Email + mot de passe, pas de SSO. Montre la carte blanche sobre dans un fond brandé.</div>
+      </div>
+      <div class="card">
+        <img src="apps/19-homer/captures/15-creation-compte-email.png" alt="Homer compte">
+        <div class="app">Homer <span class="stars">★★★★☆</span></div>
+        <div class="scr">15-creation-compte-email</div>
+        <div class="note"><span class="conf o">Observé</span> « Almost done! Let's create your account » après le quiz, avant les résultats. Email + mot de passe, pas de SSO, fond blanc tenu sur tout le flow. Le compte = un formulaire sobre entre deux écrans illustrés. Placement « compte-après-teaser ».</div>
+      </div>
+      <div class="card">
+        <img src="apps/07-kili/captures/19-bonus-compte-requis-sso-edl.png" alt="Kili compte">
+        <div class="app">Kili <span class="stars">★★★★☆</span></div>
+        <div class="scr">19-bonus-compte-requis-sso-edl</div>
+        <div class="note"><span class="conf o">Observé</span> Feuille modale blanche « Compte » déclenchée au moment de s'abonner. « Créer un compte » + « J'ai un compte École des Loisirs » (<b>SSO éditeur partenaire</b>). Piste intéressante pour Kidsono vu ses éditeurs, mais secondaire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTRE-EXEMPLES -->
+  <div class="approach">
+    <div class="atag a-red">Contre-exemples · à ne pas reproduire</div>
+    <h3>La famille des perdants et les compte-gates datés</h3>
+    <p class="lead">Email/mot de passe seul, gate d'entrée frontal, formulaires chargés ou consentements lourds. Aucun SSO. Le retard exact que l'ajout d'Apple/Google permet d'éviter.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/04-quelle-histoire/captures/04-creation-compte-formulaire.png" alt="Quelle Histoire compte">
+        <div class="app">Quelle Histoire <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">04-creation-compte-formulaire</div>
+        <div class="note"><span class="bad">Contre-exemple.</span> Email + mot de passe + opt-in + long paragraphe de consentement parental, <b>aucun SSO</b>, gate d'entrée. Mascotte sur bleu + formulaire blanc. Daté et lourd : exactement ce que Kidsono ne doit pas faire.</div>
+      </div>
+      <div class="card">
+        <img src="apps/05-whisperies/captures/19-bonus-gate-inscription-favoris.png" alt="Whisperies gate">
+        <div class="app">Whisperies <span class="stars">★☆☆☆☆</span></div>
+        <div class="scr">19-bonus-gate-inscription-favoris</div>
+        <div class="note"><span class="bad">Contre-exemple.</span> Petit popup blanc « créez votre compte ! » sur contenu grisé, bouton rouge « S'INSCRIRE ». Le formulaire réel est ailleurs (username + email + mot de passe). Auth éparpillée, sans SSO, sans soin du rythme.</div>
+      </div>
+      <div class="card">
+        <img src="apps/06-lili/captures/03-auth-connexion-inscription.png" alt="Lili compte">
+        <div class="app">Lili <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">03-auth-connexion-inscription</div>
+        <div class="note"><span class="bad">Contre-exemple.</span> Gate d'entrée frontal dès le splash, onglets « Je m'inscris / Je me connecte », email + mot de passe, <b>aucun SSO</b>. Pousse le compte avant toute valeur. Friction maximale, standard FR enfant en retard.</div>
+      </div>
+      <div class="card">
+        <img src="apps/30-mangas-io/captures/22-creation-compte-email-tel.png" alt="Mangas.io compte">
+        <div class="app">Mangas.io <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">22-creation-compte-email-tel</div>
+        <div class="note"><span class="bad">Contre-exemple de charge.</span> Email + confirmer l'email + téléphone + mot de passe + 2 cases, <b>aucun SSO</b>. Formulaire surchargé. Montre tout ce que le SSO permet d'éviter : 1 tap au lieu de 5 champs.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LE RYTHME ============ -->
+  <h2 class="section">Le rythme : où tombe l'écran de compte dans la courbe</h2>
+  <p class="chapeau">Synthèse de la réponse au cœur de la mission. L'écran de compte est le creux : la composition redescend toujours, le fond reste neutre ou dans la marque, l'accent voyage.</p>
+
+  <div class="rhythm">
+    <div style="font-size:13.5px;font-weight:800;margin-bottom:9px;">L'écran de compte = le creux de la courbe (la composition rompt, l'accent reste)</div>
+    <div class="seq">
+      <div class="step" style="border-top:4px solid var(--accent-dark);">
+        <div class="lab">Écran d'avant</div>
+        <div class="big">Riche / coloré</div>
+        <div class="d">Catalogue, scène immersive, carrousel de valeur, ou quiz illustré. Densité haute, fond souvent saturé ou plein.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #cbd5e1;">
+        <div class="lab">Écran de compte</div>
+        <div class="big">Sobre (le creux)</div>
+        <div class="d">Formulaire : SSO + email, beaucoup de vide. <b>La composition rompt toujours.</b> Fond neutre (blanc/crème) ou de marque tenu. Accent réduit au CTA.</div>
+      </div>
+      <div class="arrow">›</div>
+      <div class="step" style="border-top:4px solid #d4c5a0;">
+        <div class="lab">Écran d'après</div>
+        <div class="big">Remonte</div>
+        <div class="d">Sélection de langue, résultats, paywall, ou catalogue. La densité repart, la couleur revient.</div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:#444;margin-top:12px;line-height:1.55;"><b>Ce qui CHANGE</b> : la composition (riche → formulaire sobre → riche), et souvent la saturation du fond (école « rupture vers le blanc » : Epic, Storytel, Pickatale, Readmio). <b>Ce qui RESTE</b> : la couleur d'accent du CTA (le fil rouge), et pour les apps à fond de marque, le fond lui-même (école « continuité » : Aumio, Pocket FM, Skybrary, Lili). <span class="conf e">Estim.</span> Kidsono, app à fond clair, n'a pas besoin de virer au blanc : son crème EST déjà le neutre. Le rythme se tient par la baisse de densité.</p>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;border-top:1px solid var(--border);padding-top:11px;">
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:12.5px;font-weight:800;color:#1f7d45;">École 1 · Rupture vers le neutre (fond clair)</div>
+        <div style="font-size:12px;color:#444;line-height:1.5;">Epic, Storytel, Pickatale, Readmio. L'app bascule sur du blanc/crème pour le compte. La plus fréquente. Kidsono y est déjà (crème).</div>
+      </div>
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:12.5px;font-weight:800;color:#1d4ea8;">École 2 · Continuité de marque (fond tenu)</div>
+        <div style="font-size:12px;color:#444;line-height:1.5;">Aumio, Pocket FM, Mangas.io, Skybrary, Lili. Le fond de marque ne change pas ; seule la composition redescend au formulaire.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE SYNTHESE -->
+  <h2 class="section">Le panel en un tableau</h2>
+  <p class="chapeau">22 écrans de compte lus. SSO, ordre, séparateur, structure, fond, placement. Perdants en bas, en contre-exemple.</p>
+  <table class="tbl">
+    <tr><th>App</th><th>Moyens d'auth</th><th>SSO</th><th>Ordre SSO</th><th>« ou »</th><th>Écran(s)</th><th>Fond au compte</th><th>Placement</th></tr>
+    <tr><td class="app">Kidsono (actuel)</td><td>Lien magique email + code OTP</td><td class="n">Non</td><td>·</td><td>Non</td><td>2 (email → code)</td><td>Crème (continuité)</td><td>Différé, déclenché par geste</td></tr>
+    <tr><td class="app">Vooks</td><td>Apple, Google, email</td><td class="y">Oui</td><td>Apple → Google</td><td class="y">Oui</td><td>1</td><td>Blanc (rupture)</td><td>Après teaser + gate parental</td></tr>
+    <tr><td class="app">Readmio</td><td>Apple, Google, sans-compte</td><td class="y">Oui</td><td>Apple → Google</td><td>Non</td><td>1</td><td>Carte blanche (rupture)</td><td>Tôt, post-teasers</td></tr>
+    <tr><td class="app">Epic</td><td>Apple, Google, Facebook, email</td><td class="y">Oui</td><td>Apple → Google → FB</td><td class="y">Oui</td><td>1</td><td>Blanc (rupture)</td><td>Tôt, post-slides</td></tr>
+    <tr><td class="app">Storytel</td><td>Apple, Google, email</td><td class="y">Oui</td><td>Apple → Google</td><td>Non (3 égaux)</td><td>1 (modale)</td><td>Crème clair (rupture)</td><td>Après accroche, avant paywall</td></tr>
+    <tr><td class="app">Pickatale</td><td>email/mdp, Apple, Google</td><td class="y">Oui</td><td>Apple → Google (sous email)</td><td class="y">Oui</td><td>1</td><td>Blanc (rupture)</td><td>Après carrousel, avant paywall</td></tr>
+    <tr><td class="app">Lingokids</td><td>email, Apple, Google</td><td class="y">Oui</td><td>Apple → Google</td><td class="y">Oui (OU)</td><td>1 (modale skip)</td><td>Feuille blanche sur bleu</td><td>Différé, après paywall</td></tr>
+    <tr><td class="app">Pocket FM</td><td>Google, Apple, email</td><td class="y">Oui</td><td>Google → Apple</td><td class="y">Oui</td><td>1</td><td>Noir (continuité)</td><td>Tôt, post-splash</td></tr>
+    <tr><td class="app">Dramabox</td><td>Facebook, Google, Apple</td><td class="y">Oui</td><td>FB → Google → Apple</td><td>Non</td><td>1 (modale)</td><td>Feuille blanche sur catalogue</td><td>Différé, déclenché par geste</td></tr>
+    <tr><td class="app">Aumio</td><td>Email + mdp temporaire (OTP)</td><td class="n">Non</td><td>·</td><td>Non</td><td>2 (email → OTP)</td><td>Navy (continuité)</td><td>Fin du quiz, avant paywall</td></tr>
+    <tr><td class="app">Skybrary</td><td>Email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>Plusieurs</td><td>Bleu marque + carte blanche</td><td>Tôt (gate d'entrée)</td></tr>
+    <tr><td class="app">Homer</td><td>Email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>1</td><td>Blanc (continuité)</td><td>Après quiz, avant résultats</td></tr>
+    <tr><td class="app">Kili</td><td>email/mdp + compte éditeur EDL</td><td>EDL only</td><td>·</td><td>Non</td><td>2 (choix → form)</td><td>Feuille blanche sur catalogue</td><td>Au paywall, déclenché par geste</td></tr>
+    <tr><td class="app">Hooked on Phonics</td><td>Email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>1</td><td>Blanc + frise animaux</td><td>Après carrousel + gate adulte</td></tr>
+    <tr><td class="app">Alma Studio</td><td>Email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>1</td><td>Navy sobre (rupture)</td><td>Après paywall (différé)</td></tr>
+    <tr><td class="app">Libro.fm</td><td>(différé, carte d'entrée)</td><td>·</td><td>·</td><td>·</td><td>Carte inline</td><td>Blanc + carte colorée</td><td>Optionnel, explorer d'abord</td></tr>
+    <tr><td class="app" style="color:#a3261f;">Quelle Histoire (perdant)</td><td>Email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>2 (intro → form)</td><td>Bleu + form blanc</td><td>Gate d'entrée frontal</td></tr>
+    <tr><td class="app" style="color:#a3261f;">Whisperies (perdant)</td><td>username + email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>Éparpillé</td><td>Popup blanc / form blanc</td><td>Différé, gaté sur actions</td></tr>
+    <tr><td class="app" style="color:#a3261f;">Lili (perdant)</td><td>Email + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>1 (onglets)</td><td>Turquoise marque</td><td>Gate d'entrée frontal</td></tr>
+    <tr><td class="app" style="color:#a3261f;">Mangas.io</td><td>email + tel + mdp</td><td class="n">Non</td><td>·</td><td>Non</td><td>1</td><td>Noir (continuité)</td><td>Après navigation, à l'essai</td></tr>
+    <tr><td class="app" style="color:#a3261f;">Gulli</td><td>email/pseudo + mdp (+ invité)</td><td class="n">Non</td><td>·</td><td>Non</td><td>1</td><td>Violet + bloc vert invité</td><td>Gate après contrôle parental</td></tr>
+  </table>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="impl">
+    <h3>Réutiliser l'écran lien magique existant, y poser le bloc SSO en haut</h3>
+    <ul>
+      <li><b>Garder la base actuelle (feuille modale crème « Bienvenue ! »)</b> : c'est déjà le bon placement (compte-différé déclenché par un geste, comme Lingokids / Dramabox / Kili) et déjà le bon rythme (composition sobre, fond crème = neutre de Kidsono). On enrichit, on ne refait pas. Juste retravailler le wording du gate (« Oups, tu n'es pas connecté » → registre parent, vouvoiement, type « Créez votre compte pour continuer l'écoute »).</li>
+      <li><b>Ajouter le bloc SSO EN HAUT, avant l'email</b> : ordre standard du panel (SSO-puis-email domine). De haut en bas : <b>(1) Continuer avec Apple</b>, <b>(2) Continuer avec Google</b>, <b>séparateur « ou »</b>, <b>(3) le champ email + « Envoyez-moi un lien magique »</b> existant. Apple toujours au-dessus de Google (quasi-unanime : Vooks, Readmio, Epic, Storytel, Lingokids, Pickatale).</li>
+      <li><b>Traitement néo-brutaliste des boutons SSO</b> : deux boutons <b>pleine largeur empilés</b>, contour noir épais + ombre décalée Kidsono, fond crème ou blanc cassé, logo officiel à gauche (pomme noire / G Google), libellé encre #32322B en Cooper Black ou texte. <b>Harmoniser les deux boutons</b> dans le même style (la majorité du panel le fait : Apple distingué par la position seule, pas par un noir plein). Garder le « lien magique » dans le style carte vert pâle actuel pour la cohérence.</li>
+      <li><b>Le séparateur « ou »</b> : un trait fin de chaque côté du mot « ou » en encre, présent chez Vooks / Epic / Pocket FM / Pickatale / Lingokids. Sépare visuellement le raccourci SSO (1 tap) du chemin email (saisie).</li>
+      <li><b>Tenir le rythme = ne rien sur-décorer</b> : l'écran de compte est le <b>creux de la courbe</b>. On reste en <b>continuité de fond crème</b> (école Aumio/Skybrary, naturelle pour une app à fond clair), composition <b>volontairement sobre</b> : pas de mascotte exubérante, pas d'empilement de cartes néo-brutalistes, le jaune réduit au strict CTA. Le pic émotionnel reste sur le claim, pas ici.</li>
+      <li><b>Carrefour connexion</b> : un lien discret « Déjà un compte ? Se connecter » (pas un second écran). Le SSO gère nativement le cas revenant (Apple/Google reconnaissent le compte) ; pour l'email, le lien magique sert connexion ET inscription indifféremment, un avantage à exploiter (un seul chemin).</li>
+      <li><span class="conf e">Estim.</span> <b>Piste secondaire à garder en tête</b> : un SSO éditeur (façon Kili « J'ai un compte École des Loisirs ») n'est pertinent que si un éditeur partenaire fournit un identity provider. À écarter au lancement (complexité), mais cohérent avec le positionnement « caution éditeurs » plus tard.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco capitalise sur l'existant (feuille modale crème + lien magique) sans le casser, et l'aligne sur un standard <b>observé de façon convergente sur 6 apps SSO indépendantes</b> (Apple-first, boutons empilés, « ou », email dessous). Ajouter Apple + Google fait passer Kidsono <b>au-dessus du standard du segment FR enfant</b> (où le SSO est absent : Lili, Quelle Histoire, Whisperies, Gulli, Alma) et au niveau du top-tier international (Epic, Vooks, Storytel). Le gain est concret : <b>1 tap au lieu d'une saisie email + attente du mail + code</b>, donc moins d'abandon au moment-clé du déblocage gratuit. <span class="conf s">Solide</span></p>
+    <p><b>Risques</b> : conserver le <b>lien magique sans mot de passe</b> reste contrarian (seuls Kidsono et Aumio le font dans le panel) ; c'est défendable (zéro friction) mais ajoute un aller-retour mail vs le SSO instantané, donc le SSO doit être visuellement <b>le chemin proposé en premier</b> pour absorber l'essentiel du trafic. Le néo-brutalisme sur les boutons SSO doit rester <b>discret</b> (contour + ombre), sinon il rentre en tension avec les logos officiels Apple/Google qui ont leurs propres guidelines visuelles. <span class="conf o">Observé</span> Le crème offre moins de contraste qu'un blanc franc : vérifier la lisibilité des boutons SSO sur fond crème. <span class="conf e">Estim.</span></p>
+    <p><b>Position vs standard</b> : <b>au standard</b> sur la structure (bloc SSO + « ou » + email), l'ordre (Apple en premier), le placement (compte-différé déclenché par un geste) et le rythme (compte = creux sobre, fond de marque tenu). <b>Contrarian</b> sur un seul point, l'auth email par lien magique au lieu du mot de passe, choix assumable s'il est secondaire au SSO. Aucun écran du panel ne combine lien magique + SSO côte à côte : Kidsono serait pionnier sur ce mix, sans risque majeur puisque chaque brique est éprouvée séparément.</p>
+  </div>
+
+  <p class="ftnote">Audit fondé sur 22 écrans de création de compte / connexion du corpus benchmark (38 apps) + références audiobook/wellness, chaque capture lue une par une en pleine résolution, avec l'écran précédent et suivant pour juger le rythme. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern récurrent du panel · <span class="conf e">Estim.</span> projection directionnelle. Famille des perdants (Quelle Histoire, Whisperies, Lili, et apparentés) citée en contre-exemple uniquement, jamais en référence positive. Mission conseil Kidsono, 2026-06-16.</p>
+
+</div>
+</body>
+</html>

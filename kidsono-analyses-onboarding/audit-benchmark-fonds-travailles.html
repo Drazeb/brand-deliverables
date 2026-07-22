@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit · Fonds travaillés vs aplats unis · Onboarding + paywall · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+    --violet:#7c3aed; --violet-soft:#f3edff; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;}
+  .standfirst b{color:#191919;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:900px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card.wide{width:330px;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;display:flex;justify-content:space-between;align-items:center;}
+  .stars{color:#e6a700;font-size:12px;letter-spacing:1px;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;margin-top:3px;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+  .tagtype{display:inline-block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;margin:6px 0 2px;background:#eef0ee;color:#444;}
+
+  .rhythm{background:#fbfbfa;border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:16px;}
+  .rhythm .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:6px 0 4px;}
+  .rhythm .step{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:11px 13px;position:relative;}
+  .rhythm .step .lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+  .rhythm .step .big{font-size:13.5px;font-weight:800;margin:3px 0 4px;color:#111;}
+  .rhythm .step .d{font-size:11.5px;color:#444;line-height:1.45;}
+  .rhythm .arrow{align-self:center;font-size:20px;color:#bbb;font-weight:700;}
+  @media(max-width:760px){.rhythm .arrow{display:none;}}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid rgba(0,0,0,.18);vertical-align:-1px;margin-right:3px;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding + paywall · Audit DA · Le traitement des fonds</div>
+    <h1>Fonds travaillés ou aplats unis : ce que font vraiment les apps, et ce que Kidsono devrait faire</h1>
+    <div class="standfirst">Une seule question, regardée écran par écran en pleine résolution : les apps qui réussissent leur onboarding et leur paywall posent-elles des <b>fonds travaillés</b> (dégradés riches, halo/glow, texture/grain, blobs et formes organiques, motifs répétés, illustration de fond pleine page, superposition de couches) plutôt que de simples <b>aplats unis</b> ? Si oui, sur <b>quels types d'écrans</b>, et avec quel type de traitement ? Et enfin : Kidsono, dont la DA est un crème néo-brutaliste à contours noirs, doit-il y aller, sur quels écrans, et lesquels garder en aplat crème ? Chaque fond cité a été classé à l'œil, pas déduit du nom de fichier.</div>
+    <div class="meta">
+      <span><b>Panel</b> · 5 refs top-tier (Headspace, Lifesum, Lóvi, Noom, Breeze) + Flo / ahead (autorité) + corpus 38 apps enfant/audio</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>27 captures lues une par une</b></span>
+    </div>
+  </header>
+
+  <!-- ============ LA REPONSE ============ -->
+  <h2 class="section">La réponse</h2>
+  <p class="chapeau">Quatre verdicts d'abord. Les écrans qui les fondent suivent, classés par type de traitement de fond. La règle de fond n'est pas isolée : elle suit la courbe de densité de la séquence d'ouverture (minimal au splash, pic au claim, retour au neutre ensuite).</p>
+
+  <div class="qa">
+    <h3>1 · Est-ce fréquent d'utiliser des fonds travaillés ?</h3>
+    <div class="verdict">Oui, mais ciblé. Le fond travaillé est l'exception choisie, pas la règle de tous les écrans.</div>
+    <p><span class="conf o">Observé</span> Sur le panel lu, <b>la majorité des écrans restent en aplat ou quasi-aplat</b>. Mais presque chaque app pose <b>un ou deux fonds travaillés à un moment fort</b>, jamais partout. Aumio sort un dégradé bleu/violet avec halo au claim et un fond illustré (fusée, étoiles) au paywall, puis revient au neutre pour les questions. Lóvi pose un gradient lilas avec blobs lumineux sur les 2 premiers écrans, puis bascule sur du blanc clinique. Moshi ouvre sur un dégradé turquoise texturé, Readmio sur un paysage illustré. Le fond travaillé sert à <b>marquer un écran émotionnel</b> (l'entrée, la vente), pas à habiller toute l'app.</p>
+    <p><span class="conf s">Solide</span> <b>L'aplat domine quand l'écran fait travailler ou décider.</b> Tous les paywalls "premium sobres" lus sont sur fond clair quasi-uni : Storytel (off-white), Epic (blanc), Lingokids (blanc), Pinkfong (blanc), Cosmic Kids (bleu très pâle quasi-aplat). Idem pour les écrans de compte, de questions, de formulaires : Noom, Lifesum, Headspace, Lóvi redescendent tous au blanc ou au crème dès qu'il faut lire un prix ou remplir un champ.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · Sur quels types d'écrans le fond travaillé apparaît-il ?</h3>
+    <div class="verdict">Splash et surtout CLAIM, écrans de valeur, hero de paywall. Jamais sur l'écran où l'on décide ou saisit.</div>
+    <ul>
+      <li><b>Claim / welcome</b> : c'est l'écran qui concentre le plus de fonds travaillés (le pic émotionnel). Aumio (dégradé + halo), Moshi (turquoise texturé), Lóvi (gradient + blobs), Headspace (aplat jaune saturé + collage d'illustrations), Lifesum (photo lifestyle pleine page).</li>
+      <li><b>Splash</b> : souvent un dégradé léger plutôt qu'un vrai aplat. Lifesum (vert sapin dégradé), Lóvi (gradient lilas), Flo (gradient rose). Mais beaucoup restent sur aplat franc (Noom, Headspace, Homer).</li>
+      <li><b>Écrans de valeur / carrousel</b> : moitié aplat + illustration (Epic bleu uni, Pickatale jaune uni), moitié travaillé (Readmio paysage, Vooks fond catalogue, Mangas.io rayons de lumière, Super Simple Songs confettis).</li>
+      <li><b>Hero de paywall</b> : quand le paywall a un visuel en haut, ce visuel est souvent un fond illustré (Moshi montagnes, Readmio paysage), mais la <b>zone des prix reste sur fond clair</b>.</li>
+      <li><span class="conf s">Solide</span> <b>Là où PERSONNE ne met de fond travaillé</b> : grille de prix, formulaire de compte, questions d'onboarding, SSO. C'est une absence nette et unanime.</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>3 · Quels types de traitement dominent ?</h3>
+    <div class="verdict">Dégradé riche et illustration de fond en tête. Le grain/texture est quasi absent. Le motif répété est rare et discret.</div>
+    <p><span class="conf o">Observé</span> Par fréquence décroissante sur le panel : <b>1/ dégradé riche</b> (Aumio, Lóvi, Moshi, Mangas.io, Flo) ; <b>2/ illustration de fond pleine page</b> (Headspace en collage, Readmio en paysage, Storytel/Alma en mosaïque de couvertures, Vooks en catalogue) ; <b>3/ halo/glow</b> (presque toujours combiné à un dégradé, jamais seul : Aumio, Lóvi, ahead) ; <b>4/ blobs / formes organiques et couches superposées</b> (Lóvi, Breeze avec ses nuages, ahead) ; <b>5/ motif répété</b> (rare et léger : les fleurs éparses de Flo, le confetti de Super Simple Songs, la grille en filigrane de Lingokids).</p>
+    <p><span class="conf s">Solide</span> <b>Deux absences franches.</b> Le <b>grain / texture papier</b> n'apparaît nulle part dans le panel lu (les fonds sont propres et lisses, pas granuleux). Et le <b>dégradé mou délavé</b> (deux pastels proches sans accent) n'est pas une recette gagnante : quand il apparaît chez les perdants (Kidjo, fond violet terne), il rend l'écran sale et illisible, jamais premium.</p>
+  </div>
+
+  <div class="qa" style="border-left-color:var(--accent-dark);">
+    <h3 style="color:#a3261f;">4 · Kidsono doit-il y aller, et sur quels écrans ?</h3>
+    <div class="verdict" style="background:var(--accent-dark);color:#fff;">Oui, mais seulement sur 1 à 2 écrans (le claim, et un hero de paywall). Le reste reste en aplat crème.</div>
+    <p><span class="conf e">Estim.</span> Kidsono doit faire <b>exactement ce que fait le panel</b> : un fond travaillé pour le <b>claim</b> (le pic), un éventuel hero illustré en haut du <b>paywall</b>, et de l'<b>aplat crème</b> partout ailleurs (splash sobre, carrousel A/B/C, grille de prix, formulaires). Le piège pour une marque néo-brutaliste n'est PAS le manque de fond travaillé : c'est le <b>dégradé mou</b>, qui contredit frontalement les contours noirs épais et les ombres franches. Si Kidsono enrichit un fond, ce doit être par des moyens <b>compatibles avec le néo-brutalisme</b> : formes géométriques cernées de noir, motif de pastilles/confettis aux accents crayon, halo coloré franc, jamais un dégradé délavé.</p>
+  </div>
+
+  <!-- ============ LES EXEMPLES PAR TYPE DE TRAITEMENT ============ -->
+  <h2 class="section">Les exemples, par type de traitement de fond</h2>
+  <p class="chapeau">Chaque card est annotée : ce que je repère vraiment sur la capture (type de fond classé à l'œil) + l'intérêt pour Kidsono. Les apps de la famille des perdants ne figurent qu'en contre-exemples, signalés.</p>
+
+  <!-- DEGRADE RICHE + HALO -->
+  <div class="approach">
+    <div class="atag a-violet">Dégradé riche (souvent + halo/glow)</div>
+    <h3>Le traitement le plus fréquent au claim et au splash</h3>
+    <p class="lead">Un dégradé de deux à trois tons d'une même famille, avec parfois un halo lumineux derrière l'élément central. Réservé aux écrans émotionnels, pas aux écrans de décision.</p>
+    <div class="grid">
+      <div class="card wide">
+        <img src="apps/14-aumio/captures/02-intro-sinscrire.png" alt="Aumio claim">
+        <div class="app">Aumio · claim <span class="stars">★★★★★</span></div>
+        <div class="scr">02-intro-sinscrire</div>
+        <span class="tagtype">Dégradé riche + halo/glow</span>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>dégradé bleu nuit vers périwinkle</b> avec un <b>halo lumineux</b> derrière la mascotte astronaute. Le fond est clairement travaillé, mais sans surcharge : une seule couleur qui respire. <b>Pour Kidsono</b> : le mécanisme exact à viser au claim, mais le halo doit rester franc (pas un flou pastel), sinon il jure avec le néo-brutalisme.</div>
+      </div>
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/splash-claim/lovi.png" alt="Lóvi séquence">
+        <div class="app">Lóvi · splash + claim + email <span class="stars">★★★★☆</span></div>
+        <div class="scr">lovi.png (3 écrans)</div>
+        <span class="tagtype">Dégradé riche + blobs + glow</span>
+        <div class="note"><span class="conf s">Solide</span> Les 2 premiers écrans = <b>même gradient lilas/mauve avec des blobs lumineux flous</b> (couches superposées de lumière). Puis l'écran email <b>bascule sur du blanc clinique</b>. Démonstration nette : le fond riche est pour la séduction, le blanc pour la saisie. <b>Pour Kidsono</b> : le blob flou n'est pas notre langage (trop wellness, pas assez cerné), mais la règle riche-puis-blanc est juste.</div>
+      </div>
+      <div class="card wide">
+        <img src="apps/30-mangas-io/captures/03-onboarding-abondance-tomes.png" alt="Mangas.io valeur">
+        <div class="app">Mangas.io · écran de valeur <span class="stars">★★★★☆</span></div>
+        <div class="scr">03-onboarding-abondance-tomes</div>
+        <span class="tagtype">Dégradé radial + rayons</span>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>violet en dégradé radial avec des rayons de lumière</b> qui partent du centre, derrière une grille dense de couvertures. Le fond travaillé sert à <b>dramatiser l'abondance du catalogue</b>. <b>Pour Kidsono</b> : intéressant comme idée pour l'écran A (la bande de couvertures), mais Kidsono a déjà tranché un fond crème calme, pas un dégradé sombre.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ILLUSTRATION DE FOND PLEINE PAGE -->
+  <div class="approach">
+    <div class="atag a-amber">Illustration de fond pleine page</div>
+    <h3>Le fond EST une scène ou un catalogue</h3>
+    <p class="lead">Deux familles : une illustration de décor (paysage, collage) qui pose l'univers, ou une mosaïque de couvertures qui prouve le catalogue. Toujours sur l'écran d'entrée ou le hero, jamais sur la zone de décision.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="benchmark-top-tier-mobbin/splash-claim/headspace.png" alt="Headspace">
+        <div class="app">Headspace · claim <span class="stars">★★★★★</span></div>
+        <div class="scr">headspace.png (4 écrans)</div>
+        <span class="tagtype">Aplat saturé + collage illustré</span>
+        <div class="note"><span class="conf s">Solide</span> Le claim n'est pas un dégradé : c'est un <b>aplat jaune/ambre franc et saturé</b> avec un <b>collage d'illustrations</b> (téléphone, nuages, note, étoiles). Splash blanc avant, compte blanc après. <b>Pour Kidsono</b> : la référence la plus proche de nous. Aplat de couleur franc + illustrations posées dessus = exactement compatible néo-brutaliste, sans aucun dégradé.</div>
+      </div>
+      <div class="card">
+        <img src="apps/13-readmio/captures/14-paywall-timeline-trial.png" alt="Readmio paywall">
+        <div class="app">Readmio · paywall <span class="stars">★★★★☆</span></div>
+        <div class="scr">14-paywall-timeline-trial</div>
+        <span class="tagtype">Illustration hero + carte blanche</span>
+        <div class="note"><span class="conf s">Solide</span> Haut = <b>paysage illustré pleine largeur</b> (collines vertes, ciel, château, éléphant). Bas = <b>carte blanche</b> qui porte la timeline d'essai et les prix. <b>Pour Kidsono</b> : le bon partage. Le hero illustré séduit, la zone de prix reste lisible sur clair. Modèle direct pour notre paywall.</div>
+      </div>
+      <div class="card">
+        <img src="apps/31-storytel/captures/04-accueil-audiobooks-for-everyone.png" alt="Storytel welcome">
+        <div class="app">Storytel · welcome <span class="stars">★★★★★</span></div>
+        <div class="scr">04-accueil-audiobooks</div>
+        <span class="tagtype">Mosaïque de couvertures + scrim</span>
+        <div class="note"><span class="conf s">Solide</span> Le fond = <b>mur de couvertures de livres</b> avec un <b>dégradé sombre (scrim)</b> en bas pour poser le claim et les CTA. La preuve catalogue EST le décor. <b>Pour Kidsono</b> : c'est notre logique d'écran A. À noter : Storytel reste premium parce que le scrim est franc et le texte énorme, pas grâce à un effet mou.</div>
+      </div>
+      <div class="card">
+        <img src="apps/18-vooks/captures/02-slide-storybooks-brought-to-life.png" alt="Vooks valeur">
+        <div class="app">Vooks · écran de valeur <span class="stars">★★★★☆</span></div>
+        <div class="scr">02-slide-storybooks-brought-to-life</div>
+        <span class="tagtype">Fond catalogue en filigrane + nuage</span>
+        <div class="note"><span class="conf o">Observé</span> Fond bleu avec une <b>trame de couvertures en filigrane</b> et une <b>illustration nuage</b> qui porte un aperçu. Superposition de couches. <b>Pour Kidsono</b> : montre qu'on peut suggérer le catalogue en fond sans le rendre lisible, pour ne pas voler la vedette au claim.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APLAT FRANC + ILLUSTRATION / BLOBS -->
+  <div class="approach">
+    <div class="atag a-green">Aplat de couleur franc + formes / illustration posées</div>
+    <h3>Le compromis le plus compatible néo-brutaliste</h3>
+    <p class="lead">Pas de dégradé : un aplat de couleur vive, et la richesse vient des formes géométriques, des blobs cernés ou de l'illustration posée dessus. C'est la voie la plus proche de la DA Kidsono.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/25-super-simple-songs/captures/02-welcome-get-started.png" alt="Super Simple Songs welcome">
+        <div class="app">Super Simple Songs · welcome <span class="stars">★★★★☆</span></div>
+        <div class="scr">02-welcome-get-started</div>
+        <span class="tagtype">Aplat + confettis / blobs géométriques</span>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>cyan uni</b> habillé de <b>confettis et de blobs géométriques colorés</b> éparpillés. Pas un seul dégradé. <b>Pour Kidsono</b> : exactement la recette enrichissable en néo-brutaliste, le confetti aux accents crayon (rose, vert, bleu, corail) sur le crème, cerné de noir si besoin.</div>
+      </div>
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/07-paywall-trial-7days.png" alt="Moshi paywall">
+        <div class="app">Moshi · paywall <span class="stars">★★★★☆</span></div>
+        <div class="scr">07-paywall-trial-7days</div>
+        <span class="tagtype">Ciel illustré dégradé + montagnes</span>
+        <div class="note"><span class="conf o">Observé</span> Hero = <b>ciel orangé en dégradé doux avec montagnes illustrées</b>, puis carte claire pour les prix. Joli mais le dégradé reste mou. <b>Pour Kidsono</b> : la structure hero illustré + carte de prix est bonne ; le rendu pastel-dégradé est ce qu'il faut éviter (remplacer par un aplat franc + illustration).</div>
+      </div>
+      <div class="card">
+        <img src="apps/16-pickatale/captures/02-onboarding-slide1-learn-to-read-roles.png" alt="Pickatale valeur">
+        <div class="app">Pickatale · écran de valeur <span class="stars">★★★★☆</span></div>
+        <div class="scr">02-onboarding-slide1</div>
+        <span class="tagtype">Aplat jaune uni + illustration</span>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>jaune uni franc</b> (proche de notre jaune), illustration d'enfants posée dessus, zone d'action blanche en bas. Aucun effet de fond. <b>Pour Kidsono</b> : preuve qu'un aplat jaune saturé porte très bien un écran de valeur, sans avoir besoin d'un fond travaillé.</div>
+      </div>
+      <div class="card">
+        <img src="benchmark-top-tier-mobbin/breeze.png" alt="Breeze">
+        <div class="app">Breeze · onboarding <span class="stars">★★★★☆</span></div>
+        <div class="scr">breeze.png (2 écrans)</div>
+        <span class="tagtype">Aplat pâle + couches nuage</span>
+        <div class="note"><span class="conf o">Observé</span> Fond <b>lavande très pâle</b> avec des <b>formes nuage en couches</b> en filigrane derrière l'illustration. Richesse minimale, ton calme. <b>Pour Kidsono</b> : montre qu'une couche décorative très discrète suffit à animer un fond clair ; pour nous, ce serait des formes cernées plutôt que des nuages flous.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOTIF REPETE + GLOW DISCRET -->
+  <div class="approach">
+    <div class="atag a-blue">Motif répété et halo discret (le registre léger)</div>
+    <h3>Quand le fond clair reste presque nu, juste ponctué</h3>
+    <p class="lead">Un fond clair quasi-uni, animé par un motif épars (fleurs, étoiles) ou un simple halo de couleur derrière un élément. Très utilisé sur les écrans d'autorité et de preuve, qui doivent rester lisibles.</p>
+    <div class="grid">
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/autorite/mobbin-flo-onboarding.png" alt="Flo séquence">
+        <div class="app">Flo · splash + welcome + preuve <span class="stars">★★★★★</span></div>
+        <div class="scr">mobbin-flo-onboarding.png (3 écrans)</div>
+        <span class="tagtype">Splash dégradé · preuve = blanc + motif floral</span>
+        <div class="note"><span class="conf s">Solide</span> <b>Splash</b> = dégradé rose franc + logo. <b>Welcome et écran de preuve "#1 OB-GYN recommended"</b> = <b>fond blanc avec des fleurs illustrées éparses</b> autour des bords (motif répété léger). Le fond de l'écran d'autorité reste clair pour que la preuve se lise. <b>Pour Kidsono</b> : exactement la logique de notre écran D autorité (logos sur crème) ; le motif épars peut remplacer un fond chargé.</div>
+      </div>
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/autorite/mobbin-ahead-onboarding.png" alt="ahead séquence">
+        <div class="app">ahead · splash + preuve <span class="stars">★★★★☆</span></div>
+        <div class="scr">mobbin-ahead-onboarding.png (3 écrans)</div>
+        <span class="tagtype">Aplat lilas pâle + halo doux</span>
+        <div class="note"><span class="conf o">Observé</span> Fond <b>lilas très pâle quasi-aplat</b>, juste un <b>halo doux</b> derrière la mascotte. L'écran de preuve (3,5M membres, Apple Design Award) reste sur ce fond clair, les chiffres priment. <b>Pour Kidsono</b> : confirme que l'écran d'autorité ne veut PAS de fond travaillé, juste un fond calme qui laisse parler la preuve.</div>
+      </div>
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/sante-mentale-tests.jpeg" alt="ahead tests">
+        <div class="app">ahead · écrans de valeur <span class="stars">★★★★☆</span></div>
+        <div class="scr">sante-mentale-tests.jpeg (3 écrans)</div>
+        <span class="tagtype">Aplat pâle + tuiles illustrées en couches</span>
+        <div class="note"><span class="conf o">Observé</span> Fond <b>lavande pâle</b> avec des <b>tuiles illustrées posées en couches</b> (étagères de cartes) et de petites illustrations. Le fond lui-même reste clair et calme ; la richesse vient des cartes. <b>Pour Kidsono</b> : modèle pour un carrousel de valeur, richesse par les blocs cernés plutôt que par le fond.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APLAT PUR -->
+  <div class="approach">
+    <div class="atag a-green">Aplat uni pur (la zone de décision)</div>
+    <h3>Là où le fond travaillé disparaît systématiquement</h3>
+    <p class="lead">Paywalls premium, formulaires, comptes : fond clair quasi-uni, couleur réduite à l'accent du CTA. Unanime, y compris chez les apps qui travaillent leurs autres fonds.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/31-storytel/captures/07-paywall-subscribe-now-45h.png" alt="Storytel paywall">
+        <div class="app">Storytel · paywall <span class="stars">★★★★★</span></div>
+        <div class="scr">07-paywall-subscribe-now-45h</div>
+        <span class="tagtype">Aplat off-white</span>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>off-white uni</b>, le prix, l'offre, la liste d'avantages. Zéro effet. <b>Pour Kidsono</b> : c'est le standard du paywall qui vend (notre quota d'heures ~Storytel). La grille de prix Kidsono doit rester sur crème uni.</div>
+      </div>
+      <div class="card">
+        <img src="apps/17-epic/captures/09-paywall-plans-trial-timeline.png" alt="Epic paywall">
+        <div class="app">Epic · paywall <span class="stars">★★★★☆</span></div>
+        <div class="scr">09-paywall-plans-trial-timeline</div>
+        <span class="tagtype">Aplat blanc</span>
+        <div class="note"><span class="conf s">Solide</span> Fond <b>blanc pur</b>, carte de plan bleue, timeline d'essai. Epic met pourtant un fond illustré sur ses écrans de valeur (l'écran d'avant) : ici, rien. <b>Pour Kidsono</b> : confirme la bascule riche-puis-aplat pile au moment de payer.</div>
+      </div>
+      <div class="card">
+        <img src="apps/20-lingokids/captures/08-paywall-onboarding-essai-7j.png" alt="Lingokids paywall">
+        <div class="app">Lingokids · paywall <span class="stars">★★★★☆</span></div>
+        <div class="scr">08-paywall-onboarding-essai-7j</div>
+        <span class="tagtype">Aplat blanc + bandeau catalogue</span>
+        <div class="note"><span class="conf o">Observé</span> Fine bande de couvertures en haut, puis <b>fond blanc</b> pour tout le reste (avantages, prix, CTA). Le décor est confiné à un bandeau. <b>Pour Kidsono</b> : si on veut du catalogue sur le paywall, le cantonner à un bandeau, pas au fond entier.</div>
+      </div>
+      <div class="card">
+        <img src="apps/19-homer/captures/02-bienvenue-15min-get-started.png" alt="Homer welcome">
+        <div class="app">Homer · welcome <span class="stars">★★★★★</span></div>
+        <div class="scr">02-bienvenue-15min</div>
+        <span class="tagtype">Aplat blanc</span>
+        <div class="note"><span class="conf s">Solide</span> Même le welcome est sur <b>blanc pur</b> : logo, une illustration, un claim, le carrefour. Premium par le vide, sans aucun fond travaillé. <b>Pour Kidsono</b> : rappel qu'un claim peut réussir sans fond riche ; le fond travaillé est une option, pas une obligation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOOM continuite / repere -->
+  <div class="approach">
+    <div class="atag a-amber">Repère · le fond travaillé presque invisible</div>
+    <h3>Quand "travaillé" veut juste dire crème chaud et constant</h3>
+    <p class="lead">Le cas Noom : pas d'effet, mais un fond crème tenu de bout en bout, qui fait office d'univers. Une leçon directe pour Kidsono dont le fond de marque est déjà un crème.</p>
+    <div class="grid">
+      <div class="card wide">
+        <img src="benchmark-top-tier-mobbin/splash-claim/noom.png" alt="Noom séquence">
+        <div class="app">Noom · splash + claim + signup <span class="stars">★★★★★</span></div>
+        <div class="scr">noom.png (3 écrans)</div>
+        <span class="tagtype">Aplat crème constant</span>
+        <div class="note"><span class="conf s">Solide</span> Aucun fond travaillé sur les 3 écrans : <b>le même crème chaud uni</b>, une étoile coral au splash, un collage photo en cercle au claim, un formulaire au signup. Le premium vient du <b>crème tenu + un seul accent coral</b>. <b>Pour Kidsono</b> : preuve directe qu'un crème sans effet peut porter toute la séquence. Le fond travaillé devient un bonus ponctuel, pas le socle.</div>
+      </div>
+      <div class="card wide">
+        <img src="apps/02-alma-studio/captures/01-splash-claim.png" alt="Alma Studio">
+        <div class="app">Alma Studio · welcome <span class="stars">★★★★☆</span></div>
+        <div class="scr">01-splash-claim</div>
+        <span class="tagtype">Mosaïque couvertures + scrim sombre</span>
+        <div class="note"><span class="conf o">Observé</span> Fond = <b>mosaïque de couvertures illustrées avec scrim sombre</b> et claim "L'app audio qui fait rêver les enfants, sans écran". Même logique que Storytel, en plus enfantin. <b>Pour Kidsono</b> : confirme que la mosaïque de couvertures est un fond d'entrée crédible pour une app audio enfant.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTRE-EXEMPLES -->
+  <div class="approach">
+    <div class="atag a-red">Contre-exemples · à ne pas reproduire</div>
+    <h3>Quand le fond travaillé tourne au sale</h3>
+    <p class="lead">Famille des perdants, citée uniquement pour montrer ce qui rate. Le dégradé mou et l'aplat saturé chargé sont les deux pièges.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/15-kidjo-stories/captures/07-paywall-reverse-trial-7j.png" alt="Kidjo paywall">
+        <div class="app">Kidjo Stories <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">07-paywall-reverse-trial-7j</div>
+        <span class="tagtype">Dégradé violet terne + catalogue muddy</span>
+        <div class="note"><span class="bad">Raté.</span> Paywall sur <b>dégradé violet terne avec une trame de couvertures en filigrane</b> : le fond travaillé rend la zone de prix sombre et confuse. La preuve qu'un fond riche sur l'écran de décision nuit à la lecture. À l'inverse exact de Storytel.</div>
+      </div>
+      <div class="card">
+        <img src="apps/05-whisperies/captures/03-tour-decouvrez-livres-audio-animes.png" alt="Whisperies tour">
+        <div class="app">Whisperies <span class="stars">★★☆☆☆</span></div>
+        <div class="scr">03-tour-decouvrez-livres-audio</div>
+        <span class="tagtype">Aplat magenta + bande diagonale</span>
+        <div class="note"><span class="bad">Raté.</span> Fond <b>magenta saturé avec une bande diagonale</b> et un mockup d'iPhone posé dessus. L'aplat est franc mais l'écran est chargé et daté : le fond coloré ne sauve pas une compo encombrée. Montre que la couleur de fond ne remplace pas la hiérarchie.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ POUR KIDSONO ============ -->
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="impl">
+    <h3>Sur quels écrans enrichir le fond, et lesquels garder en aplat crème</h3>
+    <ul>
+      <li><b>Splash</b> : <b>aplat crème</b> (ou aplat jaune franc), ourson centré, beaucoup de vide. C'est l'écran le plus dépouillé, on ne le travaille pas. Au mieux, un <b>halo jaune franc</b> derrière l'ourson, jamais un dégradé.</li>
+      <li><b>Claim (le pic, à enrichir)</b> : le seul écran où un fond travaillé est clairement justifié. Voie compatible néo-brutaliste : <b>aplat franc (jaune ou crème) + un décor posé dessus</b> façon Headspace, à savoir des <b>formes géométriques cernées de noir et un confetti aux accents crayon</b> (rose, vert, bleu, corail), plus l'ourson en couleur pleine. Le flux rupture déjà acté (haut jaune deux-zones) est le bon véhicule. Surtout pas de dégradé lilas façon Lóvi.</li>
+      <li><b>Carrousel A / B / C</b> : <b>aplat crème</b> tenu, richesse portée par les illustrations et les blocs cernés (la bande de couvertures sur A, la frontière sur B, les avatars sur C), pas par le fond. Cohérent avec la courbe de densité qui redescend après le claim.</li>
+      <li><b>Écran D autorité</b> : <b>aplat crème</b> obligatoire. Flo et ahead le prouvent : l'écran de preuve reste sur fond clair pour que les logos et la caution se lisent. Au mieux, un motif de pastilles très discret, jamais un fond chargé.</li>
+      <li><b>Paywall</b> : deux zones. Un <b>hero en haut</b> peut être enrichi (un aplat jaune franc avec l'ourson, ou un bandeau de couvertures façon Lingokids), mais la <b>grille de prix et le quota d'heures restent sur crème uni</b> (modèle Storytel). C'est non négociable : sur l'écran qui vend, le fond travaillé nuit à la lecture (contre-exemple Kidjo).</li>
+      <li><b>Formulaires, compte, code parental</b> : <b>aplat crème ou blanc</b>, accent réduit au CTA jaune. Personne dans le panel ne travaille ces fonds.</li>
+    </ul>
+    <p style="font-size:12.5px;color:#444;margin-top:4px;"><b>Comment enrichir sans tomber dans le dégradé mou</b> : remplacer chaque réflexe "dégradé" par un moyen néo-brutaliste. Au lieu d'un dégradé de fond, un <b>aplat franc</b>. Au lieu d'un blob flou, une <b>forme géométrique cernée de noir</b>. Au lieu d'un glow diffus, un <b>halo de couleur franc</b> ou un <b>motif de confettis/pastilles</b> aux accents crayon. Au lieu d'une texture grain (absente du panel de toute façon), rien. La richesse vient des contours, des ombres décalées et des accents crayon, pas d'un fondu de couleurs.</p>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco s'aligne sur un pattern <b>convergent et observé écran par écran</b> sur cinq apps top-tier indépendantes plus le corpus enfant : fond travaillé ciblé sur le claim et le hero, aplat partout où l'on décide. Elle ne demande pas à Kidsono d'inventer, juste d'appliquer le standard à sa propre grammaire. Le contre-exemple Kidjo (fond riche sur le paywall = illisible) valide par l'absurde la règle "aplat sur la zone de prix". <span class="conf o">Observé</span></p>
+    <p><b>Risques</b> : le panel top-tier penche wellness, où le fond travaillé typique est le <b>dégradé doux</b>, justement ce qui jure avec le néo-brutalisme. Transposer "fond travaillé" en langage Kidsono (formes cernées, confettis, aplats francs) est une <b>traduction, pas une copie</b> : si l'exécution glisse vers le dégradé pour faire "premium", on perd la DA. Par ailleurs, la frontière "claim enrichi / carrousel sobre" suppose que le claim reste vraiment le seul pic ; multiplier les fonds riches casserait la courbe de densité. <span class="conf e">Estim.</span></p>
+    <p><b>Position vs standard</b> : au standard sur le principe (fond travaillé ponctuel, aplat sur la décision). <b>Contrarian sur le moyen</b> : là où le marché premium enrichit par le dégradé et le glow flou, Kidsono doit enrichir par l'aplat franc, le contour noir et le motif géométrique. C'est plus risqué à exécuter mais c'est la seule voie cohérente avec une marque néo-brutaliste, et c'est aussi ce qui la rendra reconnaissable face à des concurrents tous en pastel dégradé.</p>
+  </div>
+
+  <p class="ftnote">Audit fondé sur 27 captures lues une par une en pleine résolution : top-tier (headspace, lifesum, lovi, noom, breeze, flo, ahead, ahead-tests) + corpus enfant/audio (Aumio claim et paywall, Moshi welcome et paywall, Homer welcome, Lingokids welcome et paywall, Storytel welcome et paywall, Readmio paywall et écran de valeur, Pickatale écran de valeur, Epic écran de valeur et paywall, Vooks écran de valeur, Mangas.io écran de valeur, Super Simple Songs welcome, Pinkfong paywall, Cosmic Kids paywall, Alma Studio welcome) + contre-exemples (Whisperies tour, Kidjo paywall). Chaque fond a été classé à l'œil, jamais déduit du nom de fichier. Niveaux : <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern récurrent du panel · <span class="conf e">Estim.</span> projection directionnelle. Famille des perdants (Souffleur, Whisperies, Quelle Histoire, Mes Histoires du Soir, Kidjo, Capitaine) citée en contre-exemple uniquement. Mission conseil Kidsono, 2026-06-16.</p>
+
+</div>
+</body>
+</html>

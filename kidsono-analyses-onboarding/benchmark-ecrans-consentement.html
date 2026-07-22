@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark · écrans de consentement / permission · apps top-tier · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 34px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,serif;font-size:29px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;line-height:1.6;} .standfirst b{color:#191919;}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;}
+
+  .key{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:18px;}
+  .key h3{font-size:16px;color:#7a5b12;margin-bottom:9px;} .key ol{margin:0 0 0 18px;} .key li{font-size:13.5px;margin-bottom:8px;line-height:1.5;} .key b{color:#111;}
+
+  h2.section{font-family:Georgia,serif;font-size:22px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:900px;line-height:1.6;margin:10px 0 18px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:262px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card.star{border:2px solid var(--gold);background:#fffdf3;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:13px;font-weight:800;margin-top:9px;color:#111;display:flex;justify-content:space-between;align-items:center;}
+  .badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;background:#eef0ee;color:#444;}
+  .badge.top{background:#fdf0c8;color:#8a5d00;}
+  .card .verb{font-size:11px;color:#333;font-style:italic;background:#fff;border:1px solid #eee;border-radius:7px;padding:6px 8px;margin:6px 0;line-height:1.4;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;} .card .note b{color:#1f7d45;} .card .note .bad{color:#a3261f;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;} .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;} .impl b{color:#111;}
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:24px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Consentement · Benchmark visuel</div>
+    <h1>Écrans de consentement et permission : ce que font les apps top-tier</h1>
+    <div class="standfirst">Vrai benchmark, cette fois : <b>11 onboardings d'apps premium</b> (Headspace, Flo, Strava, Lifesum, MyFitnessPal, Withings, Gentler Streak, Hims, stoic, Ahead, Duolingo ABC), 206 écrans passés au crible, dont on a extrait <b>13 écrans de consentement / permission / privacy</b> lus en pleine résolution. Objectif : nourrir la conception de l'écran de consentement Kidsono avec de vrais modèles.</div>
+    <div class="meta">
+      <span><b>Panel</b> · 11 apps top-tier (wellness / santé / fitness), source Mobbin</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> écrans lus en pleine résolution</span>
+    </div>
+  </header>
+
+  <div class="key">
+    <h3>Les 7 enseignements</h3>
+    <ol>
+      <li><b>Le pré-prompt maison est systématique</b> avant tout prompt système (notifications, santé) : un écran d'explication orienté bénéfice précède TOUJOURS le dialogue iOS, jamais déclenché à froid. <span class="conf s">Solide</span></li>
+      <li><b>Le prompt système n'est jamais stylable</b> (boutons Apple à poids égal) : toute la persuasion se joue sur le pré-écran. <span class="conf s">Solide</span></li>
+      <li><b>La réassurance données juste sous le CTA</b> est le geste signature : « vos données ne quittent jamais l'appareil » (Gentler Streak), « jamais partagées, effaçables à tout moment » (Flo), « jamais partagées sans votre consentement » (Withings). Ça lève l'objection au moment exact où elle surgit.</li>
+      <li><b>La réassurance passe AVANT le juridique</b> : illustration protectrice + promesse d'abord, cases à cocher ensuite (Flo, Withings).</li>
+      <li><b>Consentement RGPD = cases granulaires</b> : obligatoire (Privacy/Terms) vs optionnel (marketing, non pré-coché). Withings est la référence.</li>
+      <li><b>Le refus est presque toujours sous-accentué</b> (« Not now » en lien gris) : pratique courante, mais à corriger pour une app enfants où la confiance parentale prime.</li>
+      <li><b>Aucun prompt ATT (tracking Apple)</b> dans ces 11 onboardings : cohérent, il se déclenche ailleurs ou pas du tout.</li>
+    </ol>
+  </div>
+
+  <h2 class="section">1 · Consentement données / RGPD (le plus pertinent pour vous)</h2>
+  <p class="chapeau">C'est le modèle direct pour votre écran de consentement : réassurance d'abord, choix clair ensuite.</p>
+  <div class="grid">
+    <div class="card star">
+      <img src="benchmark-consentement/apps/04-flo/captures/03.png" alt="">
+      <div class="app">Flo <span class="badge top">Référence</span></div>
+      <div class="verb">« Your body. Your data. » · « Your health data will never be shared with any company but Flo, and you can delete it at any time. »</div>
+      <div class="note"><b>La réassurance vend avant le juridique.</b> Illustration bouclier, promesse forte, 2 cases distinctes + raccourci « Accept all », CTA inactif tant que non coché. Le meilleur modèle pour un consentement de données sensibles.</div>
+    </div>
+    <div class="card star">
+      <img src="benchmark-consentement/apps/11-withings/captures/07.png" alt="">
+      <div class="app">Withings <span class="badge top">Référence</span></div>
+      <div class="verb">« We believe in healthy relationships. » · Privacy (obligatoire) · Terms (obligatoire) · Communications marketing « Agree (Optional) », décoché.</div>
+      <div class="note"><b>Granularité exemplaire.</b> 3 cases séparées, le marketing explicitement optionnel et non pré-coché, un lien « Read... » par bloc, « jamais partagé sans votre consentement ». Le gold standard RGPD.</div>
+    </div>
+    <div class="card star">
+      <img src="benchmark-consentement/apps/05-gentler-streak/captures/08.png" alt="">
+      <div class="app">Gentler Streak <span class="badge top">Le geste clé</span></div>
+      <div class="verb">« Connect to Health » · juste sous le bouton : « Your health data will never leave this device. »</div>
+      <div class="note"><b>La phrase de réassurance sous le CTA.</b> Elle désamorce l'objection pile au moment de cliquer. LE détail à copier pour Kidsono, quel que soit l'accès demandé.</div>
+    </div>
+  </div>
+
+  <h2 class="section">2 · Le pré-prompt (avant le prompt système)</h2>
+  <p class="chapeau">Un écran maison, orienté bénéfice, qui prépare le dialogue iOS. C'est là que tout se joue (le prompt système, lui, est figé).</p>
+  <div class="grid">
+    <div class="card">
+      <img src="benchmark-consentement/apps/10-stoic/captures/08.png" alt="">
+      <div class="app">stoic.</div>
+      <div class="verb">« When do you want to carve out time for journaling? » + horaires réglables + aperçu de la notif.</div>
+      <div class="note"><b>Donne le contrôle.</b> Horaires choisis + raison concrète (former une habitude) avant le prompt. Transposable au rappel « histoire du soir ».</div>
+    </div>
+    <div class="card">
+      <img src="benchmark-consentement/apps/06-hims/captures/15.png" alt="">
+      <div class="app">Hims</div>
+      <div class="verb">« Know the moment your order arrives » · « Allow notifications » / « Not now ».</div>
+      <div class="note">Bénéfice tangible (suivi de commande) illustré par une maquette de notif. <span class="bad">« Not now » minoré</span> (texte gris).</div>
+    </div>
+    <div class="card">
+      <img src="benchmark-consentement/apps/09-strava/captures/13.png" alt="">
+      <div class="app">Strava</div>
+      <div class="verb">« Stay connected to what motivates you » + liste de bénéfices (stats, updates, communauté).</div>
+      <div class="note">Pré-prompt avec liste d'avantages concrets. <span class="bad">« Not now » secondaire</span> vs « Allow » plein.</div>
+    </div>
+    <div class="card">
+      <img src="benchmark-consentement/apps/07-lifesum/captures/29.png" alt="">
+      <div class="app">Lifesum</div>
+      <div class="verb">« Reach your goals with notifications » + faux dialogue système grisé, puis « CONTINUE ».</div>
+      <div class="note">Montre un aperçu du prompt système avant de le déclencher. <span class="bad">« NOT NOW » réduit à un lien</span>.</div>
+    </div>
+    <div class="card">
+      <img src="benchmark-consentement/apps/07-lifesum/captures/30.png" alt="">
+      <div class="app">Lifesum <span class="badge">système</span></div>
+      <div class="note"><b>Le prompt iOS natif</b> qui suit. Boutons « Don't Allow » / « Allow » à poids égal, non stylable. Rappel : toute la persuasion est en amont.</div>
+    </div>
+  </div>
+
+  <h2 class="section">3 · Consentement légal (CGU / Privacy)</h2>
+  <p class="chapeau">Géré partout en mention passive sous le CTA de compte, pas d'écran dédié. Léger et standard.</p>
+  <div class="grid">
+    <div class="card">
+      <img src="benchmark-consentement/apps/01-headspace/captures/05.png" alt="">
+      <div class="app">Headspace</div>
+      <div class="verb">« By continuing, you agree to Headspace's Terms & Conditions and Privacy Policy. »</div>
+      <div class="note">Consentement légal passif intégré au CTA de compte, liens cliquables, zéro case. Le plus léger.</div>
+    </div>
+    <div class="card">
+      <img src="benchmark-consentement/apps/08-myfitnesspal/captures/20.png" alt="">
+      <div class="app">MyFitnessPal</div>
+      <div class="verb">Case : « I agree to MyFitnessPal's Terms & Conditions and Privacy Policy » sur l'écran de compte.</div>
+      <div class="note">Une case sur l'écran compte, sans écran dédié. Sobre mais <span class="bad">froid</span> (ton juridique, mention data lourde).</div>
+    </div>
+  </div>
+
+  <h2 class="section">4 · Opt-in marketing (côté parent)</h2>
+  <p class="chapeau">Séparé du reste, explicite, non pré-coché : le bon réflexe RGPD si vous voulez la newsletter parents.</p>
+  <div class="grid">
+    <div class="card">
+      <img src="benchmark-consentement/apps/05-gentler-streak/captures/12.png" alt="">
+      <div class="app">Gentler Streak</div>
+      <div class="verb">« Stay In Gentler Loop » · « No spam. We're as allergic to it as you are. » · « opt out any time ».</div>
+      <div class="note"><b>Opt-in honnête et léger.</b> Consentement explicite, ton rassurant, skippable. Modèle propre pour la comm parent.</div>
+    </div>
+  </div>
+
+  <div class="impl">
+    <h3>Ce qu'on prend pour l'écran de consentement Kidsono</h3>
+    <ul>
+      <li><b>Structure « Flo + Withings »</b> : illustration rassurante en haut, <b>promesse de protection avant le juridique</b> (« pas de pub, jamais vendu, effaçable »), puis le choix. Granularité si plusieurs finalités (analyse / marketing séparés, marketing non pré-coché).</li>
+      <li><b>La phrase de réassurance juste sous le CTA</b> (le geste Gentler Streak) : à mettre systématiquement.</li>
+      <li><b>Accepter / Refuser à égalité</b> : contrairement à la majorité du panel (« Not now » minoré). Sur une app enfants, l'équilibre est un signal de confiance envers les parents, pas une faiblesse.</li>
+      <li><b>Ton bénéfice, pas juridique</b> : « pour recommander les bonnes histoires », le détail derrière un lien.</li>
+      <li><b>Consentement légal (CGU)</b> = mention passive sous le CTA de compte (façon Headspace), pas un écran de plus.</li>
+      <li>Le <b>pré-prompt</b> vaut aussi pour vos futures <b>notifications</b> (rappel « histoire du soir »), le jour où vous les activez.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : ce panel donne enfin de vrais modèles (Flo, Withings, Gentler Streak) là où le corpus kids était vide. Le combo « réassurance-first + phrase sous le CTA + granularité » est directement transposable, et il colle à votre enjeu (confiance parentale).</p>
+    <p><b>Risques</b> : ces apps sont wellness/santé, pas enfants. Elles n'ont pas la contrainte du consentement parental. À adapter : le ton « parents » et l'équilibre accepter/refuser plus strict que ce qu'elles font.</p>
+    <p><b>Position vs standard</b> : en reprenant Flo/Withings, vous seriez au niveau des meilleurs sur le consentement données. L'équilibre accepter/refuser vous placerait même au-dessus du panel (qui minore le refus).</p>
+  </div>
+
+  <p class="ftnote">Benchmark visuel, mission Kidsono. 11 onboardings top-tier (source Mobbin, déposés par Charles), 206 écrans triés, 13 écrans de consentement lus en pleine résolution via 3 relevés parallèles. Captures rangées dans <code>benchmark-consentement/apps/</code>. Complète le rapport <a href="compte-rendu-ecran-consentement.html">compte-rendu-ecran-consentement.html</a>.</p>
+
+</div>
+</body>
+</html>

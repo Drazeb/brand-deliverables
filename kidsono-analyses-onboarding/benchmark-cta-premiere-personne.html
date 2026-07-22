@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark CTA · la première personne « Je... » · Kidsono</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea; --gold:#9a6200;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 34px 24px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,serif;font-size:29px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;} .standfirst b{color:#191919;}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;}
+
+  .answer{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:18px;}
+  .answer h3{font-size:16px;color:#7a5b12;margin-bottom:7px;} .answer p{font-size:14px;line-height:1.55;margin-bottom:6px;} .answer b{color:#111;}
+
+  h2.section{font-family:Georgia,serif;font-size:22px;margin:40px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:880px;line-height:1.6;margin:10px 0 16px;}
+
+  table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px;margin-bottom:8px;}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid #eee;vertical-align:top;}
+  th{background:#faf9f4;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#555;font-weight:800;}
+  tr:last-child td{border-bottom:0;}
+  td .lib{font-weight:700;color:#111;}
+  .je{color:#a3261f;font-weight:800;} .neutre{color:#1d4ea8;font-weight:700;}
+  .tagline{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 7px;border-radius:5px;}
+  .t-eng{background:var(--red-soft);color:#a3261f;} .t-voie{background:#f3edff;color:#7c3aed;} .t-prog{background:var(--blue-soft);color:#1d4ea8;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;} .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:8px;line-height:1.5;} .impl b{color:#111;}
+  .impl .ok{color:#1f7d45;font-weight:800;} .impl .no{color:#a3261f;font-weight:800;}
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:24px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Copy · Benchmark CTA</div>
+    <h1>Le « Je... » sur les boutons : où ça marche, où ça sonne faux</h1>
+    <div class="standfirst">Les clients veulent des CTA en première personne (« Je découvre », « J'essaie gratuitement »). Question : faut-il pousser ça jusqu'aux boutons de <b>progression du carrousel</b> (« Je continue » au lieu de « Suivant ») ? Relevé des libellés de boutons EXACTS sur <b>≈30 apps à succès</b> (perdants exclus), lus sur captures, classés par contexte et par forme.</div>
+    <div class="meta">
+      <span><b>Panel</b> · ~30 apps à succès (kids audio/lecture FR + US + audio adulte)</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> libellés kids FR lus directement · <span class="conf o">Observé</span> apps adultes (parfois inféré)</span>
+    </div>
+  </header>
+
+  <div class="answer">
+    <h3>La réponse en une phrase</h3>
+    <p><b>Oui, le « Je... » existe et marche</b> chez les apps à succès, mais comme marqueur d'<b>engagement</b> (s'abonner, s'inscrire, débloquer) ou de <b>choix de voie</b> (« Je suis nouveau »), <b>jamais comme bouton de simple progression</b>. Sur ~30 apps, <b>zéro « Je continue »</b> : la progression de carrousel reste partout « Suivant » / « Continuer ».</p>
+  </div>
+
+  <h2 class="section">1 · Le « Je... » est fréquent sur l'ENGAGEMENT</h2>
+  <p class="chapeau">C'est même une signature du segment enfant français. Le « je » sert à faire endosser une décision.</p>
+  <table>
+    <tr><th>App</th><th>Contexte</th><th>Libellé exact</th><th>Type</th></tr>
+    <tr><td>Bayam</td><td>Paywall</td><td><span class="lib je">Je m'abonne</span> · <span class="lib je">J'en profite</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+    <tr><td>Lili</td><td>Paywall / compte</td><td><span class="lib je">J'abonne mon super-héros</span> · <span class="lib je">Je m'inscris</span> · <span class="lib je">Je me connecte</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+    <tr><td>Gulli</td><td>Compte</td><td><span class="lib je">Je m'identifie</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+    <tr><td>Kili</td><td>Compte / notif</td><td><span class="lib je">J'ai déjà un compte</span> · <span class="lib je">J'accepte les notifications</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+    <tr><td>Moshi · Reading Eggs · Hooked</td><td>Essai démarré / compte</td><td><span class="lib je">Let's get started!</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+    <tr><td>Homer</td><td>Essai démarré</td><td><span class="lib je">Let's Play</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+    <tr><td>abcmouse</td><td>Refus du paywall</td><td><span class="lib je">I'll stick with basic for now</span></td><td><span class="tagline t-eng">engagement</span></td></tr>
+  </table>
+
+  <h2 class="section">2 · ...et sur le CHOIX DE VOIE (qui es-tu)</h2>
+  <p class="chapeau">Deuxième endroit naturel du « je » : se déclarer (nouveau / déjà client, parent / éducateur).</p>
+  <table>
+    <tr><th>App</th><th>Contexte</th><th>Libellé exact</th><th>Type</th></tr>
+    <tr><td>Lingokids</td><td>Welcome</td><td><span class="lib je">Je suis nouveau sur Lingokids</span> · <span class="lib je">J'ai un compte</span></td><td><span class="tagline t-voie">choix de voie</span></td></tr>
+    <tr><td>Moshi</td><td>Welcome</td><td><span class="lib je">I'm new to Moshi</span> · <span class="lib je">I'm with Moshi already</span></td><td><span class="tagline t-voie">choix de voie</span></td></tr>
+    <tr><td>Pickatale</td><td>Welcome</td><td><span class="lib je">I am a parent</span> · <span class="lib je">I am an educator</span></td><td><span class="tagline t-voie">choix de voie</span></td></tr>
+  </table>
+
+  <h2 class="section">3 · Sur la PROGRESSION du carrousel : quasi jamais</h2>
+  <p class="chapeau">Le bouton qui fait juste avancer d'une slide à l'autre reste impersonnel, partout, sans exception nette.</p>
+  <table>
+    <tr><th>Forme</th><th>Libellés trouvés (apps à succès)</th></tr>
+    <tr><td><span class="neutre">Impératif neutre</span></td><td><span class="lib">Continuer</span> (Storytel, Reading.com, Audible, Pocket FM, Webtoon, Alma, Aumio, Lingokids, Moshi) · <span class="lib">Suivant</span> (Gulli, Kili) · <span class="lib">Next</span> (Homer, Super Simple Songs) · <span class="lib">Passer</span> (Kili) · <span class="lib">Étape suivante</span> (Ono)</td></tr>
+    <tr><td>Première personne « Je continue »</td><td><b>Aucune.</b> Pas une seule occurrence sur ~30 apps.</td></tr>
+  </table>
+  <p class="chapeau"><b>La seule nuance utile : « C'est parti ! »</b> <span class="conf s">Solide</span> Kili l'emploie sur un slide de tour, et Okoo en welcome. Ce n'est pas un « je » explicite, mais ça donne l'élan de la première personne <b>sans</b> le « Je continue » qui sonne faux. C'est le compromis le plus malin, et il est déjà validé chez Kidsono (écran de compte).</p>
+
+  <div class="impl">
+    <h3>La recommandation pour Kidsono</h3>
+    <ul>
+      <li><span class="ok">OUI au « Je... » sur l'engagement</span> : compte, paywall, et le déblocage du cadeau. C'est conforme et c'est même la signature des apps enfants FR à succès (Lili, Kili, Gulli, Bayam). Ex : « Je m'abonne », « J'écoute mes histoires », « Je crée mon compte ».</li>
+      <li><span class="no">NON au « Je continue » sur la progression du carrousel</span> : aucune app à succès ne le fait, ça sonne faux. Les boutons d'avancement entre slides de valeur restent <b>« Continuer » / « Suivant »</b>.</li>
+      <li><span class="ok">Le dernier CTA du carrousel = le bon endroit pour le « je »</span> : c'est lui qui fait basculer vers l'action (l'offre / l'écoute), donc c'est un moment d'engagement. Là, « <b>C'est parti !</b> » (élan, déjà validé chez Kidsono) ou un verbe d'action en « je » (« Je découvre », « J'écoute ») est légitime.</li>
+      <li>En clair sur tes 3 écrans : écrans 1 et 2 → <b>« Continuer »</b> ; dernier écran qui mène à l'offre → <b>« C'est parti ! »</b> ou « Je découvre ». On respecte la règle client (le « je » d'engagement) sans tomber dans le « Je continue » bancal.</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco réconcilie la volonté des clients (le « je » qui engage) avec le standard observé (la progression reste neutre). Elle s'appuie sur ~30 apps, pas sur un avis.</p>
+    <p><b>Risques</b> : appliquer le « je » partout sans distinction (« Je continue », « Je passe ») ferait sortir Kidsono du standard et alourdirait des boutons qui doivent être invisibles. Le « je » a de la valeur PARCE qu'il est réservé aux moments de décision ; le diluer le tue.</p>
+    <p><b>Position vs standard</b> : au standard du segment kids FR (le « je » d'engagement est leur marque), et prudent là où il faut (progression neutre). « C'est parti ! » est le pont idéal entre les deux mondes.</p>
+  </div>
+
+  <p class="ftnote">Relevé sur ~30 apps à succès (perdants F1b exclus), libellés de boutons lus sur captures en pleine résolution via 3 relevés parallèles. Les libellés des apps enfants FR (Lili, Kili, Gulli, Bayam, Lingokids), ceux qui portent l'insight, ont été confirmés visuellement ; quelques libellés d'apps adultes (Storytel, Audible, Pocket FM) ont été en partie inférés du contexte, marqués Observé. Apps citées = toutes hors famille des perdants.</p>
+
+</div>
+</body>
+</html>

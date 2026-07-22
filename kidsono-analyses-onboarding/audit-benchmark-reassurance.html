@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark · Réassurance au paiement (paywall Kidsono)</title>
+<style>
+  :root{
+    --bg:#f6f6f2; --surface:#fff; --border:#e6e6e0; --text:#191919; --muted:#6e6e6e;
+    --accent:#f6c944; --accent-dark:#e2492f; --green:#16a34a; --green-soft:#eaf6ee;
+    --blue:#2563c9; --blue-soft:#e9f0fc; --red:#d8362f; --red-soft:#fdecea;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px 36px 26px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.16;font-weight:700;margin:12px 0 12px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:900px;line-height:1.6;}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 26px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:13px;}
+  .meta b{color:#333;}
+  .conf{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:1px 6px;border-radius:5px;vertical-align:middle;}
+  .conf.s{background:var(--green-soft);color:#1f7d45;} .conf.o{background:var(--blue-soft);color:#1d4ea8;} .conf.e{background:#fff4e0;color:#9a6200;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:880px;line-height:1.65;margin:10px 0 18px;}
+
+  .qa{background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--blue);border-radius:14px;padding:16px 20px;margin-bottom:14px;}
+  .qa h3{font-size:15.5px;color:#1d3f7a;margin-bottom:7px;}
+  .qa p{font-size:13.5px;color:#333;margin-bottom:7px;}
+  .qa b{color:#111;}
+  .qa .verdict{display:inline-block;background:var(--accent);color:#3a2c00;font-weight:800;font-size:12px;padding:2px 9px;border-radius:7px;margin-bottom:8px;}
+  .qa ul{margin:4px 0 7px 18px;} .qa li{font-size:13px;margin-bottom:5px;}
+
+  .approach{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 8px;}
+  .approach .atag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 9px;border-radius:6px;margin-bottom:8px;}
+  .a-green{background:var(--green-soft);color:#1f7d45;} .a-blue{background:var(--blue-soft);color:#1d4ea8;}
+  .a-amber{background:#fdf3cf;color:#9a6200;} .a-violet{background:#f3edff;color:#7c3aed;} .a-red{background:var(--red-soft);color:#a3261f;}
+  .approach h3{font-size:17px;margin-bottom:5px;}
+  .approach .lead{font-size:13px;color:#555;margin-bottom:14px;max-width:880px;}
+
+  .grid{display:flex;flex-wrap:wrap;gap:16px;}
+  .card{width:212px;background:#fbfbf8;border:1px solid var(--border);border-radius:13px;padding:11px;display:flex;flex-direction:column;}
+  .card img{width:100%;border-radius:9px;border:1px solid #ddd;background:#fff;display:block;}
+  .card .app{font-size:12.5px;font-weight:800;margin-top:9px;color:#111;}
+  .card .scr{font-size:10.5px;color:var(--muted);margin-bottom:6px;}
+  .card .verb{font-size:11px;color:#3a3a3a;font-style:italic;background:#fff;border:1px solid #eee;border-radius:7px;padding:5px 7px;margin-bottom:6px;line-height:1.4;}
+  .card .note{font-size:11.5px;color:#222;line-height:1.45;}
+  .card .note b{color:#1f7d45;}
+  .card .note .bad{color:#a3261f;}
+
+  .impl{background:#fffdf5;border:1px solid #ecdca6;border-left:6px solid var(--accent);border-radius:14px;padding:18px 22px;margin-top:14px;}
+  .impl h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .impl ul{margin:0 0 8px 18px;} .impl li{font-size:13.5px;margin-bottom:7px;line-height:1.5;}
+  .impl b{color:#111;}
+
+  .avis{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-top:26px;}
+  .avis h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:9px;}
+  .avis p{font-size:13px;margin-bottom:6px;} .avis b{color:#111;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;line-height:1.6;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Conception onboarding · Réassurance au paiement (écrans 14 à 16)</div>
+    <h1>Réassurer au moment de payer, sans essai à désamorcer</h1>
+    <div class="standfirst">Balayage des paywalls et écrans de confirmation du corpus (37 apps), ciblé sur ce qui <b>lève l'anxiété au moment de payer</b> : résiliation, transparence du renouvellement, sécurité du paiement, lisibilité de ce qu'on achète. <b>La contrainte Kidsono est singulière</b> : on a déjà fait écouter gratuitement en amont (plusieurs histoires offertes, sans carte), donc <b>il n'y a pas d'essai à désamorcer</b>. La timeline d'essai (J0 / J5 / J7), qui est le standard US de la réassurance, ne nous concerne pas. Notre réassurance doit porter autre chose : sans engagement, quota d'heures clair, paiement sécurisé, sans pub, et le sceau d'autorité au bon moment.</div>
+    <div class="meta">
+      <span><b>Corpus</b> · 37 apps, 14 captures lues en pleine résolution</span>
+      <span><b>Confiance</b> · <span class="conf s">Solide</span> vu sur captures · <span class="conf o">Observé</span> pattern panel · <span class="conf e">Estim.</span> directionnel</span>
+      <span><b>Refs positives</b> · Storytel, Audible (crédit/quota) · Reading.com (premium) · Bayam, KiLi (FR)</span>
+    </div>
+  </header>
+
+  <h2 class="section">La réponse aux questions de la passation</h2>
+  <p class="chapeau">La synthèse d'abord ; les écrans qui la fondent suivent, groupés par approche. Honnêteté : je liste aussi ce que le benchmark fait et qu'on ne reprend pas.</p>
+
+  <div class="qa">
+    <h3>1 · Combien d'écrans de réassurance ?</h3>
+    <div class="verdict">Zéro écran dédié. La réassurance est une couche du paywall.</div>
+    <p><span class="conf s">Solide</span> Dans tout le corpus, <b>la réassurance n'est presque jamais un écran à part</b>. Quand elle l'est (Moshi, Homer, Reading.com, Epic, Readmio), c'est <b>toujours une timeline d'essai</b> qui sert à désamorcer le prélèvement à venir. Nous n'avons pas d'essai, donc cette raison d'être disparaît. Les apps à modèle « paiement direct / crédit » (Audible, Storytel, Bayam, LILI, KiLi) <b>posent la réassurance directement sur l'écran de l'offre</b>, sous le CTA ou en bloc compact.</p>
+    <p><span class="conf o">Observé</span> <b>Conséquence pour le flow</b> : les écrans 15 et 16 (« réassurance paiement 1 et 2 ») n'ont pas de justification benchmark. Je recommande de les supprimer et d'intégrer la réassurance à l'écran 14 (présentation de l'offre). Si Charles veut malgré tout un temps de respiration, l'unique option défendable est <b>un écran de confirmation sobre façon Storytel</b> placé après le choix de l'offre, mais il fait largement doublon avec la modale Apple native (écran 18) qui récapitule déjà prix et conditions.</p>
+  </div>
+
+  <div class="qa">
+    <h3>2 · Qu'est-ce qu'on y met, et dans quel ordre de priorité ?</h3>
+    <div class="verdict">5 ingrédients, du plus à avoir absolument au plus optionnel</div>
+    <ul>
+      <li><b>1. Sans engagement, résiliable à tout moment</b> <span class="conf s">Solide</span> Universel (Audible, Storytel, Bayam, LILI, KiLi). Le socle non négociable.</li>
+      <li><b>2. Transparence du renouvellement</b> <span class="conf s">Solide</span> « X €/mois, renouvelé chaque mois, jusqu'à ce que vous résiliez » (Audible, Storytel). On dit le prix, le rythme, la sortie.</li>
+      <li><b>3. Le quota d'heures = pas de prélèvement surprise</b> <span class="conf o">Observé</span> Notre angle différenciant (voir approche 4) : le quota dit ce que vous payez et ce que vous obtenez, point.</li>
+      <li><b>4. Paiement sécurisé</b> <span class="conf s">Solide</span> Badge « Paiement sécurisé via l'App Store » (Reading.com). Léger, vrai (achat in-app Apple/Google), efficace.</li>
+      <li><b>5. Sans publicité, espace sûr</b> <span class="conf o">Observé</span> La réponse au « pourquoi payer si c'est gratuit ailleurs ». Déjà dans la voix Kidsono (« 100% sécurisé. Sans publicité. »).</li>
+    </ul>
+    <p><span class="conf o">Observé</span> <b>Plus l'autorité au moment de décider</b> : Storytel et Reading.com réaffichent leur caution au paywall. Pour nous, le tampon Éducation nationale + un écho condensé éditeurs (sceau le plus fort, gardé pour la décision). À articuler avec le passage autorité.</p>
+  </div>
+
+  <div class="qa">
+    <h3>3 · Qu'est-ce qu'on évite ?</h3>
+    <div class="verdict">Tout ce qui suppose un essai, une masse, ou de la pression</div>
+    <ul>
+      <li><b>La timeline d'essai</b> (J0 / J5 / J7) : on n'a pas d'essai. La reprendre créerait une attente fausse.</li>
+      <li><b>« 0 € aujourd'hui » / « 1 semaine gratuite »</b> : on demande le paiement direct, le gratuit a déjà été donné en amont.</li>
+      <li><b>Le témoignage et la preuve sociale de masse</b> (« 2,5 M de parents », « 4,7 étoiles ») : notoriété zéro, on ne l'a pas.</li>
+      <li><b>Le bloc de conditions légales lourd</b> à la KiLi : un lien CGU sobre suffit (modèle Storytel).</li>
+      <li><b>Fausse urgence, prix barré trompeur, dark pattern</b> : interdits absolus sur public parental.</li>
+    </ul>
+  </div>
+
+  <div class="qa">
+    <h3>4 · Quel est notre angle différenciant ?</h3>
+    <div class="verdict">Le quota d'heures comme anti-anxiété structurel</div>
+    <p><span class="conf o">Observé</span> Le marché rassure par la <b>timeline d'essai</b> (désamorcer le prélèvement futur) ou par la <b>preuve de masse</b> (les autres y vont). Nous n'avons ni l'un ni l'autre. Mais notre modèle quota (à la Storytel : un nombre d'heures par mois) <b>dispense d'anxiété par construction</b> : vous savez exactement ce que vous payez et ce que vous obtenez, il n'y a pas de zone grise. Bien présenté (libellés d'usage à la Storytel : « pour tous les jours », « pour vos trajets », « pour vos loisirs »), le quota devient lui-même un argument de réassurance, pas seulement une grille tarifaire.</p>
+  </div>
+
+  <h2 class="section">Les écrans, groupés par approche</h2>
+  <p class="chapeau">Lecture pleine résolution, capture par capture. Chaque carte : ce que je repère, et l'intérêt pour Kidsono.</p>
+
+  <!-- APPROCHE 1 -->
+  <div class="approach">
+    <span class="atag a-green">Approche 1 · à reprendre (le socle)</span>
+    <h3>La mention résiliation sous le CTA</h3>
+    <p class="lead">La forme la plus répandue et la plus légère : une ou deux lignes collées au bouton d'achat. Aucun écran dédié. C'est le minimum vital, présent partout, y compris sur les modèles à paiement direct comme le nôtre.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/32-audible/captures/08-capture.png" alt="Audible">
+        <div class="app">Audible</div>
+        <div class="scr">Écran d'offre · sous le CTA</div>
+        <div class="verb">« 1 mois gratuit » puis « renouvellement automatique à 10,99 €/mois. Résiliez à tout moment. »</div>
+        <div class="note">La formule FR de référence : prix + rythme + sortie, en gris, sous le bouton. Sobre, sans détour. <b>À transposer presque tel quel (sans l'essai).</b></div>
+      </div>
+      <div class="card">
+        <img src="apps/01-bayam/captures/09-paywall-decouverte-scroll-temoignage.png" alt="Bayam">
+        <div class="app">Bayam <span style="font-weight:400;color:#888">(FR)</span></div>
+        <div class="scr">Paywall · pied d'écran</div>
+        <div class="verb">« Sans engagement, annulez à tout moment. » en pied, sous le CTA jaune.</div>
+        <div class="note">Le réflexe FR : la mention résiliation en pied. <b>On garde la ligne.</b> En revanche le témoignage 5★ au-dessus : <span class="bad">non</span> (preuve sociale qu'on n'a pas).</div>
+      </div>
+      <div class="card">
+        <img src="apps/06-lili/captures/22-bonus-paywall-premium.png" alt="LILI">
+        <div class="app">LILI à la maison <span style="font-weight:400;color:#888">(FR)</span></div>
+        <div class="scr">Paywall · pied d'écran</div>
+        <div class="verb">« Sans engagement. Résiliable à tout moment. » sous les deux CTA.</div>
+        <div class="note">Même mécanique, formulation propre. <b>La ligne est bonne.</b> Le ton « super-héros / super-pouvoirs » : <span class="bad">trop enfantin</span> pour notre voix parent.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 2 -->
+  <div class="approach">
+    <span class="atag a-blue">Approche 2 · option (si écran dédié voulu)</span>
+    <h3>L'écran de confirmation transparente</h3>
+    <p class="lead">Un écran sobre, beaucoup de vide, qui récapitule l'offre et les conditions avant de valider. Le plus premium du corpus. Conçu pour les modèles à essai (confirmer « gratuit puis renouvellement »), mais la mécanique de transparence est transposable.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/31-storytel/captures/16-confirm-plan-reverse-trial.png" alt="Storytel confirm">
+        <div class="app">Storytel</div>
+        <div class="scr">Écran dédié · « Confirm your plan »</div>
+        <div class="verb">Nom du plan, « 1 compte, jusqu'à 15 h/mois », puis « renews at 9,99 € every month until you cancel ». Checkbox CGU + CTA.</div>
+        <div class="note">Le modèle de transparence pure : ce que vous payez, quand, jusqu'à résiliation. <b>Composition premium à retenir</b> (vide, hiérarchie, un CTA). La case CGU à cocher remplace le bloc légal lourd.</div>
+      </div>
+      <div class="card">
+        <img src="apps/31-storytel/captures/14-paywall-apres-listen.png" alt="Storytel paywall">
+        <div class="app">Storytel</div>
+        <div class="scr">Paywall après écoute</div>
+        <div class="verb">« Don't worry, it's easy to cancel anytime in your profile » en sous-titre. « Cancel anytime » aussi en dernière coche des bénéfices.</div>
+        <div class="note"><b>La résiliation distribuée</b> : en sous-titre ET en bénéfice. Habile : ce n'est pas une excuse, c'est une feature assumée.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 3 -->
+  <div class="approach">
+    <span class="atag a-blue">Approche 3 · à reprendre (en partie)</span>
+    <h3>Le bloc compact près du CTA : badges et coches</h3>
+    <p class="lead">Regrouper tous les signaux de confiance autour du bouton : badge de sécurité, coches de réassurance, transparence du débit. Reading.com en est la synthèse la plus aboutie (mais sature de preuve de masse, qu'on retire).</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/27-reading-com/captures/36-paywall-1-week-free-skippable.png" alt="Reading.com paywall">
+        <div class="app">Reading.com</div>
+        <div class="scr">Paywall · le condensé de réassurance</div>
+        <div class="verb">« 🛡 Secured with Apple App Store », puis sous le CTA : ✓ « No payment required now » ✓ « Easy to cancel anytime ».</div>
+        <div class="note"><b>On prend :</b> le badge « paiement sécurisé App Store » et la coche résiliation. <span class="bad">On retire :</span> les lauriers « 2.5M+ parents », les étoiles, et le « no payment now » (lié à l'essai).</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/58-bonus-total-paywall-yearly-monthly.png" alt="Reading.com total">
+        <div class="app">Reading.com</div>
+        <div class="scr">Paywall complet · sous le CTA</div>
+        <div class="verb">« 0,00 € due today, then 79,99 € billed every year. » sous le bouton.</div>
+        <div class="note">La transparence du débit en une ligne. <b>Pour nous (sans essai)</b> : « 9,99 € aujourd'hui, puis chaque mois, résiliable quand vous voulez. » La même honnêteté, sans le « 0 € ».</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 4 -->
+  <div class="approach">
+    <span class="atag a-green">Approche 4 · notre angle différenciant</span>
+    <h3>Le quota d'heures, anti-anxiété par construction</h3>
+    <p class="lead">Le modèle qui colle au nôtre. Le quota dit exactement ce qu'on paie et ce qu'on obtient : il n'y a pas de zone grise, donc pas d'anxiété de prélèvement. Bien présenté, il rassure autant qu'il vend.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/31-storytel/captures/15-tiers-heures-15-30-45.png" alt="Storytel quota">
+        <div class="app">Storytel</div>
+        <div class="scr">Choix du quota d'heures</div>
+        <div class="verb">« Combien d'heures d'écoute par mois ? » 3 paliers nommés par usage : « pour écouter tous les jours » (45 h), « pour vos trajets » (30 h), « pour vos loisirs » (15 h).</div>
+        <div class="note"><b>Le modèle Kidsono.</b> Les libellés d'usage rendent le quota tangible et désamorcent le « est-ce assez ? ». À reprendre dans la logique (Charles donnera les chiffres).</div>
+      </div>
+      <div class="card">
+        <img src="apps/32-audible/captures/10-capture.png" alt="Audible ce que vous obtenez">
+        <div class="app">Audible</div>
+        <div class="scr">« Ce que vous obtenez »</div>
+        <div class="verb">« Choisissez 1 livre audio par mois… Il vous appartient définitivement. » + « Des milliers de titres inclus ».</div>
+        <div class="note">Le crédit expliqué simplement : on dit ce qu'on obtient pour son argent. <b>Modèle de clarté</b> à appliquer au quota d'heures.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 5 -->
+  <div class="approach">
+    <span class="atag a-violet">Approche 5 · option premium</span>
+    <h3>Montrer COMMENT résilier</h3>
+    <p class="lead">Au-delà de « résiliable », quelques apps montrent les étapes concrètes de résiliation. Plus fort que la promesse : ça prouve qu'on ne piège pas. À doser pour ne pas alourdir.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/19-homer/captures/18-paywall-fonctionnement-essai.png" alt="Homer cancel">
+        <div class="app">Homer</div>
+        <div class="scr">Paywall · section « How can I cancel? »</div>
+        <div class="verb">Bloc FAQ détaillant les étapes : Réglages, Abonnements App Store, sélectionner Homer, annuler.</div>
+        <div class="note"><b>L'idée à garder</b> : un « Comment résilier ? » en lien ou en ligne dépliable rassure plus que « résiliable ». <span class="bad">Le reste de l'écran</span> (timeline d'essai au-dessus) : non.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPROCHE 6 -->
+  <div class="approach">
+    <span class="atag a-red">Approche 6 · à NE PAS reprendre</span>
+    <h3>Les patterns du standard US (essai) et la transparence lourde</h3>
+    <p class="lead">Le marché construit toute sa réassurance autour de l'essai gratuit. C'est massif et bien fait, mais sans objet pour nous. Montré ici pour cadrer ce qu'on écarte sciemment, et pourquoi.</p>
+    <div class="grid">
+      <div class="card">
+        <img src="apps/12-moshi-kids/captures/08-how-trial-works.png" alt="Moshi timeline">
+        <div class="app">Moshi</div>
+        <div class="scr">« How your free trial works »</div>
+        <div class="verb">Timeline verticale : Today (accès) → Day 5 (rappel) → Day 7 (prélèvement, annulez avant).</div>
+        <div class="note"><span class="bad">Sans objet</span> : pas d'essai chez nous. C'est le standard US absent du marché FR. Le reprendre créerait une attente fausse.</div>
+      </div>
+      <div class="card">
+        <img src="apps/27-reading-com/captures/35-trial-reminder-2-days-before.png" alt="Reading.com reminder">
+        <div class="app">Reading.com</div>
+        <div class="scr">Écran dédié « We'll remind you »</div>
+        <div class="verb">Pleine page : « We'll remind you 2 days before your trial ends ».</div>
+        <div class="note"><span class="bad">Sans objet</span> : c'est un écran entier dédié au désamorçage d'essai. Rien à désamorcer chez nous.</div>
+      </div>
+      <div class="card">
+        <img src="apps/07-kili/captures/21-bonus-paywall-reverse-trial-1sem.png" alt="KiLi legal">
+        <div class="app">KiLi <span style="font-weight:400;color:#888">(FR)</span></div>
+        <div class="scr">Paywall · bloc légal</div>
+        <div class="verb">Bénéfices à coches + « Sans engagement » par plan, puis un long bloc de conditions légales en gris.</div>
+        <div class="note"><b>On garde</b> le « sans engagement ». <span class="bad">On évite</span> le pavé légal : peu premium. Un lien CGU sobre (façon Storytel) suffit.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section">Ce que ça donne pour Kidsono</h2>
+
+  <div class="impl">
+    <h3>La reco (à trancher avec Charles avant le brief Claude Design)</h3>
+    <ul>
+      <li><b>Pas d'écran de réassurance dédié.</b> Supprimer les écrans 15-16 du flow ; la réassurance devient une couche de l'écran 14 (présentation de l'offre). Le benchmark ne justifie un écran à part que pour un essai, qu'on n'a pas.</li>
+      <li><b>Le contenu de la couche réassurance</b>, par priorité : 1/ « Sans engagement, résiliable à tout moment » ; 2/ transparence du renouvellement (prix + rythme + sortie, sous le CTA) ; 3/ le quota d'heures lisible (notre anti-anxiété) ; 4/ badge « paiement sécurisé App Store » ; 5/ « sans publicité ».</li>
+      <li><b>L'autorité au paywall</b> : tampon Éducation nationale + écho éditeurs condensé, au moment de décider. À articuler avec le passage autorité (ne pas répéter le mur déjà vu plus tôt).</li>
+      <li><b>Option à proposer</b> : un lien « Comment résilier ? » discret (façon Homer), qui prouve qu'on ne piège pas.</li>
+      <li><b>Ton</b> : voix parent, premium restraint (Storytel). « Vous restez la patronne. Sans engagement, résiliable quand vous voulez. »</li>
+    </ul>
+  </div>
+
+  <div class="avis">
+    <h3>L'avis</h3>
+    <p><b>Force</b> : la reco s'appuie sur une régularité nette du corpus (la réassurance dédiée n'existe que pour désamorcer un essai) et sur deux refs au modèle quasi identique au nôtre (Audible et Storytel, modèles à crédit/quota). Le quota comme argument de réassurance, et pas seulement comme grille de prix, est un angle solide et peu exploité.</p>
+    <p><b>Risques</b> : supprimer les écrans 15-16 contredit la décision de réunion (« deux écrans, confirmé »). À assumer explicitement avec le Président. Risque opposé : à trop condenser sur un seul écran, le paywall devient dense ; la discipline de composition (beaucoup de vide, un seul CTA) est la condition pour que « concret » reste « premium ». Le badge « sécurisé App Store » doit être vrai au regard de l'implémentation réelle du paiement (à valider avec Samuel).</p>
+    <p><b>Position vs standard</b> : contrarian assumé sur la forme (le marché empile les écrans de réassurance d'essai, on n'en met aucun), au standard sur le fond (résiliation + transparence + sécurité sont universelles). L'angle quota anti-anxiété est en avance sur le marché FR, qui rassure mal au paiement.</p>
+  </div>
+
+  <p class="ftnote">Document de travail, mission conseil Kidsono. 14 captures lues en pleine résolution ; refs positives limitées aux gagnants du corpus (Audible, Storytel, Reading.com, Bayam, KiLi, LILI). Prochaine étape : trancher le nombre d'écrans et le contenu avec Charles, puis brief Claude Design (une seule proposition, sans illustration, mockup iPhone statique).</p>
+
+</div>
+</body>
+</html>

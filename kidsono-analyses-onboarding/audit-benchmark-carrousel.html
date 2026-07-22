@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit + benchmark · carrousels entiers · Kidsono</title>
+<style>
+  :root{--bg:#f6f6f2;--surface:#fff;--border:#e6e6e0;--text:#191919;--muted:#6e6e6e;--accent-dark:#e2492f;--green:#15803d;--green-soft:#eaf6ee;--blue:#1d4ea8;--blue-soft:#e9f0fc;--red:#a3261f;--red-soft:#fdecea;--gold:#9a6200;--gold-soft:#fdf3cf;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;}
+  .wrap{max-width:1240px;margin:0 auto;padding:28px 22px 80px;}
+  .home-btn{position:fixed;top:14px;left:14px;z-index:1000;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e6e6e0;border-radius:12px;text-decoration:none;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .cover{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 34px 24px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-dark);}
+  .cover h1{font-family:Georgia,serif;font-size:29px;line-height:1.16;font-weight:700;margin:11px 0 11px;max-width:880px;}
+  .standfirst{font-size:14.5px;color:#444;max-width:920px;} .standfirst b{color:#191919;}
+
+  .warn{background:var(--blue-soft);border:1px solid #cdddf5;border-left:6px solid var(--blue);border-radius:14px;padding:15px 20px;margin-top:14px;}
+  .warn h3{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);margin-bottom:6px;}
+  .warn p{font-size:13px;color:#23416b;line-height:1.55;}
+
+  h2.section{font-family:Georgia,serif;font-size:23px;margin:42px 0 6px;padding-bottom:9px;border-bottom:3px solid var(--accent-dark);}
+  .chapeau{font-size:13.5px;color:#555;max-width:920px;margin:10px 0 16px;}
+
+  .app{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-top:18px;}
+  .app .ah{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .app h3{font-family:Georgia,serif;font-size:20px;}
+  .app .tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;background:#eef1f5;color:#475569;padding:2px 9px;border-radius:999px;}
+  .app .obs{font-size:13px;color:#444;line-height:1.55;margin:7px 0 13px;max-width:1000px;}
+  .app .obs b{color:#111;}
+  .strip{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;}
+  .strip .fr{flex:none;}
+  .strip img{height:300px;width:auto;border-radius:10px;border:1px solid #ddd;box-shadow:0 3px 12px rgba(0,0,0,.12);display:block;}
+  .strip .fl{font-size:9.5px;font-weight:700;color:var(--muted);text-align:center;margin-top:5px;}
+  .app img.full{width:100%;max-width:780px;border-radius:12px;border:1px solid #ddd;box-shadow:0 3px 12px rgba(0,0,0,.12);display:block;margin-top:6px;}
+
+  .principles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px;}
+  .pr{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;}
+  .pr .n{font-family:Georgia,serif;font-weight:700;font-size:19px;color:var(--accent-dark);}
+  .pr .t{font-size:13.5px;font-weight:800;margin:3px 0 5px;}
+  .pr .d{font-size:12.5px;color:#555;line-height:1.5;}
+  @media(max-width:820px){.principles{grid-template-columns:1fr;}}
+
+  .tension{background:var(--gold-soft);border:1px solid #ecdca6;border-left:6px solid #d99b1c;border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .tension h3{font-size:16px;color:#7a5b12;margin-bottom:9px;} .tension p{font-size:13.5px;margin-bottom:7px;line-height:1.55;} .tension b{color:#191919;}
+  .reco{background:var(--gold-soft);border:1px solid #ecdca6;border-left:6px solid #f6c944;border-radius:14px;padding:18px 22px;margin-top:16px;}
+  .reco h3{font-size:16px;color:#7a5b12;margin-bottom:9px;}
+  .reco ul{margin:0 0 6px 18px;} .reco li{font-size:13.5px;margin-bottom:7px;line-height:1.5;} .reco b{color:#191919;}
+  .mobbin{background:#f1ecff;border:1px solid #d9c9fb;border-left:6px solid #7c3aed;border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .mobbin h3{font-size:15px;color:#6b21d6;margin-bottom:7px;} .mobbin p{font-size:13px;color:#42307a;line-height:1.55;}
+  .ftnote{font-size:11.5px;color:var(--muted);margin-top:26px;border-top:1px solid var(--border);padding-top:13px;}
+</style>
+</head>
+<body>
+<a class="home-btn" href="index.html" title="Accueil">🏠</a>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="kicker">Mission Kidsono · Onboarding · Audit + benchmark</div>
+    <h1>Les carrousels de valeur, en entier — et ce qu'ils nous apprennent</h1>
+    <div class="standfirst">Carrousels montrés <b>en entier</b> (toutes les slides), pour juger la série, pas un écran isolé. Apps choisies parmi les <b>plus grosses du corpus</b> (Epic, Reading Eggs, Vooks). Objectif : la composition propre, et la réponse à « cohérence ou variation entre slides ? ».</div>
+    <div class="warn">
+      <h3>Deux panels</h3>
+      <p>1) Le <b>top tier du design</b> (wellness, parsé sur Mobbin par Charles) : Headspace, Breeze, etc. → c'est le niveau premium qu'on vise. 2) Les <b>grosses apps de notre corpus</b> kids/audio : Epic, Reading Eggs, Vooks, Hooked, Pickatale. Je laisse de côté les petites apps (KiLi…). On commence par le top tier.</p>
+    </div>
+  </header>
+
+  <!-- TOP TIER -->
+  <h2 class="section">Le top tier du design d'onboarding (wellness, via Mobbin)</h2>
+  <p class="chapeau">Les références à plus gros budget produit/design. C'est ici qu'on lit le vrai niveau premium.</p>
+
+  <div class="app">
+    <div class="ah"><h3>Headspace</h3><span class="tag">référence absolue · méditation</span></div>
+    <p class="obs">2 slides. <b>Restraint extrême</b> : fond BLANC constant, grosse illustration plate signature en bas, titre gras <b>aligné à gauche</b>, sous-titre, points, <b>un seul</b> CTA bleu « Continue ». <b>La couleur ne vit pas dans le fond (blanc partout) mais dans l'illustration</b> (orange → jaune) : variation subtile, premium. La slide 2 injecte un <b>chiffre concret</b> (« +16% de bonheur en 10 jours, science-backed »). Leçon : le premium = le vide + un seul CTA + le concret par la stat.</p>
+    <img class="full" src="benchmark-top-tier-mobbin/headspace.png" alt="Headspace">
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>Breeze</h3><span class="tag">humeur / journaling</span></div>
+    <p class="obs">2 slides. Fond <b>lavande constant</b>, illustration dans une carte arrondie en haut, titre gras, sous-titre (ou checklist de features concrète), <b>points COLORÉS</b>, un CTA bleu. Structure et fond constants ; les points multicolores = touche premium-joyeuse. La permission notif est intégrée comme une slide du flow.</p>
+    <img class="full" src="benchmark-top-tier-mobbin/breeze.png" alt="Breeze">
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>App de santé mentale</h3><span class="tag">école « mockup produit »</span></div>
+    <p class="obs">3 slides. Fond <b>lavande constant</b>, un <b>mockup produit</b> en haut (un test, des cartes de contenu, un curseur d'humeur : la feature en vrai), titre en BAS, points colorés, CTA « Next ». L'école « montrer le produit » (comme Vooks/Pickatale), en version premium. <b>Très pertinent pour notre écran B</b> (montrer le catalogue fermé / les features en vrai).</p>
+    <img class="full" src="benchmark-top-tier-mobbin/sante-mentale-tests.jpeg" alt="Santé mentale">
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>App de self-care · l'engagement</h3><span class="tag">dispositif d'engagement</span></div>
+    <p class="obs">Ce n'est pas une slide de valeur, c'est un <b>dispositif d'engagement</b> : « Are you ready to invest in yourself? » → dessiner un checkmark → « I promise myself » + confettis. Le top tier ne fait pas que présenter, il fait <b>s'engager</b> l'utilisateur (effet de commitment). À garder pour le parcours (pas pour le carrousel).</p>
+    <img class="full" src="benchmark-top-tier-mobbin/selfcare-commitment.jpeg" alt="Self-care commitment">
+  </div>
+
+  <!-- CARROUSELS ENTIERS -->
+  <h2 class="section">Les carrousels de notre corpus kids, en entier</h2>
+
+  <div class="app">
+    <div class="ah"><h3>Epic</h3><span class="tag">US · app de lecture enfants majeure</span></div>
+    <p class="obs"><b>La leçon clé sur ta question.</b> Structure <b>strictement identique</b> sur les 3 slides (logo en haut, grand titre, sous-titre, illustration héros, mêmes liens de pied, points). MAIS <b>la couleur de fond change à chaque slide</b> (bleu → vert → rouge). C'est exactement la variation maîtrisée : on garde la structure, on rythme par la couleur.</p>
+    <div class="strip">
+      <div class="fr"><img src="apps/17-epic/captures/02-slide-inspire-love-reading.png" alt="Epic 1"><div class="fl">1 · fond bleu</div></div>
+      <div class="fr"><img src="apps/17-epic/captures/03-slide-personalized-journey.png" alt="Epic 2"><div class="fl">2 · fond vert</div></div>
+      <div class="fr"><img src="apps/17-epic/captures/04-slide-trusted-teachers-parents.png" alt="Epic 3"><div class="fl">3 · fond rouge</div></div>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>Reading Eggs</h3><span class="tag">20M+ enfants · gros acteur</span></div>
+    <p class="obs"><b>Structure constante, couleur alternée.</b> 7 slides, même structure (logo, bandeau-titre courbé, sous-titre, illustration, points, CTA), mais le <b>bandeau-titre ALTERNE magenta / bleu</b> d'une slide à l'autre (magenta, bleu, magenta, bleu…). La dernière (programmes) passe en magenta plein. Bémol : <b>7 slides, c'est long</b>, et les sous-titres sont denses (paragraphe au lieu d'une ligne).</p>
+    <div class="strip">
+      <div class="fr"><img src="apps/22-reading-eggs/captures/10-carrousel-1-learn-30-jours.png" alt="RE 1"><div class="fl">1 · magenta</div></div>
+      <div class="fr"><img src="apps/22-reading-eggs/captures/11-carrousel-2-phonics-fun.png" alt="RE 2"><div class="fl">2 · bleu</div></div>
+      <div class="fr"><img src="apps/22-reading-eggs/captures/12-carrousel-3-awards-trust.png" alt="RE 3"><div class="fl">3 · magenta</div></div>
+      <div class="fr"><img src="apps/22-reading-eggs/captures/13-carrousel-4-curriculum.png" alt="RE 4"><div class="fl">4 · bleu</div></div>
+      <div class="fr"><img src="apps/22-reading-eggs/captures/14-carrousel-5-grows-with-child.png" alt="RE 5"><div class="fl">5 · magenta</div></div>
+      <div class="fr"><img src="apps/22-reading-eggs/captures/15-carrousel-6-proven-results.png" alt="RE 6"><div class="fl">6 · bleu</div></div>
+      <div class="fr"><img src="apps/22-reading-eggs/captures/16-carrousel-7-programmes-ages.png" alt="RE 7"><div class="fl">7 · magenta</div></div>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>Vooks</h3><span class="tag">US · livres animés</span></div>
+    <p class="obs"><b>Le modèle immersif.</b> 4 slides, même structure (logo + Sign in, zone produit/illustration, titre + sous-titre en surimpression, points, CTA d'essai). Le fond glisse du sombre (slides 1-2) au clair (slides 3-4). <b>À regarder pour nous</b> : la slide « Audio-Only Mode » montre une feature avec un mockup produit, pas un picto.</p>
+    <div class="strip">
+      <div class="fr"><img src="apps/18-vooks/captures/02-slide-storybooks-brought-to-life.png" alt="Vooks 1"><div class="fl">1 · livres</div></div>
+      <div class="fr"><img src="apps/18-vooks/captures/03-slide-audio-only-mode.png" alt="Vooks 2"><div class="fl">2 · audio-only</div></div>
+      <div class="fr"><img src="apps/18-vooks/captures/04-slide-custom-playlists.png" alt="Vooks 3"><div class="fl">3 · playlists</div></div>
+      <div class="fr"><img src="apps/18-vooks/captures/05-slide-vooks-storyteller.png" alt="Vooks 4"><div class="fl">4 · narration</div></div>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>Hooked on Phonics</h3><span class="tag">US · phonics</span></div>
+    <p class="obs"><b>Le contre-exemple sur la couleur.</b> 5 slides, structure identique (logo, un personnage centré, titre, sous-titre, points, double CTA), et surtout <b>le MÊME fond bleu clair sur les 5</b>. Hooked ne varie PAS la couleur, et c'est propre quand même. Preuve qu'un fond uniforme vaut un fond qui change : ce qui compte vraiment, c'est la structure constante. (Bémol : double CTA compte + login sur chaque slide.)</p>
+    <div class="strip">
+      <div class="fr"><img src="apps/28-hooked-on-phonics/captures/02-carrousel-unlock-world-learning.png" alt="H1"><div class="fl">1 · bleu clair</div></div>
+      <div class="fr"><img src="apps/28-hooked-on-phonics/captures/03-carrousel-boost-academic.png" alt="H2"><div class="fl">2 · bleu clair</div></div>
+      <div class="fr"><img src="apps/28-hooked-on-phonics/captures/04-carrousel-educational-foundation.png" alt="H3"><div class="fl">3 · bleu clair</div></div>
+      <div class="fr"><img src="apps/28-hooked-on-phonics/captures/05-carrousel-build-confidence.png" alt="H4"><div class="fl">4 · bleu clair</div></div>
+      <div class="fr"><img src="apps/28-hooked-on-phonics/captures/06-carrousel-unlock-potential.png" alt="H5"><div class="fl">5 · bleu clair</div></div>
+    </div>
+  </div>
+
+  <div class="app">
+    <div class="ah"><h3>Pickatale</h3><span class="tag">lecture enfants · mockups produit</span></div>
+    <p class="obs"><b>L'autre école de héros : le mockup produit.</b> 5 slides, structure identique, et la plupart montrent un <b>écran réel de l'app</b> (la feature en vrai : création d'histoire, phonics, mes livres, quiz), pas une illustration. Le fond <b>change à chaque slide</b> (jaune, vert foncé, crème, vert, menthe). Comme Vooks : on <b>montre le produit</b>, on ne le décrit pas. <b>Pertinent pour nos features concrètes</b> (notre écran B). Bémol : les boutons de rôle (parent / éducateur) sur chaque slide, lourd.</p>
+    <div class="strip">
+      <div class="fr"><img src="apps/16-pickatale/captures/02-onboarding-slide1-learn-to-read-roles.png" alt="P1"><div class="fl">1 · jaune (illustration)</div></div>
+      <div class="fr"><img src="apps/16-pickatale/captures/03-onboarding-slide2-create-ai.png" alt="P2"><div class="fl">2 · vert foncé (mockup)</div></div>
+      <div class="fr"><img src="apps/16-pickatale/captures/04-onboarding-slide3-phonics.png" alt="P3"><div class="fl">3 · crème (mockup)</div></div>
+      <div class="fr"><img src="apps/16-pickatale/captures/05-onboarding-slide4-love-to-read.png" alt="P4"><div class="fl">4 · vert (mockup)</div></div>
+      <div class="fr"><img src="apps/16-pickatale/captures/06-onboarding-slide5-fun-quizzes.png" alt="P5"><div class="fl">5 · menthe (mockup)</div></div>
+    </div>
+  </div>
+
+  <!-- COHERENCE -->
+  <h2 class="section">Cohérence ou variation entre les slides ? (la réponse, vue sur les séries entières)</h2>
+  <div class="reco" style="background:var(--blue-soft);border-color:#cdddf5;border-left-color:var(--blue);">
+    <h3 style="color:var(--blue);">La structure ne varie JAMAIS. La couleur, souvent — mais pas toujours.</h3>
+    <ul>
+      <li><b>La composition / le squelette reste identique</b> sur toutes les slides, sans exception (les 5 apps). Même barre haute, même zone héros, même position de titre, même rythme, mêmes points + CTA. <b>C'est la seule vraie règle, et c'est ce qui fait « une série ».</b></li>
+      <li><b>La couleur varie souvent, mais pas toujours.</b> 4 apps sur 5 la font varier pour le rythme (Epic bleu→vert→rouge, Reading Eggs magenta/bleu alterné, Vooks sombre→clair, Pickatale jaune/vert/crème). MAIS <b>Hooked garde le même bleu clair sur ses 5 slides</b>, et c'est tout aussi propre. Donc varier la couleur est une <b>option efficace, pas une obligation</b>.</li>
+      <li><b>Le top tier va vers le fond CONSTANT.</b> Headspace (blanc), Breeze et l'app de santé mentale (lavande) gardent le même fond et font vivre la couleur dans <b>l'illustration</b>, pas dans le fond. C'est plus premium que de swapper tout le fond (Epic). Idem côté CTA : <b>un seul</b> (« Continue »), jamais le double bouton.</li>
+      <li><b>Deux écoles de héros</b> : l'<b>illustration centrée</b> (Headspace, Epic, Hooked) ou le <b>mockup produit</b> qui montre la feature en vrai (app santé mentale, Vooks, Pickatale). La 2e est la plus pertinente pour nos écrans concrets.</li>
+      <li><b>On ne change jamais la composition d'une slide à l'autre.</b> Changer la mise en page entre slides, c'est ce qui ferait « 3 écrans différents » au lieu d'une série. Aucune ne le fait.</li>
+    </ul>
+  </div>
+
+  <!-- BEST PRACTICES -->
+  <h2 class="section">La best practice qui en ressort</h2>
+  <div class="principles">
+    <div class="pr"><div class="n">1</div><div class="t">Un squelette figé sur toutes les slides</div><div class="d">Même barre haute, même zone héros, même position de titre, mêmes points + CTA. On ne touche pas à la structure.</div></div>
+    <div class="pr"><div class="n">2</div><div class="t">Une idée par slide, lisible en 2 s</div><div class="d">Un message, une illustration. Sous-titre 1-2 lignes (pas le paragraphe de Reading Eggs).</div></div>
+    <div class="pr"><div class="n">3</div><div class="t">Rythme par la couleur (option), jamais par la mise en page</div><div class="d">Varier la couleur de fond par slide donne du rythme (Epic, Pickatale), mais un fond uniforme marche aussi (Hooked). Au choix. Ce qu'on ne touche jamais : la composition.</div></div>
+    <div class="pr"><div class="n">4</div><div class="t">3-4 slides, pas 7</div><div class="d">Reading Eggs (7) est long. 3 slides (Epic) suffisent et se tiennent mieux.</div></div>
+    <div class="pr"><div class="n">5</div><div class="t">Illustrations d'un style unifié</div><div class="d">Le même langage graphique d'une slide à l'autre : c'est le marqueur du pro.</div></div>
+    <div class="pr"><div class="n">6</div><div class="t">Un pied simple</div><div class="d">Points + UN CTA. Éviter le footer à 4 liens d'Epic.</div></div>
+  </div>
+
+  <!-- TENSION -->
+  <h2 class="section">Le point clé pour nous : propre ≠ concret</h2>
+  <div class="tension">
+    <h3>Le trade-off qu'on a tranché</h3>
+    <p>Ces carrousels sont propres parce qu'ils sont <b>minimalistes et souvent abstraits</b> (« Inspire a love of reading », « Learning can be easy and fun »). Toi tu as <b>refusé l'abstrait</b> : tu veux du concret (catalogue fermé montré, profils Léa/Tom). Le concret demande plus d'éléments → nos slides B et C sont <b>forcément plus riches</b>.</p>
+    <p>Donc notre enjeu n'est pas de copier leur minimalisme, c'est de garder nos slides concrètes <b>dans un squelette figé et avec du vide</b> : un héros par slide, structure identique sur les 3, rythme par la couleur si besoin.</p>
+  </div>
+
+  <!-- RECO -->
+  <h2 class="section">La recommandation pour notre carrousel</h2>
+  <div class="reco">
+    <h3>Viser le niveau Headspace : figer le squelette, alléger, et un seul CTA</h3>
+    <ul>
+      <li><b>Verrouiller la structure</b> sur les 3 slides : même position de titre, même zone héros, même densité. Nos rendus varient trop (titre en bas / milieu / haut).</li>
+      <li><b>Fond crème CONSTANT, couleur dans l'illustration</b> (façon Headspace / Breeze), plutôt que swapper tout le fond. Plus premium. Si on veut rythmer, on le fait dans les couvertures/illustrations.</li>
+      <li><b>Un seul CTA par slide</b> (on l'a : Suivant / Commencer). Pas de double bouton.</li>
+      <li><b>Alléger B</b> (un seul héros : la carte catalogue fermé, façon « mockup produit » comme l'app de santé mentale) et <b>C</b> (moins de cartes), pour une densité comparable à A.</li>
+      <li><b>Injecter du concret façon Headspace</b> où c'est possible (une donnée nette plutôt qu'une promesse vague) ; <b>points de progression colorés</b> (touche premium).</li>
+      <li><b>3 slides, pas plus.</b> On est bien (A, B, C).</li>
+    </ul>
+  </div>
+
+  <!-- MOBBIN -->
+  <h2 class="section">Pour aller plus loin</h2>
+  <div class="mobbin">
+    <h3>On a le top tier wellness ; on peut élargir</h3>
+    <p>Tu as parsé 4 wellness sur Mobbin (Headspace, Breeze + 2), intégrés en haut : ça nous donne le niveau premium visé. Si utile, on peut ramener d'autres familles du top tier (Duolingo pour la gamification, Calm pour le minimalisme sombre, une fintech type Revolut pour la rigueur), quand l'accès Drive/Mobbin sera de nouveau stable de mon côté.</p>
+  </div>
+
+  <p class="ftnote">Carrousels montrés en entier, captures réelles du benchmark (hors famille F1b). Mission conseil Kidsono, 2026-06-16.</p>
+
+</div>
+</body>
+</html>
