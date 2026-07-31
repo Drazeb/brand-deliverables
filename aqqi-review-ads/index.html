@@ -28,8 +28,13 @@
   .panel.active{display:block}
   .panel h2{font-family:Georgia,serif;font-size:20px;font-weight:600;color:var(--choco);margin-bottom:14px}
 
-  .framewrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#faf9f5}
+  .framewrap{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#faf9f5}
   .framewrap iframe{width:100%;height:80vh;border:none;display:block}
+  .zoombtn{position:absolute;top:10px;right:10px;z-index:2;background:rgba(70,19,2,.9);color:var(--creme);border:none;border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .zoombtn:hover{background:var(--choco)}
+  .framewrap:fullscreen,.framewrap:-webkit-full-screen{border:none;border-radius:0;background:var(--bg)}
+  .framewrap:fullscreen iframe,.framewrap:-webkit-full-screen iframe{height:100vh}
+  .framewrap:fullscreen .zoombtn::after,.framewrap:-webkit-full-screen .zoombtn::after{content:" (Échap)"}
   .framehint{font-size:12.5px;color:var(--muted);margin-top:8px}
 </style>
 </head>
@@ -68,9 +73,11 @@ ADS.forEach((ad,i)=>{
   panel.id='panel-'+ad.id;
   panel.innerHTML=
     '<h2>Ad '+ad.num+' — '+ad.name+'</h2>'+
-    '<div class="framewrap"><iframe data-src="'+ad.file+'" title="Ad '+ad.num+'"></iframe></div>'+
-    '<div class="framehint">↕ Fais défiler dans le cadre pour voir toutes les variations · '+
-    '<a href="'+ad.file+'" target="_blank" rel="noopener">↗ ouvrir en plein écran</a></div>';
+    '<div class="framewrap" id="fw-'+ad.id+'">'+
+      '<button class="zoombtn" onclick="fs(\''+ad.id+'\')">⤢ Agrandir</button>'+
+      '<iframe data-src="'+ad.file+'" title="Ad '+ad.num+'"></iframe></div>'+
+    '<div class="framehint">↕ Fais défiler dans le cadre pour dérouler les variations · '+
+    '<a href="'+ad.file+'" target="_blank" rel="noopener">↗ nouvel onglet</a></div>';
   panelsEl.appendChild(panel);
 });
 
@@ -86,6 +93,11 @@ function activate(id){
 function loadFrame(id){
   const f=document.querySelector('#panel-'+id+' iframe');
   if(f && !f.src) f.src=f.dataset.src;
+}
+function fs(id){
+  const el=document.getElementById('fw-'+id);
+  if(document.fullscreenElement){document.exitFullscreen();return;}
+  (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
 }
 </script>
 </body>
