@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Specs Generator : comment ça s'organise</title>
+<style>
+  :root{
+    --ink:#17130f; --soft:#6f6a62; --line:#e2ddd5; --accent:#bb5a3c;
+    --sys:#2f6f8f; --sysbg:#eef4f8; --data:#3f7d54; --databg:#eef6f0; --pale:#fbfaf8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#fff;}
+  .doc{max-width:1000px;margin:0 auto;padding:44px 40px 64px;color:var(--ink);
+       font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;line-height:1.55;}
+  h1{font-size:27px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px;}
+  .sub{color:var(--soft);max-width:74ch;margin:0 0 30px;}
+  .mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;}
+  .etiq{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.6px;
+       text-transform:uppercase;color:var(--soft);}
+
+  /* --- blocs empilés --- */
+  .bloc{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:#fff;}
+  .bloc h2{font-size:16.5px;margin:3px 0 4px;font-weight:700;}
+  .bloc p{margin:0;font-size:13.5px;color:var(--soft);}
+
+  .fleche{display:flex;flex-direction:column;align-items:center;padding:10px 0 6px;}
+  .fleche .trait{width:2px;height:22px;background:var(--accent);}
+  .fleche .pointe{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+       border-top:9px solid var(--accent);}
+  .fleche .lab{font-size:13px;margin-top:6px;color:var(--ink);}
+  .fleche .lab b{color:var(--accent);}
+
+  /* --- GitHub --- */
+  .github{border:2px solid var(--ink);border-radius:12px;padding:18px;background:var(--pale);}
+  .depots{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;}
+  .depot{background:#fff;border:1px solid var(--line);border-left:3px solid var(--sys);
+       border-radius:8px;padding:13px 15px;}
+  .depot .n{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--sys);font-weight:700;}
+  .depot .d{font-size:13px;color:var(--soft);margin-top:4px;}
+  .interdit{margin-top:13px;background:#fff;border:1px dashed var(--data);border-radius:8px;
+       padding:10px 13px;font-size:13.5px;}
+  .interdit b{color:var(--data);}
+
+  /* --- ordinateur : deux colonnes, chacune avec sa flèche entrante --- */
+  .machine{border:2px solid var(--ink);border-radius:12px;padding:18px;background:var(--pale);margin-top:6px;}
+  .col{display:flex;flex-direction:column;}
+  .ico{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+       border-radius:7px;font-size:14px;line-height:1;margin-right:9px;flex:none;}
+  .ico.sysi{background:var(--sysbg);border:1.5px solid var(--sys);}
+  .ico.datai{background:var(--databg);border:1.5px solid var(--data);}
+  .tete{display:flex;align-items:center;margin-bottom:2px;}
+  .entree{display:flex;flex-direction:column;align-items:center;padding:4px 0 10px;}
+  .entree .trait{width:2px;height:20px;background:var(--accent);}
+  .entree .pointe{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+       border-top:9px solid var(--accent);}
+  .entree .lab{font-size:12.5px;margin-top:6px;text-align:center;color:var(--accent);font-weight:700;}
+  .entree.bloquee .barre{width:34px;height:34px;border-radius:50%;border:2px solid var(--data);
+       color:var(--data);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;}
+  .entree.bloquee .lab{color:var(--data);}
+
+  .boite{border:1px solid var(--line);border-radius:9px;background:#fff;padding:15px 16px;flex:1;}
+  .boite.sys{border-top:3px solid var(--sys);}
+  .boite.data{border-top:3px solid var(--data);}
+  .boite .quoi{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.5px;
+       text-transform:uppercase;margin-bottom:6px;}
+  .boite.sys .quoi{color:var(--sys);} .boite.data .quoi{color:var(--data);}
+  .boite h3{font-size:15.5px;margin:0 0 3px;}
+  .boite .path{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--soft);margin-bottom:9px;}
+  .boite p{margin:0 0 7px;font-size:13.5px;}
+  .arbo{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.7;
+       border-left:2px solid var(--line);padding-left:12px;margin-top:9px;color:#3a352f;}
+  .arbo .c{color:var(--soft);}
+  .verdict{margin-top:11px;border-radius:7px;padding:9px 12px;font-size:13px;}
+  .verdict.sysv{background:var(--sysbg);border:1px solid #cfe0ea;}
+  .verdict.datav{background:var(--databg);border:1px solid #cfe5d7;}
+
+  .autres{display:flex;gap:12px;margin-top:14px;}
+  .autre{flex:1;border:1px dashed var(--line);border-radius:10px;padding:11px 13px;color:var(--soft);font-size:12.5px;background:#fff;}
+
+  .regles{margin-top:32px;border-top:1px solid var(--line);padding-top:20px;}
+  .regles h2{font-size:15px;margin:0 0 13px;}
+  .regles h2::before{content:"";display:block;width:30px;height:2px;background:var(--accent);margin-bottom:10px;}
+  .regles ul{margin:0;padding-left:18px;}
+  .regles li{margin-bottom:8px;max-width:90ch;}
+  @media (max-width:820px){ .cols,.depots,.autres{grid-template-columns:1fr;flex-direction:column;} }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <h1>Product Specs Generator : comment ça s'organise</h1>
+  <p class="sub">L'outil et votre travail vivent à deux endroits différents. Les mises à jour ne touchent que l'outil. Votre travail ne quitte jamais votre ordinateur.</p>
+
+  <!-- 1. Ceux qui améliorent l'outil -->
+  <div class="bloc">
+    <div class="etiq">En amont</div>
+    <h2>Ceux qui font évoluer les outils</h2>
+    <p>Quand un outil est amélioré (nouvelle procédure, correction, nouveau gabarit), la nouvelle version est déposée sur GitHub. Vous n'avez rien à faire à ce moment-là.</p>
+  </div>
+
+  <div class="fleche">
+    <div class="trait"></div><div class="pointe"></div>
+    <div class="lab">ils déposent la nouvelle version</div>
+  </div>
+
+  <!-- 2. GitHub -->
+  <div class="github">
+    <div class="etiq">En ligne</div>
+    <h2 style="font-size:16.5px;margin:3px 0 2px;">GitHub : les outils, et seulement les outils</h2>
+    <p style="margin:0;font-size:13.5px;color:var(--soft);">Un dépôt par outil. C'est la référence : chacun y récupère la version à jour.</p>
+
+    <div class="depots">
+      <div class="depot">
+        <div class="tete"><span class="ico sysi">⚙</span><span class="n">product-specs-generator</span><span style="margin-left:9px;font-size:10.5px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.4px;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:3px;padding:2px 6px;">suivi ci-dessous</span></div>
+        <div class="d"><b>Le dossier du système</b>, celui dont on parle ici. C'est <b>exactement ce dossier</b> que vous installez chez vous, et que <span class="mono">git pull</span> vient remplacer.</div>
+      </div>
+      <div class="depot">
+        <div class="tete"><span class="ico sysi">⚙</span><span class="n">benchmark-discovery-system</span></div>
+        <div class="d">Le dossier système d'un <b>autre outil</b>, indépendant : du benchmark concurrentiel à des consignes de design. Même principe d'installation et de mise à jour.</div>
+      </div>
+    </div>
+
+    <div class="interdit"><b>Aucune de vos données ne se trouve ici.</b> Ni vos spécifications, ni vos maquettes, ni les informations sur votre entreprise. GitHub ne contient que les outils.</div>
+  </div>
+
+  <!-- 3. Votre ordinateur, avec les deux flèches entrantes -->
+  <div class="machine">
+    <div class="etiq" style="color:var(--ink);font-weight:700;">Votre ordinateur, avec l'outil PSG installé</div>
+    <p style="margin:5px 0 0;font-size:13px;color:var(--soft);">Chaque outil s'installe dans son propre dossier et se met à jour séparément. Ici, on suit uniquement <span class="mono">product-specs-generator</span>.</p>
+
+    <div class="entree">
+      <div class="trait"></div><div class="pointe"></div>
+      <div class="lab">le git pull de l'outil PSG arrive ICI, et nulle part ailleurs</div>
+    </div>
+
+    <div class="boite sys">
+      <div class="tete"><span class="ico sysi">⚙</span><div><div class="quoi" style="margin:0;">L'outil</div><h3 style="margin:0;">Le dossier du système PSG</h3></div></div>
+      <div class="path" style="margin-top:6px;">product-specs-generator/ <span style="color:var(--sys);">← le même dossier que sur GitHub</span></div>
+      <p>Ce que vous avez cloné. Vous ne le modifiez pas : vous l'utilisez.</p>
+      <div class="arbo">
+        ├── les procédures <span class="c">← ce que Claude Code applique</span><br>
+        ├── les gabarits <span class="c">← la forme des documents produits</span><br>
+        └── les outils <span class="c">← extraction d'écrans, ouverture de fichiers</span>
+      </div>
+      <div class="verdict sysv"><b>Remplacé à chaque mise à jour.</b> Vous n'avez rien à y toucher, ni à y comprendre.</div>
+    </div>
+
+    <div class="entree bloquee" style="padding-top:16px;">
+      <div class="barre">✕</div>
+      <div class="lab">aucun git pull ne vient JAMAIS ici, ni celui de PSG ni celui d'un autre outil</div>
+    </div>
+
+    <div class="boite data">
+      <div class="tete"><span class="ico datai">🗂</span><div><div class="quoi" style="margin:0;">Votre travail</div><h3 style="margin:0;">Votre espace de données</h3></div></div>
+      <div class="path" style="margin-top:6px;">à l'endroit que vous avez choisi, sur votre ordinateur</div>
+      <p>Créé à votre première session. <b>Chaque spécification a son propre dossier</b>, à côté des autres.</p>
+      <div class="arbo">
+        mes-specs/<br>
+        ├── _socle/ <span class="c">← votre entreprise, rempli une seule fois, servira à toutes vos spécifications</span><br>
+        │<br>
+        ├── inscription/ <span class="c">← une spécification</span><br>
+        │&nbsp;&nbsp; ├── matiere/ <span class="c">← ce que vous avez déposé (maquettes, notes)</span><br>
+        │&nbsp;&nbsp; ├── spec.md <span class="c">← la spécification</span><br>
+        │&nbsp;&nbsp; ├── questions-ouvertes.md<br>
+        │&nbsp;&nbsp; └── passation-inscription-v1/ + .zip <span class="c">← ce que vous remettez aux devs</span><br>
+        │<br>
+        ├── paiement/ <span class="c">← une autre spécification, avec exactement la même structure</span><br>
+        │&nbsp;&nbsp; └── …<br>
+        │<br>
+        └── notifications/ <span class="c">← une troisième</span><br>
+        &nbsp;&nbsp;&nbsp; └── …
+      </div>
+      <div class="verdict datav"><b>Jamais touché par une mise à jour</b>, et <b>chaque spécification est indépendante</b> : en démarrer une nouvelle ne modifie jamais les précédentes. Vous pouvez en avoir autant que vous voulez, pour autant de produits que vous voulez.</div>
+    </div>
+
+    <div style="margin-top:14px;border:1px dashed var(--line);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--soft);background:#fff;">
+      <b style="color:var(--ink);">Si vous installez aussi un autre outil</b> (le benchmark, par exemple) : il aura <b>son propre dossier système</b> à côté, et <b>son propre <span class="mono">git pull</span></b>. Les deux outils ne se mélangent jamais, et aucun des deux ne touche votre espace de données.
+    </div>
+  </div>
+
+  <div class="autres">
+    <div class="autre">Chez votre collègue : <b>la même installation</b>, faite chez lui. Son espace de données est le sien, sur son ordinateur.</div>
+    <div class="autre">Chacun met à jour <b>quand il veut</b>. Personne n'attend personne, et personne n'écrase le travail d'un autre.</div>
+    <div class="autre">Rien ne circule automatiquement entre vous : ce que vous transmettez, c'est <b>le dossier de passation</b>, à la fin d'une spécification.</div>
+  </div>
+
+  <div class="regles">
+    <h2>Ce qu'il faut retenir</h2>
+    <ul>
+      <li><b>GitHub ne contient que les outils.</b> Vos spécifications, vos maquettes et les informations sur votre entreprise restent sur votre ordinateur, et n'y montent jamais.</li>
+      <li><b>Deux dossiers séparés chez vous, jamais mélangés.</b> L'outil d'un côté, votre travail de l'autre. C'est ce qui rend les mises à jour sans risque : on remplace l'outil en bloc, votre travail n'est pas dedans.</li>
+      <li><b><span class="mono">git pull</span> met à jour l'outil, rien d'autre.</b> Vous ne perdez jamais une spécification en mettant à jour. À faire entre deux projets, pas au milieu d'un travail en cours.</li>
+      <li><b>Une spécification = un dossier</b> dans votre espace de données, pour autant de produits que vous voulez.</li>
+      <li><b>Ouvrez une nouvelle session Claude Code par nouvelle spécification.</b> C'est plus clair, et la qualité se dégrade quand on enchaîne plusieurs sujets dans la même conversation.</li>
+      <li><b>Le socle ne se remplit qu'une fois.</b> Il contient ce que l'outil doit savoir de votre entreprise, et sert à toutes vos spécifications suivantes.</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
