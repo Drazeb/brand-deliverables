@@ -28,7 +28,7 @@
   .panel.active{display:block}
   .panel h2{font-family:Georgia,serif;font-size:20px;font-weight:600;color:var(--choco);margin-bottom:14px}
 
-  .framewrap{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#faf9f5}
+  .framewrap{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#e9e9e9}
   .framewrap iframe{width:100%;height:80vh;border:none;display:block}
   .zoombtn{position:absolute;top:10px;right:10px;z-index:2;background:rgba(70,19,2,.9);color:var(--creme);border:none;border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
   .zoombtn:hover{background:var(--choco)}
@@ -93,7 +93,22 @@ function activate(id){
 }
 function loadFrame(id){
   const f=document.querySelector('#panel-'+id+' iframe');
-  if(f && !f.src) f.src=f.dataset.src;
+  if(f && !f.src){ f.addEventListener('load',()=>tintFrame(f)); f.src=f.dataset.src; }
+}
+/* Force un fond gris uniforme dans le board Claude Design (même-origine).
+   Le bundle se dépaquette en async, donc on ré-applique quelques fois. */
+function tintFrame(f){
+  const GREY='#e9e9e9';
+  function apply(){
+    try{
+      const d=f.contentDocument; if(!d) return;
+      let s=d.getElementById('__aqqi_bg');
+      if(!s){ s=d.createElement('style'); s.id='__aqqi_bg'; (d.head||d.documentElement).appendChild(s); }
+      s.textContent='html,body{background:'+GREY+' !important;}';
+    }catch(e){}
+  }
+  apply();
+  let n=0; const iv=setInterval(()=>{ apply(); if(++n>12) clearInterval(iv); }, 400);
 }
 function fs(id){
   const el=document.getElementById('fw-'+id);
