@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>AQQI — Review des ads</title>
+<style>
+  :root{
+    --choco:#461302; --creme:#EEDCB7; --bg:#FAF9F5; --orange:#FA4F17;
+    --ciel:#B7D7FF; --sage:#A9BFAF; --ink:#2b1a0e; --line:#e3dccb;
+    --muted:#8a7f6d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+  a{color:var(--orange)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+  header{background:var(--choco);color:var(--creme);padding:18px 0;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+  header .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  header h1{font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:700;letter-spacing:.2px}
+  header .sub{color:#d8c39a;font-size:13px}
+  .spacer{flex:1}
+  .reviewer{display:flex;align-items:center;gap:8px;font-size:13px}
+  .reviewer input{padding:7px 10px;border-radius:8px;border:1px solid #6a3d1e;background:#5a2e14;color:var(--creme);font-size:13px;width:170px}
+  .reviewer input::placeholder{color:#b79a78}
+  .btn{border:none;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
+  .btn-export{background:var(--orange);color:#fff}
+  .btn-export:hover{filter:brightness(1.06)}
+
+  .intro{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:20px 0;font-size:13.5px;color:#5c5140}
+  .intro b{color:var(--choco)}
+  .intro ol{margin:6px 0 0 18px}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 0}
+  .tab{background:#fff;border:1px solid var(--line);border-bottom:none;border-radius:10px 10px 0 0;padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+  .tab.active{color:var(--choco);background:#fff;border-color:var(--choco);box-shadow:inset 0 3px 0 var(--orange)}
+  .tab .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sage);margin-left:7px;vertical-align:middle;opacity:0}
+  .tab.done .dot{opacity:1}
+
+  .panel{display:none;background:#fff;border:1px solid var(--choco);border-radius:0 12px 12px 12px;padding:22px;margin-bottom:40px}
+  .panel.active{display:block}
+  .panel h2{font-family:Georgia,serif;font-size:22px;color:var(--choco);margin-bottom:2px}
+  .panel .angle{color:var(--muted);font-size:13px;margin-bottom:16px}
+
+  .framewrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#faf9f5;position:relative}
+  .framewrap iframe{width:100%;height:78vh;border:none;display:block}
+  .framehint{font-size:12.5px;color:var(--muted);margin:8px 2px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+
+  .selbox{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fbfaf6}
+  .selbox h3{font-size:14px;color:var(--choco);margin-bottom:4px}
+  .selbox .help{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+  .var{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:10px;background:#fff;transition:border-color .15s,background .15s}
+  .var.picked{border-color:var(--orange);background:#fff7f2}
+  .var .row{display:flex;align-items:center;gap:12px}
+  .var label.pref{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;user-select:none}
+  .var input[type=radio]{width:17px;height:17px;accent-color:var(--orange);cursor:pointer}
+  .var .vname{font-family:ui-monospace,monospace;background:var(--ciel);color:var(--choco);padding:2px 9px;border-radius:6px;font-size:13px;font-weight:700}
+  .var .flexspace{flex:1}
+  .var .notebtn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 11px;font-size:12.5px;color:var(--muted);cursor:pointer;font-weight:600}
+  .var .notebtn.has{color:var(--orange);border-color:var(--orange)}
+  .var .note{margin-top:10px;display:none}
+  .var .note.open{display:block}
+  .var textarea{width:100%;min-height:64px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;font-family:inherit;resize:vertical}
+  .var textarea:focus{outline:2px solid var(--ciel);border-color:var(--ciel)}
+  .general{margin-top:6px}
+  .general label{font-size:13px;font-weight:600;color:var(--choco);display:block;margin-bottom:6px}
+  .general textarea{width:100%;min-height:60px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;font-family:inherit;resize:vertical}
+
+  /* Export modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(40,25,12,.55);z-index:100;align-items:center;justify-content:center;padding:20px}
+  .modal.open{display:flex}
+  .modal .card{background:#fff;border-radius:14px;max-width:640px;width:100%;max-height:88vh;overflow:auto;padding:22px}
+  .modal h3{font-family:Georgia,serif;color:var(--choco);font-size:19px;margin-bottom:8px}
+  .modal p{font-size:13px;color:#5c5140;margin-bottom:12px}
+  .modal textarea{width:100%;min-height:280px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12.5px;font-family:ui-monospace,monospace;line-height:1.5}
+  .modal .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--choco)}
+  .btn-ok{background:var(--choco);color:var(--creme)}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--choco);color:var(--creme);padding:11px 18px;border-radius:10px;font-size:13px;z-index:200;opacity:0;transition:opacity .2s;pointer-events:none}
+  .toast.show{opacity:1}
+  footer{color:var(--muted);font-size:12px;text-align:center;padding:24px 0 40px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>AQQI · Review des ads</h1>
+    <span class="sub">premières variations — sélection équipe</span>
+    <div class="spacer"></div>
+    <div class="reviewer">
+      <span>Relecteur :</span>
+      <input id="reviewer" type="text" placeholder="ton prénom">
+    </div>
+    <button class="btn btn-export" id="exportBtn">Exporter mes retours</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="intro">
+    <b>Comment ça marche</b>
+    <ol>
+      <li>Regarde les variations de chaque ad (onglets ci-dessous).</li>
+      <li>Coche <b>ta variation préférée</b> pour chaque ad.</li>
+      <li>Ajoute tes notes (ce que tu changerais) sur n'importe quelle variation.</li>
+      <li>Clique <b>« Exporter mes retours »</b> et envoie le texte à Charles.</li>
+    </ol>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+  <div id="panels"></div>
+
+  <footer>Page interne AQQI — les retours restent dans ton navigateur jusqu'à l'export.</footer>
+</div>
+
+<div class="modal" id="modal">
+  <div class="card">
+    <h3>Tes retours — à envoyer à Charles</h3>
+    <p>Copie ce texte (ou télécharge-le) et envoie-le. Tes saisies sont aussi conservées dans ce navigateur.</p>
+    <textarea id="exportText" readonly></textarea>
+    <div class="actions">
+      <button class="btn btn-ok" id="copyBtn">Copier</button>
+      <button class="btn btn-ghost" id="dlBtn">Télécharger .txt</button>
+      <button class="btn btn-ghost" id="closeBtn">Fermer</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---- CONFIG : une entrée par ad. Ajouter les ads au fil de l'eau. ---- */
+const ADS = [
+  {
+    id:'ad1', num:1, name:'Prix barré', angle:'annonce prix barré + delta',
+    file:'ad1.html',
+    variations:['1a','1b','1e','1f'],
+    prefilled:{}   /* notes pré-écrites par Charles, ex: {'1a':'trop chargé'} */
+  }
+];
+
+const STORE_KEY='aqqi-review-ads-v1';
+let state=load();
+function load(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||blank()}catch(e){return blank()}}
+function blank(){const d={reviewer:'',ads:{}};ADS.forEach(a=>d.ads[a.id]={preferred:null,notes:{},general:''});return d}
+function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state));refreshTabDots()}
+
+/* ---- Build tabs + panels ---- */
+const tabsEl=document.getElementById('tabs');
+const panelsEl=document.getElementById('panels');
+
+ADS.forEach((ad,i)=>{
+  if(!state.ads[ad.id]) state.ads[ad.id]={preferred:null,notes:{},general:''};
+  const st=state.ads[ad.id];
+
+  const tab=document.createElement('button');
+  tab.className='tab'+(i===0?' active':'');
+  tab.id='tab-'+ad.id;
+  tab.innerHTML='Ad '+ad.num+' · '+ad.name+'<span class="dot"></span>';
+  tab.onclick=()=>activate(ad.id);
+  tabsEl.appendChild(tab);
+
+  const panel=document.createElement('div');
+  panel.className='panel'+(i===0?' active':'');
+  panel.id='panel-'+ad.id;
+
+  let varsHtml='';
+  ad.variations.forEach(v=>{
+    const noteVal = st.notes[v] || ad.prefilled[v] || '';
+    const picked = st.preferred===v;
+    const hasNote = noteVal.trim().length>0;
+    varsHtml+=`
+      <div class="var${picked?' picked':''}" id="var-${ad.id}-${v}">
+        <div class="row">
+          <label class="pref">
+            <input type="radio" name="pref-${ad.id}" value="${v}" ${picked?'checked':''}
+              onchange="pick('${ad.id}','${v}')">
+            <span>Ma préférée</span>
+          </label>
+          <span class="vname">${v}</span>
+          <span class="flexspace"></span>
+          <button class="notebtn${hasNote?' has':''}" onclick="toggleNote('${ad.id}','${v}')">✎ Noter / changer</button>
+        </div>
+        <div class="note${hasNote?' open':''}" id="note-${ad.id}-${v}">
+          <textarea placeholder="Ce que tu garderais / changerais sur ${v}…"
+            oninput="setNote('${ad.id}','${v}',this.value)">${escapeHtml(noteVal)}</textarea>
+        </div>
+      </div>`;
+  });
+
+  panel.innerHTML=`
+    <h2>Ad ${ad.num} — ${ad.name}</h2>
+    <div class="angle">${ad.angle} · ${ad.variations.length} variations</div>
+    <div class="framewrap"><iframe data-src="${ad.file}" title="Ad ${ad.num}"></iframe></div>
+    <div class="framehint">
+      <span>↕ Fais défiler dans le cadre pour voir toutes les variations.</span>
+      <a href="${ad.file}" target="_blank" rel="noopener">↗ Ouvrir en plein écran</a>
+    </div>
+    <div class="selbox">
+      <h3>Ta sélection pour l'ad ${ad.num}</h3>
+      <div class="help">Coche ta préférée. Ajoute des notes sur n'importe quelle variation.</div>
+      ${varsHtml}
+      <div class="general">
+        <label>Notes générales sur l'ad ${ad.num}</label>
+        <textarea placeholder="Remarque d'ensemble (optionnel)…"
+          oninput="setGeneral('${ad.id}',this.value)">${escapeHtml(st.general||'')}</textarea>
+      </div>
+    </div>`;
+  panelsEl.appendChild(panel);
+});
+
+/* first iframe */
+loadFrame(ADS[0].id);
+document.getElementById('reviewer').value=state.reviewer||'';
+document.getElementById('reviewer').oninput=e=>{state.reviewer=e.target.value;save()};
+refreshTabDots();
+
+function activate(id){
+  ADS.forEach(a=>{
+    document.getElementById('tab-'+a.id).classList.toggle('active',a.id===id);
+    document.getElementById('panel-'+a.id).classList.toggle('active',a.id===id);
+  });
+  loadFrame(id);
+}
+function loadFrame(id){
+  const f=document.querySelector('#panel-'+id+' iframe');
+  if(f && !f.src){f.src=f.dataset.src;}
+}
+function pick(adId,v){
+  state.ads[adId].preferred=v;save();
+  ADS.find(a=>a.id===adId).variations.forEach(x=>{
+    document.getElementById('var-'+adId+'-'+x).classList.toggle('picked',x===v);
+  });
+}
+function toggleNote(adId,v){
+  document.getElementById('note-'+adId+'-'+v).classList.toggle('open');
+}
+function setNote(adId,v,val){
+  state.ads[adId].notes[v]=val;save();
+  const btn=document.querySelector('#var-'+adId+'-'+v+' .notebtn');
+  btn.classList.toggle('has',val.trim().length>0);
+}
+function setGeneral(adId,val){state.ads[adId].general=val;save()}
+function refreshTabDots(){
+  ADS.forEach(a=>{
+    const st=state.ads[a.id];
+    const done = st.preferred || (st.general&&st.general.trim()) || Object.values(st.notes).some(n=>n&&n.trim());
+    document.getElementById('tab-'+a.id).classList.toggle('done',!!done);
+  });
+}
+function escapeHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+/* ---- Export ---- */
+document.getElementById('exportBtn').onclick=()=>{
+  document.getElementById('exportText').value=buildExport();
+  document.getElementById('modal').classList.add('open');
+};
+document.getElementById('closeBtn').onclick=()=>document.getElementById('modal').classList.remove('open');
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')e.target.classList.remove('open')};
+document.getElementById('copyBtn').onclick=async()=>{
+  const t=document.getElementById('exportText').value;
+  try{await navigator.clipboard.writeText(t);toast('Copié ✓');}
+  catch(e){document.getElementById('exportText').select();document.execCommand('copy');toast('Copié ✓');}
+};
+document.getElementById('dlBtn').onclick=()=>{
+  const blob=new Blob([buildExport()],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='retours-ads-aqqi-'+(state.reviewer||'relecteur').replace(/\s+/g,'-').toLowerCase()+'.txt';
+  a.click();
+};
+function buildExport(){
+  let out='RETOURS ADS AQQI\n';
+  out+='Relecteur : '+(state.reviewer||'(non renseigné)')+'\n';
+  out+='================================\n\n';
+  ADS.forEach(ad=>{
+    const st=state.ads[ad.id];
+    out+='AD '+ad.num+' — '+ad.name+'\n';
+    out+='  Préférée : '+(st.preferred||'(non choisie)')+'\n';
+    ad.variations.forEach(v=>{
+      const n=(st.notes[v]||'').trim();
+      if(n) out+='  · '+v+' : '+n+'\n';
+    });
+    if((st.general||'').trim()) out+='  Notes générales : '+st.general.trim()+'\n';
+    out+='\n';
+  });
+  return out;
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600)}
+</script>
+</body>
+</html>
