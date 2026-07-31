@@ -32,9 +32,8 @@
   .framewrap iframe{width:100%;height:80vh;border:none;display:block}
   .zoombtn{position:absolute;top:10px;right:10px;z-index:2;background:rgba(70,19,2,.9);color:var(--creme);border:none;border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
   .zoombtn:hover{background:var(--choco)}
-  .framewrap:fullscreen,.framewrap:-webkit-full-screen{border:none;border-radius:0;background:var(--bg)}
-  .framewrap:fullscreen iframe,.framewrap:-webkit-full-screen iframe{height:100vh}
-  .framewrap:fullscreen .zoombtn::after,.framewrap:-webkit-full-screen .zoombtn::after{content:" (Échap)"}
+  .framewrap.expanded{position:fixed;inset:0;z-index:9999;border:none;border-radius:0;background:var(--bg)}
+  .framewrap.expanded iframe{height:100vh}
   .framehint{font-size:12.5px;color:var(--muted);margin-top:8px}
 </style>
 </head>
@@ -96,9 +95,16 @@ function loadFrame(id){
 }
 function fs(id){
   const el=document.getElementById('fw-'+id);
-  if(document.fullscreenElement){document.exitFullscreen();return;}
-  (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
+  const on=el.classList.toggle('expanded');
+  el.querySelector('.zoombtn').textContent = on ? '✕ Fermer' : '⤢ Agrandir';
+  document.body.style.overflow = on ? 'hidden' : '';
 }
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    const el=document.querySelector('.framewrap.expanded');
+    if(el){el.classList.remove('expanded');el.querySelector('.zoombtn').textContent='⤢ Agrandir';document.body.style.overflow='';}
+  }
+});
 </script>
 </body>
 </html>
