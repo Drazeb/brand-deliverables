@@ -117,11 +117,20 @@ function tintFrame(f, order){
       if(order&&order.length){
         const secs=[...d.querySelectorAll('section.variation')];
         if(secs.length>1){
-          const parent=secs[0].parentNode;
-          const map={}; secs.forEach(x=>{const L=letterOf(x); if(L)map[L]=x;});
+          const win=d.defaultView;
+          const info=secs.map(s=>({s, L:letterOf(s), top:parseFloat(win.getComputedStyle(s).top), pos:win.getComputedStyle(s).position}));
+          const map={}; info.forEach(i=>{if(i.L)map[i.L]=i;});
           const wanted=order.filter(L=>map[L]); const ws=new Set(wanted);
-          wanted.forEach(L=>parent.appendChild(map[L]));
-          secs.forEach(x=>{ const L=letterOf(x); if(!ws.has(L)) parent.appendChild(x); });
+          const rest=info.filter(i=>!ws.has(i.L)).sort((a,b)=>(a.top||0)-(b.top||0));
+          const ordered=[...wanted.map(L=>map[L]), ...rest];
+          const absol=info.every(i=>i.pos==='absolute' && !isNaN(i.top));
+          if(absol){
+            const slots=info.map(i=>i.top).sort((a,b)=>a-b);
+            ordered.forEach((i,idx)=>{ i.s.style.top=slots[idx]+'px'; });
+          } else {
+            const parent=secs[0].parentNode;
+            ordered.forEach(i=>parent.appendChild(i.s));
+          }
         }
       }
     }catch(e){}
