@@ -53,16 +53,16 @@
 <script>
 /* Une entrée par ad. J'en rajoute au fil de l'eau. */
 const ADS = [
-  { id:'ad1', num:1, name:'Prix barré', file:'ad1.html' },
-  { id:'ad2', num:2, name:'Camp adverse', file:'ad2.html' },
-  { id:'ad3', num:3, name:'Payer au résultat', file:'ad3.html' },
-  { id:'ad4', num:4, name:'Le bien invisible', file:'ad4.html' },
+  { id:'ad1', num:1, name:'Prix barré', file:'ad1.html', order:['F'] },
+  { id:'ad2', num:2, name:'Camp adverse', file:'ad2.html', order:['B'] },
+  { id:'ad3', num:3, name:'Payer au résultat', file:'ad3.html', order:['F','B'] },
+  { id:'ad4', num:4, name:'Le bien invisible', file:'ad4.html', order:['C','B'] },
   { id:'ad5', num:5, name:'Tiers de confiance', file:'ad5.html' },
-  { id:'ad6', num:6, name:"N'achetez pas", file:'ad6.html' },
-  { id:'ad7', num:7, name:'Le canapé', file:'ad7.html' },
-  { id:'ad8', num:8, name:'20 minutes', file:'ad8.html' },
-  { id:'ad9', num:9, name:'Uber VIP', file:'ad9.html' },
-  { id:'ad10', num:10, name:"Sûr d'acheter sûr", file:'ad10.html' }
+  { id:'ad6', num:6, name:"N'achetez pas", file:'ad6.html', order:['B','C','A'] },
+  { id:'ad7', num:7, name:'Le canapé', file:'ad7.html', order:['B','C','A','D'] },
+  { id:'ad8', num:8, name:'20 minutes', file:'ad8.html', order:['B','A','C','D'] },
+  { id:'ad9', num:9, name:'Uber VIP', file:'ad9.html', order:['C','B','E','A'] },
+  { id:'ad10', num:10, name:"Sûr d'acheter sûr", file:'ad10.html', order:['D','B','A','C'] }
 ];
 
 const tabsEl=document.getElementById('tabs');
@@ -99,19 +99,31 @@ function activate(id){
   loadFrame(id);
 }
 function loadFrame(id){
+  const ad=ADS.find(a=>a.id===id);
   const f=document.querySelector('#panel-'+id+' iframe');
-  if(f && !f.src){ f.addEventListener('load',()=>tintFrame(f)); f.src=f.dataset.src; }
+  if(f && !f.src){ f.addEventListener('load',()=>tintFrame(f, ad&&ad.order)); f.src=f.dataset.src; }
 }
 /* Force un fond gris uniforme dans le board Claude Design (même-origine).
    Le bundle se dépaquette en async, donc on ré-applique quelques fois. */
-function tintFrame(f){
+function tintFrame(f, order){
   const GREY='#e9e9e9';
+  function letterOf(s){ const el=[...s.querySelectorAll('*')].find(e=>e.children.length===0 && /^[A-F]$/.test((e.textContent||'').trim())); return el?el.textContent.trim():null; }
   function apply(){
     try{
       const d=f.contentDocument; if(!d) return;
       let s=d.getElementById('__aqqi_bg');
       if(!s){ s=d.createElement('style'); s.id='__aqqi_bg'; (d.head||d.documentElement).appendChild(s); }
       s.textContent='html,body{background:'+GREY+' !important;}';
+      if(order&&order.length){
+        const secs=[...d.querySelectorAll('section.variation')];
+        if(secs.length>1){
+          const parent=secs[0].parentNode;
+          const map={}; secs.forEach(x=>{const L=letterOf(x); if(L)map[L]=x;});
+          const wanted=order.filter(L=>map[L]); const ws=new Set(wanted);
+          wanted.forEach(L=>parent.appendChild(map[L]));
+          secs.forEach(x=>{ const L=letterOf(x); if(!ws.has(L)) parent.appendChild(x); });
+        }
+      }
     }catch(e){}
   }
   apply();
