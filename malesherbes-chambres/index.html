@@ -173,17 +173,6 @@ const SCENARIOS = [
     }
   },
   {
-    nom: 'Scénario 3 · Bézard sans enfants',
-    note: 'S2 version maximale : Charles et Andréa seuls au rez. Ellie rejoint les filles de Saint Léger au Dortoir 3, petit dortoir encadré par Aurore (à valider avec elle). Le lit libre du D2 peut accueillir Orso.',
-    rooms: {
-      ch2rdc: [p('Charles','bezard'), p('Andréa','bezard')],
-      d1:     [...SITTERS, Lout('Bibliothèque')],
-      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Esther','prechac'), p('Isidor','prechac'), {libre:true, note:'libre (Orso ?)'}],
-      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), p('Ellie','bezard')],
-      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D1')],
-    }
-  },
-  {
     nom: 'Scénario 4 · confort Aurore (recommandé)',
     note: 'Le scénario qui satisfait le plus d’idéaux : Bézard avec Ellie seulement (matelas ou gonflable au rez), Aurore avec ses deux filles au D3, Pierre en Bibliothèque avec Jean et Do, lit libre au D2 pour Orso. Coûts : Thelma seule au D2, Ellie sur matelas, Bibliothèque à 3.',
     rooms: {
@@ -207,18 +196,6 @@ const SCENARIOS = [
     }
   },
   {
-    nom: 'Scénario 6 · deux petits dortoirs encadrés',
-    note: 'Deux dortoirs de 4 : les grands au D2 (avec Orso, sorti de la Poterie), les filles au D3 encadrées par Aurore (qui hérite d’Esther). Ellie sur matelas avec ses parents au rez. À valider : accords d’Aurore, des Misset et d’Esther.',
-    rooms: {
-      poterie:[p('Marie','misset'), p('Charlie','misset'), Lout('Bibliothèque'), p('Pablo','misset','lit bébé')],
-      ch2rdc: [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard','matelas transféré du D1 (ou gonflable)')],
-      d1:     [...SITTERS, Lout('Ch2 rdc')],
-      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Isidor','prechac'), p('Orso','misset'), L],
-      d3:     [p('Aurore','stleger'), p('Esther','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
-      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré de la Poterie')],
-    }
-  },
-  {
     nom: 'Scénario 7 · chambre créée version couple',
     note: 'Les 2 matelas achetés, groupés en lit double dans l’espace créé, accueillent les Mille (couple volontaire à confirmer). Pierre récupère leur vraie chambre, seul. Personne ne dort sur un matelas récupéré. Coût : 2 achats.',
     rooms: {
@@ -229,6 +206,29 @@ const SCENARIOS = [
       bibli:  BIBLI_JD,
       mmch2:  [p('Pierre','solo'), L],
       creee:  [p('Isa','mille','matelas acheté'), p('Olivier','mille','matelas acheté, groupés en double')],
+    }
+  },
+  {
+    nom: 'Scénario 8 · babysitters au rez',
+    note: 'Les babysitters quittent l’étage des dortoirs pour la Chambre 2 du rez (2 lits + 1 matelas transféré). Le Dortoir 1 libéré (rideaux + SDB perso) revient aux Bézard au complet. Aurore avec ses filles au D3, dortoir enfants réduit à 3-4 (Orso possible). À assumer : bruit possible du plafond (elles sont sous les dortoirs), une babysitter sur matelas.',
+    rooms: {
+      ch2rdc: [p('Babysitter 1','sitter'), p('Babysitter 2','sitter'), p('Babysitter 3','sitter','matelas transféré du D2')],
+      d1:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('Ch2 rdc')],
+      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('Bibliothèque')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D3')],
+    }
+  },
+  {
+    nom: 'Scénario 9 · babysitters en chambre créée',
+    note: 'Les babysitters occupent l’espace créé (2 matelas achetés + 1 transféré). Le Dortoir 1 (rideaux + SDB) revient à Aurore et ses filles, et la Chambre 2 du rez reste vide en réserve. Réserve : 3 salariées sur matelas au sol, à ne retenir que si l’espace créé est une vraie belle pièce.',
+    rooms: {
+      ch2rdc: [{libre:true, note:'chambre de réserve'}, {libre:true, note:'chambre de réserve'}],
+      d1:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), L],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('chambre créée')],
+      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D1')],
+      creee:  [p('Babysitter 1','sitter','matelas acheté'), p('Babysitter 2','sitter','matelas acheté'), p('Babysitter 3','sitter','matelas transféré du D2')],
     }
   },
 ];
@@ -263,7 +263,7 @@ SCENARIOS.forEach((sc,i)=>{
 document.getElementById('legende').innerHTML =
   Object.values(FAM).map(([nom,c])=>`<span class="item"><span class="dot" style="background:${c}"></span>${nom}</span>`).join('');
 
-show(3); // scénario recommandé par défaut
+show(2); // scénario 4 (recommandé) par défaut
 </script>
 </body>
 </html>
