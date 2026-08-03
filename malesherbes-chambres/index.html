@@ -184,31 +184,6 @@ const SCENARIOS = [
     }
   },
   {
-    nom: 'Scénario 5 · chambre créée',
-    note: 'Comme le Scénario 1, mais Pierre dort seul dans un espace à définir (salon, bureau, mezzanine ?) avec le matelas transféré du D1 ou un matelas acheté. Jean et Do restent à deux en Bibliothèque.',
-    rooms: {
-      ch2rdc: [p('Aurore','stleger'), L],
-      d1:     [...SITTERS, Lout('chambre créée')],
-      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
-      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
-      bibli:  BIBLI_JD,
-      creee:  [p('Pierre','solo','matelas transféré ou acheté')],
-    }
-  },
-  {
-    nom: 'Scénario 7 · chambre créée version couple',
-    note: 'Les 2 matelas achetés, groupés en lit double dans l’espace créé, accueillent les Mille (couple volontaire à confirmer). Pierre récupère leur vraie chambre, seul. Personne ne dort sur un matelas récupéré. Coût : 2 achats.',
-    rooms: {
-      ch2rdc: [p('Aurore','stleger'), L],
-      d1:     [...SITTERS, L],
-      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
-      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
-      bibli:  BIBLI_JD,
-      mmch2:  [p('Pierre','solo'), L],
-      creee:  [p('Isa','mille','matelas acheté'), p('Olivier','mille','matelas acheté, groupés en double')],
-    }
-  },
-  {
     nom: 'Scénario 8 · babysitters au rez',
     note: 'Les babysitters quittent l’étage des dortoirs pour la Chambre 2 du rez (2 lits + 1 matelas transféré). Le Dortoir 1 libéré (rideaux + SDB perso) revient aux Bézard au complet. Aurore avec ses filles au D3, dortoir enfants réduit à 3-4 (Orso possible). À assumer : bruit possible du plafond (elles sont sous les dortoirs), une babysitter sur matelas.',
     rooms: {
@@ -220,15 +195,14 @@ const SCENARIOS = [
     }
   },
   {
-    nom: 'Scénario 9 · babysitters en chambre créée',
-    note: 'Les babysitters occupent l’espace créé (2 matelas achetés + 1 transféré). Le Dortoir 1 (rideaux + SDB) revient à Aurore et ses filles, et la Chambre 2 du rez reste vide en réserve. Réserve : 3 salariées sur matelas au sol, à ne retenir que si l’espace créé est une vraie belle pièce.',
+    nom: 'Scénario 8b · variante Flore + Thelma au dortoir',
+    note: 'Comme le 8 (babysitters au rez), mais Flore et Thelma rejoignent le Dortoir 2 (plein à 5, pas de place pour Orso). Les Bézard gardent Ellie seule (S2 satisfait) avec rideaux + SDB au D1, Aurore garde Anouk au D3.',
     rooms: {
-      ch2rdc: [{libre:true, note:'chambre de réserve'}, {libre:true, note:'chambre de réserve'}],
-      d1:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), L],
-      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('chambre créée')],
-      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
-      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D1')],
-      creee:  [p('Babysitter 1','sitter','matelas acheté'), p('Babysitter 2','sitter','matelas acheté'), p('Babysitter 3','sitter','matelas transféré du D2')],
+      ch2rdc: [p('Babysitter 1','sitter'), p('Babysitter 2','sitter'), p('Babysitter 3','sitter','matelas transféré du D1')],
+      d1:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), Lout('Ch2 rdc')],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), p('Thelma','bezard'), p('Flore','stleger')],
+      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('Bibliothèque')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D3')],
     }
   },
 ];
