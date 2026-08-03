@@ -219,60 +219,6 @@ const SCENARIOS = [
       bibli:  WHY_FIXES.bibli,
     }
   },
-  {
-    nom: 'Scénario 1 · familles groupées',
-    note: 'Le plus simple : chaque famille est entière. Babysitters au Dortoir 1 (étage des dortoirs). Aurore en chambre seule au rez.',
-    rooms: {
-      ch2rdc: [p('Aurore','stleger'), L],
-      d1:     [...SITTERS3, Lout('Bibliothèque')],
-      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
-      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D1')],
-    },
-    why: {
-      ch2rdc: 'Aurore au calme, au rez du bâtiment de ses filles : tout près en cas de besoin.',
-      d1:     'Les 3 babysitters entre elles, avec rideaux et SDB perso. Le 4e matelas part en Bibliothèque.',
-      d2:     'Le grand dortoir des enfants : les cinq grands ensemble. La veille de nuit se partage entre les adultes du bâtiment (Bézard à côté, Campos et Aurore au rez).',
-      d3:     'Chambre familiale des Bézard au complet, mitoyenne du dortoir.',
-      bibli:  WHY_FIXES.bibli,
-    }
-  },
-  {
-    nom: 'Scénario 2 · Thelma au dortoir',
-    note: 'Thelma rejoint le Dortoir 2 avec les grands, Flore dort avec Aurore au rez. Ellie, la plus jeune des Bézard, reste avec ses parents au Dortoir 3. Babysitters au Dortoir 1.',
-    rooms: {
-      ch2rdc: [p('Aurore','stleger'), p('Flore','stleger')],
-      d1:     [...SITTERS3, Lout('Bibliothèque')],
-      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Esther','prechac'), p('Isidore','prechac'), p('Anouk','stleger')],
-      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), L],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D1')],
-    },
-    why: {
-      ch2rdc: 'Aurore garde Flore près d’elle ; Anouk dort au dortoir avec les copains.',
-      d1:     'Les 3 babysitters entre elles, avec rideaux et SDB perso. Le 4e matelas part en Bibliothèque.',
-      d2:     'Thelma rejoint les grands au dortoir. La veille de nuit se partage entre les adultes du bâtiment (Bézard à côté, Campos et Aurore au rez).',
-      d3:     'Charles, Andréa et Ellie, la plus jeune, en vrai lit près de ses parents.',
-      bibli:  WHY_FIXES.bibli,
-    }
-  },
-  {
-    nom: 'Scénario 4 · confort Aurore',
-    note: 'Aurore avec ses deux filles au Dortoir 3, Ellie avec ses parents au rez (matelas ou gonflable), lit libre au Dortoir 2 pour Orso. Babysitters au Dortoir 1.',
-    rooms: {
-      ch2rdc: [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard','matelas transféré du D1 (ou gonflable)')],
-      d1:     [...SITTERS3, Lout('Ch2 rdc')],
-      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}],
-      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('Bibliothèque')],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D3')],
-    },
-    why: {
-      ch2rdc: 'Ellie, la plus jeune des Bézard, dort près de ses parents, au rez.',
-      d1:     'Les 3 babysitters entre elles, avec rideaux et SDB perso. Le 4e matelas descend au rez pour Ellie.',
-      d2:     'Quatre grands au dortoir ; le lit restant est gardé libre pour Orso s’il veut les rejoindre. La veille de nuit se partage entre les adultes du bâtiment (Aurore à côté, Campos et Bézard au rez).',
-      d3:     'Aurore avec ses deux filles, mitoyenne du dortoir.',
-      bibli:  WHY_FIXES.bibli,
-    }
-  },
 ];
 
 function renderLit(el){
