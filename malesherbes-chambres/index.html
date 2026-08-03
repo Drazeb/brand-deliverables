@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Répartition chambres · Malesherbes</title>
+<style>
+  :root{
+    --bg:#f5f2ec; --card:#ffffff; --ink:#2b2a26; --muted:#8a8578;
+    --campos:#3b82c4; --bezard:#3d9e63; --misset:#e08a3c; --prechac:#8a63c9;
+    --stleger:#d66a9c; --mille:#2aa5a0; --solo:#6b7280; --sitter:#c94f4f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); padding:24px;}
+  h1{font-size:22px; margin-bottom:4px;}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:18px;}
+  .tabs{display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;}
+  .tab{border:1px solid #d8d2c4; background:#fff; border-radius:8px; padding:8px 14px; font-size:14px; cursor:pointer;}
+  .tab.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .scenario-note{font-size:13px; color:var(--muted); margin-bottom:18px; max-width:900px;}
+
+  .domaine{display:flex; gap:36px; align-items:flex-start; flex-wrap:wrap;}
+  .batiment{background:transparent;}
+  .batiment h2{font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:8px;}
+  .etage{border:2px solid #b9b2a1; border-radius:10px; background:#efeadf; padding:10px; margin-bottom:14px;}
+  .etage-label{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:8px;}
+  .pieces{display:flex; gap:10px; align-items:stretch;}
+  .pieces.enfilade{gap:0;}
+  .piece{background:var(--card); border:1.5px solid #cfc8b8; border-radius:8px; padding:10px; min-width:150px;}
+  .pieces.enfilade .piece + .piece{border-left:2px dashed #c94f4f; border-top-left-radius:0; border-bottom-left-radius:0; margin-left:0;}
+  .pieces.enfilade .piece:first-child{border-top-right-radius:0; border-bottom-right-radius:0;}
+  .piece h3{font-size:13px; margin-bottom:2px;}
+  .piece .cap{font-size:11px; color:var(--muted); margin-bottom:8px;}
+  .lits{display:flex; flex-direction:column; gap:4px;}
+  .lit{display:flex; align-items:center; gap:6px; font-size:12.5px; border-radius:6px; padding:3px 8px; background:#f2efe8;}
+  .dot{width:10px; height:10px; border-radius:50%; flex:none;}
+  .extra{border:1.5px dashed #b9b2a1; background:#faf8f3; font-style:italic;}
+  .libre{border:1.5px dashed #cfc8b8; background:transparent; color:var(--muted); font-style:italic;}
+  .isole{margin-top:40px;}
+  .lien-enfilade{font-size:10px; color:#c94f4f; text-align:center; margin-top:4px;}
+
+  .legende{margin-top:28px; display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--ink); align-items:center;}
+  .legende .item{display:flex; align-items:center; gap:5px;}
+  .footer-note{margin-top:14px; font-size:12px; color:var(--muted); max-width:900px;}
+</style>
+</head>
+<body>
+  <h1>Répartition des chambres · Vacances Malesherbes</h1>
+  <div class="sub">27 dormeurs en lits standards (28 lits), 26 si Ellie en gonflable · 3 lits bébé apportés · Vianney au master (C9). Disposition spatiale schématique (à corriger par Charles).</div>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="scenario-note" id="note"></div>
+
+  <div class="domaine">
+
+    <div class="batiment isole">
+      <h2>Poterie <span style="font-weight:normal">(isolée)</span></h2>
+      <div class="etage">
+        <div class="etage-label">Plain-pied</div>
+        <div class="pieces">
+          <div class="piece" data-room="poterie"><h3>Poterie</h3><div class="cap">lit double + 1 simple · 3 pl.</div><div class="lits"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="batiment">
+      <h2>Rez</h2>
+      <div class="etage">
+        <div class="etage-label">Étage</div>
+        <div class="pieces">
+          <div class="piece" data-room="d1"><h3>Dortoir 1</h3><div class="cap">4 simples · rideaux + SDB perso</div><div class="lits"></div></div>
+          <div style="display:flex; flex-direction:column;">
+            <div class="pieces enfilade">
+              <div class="piece" data-room="d2"><h3>Dortoir 2</h3><div class="cap">5 simples</div><div class="lits"></div></div>
+              <div class="piece" data-room="d3"><h3>Dortoir 3</h3><div class="cap">4 simples · mitoyen D2</div><div class="lits"></div></div>
+            </div>
+            <div class="lien-enfilade">⟵ en enfilade (passage à vérifier) ⟶</div>
+          </div>
+        </div>
+      </div>
+      <div class="etage">
+        <div class="etage-label">Rez-de-chaussée</div>
+        <div class="pieces">
+          <div class="piece" data-room="ch1rdc"><h3>Chambre 1 rdc</h3><div class="cap">double cassable · 2 pl.</div><div class="lits"></div></div>
+          <div class="piece" data-room="ch2rdc"><h3>Chambre 2 rdc</h3><div class="cap">double cassable · 2 pl.</div><div class="lits"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="batiment">
+      <h2>Maison de maître</h2>
+      <div class="etage">
+        <div class="etage-label">Étage</div>
+        <div class="pieces">
+          <div class="piece" data-room="mmch1"><h3>Chambre 1</h3><div class="cap">lit double + 2 lits bébé</div><div class="lits"></div></div>
+          <div class="piece" data-room="mmch2"><h3>Chambre 2</h3><div class="cap">double cassable · 2 pl.</div><div class="lits"></div></div>
+          <div class="piece" data-room="master"><h3>Chambre 2 master</h3><div class="cap">lit double · 2 pl.</div><div class="lits"></div></div>
+        </div>
+      </div>
+      <div class="etage">
+        <div class="etage-label">Rez-de-chaussée</div>
+        <div class="pieces">
+          <div class="piece" data-room="bibli"><h3>Bibliothèque</h3><div class="cap">double convertible · 2 pl.</div><div class="lits"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="batiment isole" id="bat-creee">
+      <h2>Chambre créée <span style="font-weight:normal">(lieu à définir)</span></h2>
+      <div class="etage">
+        <div class="etage-label">Espace à trouver avec Vianney</div>
+        <div class="pieces">
+          <div class="piece" data-room="creee"><h3>Chambre créée</h3><div class="cap">1-2 matelas simples (groupables en double)</div><div class="lits"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="legende" id="legende"></div>
+  <div class="footer-note">Familles par couleur. Pointillés : couchage apporté ou acheté (lit bébé, gonflable, matelas) ou lit libre. La position exacte des pièces est schématique : dis-moi quoi bouger.</div>
+
+<script>
+const FAM = {
+  campos:  ['Campos', 'var(--campos)'],
+  bezard:  ['Bézard', 'var(--bezard)'],
+  misset:  ['Misset', 'var(--misset)'],
+  prechac: ['Préchac', 'var(--prechac)'],
+  stleger: ['de Saint Léger', 'var(--stleger)'],
+  mille:   ['Mille', 'var(--mille)'],
+  solo:    ['Solos', 'var(--solo)'],
+  sitter:  ['Babysitters', 'var(--sitter)'],
+};
+
+// p(nom, famille, extra?) ; L = lit libre
+const p = (n, f, x) => ({n, f, x});
+const L = {libre: true};
+
+const FIXES = {
+  poterie: [p('Marie','misset'), p('Charlie','misset'), p('Orso','misset'), p('Pablo','misset','lit bébé')],
+  ch1rdc:  [p('PA','campos'), p('Jeanne','campos'), p('Aliocha','campos','lit bébé')],
+  mmch1:   [p('Vico','prechac'), p('Anne','prechac'), p('Lazare','prechac','lit bébé sur place')],
+  mmch2:   [p('Isa','mille'), p('Olivier','mille')],
+  master:  [p('Vianney','solo'), p('Nico','solo')],
+};
+
+const SITTERS = [p('Babysitter 1','sitter'), p('Babysitter 2','sitter'), p('Babysitter 3','sitter')];
+const Lout = (dest) => ({libre:true, note:'matelas transféré → ' + dest});
+
+const BIBLI_JD = [p('Jean','solo'), p('Donatienne','solo')];
+
+const SCENARIOS = [
+  {
+    nom: 'Scénario 1 · familles groupées',
+    note: 'Le plus simple. Bézard au complet au Dortoir 3, Pierre en Bibliothèque avec Jean et Do (souhait S3), Aurore en chambre seule au rez. Souhait S2 (Bézard sans Thelma) non satisfait.',
+    rooms: {
+      ch2rdc: [p('Aurore','stleger'), L],
+      d1:     [...SITTERS, Lout('Bibliothèque')],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
+      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D1')],
+    }
+  },
+  {
+    nom: 'Scénario 2 · Bézard avec Ellie seule',
+    note: 'S2 version « uniquement Ellie » : Thelma rejoint le D2, Flore dort avec Aurore au rez. Ellie en vrai lit avec ses parents au Dortoir 3.',
+    rooms: {
+      ch2rdc: [p('Aurore','stleger'), p('Flore','stleger')],
+      d1:     [...SITTERS, Lout('Bibliothèque')],
+      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Esther','prechac'), p('Isidor','prechac'), p('Anouk','stleger')],
+      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), L],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D1')],
+    }
+  },
+  {
+    nom: 'Scénario 3 · Bézard sans enfants',
+    note: 'S2 version maximale : Charles et Andréa seuls au rez. Ellie rejoint les filles de Saint Léger au Dortoir 3, petit dortoir encadré par Aurore (à valider avec elle). Le lit libre du D2 peut accueillir Orso.',
+    rooms: {
+      ch2rdc: [p('Charles','bezard'), p('Andréa','bezard')],
+      d1:     [...SITTERS, Lout('Bibliothèque')],
+      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Esther','prechac'), p('Isidor','prechac'), {libre:true, note:'libre (Orso ?)'}],
+      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), p('Ellie','bezard')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D1')],
+    }
+  },
+  {
+    nom: 'Scénario 4 · confort Aurore (recommandé)',
+    note: 'Le scénario qui satisfait le plus d’idéaux : Bézard avec Ellie seulement (matelas ou gonflable au rez), Aurore avec ses deux filles au D3, Pierre en Bibliothèque avec Jean et Do, lit libre au D2 pour Orso. Coûts : Thelma seule au D2, Ellie sur matelas, Bibliothèque à 3.',
+    rooms: {
+      ch2rdc: [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard','matelas transféré du D1 (ou gonflable)')],
+      d1:     [...SITTERS, Lout('Ch2 rdc')],
+      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Esther','prechac'), p('Isidor','prechac'), {libre:true, note:'libre (Orso ?)'}],
+      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('Bibliothèque')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré du D3')],
+    }
+  },
+  {
+    nom: 'Scénario 5 · chambre créée',
+    note: 'Comme le Scénario 1, mais Pierre dort seul dans un espace à définir (salon, bureau, mezzanine ?) avec le matelas transféré du D1 ou un matelas acheté. Jean et Do restent à deux en Bibliothèque.',
+    rooms: {
+      ch2rdc: [p('Aurore','stleger'), L],
+      d1:     [...SITTERS, Lout('chambre créée')],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
+      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
+      bibli:  BIBLI_JD,
+      creee:  [p('Pierre','solo','matelas transféré ou acheté')],
+    }
+  },
+  {
+    nom: 'Scénario 6 · deux petits dortoirs encadrés',
+    note: 'Deux dortoirs de 4 : les grands au D2 (avec Orso, sorti de la Poterie), les filles au D3 encadrées par Aurore (qui hérite d’Esther). Ellie sur matelas avec ses parents au rez. À valider : accords d’Aurore, des Misset et d’Esther.',
+    rooms: {
+      poterie:[p('Marie','misset'), p('Charlie','misset'), Lout('Bibliothèque'), p('Pablo','misset','lit bébé')],
+      ch2rdc: [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard','matelas transféré du D1 (ou gonflable)')],
+      d1:     [...SITTERS, Lout('Ch2 rdc')],
+      d2:     [p('Prudence','campos'), p('Thelma','bezard'), p('Isidor','prechac'), p('Orso','misset'), L],
+      d3:     [p('Aurore','stleger'), p('Esther','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
+      bibli:  [...BIBLI_JD, p('Pierre','solo','matelas transféré de la Poterie')],
+    }
+  },
+  {
+    nom: 'Scénario 7 · chambre créée version couple',
+    note: 'Les 2 matelas achetés, groupés en lit double dans l’espace créé, accueillent les Mille (couple volontaire à confirmer). Pierre récupère leur vraie chambre, seul. Personne ne dort sur un matelas récupéré. Coût : 2 achats.',
+    rooms: {
+      ch2rdc: [p('Aurore','stleger'), L],
+      d1:     [...SITTERS, L],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidor','prechac'), p('Anouk','stleger'), p('Flore','stleger')],
+      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
+      bibli:  BIBLI_JD,
+      mmch2:  [p('Pierre','solo'), L],
+      creee:  [p('Isa','mille','matelas acheté'), p('Olivier','mille','matelas acheté, groupés en double')],
+    }
+  },
+];
+
+function renderLit(el){
+  if(el.libre) return `<div class="lit libre">${el.note || 'lit libre'}</div>`;
+  const cls = el.x ? 'lit extra' : 'lit';
+  const suffix = el.x ? ' · ' + el.x : '';
+  return `<div class="${cls}"><span class="dot" style="background:${FAM[el.f][1]}"></span>${el.n}${suffix}</div>`;
+}
+
+function show(i){
+  const sc = SCENARIOS[i];
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active', j===i));
+  document.getElementById('note').textContent = sc.note;
+  const all = Object.assign({}, FIXES, sc.rooms);
+  document.getElementById('bat-creee').style.display = all.creee ? 'block' : 'none';
+  document.querySelectorAll('.piece').forEach(pc=>{
+    const r = pc.dataset.room;
+    pc.querySelector('.lits').innerHTML = (all[r]||[]).map(renderLit).join('');
+  });
+}
+
+const tabs = document.getElementById('tabs');
+SCENARIOS.forEach((sc,i)=>{
+  const b = document.createElement('button');
+  b.className='tab'; b.textContent=sc.nom;
+  b.onclick=()=>show(i);
+  tabs.appendChild(b);
+});
+
+document.getElementById('legende').innerHTML =
+  Object.values(FAM).map(([nom,c])=>`<span class="item"><span class="dot" style="background:${c}"></span>${nom}</span>`).join('');
+
+show(3); // scénario recommandé par défaut
+</script>
+</body>
+</html>
