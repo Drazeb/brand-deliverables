@@ -139,7 +139,7 @@ const FIXES = {
 
 const WHY_FIXES = {
   poterie: 'La chambre indépendante du domaine : les Misset y sont chez eux avec leur bébé, en toute autonomie. Orso occupe le 3e lit.',
-  ch1rdc:  'Aliocha dort en lit bébé, donc avec ses parents. Au rez du bâtiment des dortoirs, les Campos sont adultes référents, juste sous le dortoir de Prudence.',
+  ch1rdc:  'Aliocha dort en lit bébé, donc avec ses parents. Au rez du bâtiment des dortoirs, juste sous le dortoir où dort Prudence.',
   mmch1:   'Les 2 lits bébé sur place servent à Lazare, et cette chambre sera vérifiée comme la plus sombre possible pour ses nuits.',
   mmch2:   'Isa et Olivier prennent la chambre restante de la Maison de maître, au calme à l’étage.',
   master:  'Vianney au master (impératif d’organisation), avec Nico, son binôme de chambre.',
@@ -159,9 +159,9 @@ const SCENARIOS = [
     },
     why: {
       ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs. 3e couchage sur matelas transféré.',
-      d1:     'Chambre familiale des Bézard au complet, rideaux et SDB perso en bonus.',
-      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre.',
-      d3:     'Aurore avec ses deux filles, mitoyenne du dortoir : elle est référente de l’étage.',
+      d1:     'Chambre familiale des Bézard au complet, rideaux et SDB perso en bonus. Le dortoir des enfants est ainsi entouré par deux familles.',
+      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre. Deux familles de part et d’autre.',
+      d3:     'Aurore avec ses deux filles. Avec les Bézard de l’autre côté, les deux familles entourent le dortoir et se partagent la veille de nuit.',
       bibli:  WHY_FIXES.bibli,
     }
   },
@@ -178,8 +178,8 @@ const SCENARIOS = [
     why: {
       ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs.',
       d1:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains. Rideaux et SDB perso.',
-      d2:     'Le grand dortoir des enfants : les cinq grands ensemble.',
-      d3:     'Aurore garde Anouk, la plus jeune, et laisse Flore dormir avec les grands. Mitoyenne du dortoir : référente de l’étage.',
+      d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines qui se partagent la veille de nuit.',
+      d3:     'Aurore garde Anouk, la plus jeune, et laisse Flore dormir avec les grands.',
       bibli:  WHY_FIXES.bibli,
     }
   },
@@ -196,8 +196,8 @@ const SCENARIOS = [
     why: {
       ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs.',
       d1:     'Aurore et ses deux filles profitent des rideaux et de la SDB perso.',
-      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre.',
-      d3:     'Chambre familiale des Bézard au complet, mitoyenne du dortoir : référents de l’étage.',
+      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre. Deux familles de part et d’autre.',
+      d3:     'Chambre familiale des Bézard au complet. Les deux familles entourent le dortoir et se partagent la veille de nuit.',
       bibli:  WHY_FIXES.bibli,
     }
   },
@@ -214,7 +214,7 @@ const SCENARIOS = [
     why: {
       ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs.',
       d1:     'Aurore garde Anouk, la plus jeune, avec rideaux et SDB perso ; Flore dort avec les grands.',
-      d2:     'Le grand dortoir des enfants : les cinq grands ensemble.',
+      d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines qui se partagent la veille de nuit.',
       d3:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains.',
       bibli:  WHY_FIXES.bibli,
     }
@@ -230,10 +230,10 @@ const SCENARIOS = [
       bibli:  [...JD, p('Pierre','solo','matelas transféré du D1')],
     },
     why: {
-      ch2rdc: 'Aurore au calme, au rez du bâtiment de ses filles : tout près en cas de besoin, et adulte référente au rez.',
+      ch2rdc: 'Aurore au calme, au rez du bâtiment de ses filles : tout près en cas de besoin.',
       d1:     'Les 3 babysitters entre elles, avec rideaux et SDB perso. Le 4e matelas part en Bibliothèque.',
-      d2:     'Le grand dortoir des enfants : les cinq grands ensemble.',
-      d3:     'Chambre familiale des Bézard au complet, mitoyenne du dortoir : référents de l’étage.',
+      d2:     'Le grand dortoir des enfants : les cinq grands ensemble. La veille de nuit se partage entre les adultes du bâtiment (Bézard à côté, Campos et Aurore au rez).',
+      d3:     'Chambre familiale des Bézard au complet, mitoyenne du dortoir.',
       bibli:  WHY_FIXES.bibli,
     }
   },
@@ -248,9 +248,9 @@ const SCENARIOS = [
       bibli:  [...JD, p('Pierre','solo','matelas transféré du D1')],
     },
     why: {
-      ch2rdc: 'Aurore garde Flore près d’elle ; Anouk dort au dortoir avec les copains. Référente au rez.',
+      ch2rdc: 'Aurore garde Flore près d’elle ; Anouk dort au dortoir avec les copains.',
       d1:     'Les 3 babysitters entre elles, avec rideaux et SDB perso. Le 4e matelas part en Bibliothèque.',
-      d2:     'Thelma rejoint les grands au dortoir.',
+      d2:     'Thelma rejoint les grands au dortoir. La veille de nuit se partage entre les adultes du bâtiment (Bézard à côté, Campos et Aurore au rez).',
       d3:     'Charles, Andréa et Ellie, la plus jeune, en vrai lit près de ses parents.',
       bibli:  WHY_FIXES.bibli,
     }
@@ -266,10 +266,10 @@ const SCENARIOS = [
       bibli:  [...JD, p('Pierre','solo','matelas transféré du D3')],
     },
     why: {
-      ch2rdc: 'Ellie, la plus jeune des Bézard, dort près de ses parents, au rez référent.',
+      ch2rdc: 'Ellie, la plus jeune des Bézard, dort près de ses parents, au rez.',
       d1:     'Les 3 babysitters entre elles, avec rideaux et SDB perso. Le 4e matelas descend au rez pour Ellie.',
-      d2:     'Quatre grands au dortoir ; le lit restant est gardé libre pour Orso s’il veut les rejoindre.',
-      d3:     'Aurore avec ses deux filles, mitoyenne du dortoir : référente de l’étage.',
+      d2:     'Quatre grands au dortoir ; le lit restant est gardé libre pour Orso s’il veut les rejoindre. La veille de nuit se partage entre les adultes du bâtiment (Aurore à côté, Campos et Bézard au rez).',
+      d3:     'Aurore avec ses deux filles, mitoyenne du dortoir.',
       bibli:  WHY_FIXES.bibli,
     }
   },
