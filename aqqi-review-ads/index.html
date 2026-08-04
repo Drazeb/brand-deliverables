@@ -122,7 +122,7 @@ const R1 = [
 /* vars: variations dans l'ordre voulu ; n = nombre de cartes.
    projectFile = fichier source Claude Design de l'ad (à pointer plus tard).
    canva = fichier 2 Canva (équipe growth) par variation (à pointer plus tard). */
-const DS_FILE = null; /* ex: 'downloads/aqqi-design-system.zip' */
+const DS_FILE = 'https://drive.google.com/file/d/1SrvTI4Y28Qex2iEWSi4AO1F2iRsn6g71/view?usp=sharing'; /* hébergé sur Drive (164 Mo, > limite GitHub) */
 const R2 = [
   { id:'ad1', num:1, name:'Prix barré', prefix:'ad01', projectFile:null,
     vars:[{L:'A',n:4,canva:null},{L:'C',n:4,canva:null},{L:'E',n:4,canva:null}] },
@@ -218,7 +218,7 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){
 }});
 
 /* activation du bouton DS si fichier pointé */
-if(DS_FILE){ const b=document.getElementById('dl-ds-btn'); b.href=DS_FILE; b.setAttribute('download',''); b.classList.remove('disabled'); b.textContent='Télécharger le design system'; }
+if(DS_FILE){ const b=document.getElementById('dl-ds-btn'); b.href=DS_FILE; b.classList.remove('disabled'); b.textContent='Télécharger le design system'; if(/^https?:/.test(DS_FILE)){ b.target='_blank'; b.rel='noopener'; } else { b.setAttribute('download',''); } }
 
 /* init */
 loadFrame(R1[0].id);
