@@ -50,6 +50,19 @@
   .lb.open{display:flex}
   .lb img{max-width:96vw;max-height:94vh;border-radius:8px}
   .lb .close{position:fixed;top:16px;right:20px;color:var(--creme);font-size:26px;cursor:pointer;background:none;border:none}
+
+  /* Encarts téléchargement */
+  .dl-ds{background:#fff;border:1px solid var(--line);border-left:4px solid var(--orange);border-radius:12px;padding:14px 18px;margin-top:18px}
+  .dl-ds .t{font-weight:700;color:var(--choco);font-size:14px;margin-bottom:4px}
+  .dl-ds p{font-size:13px;color:#5c5140;margin:3px 0}
+  .dl-ds .warn{color:#8a3b1a;font-weight:600}
+  .how{font-style:italic}
+  .dl-btn{display:inline-block;margin-top:8px;background:var(--orange);color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none}
+  .dl-btn.disabled{background:#ddd8cc;color:#8a7f6d;cursor:not-allowed;pointer-events:none}
+  .dl-ad{background:#fbfaf6;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:18px}
+  .dl-ad p{font-size:13px;color:#5c5140;margin:3px 0}
+  .dl-mini{display:inline-block;margin-left:10px;font-size:12px;color:var(--orange);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:3px 9px;vertical-align:middle}
+  .dl-mini.disabled{color:#b3a692;border-color:#eee;cursor:not-allowed;pointer-events:none}
 </style>
 </head>
 <body>
@@ -61,6 +74,14 @@
 </header>
 
 <div class="wrap">
+  <div class="dl-ds">
+    <div class="t">Design system AQQI (Claude Design)</div>
+    <p>Télécharge ici le design system de Charles (le design system des ads).</p>
+    <p class="warn">Attention : il s'agit de la première version des ads (Clémence), pas de la dernière version designée.</p>
+    <p class="how">Pour l'utiliser : crée un nouveau projet dans Claude Design et connectes-y un nouveau design system créé sur la base de ce fichier.</p>
+    <a class="dl-btn disabled" id="dl-ds-btn">Télécharger le design system (fichier à venir)</a>
+  </div>
+
   <div class="rounds">
     <button class="round-btn active" id="rb1" onclick="setRound(1)">Round 1<small>version initiale</small></button>
     <button class="round-btn" id="rb2" onclick="setRound(2)">Round 2<small>nouvelle série</small></button>
@@ -98,10 +119,17 @@ const R1 = [
 ];
 
 /* ---------- ROUND 2 : images par carte ---------- */
-/* vars: variations dans l'ordre voulu ; n = nombre de cartes */
+/* vars: variations dans l'ordre voulu ; n = nombre de cartes.
+   projectFile = fichier source Claude Design de l'ad (à pointer plus tard).
+   canva = fichier 2 Canva (équipe growth) par variation (à pointer plus tard). */
+const DS_FILE = null; /* ex: 'downloads/aqqi-design-system.zip' */
 const R2 = [
-  { id:'ad1', num:1, name:'Prix barré', prefix:'ad01', vars:[{L:'A',n:4},{L:'C',n:4},{L:'E',n:4}] }
+  { id:'ad1', num:1, name:'Prix barré', prefix:'ad01', projectFile:null,
+    vars:[{L:'A',n:4,canva:null},{L:'C',n:4,canva:null},{L:'E',n:4,canva:null}] }
 ];
+function dlLink(file,label,cls){ cls=cls||'dl-btn';
+  if(file) return '<a class="'+cls+'" href="'+file+'" download>'+label+'</a>';
+  return '<a class="'+cls+' disabled">'+label+' (à venir)</a>'; }
 
 /* ===== Round 1 build ===== */
 const t1=document.getElementById('tabs1'), p1=document.getElementById('panels1');
@@ -148,8 +176,12 @@ R2.forEach((ad,i)=>{
   const panel=document.createElement('div');
   panel.className='panel'+(i===0?' active':''); panel.id='r2p-'+ad.id;
   let html='<h2>Ad '+ad.num+' — '+ad.name+'</h2>';
+  html+='<div class="dl-ad"><p><b>Retravailler ces variations dans Claude Design.</b> Télécharge ici le fichier de cette ad.</p>'+
+        '<p class="how">Pour l’utiliser : crée un projet Claude Design lié au design system de Charles, et donne ce fichier à ta session Claude Design.</p>'+
+        dlLink(ad.projectFile,'Télécharger le fichier Claude Design')+'</div>';
   ad.vars.forEach(v=>{
-    html+='<div class="variation"><span class="vlabel">Variation '+v.L+'</span><div class="cards">';
+    html+='<div class="variation"><span class="vlabel">Variation '+v.L+'</span>'+
+          dlLink(v.canva,'⬇ Fichier 2 (Canva, équipe growth)','dl-mini')+'<div class="cards">';
     for(let c=1;c<=v.n;c++){ const src='round2/'+ad.prefix+'/'+ad.prefix+'-'+v.L+'-'+c+'.png';
       html+='<img loading="lazy" src="'+src+'" alt="'+ad.prefix+' '+v.L+' carte '+c+'" onclick="openLb(this.src)">'; }
     html+='</div></div>';
@@ -178,6 +210,9 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'){
   const lb=document.getElementById('lb'); if(lb.classList.contains('open')){ closeLb(); return; }
   const el=document.querySelector('.framewrap.expanded'); if(el){ el.classList.remove('expanded'); el.querySelector('.zoombtn').textContent='⤢ Agrandir'; document.body.style.overflow=''; }
 }});
+
+/* activation du bouton DS si fichier pointé */
+if(DS_FILE){ const b=document.getElementById('dl-ds-btn'); b.href=DS_FILE; b.setAttribute('download',''); b.classList.remove('disabled'); b.textContent='Télécharger le design system'; }
 
 /* init */
 loadFrame(R1[0].id);
