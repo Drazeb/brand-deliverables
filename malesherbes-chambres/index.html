@@ -142,7 +142,7 @@ const FIXES = {
 const WHY_FIXES = {
   poterie: 'La chambre indépendante du domaine : les Misset y sont chez eux avec leur bébé, en toute autonomie. Orso occupe le 3e lit.',
   ch1rdc:  'Aliocha dort en lit bébé, donc avec ses parents. Au rez du bâtiment des dortoirs, juste sous le dortoir où dort Prudence.',
-  ch2rdc:  'Isa et Olivier au rez du bâtiment des dortoirs : une présence adulte de plus près des enfants.',
+  ch2rdc:  'Isa et Olivier dans la chambre du rez-de-chaussée.',
   mmch1:   'Les 2 lits bébé sur place servent à Lazare, et cette chambre sera vérifiée comme la plus sombre possible pour ses nuits.',
   mmch2:   'La chambre des babysitters, à elles seules, dans la Maison de maître : 2 lits + 1 matelas transféré.',
   master:  'Vianney au master (impératif d’organisation), avec Nico et Pierre : les trois solos ensemble.',
@@ -152,16 +152,16 @@ const WHY_FIXES = {
 const SCENARIOS = [
   {
     nom: 'Scénario 8 · petit dortoir',
-    note: 'Babysitters en Maison de maître, Pierre au master avec Vianney et Nico. Le Dortoir 1 (rideaux + SDB perso) est la chambre familiale des Bézard, Aurore et ses filles au Dortoir 3. Dortoir enfants réduit à 3, avec une place gardée pour Orso.',
+    note: 'Babysitters en Maison de maître, Pierre au master avec Vianney et Nico. Le Dortoir 1 est la chambre familiale des Bézard, Aurore et ses filles au Dortoir 3. Dortoir enfants réduit à 3, avec une place gardée pour Orso.',
     rooms: {
       d1:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
       d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('master')],
       d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('MM Chambre 2')],
       },
     why: {
-      d1:     'Chambre familiale des Bézard au complet, rideaux et SDB perso en bonus. Le dortoir des enfants est ainsi entouré par deux familles.',
-      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre. Deux familles de part et d’autre.',
-      d3:     'Aurore avec ses deux filles. Avec les Bézard de l’autre côté, les deux familles entourent le dortoir et se partagent la veille de nuit.',
+      d1:     'Chambre familiale des Bézard au complet, voisine du dortoir.',
+      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre.',
+      d3:     'Aurore avec ses deux filles, voisines du dortoir.',
     }
   },
   {
@@ -173,36 +173,36 @@ const SCENARIOS = [
       d3:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('MM Chambre 2')],
     },
     why: {
-      d1:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains. Rideaux et SDB perso.',
-      d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines qui se partagent la veille de nuit.',
+      d1:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains.',
+      d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines, qui ont chacune un enfant dans le dortoir et se partagent la veille de nuit.',
       d3:     'Aurore garde Anouk, la plus jeune, et laisse Flore dormir avec les grands.',
     }
   },
   {
     nom: 'Scénario 8c · inversé : Aurore à gauche',
-    note: 'Babysitters en Maison de maître, Pierre au master. Dortoirs inversés : Aurore et ses filles dans le Dortoir 1 (rideaux + SDB perso), les Bézard au complet dans le Dortoir 3. Dortoir enfants réduit à 3, place gardée pour Orso.',
+    note: 'Babysitters en Maison de maître, Pierre au master. Dortoirs inversés : Aurore et ses filles dans le Dortoir 1, les Bézard au complet dans le Dortoir 3. Dortoir enfants réduit à 3, place gardée pour Orso.',
     rooms: {
       d1:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('MM Chambre 2')],
       d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('master')],
       d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
     },
     why: {
-      d1:     'Aurore et ses deux filles profitent des rideaux et de la SDB perso.',
-      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre. Deux familles de part et d’autre.',
-      d3:     'Chambre familiale des Bézard au complet. Les deux familles entourent le dortoir et se partagent la veille de nuit.',
+      d1:     'Aurore et ses deux filles dans le Dortoir 1.',
+      d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre.',
+      d3:     'Chambre familiale des Bézard au complet, voisine du dortoir.',
     }
   },
   {
     nom: 'Scénario 8d · inversé + Thelma et Flore au dortoir',
-    note: 'Babysitters en Maison de maître, Pierre au master. Dortoirs inversés et grand dortoir à 5 : Aurore et Anouk dans le Dortoir 1 (rideaux + SDB), Charles, Andréa et Ellie dans le Dortoir 3, Thelma et Flore avec les grands au Dortoir 2.',
+    note: 'Babysitters en Maison de maître, Pierre au master. Dortoirs inversés et grand dortoir à 5 : Aurore et Anouk dans le Dortoir 1, Charles, Andréa et Ellie dans le Dortoir 3, Thelma et Flore avec les grands au Dortoir 2.',
     rooms: {
       d1:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('master')],
       d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), p('Thelma','bezard'), p('Flore','stleger')],
       d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), Lout('MM Chambre 2')],
     },
     why: {
-      d1:     'Aurore garde Anouk, la plus jeune, avec rideaux et SDB perso ; Flore dort avec les grands.',
-      d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines qui se partagent la veille de nuit.',
+      d1:     'Aurore garde Anouk, la plus jeune ; Flore dort avec les grands.',
+      d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines, qui ont chacune un enfant dans le dortoir et se partagent la veille de nuit.',
       d3:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains.',
     }
   },
