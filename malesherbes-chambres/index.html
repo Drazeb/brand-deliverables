@@ -132,91 +132,78 @@ const JD = [p('Jean','solo'), p('Donatienne','solo')];
 const FIXES = {
   poterie: [p('Marie','misset'), p('Charlie','misset'), p('Orso','misset'), p('Pablo','misset','lit bébé')],
   ch1rdc:  [p('PA','campos'), p('Jeanne','campos'), p('Aliocha','campos','lit bébé')],
+  ch2rdc:  [p('Isa','mille'), p('Olivier','mille')],
   mmch1:   [p('Vico','prechac'), p('Anne','prechac'), p('Lazare','prechac','lit bébé sur place')],
-  mmch2:   [p('Isa','mille'), p('Olivier','mille')],
-  master:  [p('Vianney','solo'), p('Nico','solo')],
+  mmch2:   [p('Babysitter 1','sitter'), p('Babysitter 2','sitter'), p('Babysitter 3','sitter','matelas transféré')],
+  master:  [p('Vianney','solo'), p('Nico','solo'), p('Pierre','solo','matelas transféré')],
+  bibli:   [p('Jean','solo'), p('Donatienne','solo')],
 };
 
 const WHY_FIXES = {
   poterie: 'La chambre indépendante du domaine : les Misset y sont chez eux avec leur bébé, en toute autonomie. Orso occupe le 3e lit.',
   ch1rdc:  'Aliocha dort en lit bébé, donc avec ses parents. Au rez du bâtiment des dortoirs, juste sous le dortoir où dort Prudence.',
+  ch2rdc:  'Isa et Olivier au rez du bâtiment des dortoirs : une présence adulte de plus près des enfants.',
   mmch1:   'Les 2 lits bébé sur place servent à Lazare, et cette chambre sera vérifiée comme la plus sombre possible pour ses nuits.',
-  mmch2:   'Isa et Olivier prennent la chambre restante de la Maison de maître, au calme à l’étage.',
-  master:  'Vianney au master (impératif d’organisation), avec Nico, son binôme de chambre.',
-  bibli:   'La Bibliothèque pour Jean et Do, la configuration qui leur convenait le mieux. Pierre complète la chambre sur un matelas transféré.',
+  mmch2:   'La chambre des babysitters, à elles seules, dans la Maison de maître : 2 lits + 1 matelas transféré.',
+  master:  'Vianney au master (impératif d’organisation), avec Nico et Pierre : les trois solos ensemble.',
+  bibli:   'La Bibliothèque pour Jean et Do, la configuration qui leur convenait le mieux.',
 };
 
 const SCENARIOS = [
   {
-    nom: 'Scénario 8 · babysitters au rez',
-    note: 'Les babysitters sont au rez-de-chaussée, plus à l’étage des dortoirs. Le Dortoir 1 (rideaux + SDB perso) devient la chambre familiale des Bézard. Dortoir enfants réduit à 3, avec une place gardée pour Orso.',
+    nom: 'Scénario 8 · petit dortoir',
+    note: 'Babysitters en Maison de maître, Pierre au master avec Vianney et Nico. Le Dortoir 1 (rideaux + SDB perso) est la chambre familiale des Bézard, Aurore et ses filles au Dortoir 3. Dortoir enfants réduit à 3, avec une place gardée pour Orso.',
     rooms: {
-      ch2rdc: [...SITTERS2, p('Babysitter 3','sitter','matelas transféré du D2')],
       d1:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
-      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('Ch2 rdc')],
-      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('Bibliothèque')],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D3')],
-    },
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('master')],
+      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('MM Chambre 2')],
+      },
     why: {
-      ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs. 3e couchage sur matelas transféré.',
       d1:     'Chambre familiale des Bézard au complet, rideaux et SDB perso en bonus. Le dortoir des enfants est ainsi entouré par deux familles.',
       d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre. Deux familles de part et d’autre.',
       d3:     'Aurore avec ses deux filles. Avec les Bézard de l’autre côté, les deux familles entourent le dortoir et se partagent la veille de nuit.',
-      bibli:  WHY_FIXES.bibli,
     }
   },
   {
     nom: 'Scénario 8b · Thelma et Flore au dortoir',
-    note: 'Comme le 8, mais Thelma et Flore rejoignent le Dortoir 2 avec les autres grands (plein à 5). Ellie, la plus jeune des Bézard, reste avec ses parents au Dortoir 1 ; Aurore garde Anouk au Dortoir 3.',
+    note: 'Babysitters en Maison de maître, Pierre au master. Thelma et Flore rejoignent le Dortoir 2 avec les autres grands (plein à 5). Ellie, la plus jeune des Bézard, reste avec ses parents au Dortoir 1 ; Aurore garde Anouk au Dortoir 3.',
     rooms: {
-      ch2rdc: [...SITTERS2, p('Babysitter 3','sitter','matelas transféré du D1')],
-      d1:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), Lout('Ch2 rdc')],
+      d1:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), Lout('master')],
       d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), p('Thelma','bezard'), p('Flore','stleger')],
-      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('Bibliothèque')],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D3')],
+      d3:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('MM Chambre 2')],
     },
     why: {
-      ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs.',
       d1:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains. Rideaux et SDB perso.',
       d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines qui se partagent la veille de nuit.',
       d3:     'Aurore garde Anouk, la plus jeune, et laisse Flore dormir avec les grands.',
-      bibli:  WHY_FIXES.bibli,
     }
   },
   {
     nom: 'Scénario 8c · inversé : Aurore à gauche',
-    note: 'Même logique que le 8, dortoirs inversés : Aurore et ses filles dans le Dortoir 1 (rideaux + SDB perso), les Bézard au complet dans le Dortoir 3. Dortoir enfants réduit à 3, place gardée pour Orso.',
+    note: 'Babysitters en Maison de maître, Pierre au master. Dortoirs inversés : Aurore et ses filles dans le Dortoir 1 (rideaux + SDB perso), les Bézard au complet dans le Dortoir 3. Dortoir enfants réduit à 3, place gardée pour Orso.',
     rooms: {
-      ch2rdc: [...SITTERS2, p('Babysitter 3','sitter','matelas transféré du D2')],
-      d1:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('Bibliothèque')],
-      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('Ch2 rdc')],
+      d1:     [p('Aurore','stleger'), p('Anouk','stleger'), p('Flore','stleger'), Lout('MM Chambre 2')],
+      d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), {libre:true, note:'libre (Orso ?)'}, Lout('master')],
       d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), p('Thelma','bezard')],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D1')],
     },
     why: {
-      ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs.',
       d1:     'Aurore et ses deux filles profitent des rideaux et de la SDB perso.',
       d2:     'Un dortoir volontairement réduit : trois grands, un lit gardé libre pour Orso s’il veut les rejoindre. Deux familles de part et d’autre.',
       d3:     'Chambre familiale des Bézard au complet. Les deux familles entourent le dortoir et se partagent la veille de nuit.',
-      bibli:  WHY_FIXES.bibli,
     }
   },
   {
     nom: 'Scénario 8d · inversé + Thelma et Flore au dortoir',
-    note: 'Dortoirs inversés et grand dortoir à 5 : Aurore et Anouk dans le Dortoir 1 (rideaux + SDB), Charles, Andréa et Ellie dans le Dortoir 3, Thelma et Flore avec les grands au Dortoir 2.',
+    note: 'Babysitters en Maison de maître, Pierre au master. Dortoirs inversés et grand dortoir à 5 : Aurore et Anouk dans le Dortoir 1 (rideaux + SDB), Charles, Andréa et Ellie dans le Dortoir 3, Thelma et Flore avec les grands au Dortoir 2.',
     rooms: {
-      ch2rdc: [...SITTERS2, p('Babysitter 3','sitter','matelas transféré du D1')],
-      d1:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('Ch2 rdc')],
+      d1:     [p('Aurore','stleger'), p('Anouk','stleger'), L, Lout('master')],
       d2:     [p('Prudence','campos'), p('Esther','prechac'), p('Isidore','prechac'), p('Thelma','bezard'), p('Flore','stleger')],
-      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), Lout('Bibliothèque')],
-      bibli:  [...JD, p('Pierre','solo','matelas transféré du D3')],
+      d3:     [p('Charles','bezard'), p('Andréa','bezard'), p('Ellie','bezard'), Lout('MM Chambre 2')],
     },
     why: {
-      ch2rdc: 'Une chambre à elles, au rez : les babysitters ont leur espace, hors de l’étage des dortoirs.',
       d1:     'Aurore garde Anouk, la plus jeune, avec rideaux et SDB perso ; Flore dort avec les grands.',
       d2:     'Le grand dortoir des enfants : les cinq grands ensemble, entourés par les deux familles voisines qui se partagent la veille de nuit.',
       d3:     'Charles, Andréa et Ellie, la plus jeune ; Thelma dort avec les copains.',
-      bibli:  WHY_FIXES.bibli,
     }
   },
 ];
